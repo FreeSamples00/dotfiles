@@ -1,0 +1,16 @@
+{
+    "initial_working_directory": "~",
+    "editor_theme": "Merbivore",
+    "posix_terminal_shell": "bash",
+    "jobs_tab_visibility": "shown",
+    "font_size_points": 14,
+    "default_project_location": "~/Desktop/Data Science",
+    "cran_mirror": {
+        "name": "Global (CDN)",
+        "host": "RStudio",
+        "url": "http://cran.rstudio.com/",
+        "secondary": "",
+        "country": "us"
+    },
+    "use_secure_download": false
+}
