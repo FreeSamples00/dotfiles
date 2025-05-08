@@ -1,0 +1,29 @@
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+[user]
+	name = Spencer Christensen
+	email = 134820811+FreeSamples00@users.noreply.github.com
+[core]
+	excludesfile = /Users/sccmp/.globalgitignore
+	pager = delta
+[credential]
+	helper = 
+	helper = /usr/local/share/gcm-core/git-credential-manager
+[credential "https://dev.azure.com"]
+	useHttpPath = true
+[pull]
+	rebase = false
+[mergetool "smerge"]
+	cmd = smerge mergetool \"$BASE\" \"$LOCAL\" \"$REMOTE\" -o \"$MERGED\"
+	trustExitCode = true
+[merge]
+	tool = delta
+	conflictstyle = zdiff3
+[delta]
+	side-by-side = true
+	navigate = true
+[interactive]
+    diffFilter = delta --color-only

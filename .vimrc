@@ -1,0 +1,16 @@
+set title
+set number
+colo koehler
+syntax on
+set cindent
+set noexpandtab
+set shiftround
+set smartindent
+set autoindent
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set noerrorbells
+set belloff=all
+set formatoptions+=r
+set ruler
