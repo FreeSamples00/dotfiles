@@ -144,6 +144,7 @@ alias info="neofetch"
 alias getlast='echo $?'
 alias manp='man-preview'
 alias sizeof='du -hs'
+alias ofd='pwd | xargs open -R'
 
 ## git
 alias ignore='micro ./.gitignore'
