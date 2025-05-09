@@ -53,10 +53,10 @@ zinit snippet OMZP::safe-paste
 zinit snippet OMZP::git-auto-fetch
 zinit snippet OMZP::zbell
 zinit snippet OMZP::ssh
-zinit snippet OMZP::magic-enter
+# zinit snippet OMZP::magic-enter
 
 # on enter commands
-MAGIC_ENTER_OTHER_COMMAND='getlast.sh'
+# MAGIC_ENTER_GIT_COMMAND='git status'
 
 
 # Preferred editor for local and remote sessions
