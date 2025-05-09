@@ -20,7 +20,7 @@
 	cmd = smerge mergetool \"$BASE\" \"$LOCAL\" \"$REMOTE\" -o \"$MERGED\"
 	trustExitCode = true
 [merge]
-	tool = delta
+	tool = smerge
 	conflictstyle = zdiff3
 [delta]
 	side-by-side = true

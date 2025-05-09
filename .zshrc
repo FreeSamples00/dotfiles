@@ -53,6 +53,10 @@ zinit snippet OMZP::safe-paste
 zinit snippet OMZP::git-auto-fetch
 zinit snippet OMZP::zbell
 zinit snippet OMZP::ssh
+zinit snippet OMZP::magic-enter
+
+# on enter commands
+MAGIC_ENTER_OTHER_COMMAND='getlast.sh'
 
 
 # Preferred editor for local and remote sessions
@@ -90,8 +94,10 @@ setopt hist_find_no_dups
 # keybinds
 bindkey '^[[1;5D' beginning-of-line  # Ctrl+Left
 bindkey '^[[1;5C' end-of-line        # Ctrl+Right
-bindkey '^[^[[D' backward-word       # Opt+Left
-bindkey '^[^[[C' forward-word        # Opt+Right
+# bindkey '^[^[[D' backward-word       # Opt+Left
+# bindkey '^[^[[C' forward-word        # Opt+Right
+bindkey '^[b' backward-word       # Opt+Left
+bindkey '^[f' forward-word        # Opt+Right
 #bindkey '^[[1;2D' vi-backward-char   # Shift+Left
 #bindkey '^[[1;2C' vi-forward-char    # Shift+Right
 
@@ -101,6 +107,10 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+
+# adds scrolling to apps
+export LESS="--mouse --wheel-lines=3"
+export MAN="--mouse --wheel-lines=3"
 
 # Aliases
 alias ls='ls --color'
@@ -141,7 +151,7 @@ alias py='python3'
 alias dabox='dabox.sh'
 alias ql='quick-look'
 alias info="neofetch"
-alias getlast='echo $?'
+alias '?'='echo $?'
 alias manp='man-preview'
 alias sizeof='du -hs'
 alias ofd='pwd | xargs open -R'
@@ -160,6 +170,9 @@ alias diff='delta --side-by-side'
 alias less='less -r'
 alias rm='rm -I'
 alias gcc='gcc -Wall'
+
+# tools
+alias wclone='wget --mirror --convert-links --adjust-extension --page-requisites --show-progress'
 
 
 # ================== RUN ON LOGIN ==================

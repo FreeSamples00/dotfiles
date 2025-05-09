@@ -14,7 +14,7 @@
                                 "to": [
                                     {
                                         "key_code": "t",
-                                        "modifiers": ["command", "option", "control"]
+                                        "modifiers": ["command", "control"]
                                     }
                                 ],
                                 "type": "basic"
