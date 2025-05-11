@@ -9,7 +9,7 @@ cosc_3550:~/onedrive/school/classes/cosc_3550
 cosc_3570:~/onedrive/school/classes/cosc_3570
 cosc_3820:~/onedrive/school/classes/cosc_3820
 desktop:~/desktop
-dotfiles:~/dotfiles
+dotfiles:~/.dotfiles
 downloads:~/downloads
 fortunes:/opt/homebrew/Cellar/fortune/9708/share/games/fortunes
 local:/usr/local
