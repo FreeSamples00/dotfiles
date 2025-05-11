@@ -162,6 +162,8 @@ alias manp='man-preview'
 alias sizeof='du -hs'
 alias ofd='pwd | xargs open -R'
 
+alias stow='stow -v'
+
 ## git
 alias ignore='micro ./.gitignore'
 alias gitree='git log --oneline --graph --color --all --decorate'
