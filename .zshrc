@@ -57,6 +57,8 @@ zinit snippet OMZP::ssh
 
 # on enter commands
 # MAGIC_ENTER_GIT_COMMAND='git status'
+# MAGIC_ENTER_OTHER_COMMAND='ls'
+
 
 
 # Preferred editor for local and remote sessions
@@ -133,6 +135,10 @@ alias typora="/Applications/Typora.app/Contents/MacOS/Typora"
 alias spf='spf -pld'
 alias vsc='code'
 alias mi='micro'
+alias snake='nsnake'
+alias ghidra='ghidraRun'
+alias search='s -p duckduckgo'
+alias idle='idle3'
 
 
 ## Terminal QOL
@@ -173,7 +179,7 @@ alias gcc='gcc -Wall'
 
 # tools
 alias wclone='wget --mirror --convert-links --adjust-extension --page-requisites --show-progress'
-
+alias update='brew update && zinit update'
 
 # ================== RUN ON LOGIN ==================
 clear
