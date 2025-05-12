@@ -29,6 +29,7 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
+zinit light MichaelAquilina/zsh-you-should-use
 
 fpath=(~/bin/wd $fpath) # wd auocomplete
 zinit light mfaerevaag/wd
@@ -53,13 +54,6 @@ zinit snippet OMZP::safe-paste
 zinit snippet OMZP::git-auto-fetch
 zinit snippet OMZP::zbell
 zinit snippet OMZP::ssh
-# zinit snippet OMZP::magic-enter
-
-# on enter commands
-# MAGIC_ENTER_GIT_COMMAND='git status'
-# MAGIC_ENTER_OTHER_COMMAND='ls'
-
-
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
@@ -120,12 +114,12 @@ alias vim='nvim'
 
 # =================== ALIASES ===================
 
-HELP_PATH="/usr/local/src/common/help_msg.txt"
+HELP_PATH="/usr/local/src/common/help_msg.zsh"
 
 ## Terminal settings / manipulation
 alias config='micro ~/.zshrc'
 alias edit_help='sudo micro ${HELP_PATH}'
-alias help='ccat ${HELP_PATH} | less -r'
+alias help='bat $HELP_PATH'
 alias reload='clear && exec zsh'
 
 
