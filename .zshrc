@@ -1,4 +1,4 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+<65;15;26M# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -106,7 +106,7 @@ bindkey '^[^[[C' forward-word        # Opt+Right
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls -a --color $realpath'
+zstyle ':fzf-tab:complete:*:*' fzf-preview 'bat --color=always --line-range :500 ${(Q)realpath}'
 
 # adds scrolling to apps
 export LESS="--mouse --wheel-lines=3"
@@ -137,36 +137,36 @@ alias ghidra='ghidraRun'
 alias search='s -p duckduckgo'
 alias idle='idle3'
 
-
 ## Terminal QOL
-alias copy='pbcopy'
-alias paste='pbpaste'
+
+### navigation
+alias tree='tree -haC'
 alias cwd='pwd | copy'
 alias ls='ls -a --color'
+alias ofd='pwd | xargs open -R'
 
+
+### searching 
 alias grep='grep -i --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox,.venv,venv}'
 alias grepa='grep -Rni --color=auto'
 alias grepf='find . | grep -i --color=auto'
 alias greph='rg --passthru'
 
-alias colors='terminal_colors.sh'
+### other
+alias copy='pbcopy'
+alias paste='pbpaste'
+
 alias morbius='morbius.sh'
-alias py='python3'
 alias dabox='dabox.sh'
 alias ql='quick-look'
 alias info="neofetch"
 alias '?'='echo $?'
 alias manp='man-preview'
-alias sizeof='du -hs'
-alias ofd='pwd | xargs open -R'
-
-alias stow='stow -v'
 
 ## git
 alias ignore='micro ./.gitignore'
 alias gitree='git log --oneline --graph --color --all --decorate'
 alias gi='git-ignore'
-
 
 ## command replacements
 alias top='btop'
@@ -180,10 +180,15 @@ alias gcc='gcc -Wall'
 # tools
 alias wclone='wget --mirror --convert-links --adjust-extension --page-requisites --show-progress'
 alias update='brew update && zinit update'
+alias colors='terminal_colors.sh'
+alias py='python3'
+alias stow='stow -v'
+alias sizeof='du -hs'
 
 # pass help outputs through bat coloring
 alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
 alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
+
 
 # ================== RUN ON LOGIN ==================
 clear
@@ -194,3 +199,14 @@ echo "\n\033[90mUse 'help'\n\033[0m"
 
 # Shell integrations
 eval "$(fzf --zsh)"
+
+# fuzzy find setup
+export FZF_DEFAULT_COMMAND='fd --hidden --strip-cwd-prefix --exclude .git'
+export FXF_CTRL_T_COMMAND='$FZF_DEFAULT_COMMAND'
+export FXF_ALT_C_COMMAND='fd --type=d --hidden --strip-cwd-prefix --exclude .git'
+
+export FZF_DEFAULT_OPTS='--height 50% --layout=default --border --color=hl:#2dd4bf'
+
+export FZF_CTRL_T_OPTS="--preview 'bat --color=always -n --line-range :500 {}'"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
+

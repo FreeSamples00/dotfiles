@@ -1,6 +1,9 @@
 Terminal Manipulation
 -----------------------------------
 
+'ctrl+t': fuzzy search files (in another command, or alone for cd)
+'opt+c': see above but for directories
+
 'mi' || 'micro': quick and dirty vim alternative
 'reload': reloads zinit
 'grepf': grep through name of files within working dir
@@ -23,8 +26,6 @@ Shorthands / Aliases
 
 'ignore': micro ./.gitignore
 'py': python3
-'st': subl (sulbime text)
-'sm': smerge (sublime merge)
 'ql': quick look a file
 'info': neofetch system info
 'config': opens "~/.zshrc"
