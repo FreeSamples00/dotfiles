@@ -102,7 +102,7 @@ bindkey '^[f' forward-word        # Opt+Right
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls -a --color $realpath'
 
 # adds scrolling to apps
 export LESS="--mouse --wheel-lines=3"
@@ -176,6 +176,10 @@ alias gcc='gcc -Wall'
 # tools
 alias wclone='wget --mirror --convert-links --adjust-extension --page-requisites --show-progress'
 alias update='brew update && zinit update'
+
+# pass help outputs through bat coloring
+alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
+alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
 
 # ================== RUN ON LOGIN ==================
 clear
