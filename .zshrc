@@ -88,12 +88,16 @@ setopt hist_ignore_dups
 setopt hist_find_no_dups
 
 # keybinds
+
+## terminal.app
 bindkey '^[[1;5D' beginning-of-line  # Ctrl+Left
 bindkey '^[[1;5C' end-of-line        # Ctrl+Right
-# bindkey '^[^[[D' backward-word       # Opt+Left
-# bindkey '^[^[[C' forward-word        # Opt+Right
-bindkey '^[b' backward-word       # Opt+Left
-bindkey '^[f' forward-word        # Opt+Right
+bindkey '^[^[[D' backward-word       # Opt+Left
+bindkey '^[^[[C' forward-word        # Opt+Right
+
+## other
+#bindkey '^[b' backward-word       # Opt+Left
+#bindkey '^[f' forward-word        # Opt+Right
 #bindkey '^[[1;2D' vi-backward-char   # Shift+Left
 #bindkey '^[[1;2C' vi-forward-char    # Shift+Right
 
@@ -109,7 +113,6 @@ export LESS="--mouse --wheel-lines=3"
 export MAN="--mouse --wheel-lines=3"
 
 # Aliases
-alias ls='ls --color'
 alias vim='nvim'
 
 # =================== ALIASES ===================
@@ -139,6 +142,7 @@ alias idle='idle3'
 alias copy='pbcopy'
 alias paste='pbpaste'
 alias cwd='pwd | copy'
+alias ls='ls -a --color'
 
 alias grep='grep -i --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox,.venv,venv}'
 alias grepa='grep -Rni --color=auto'
@@ -165,7 +169,7 @@ alias gi='git-ignore'
 
 
 ## command replacements
-alias top='htop'
+alias top='btop'
 alias diff='delta --side-by-side'
 
 ## Tag additions to commands
