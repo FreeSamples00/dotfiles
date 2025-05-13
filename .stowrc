@@ -1,3 +1,8 @@
 --ignore='typora'
 --ignore='vsc.extensions'
 --ignore='Brewfile'
+--ignore='.*\.bak'
+--ignore='help_msg.zsh'
+--ignore='terminal_app_hotkey.txt'
+--ignore='update.sh'
+--ignore='.DS_Store'

@@ -173,6 +173,17 @@ alias gi='git-ignore'
 alias top='btop'
 alias diff='delta --side-by-side'
 
+### adaptive cat
+#     if called to terminal output, use bat
+#     if piped somewhere else, use traditional cat
+function cat() {
+    if [[ -t 1 ]]; then
+        command bat "$@"
+    else
+        command cat "$@"
+    fi
+}
+
 ## Tag additions to commands
 alias less='less -r'
 alias rm='rm -I'
