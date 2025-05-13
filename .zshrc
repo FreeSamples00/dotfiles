@@ -91,13 +91,13 @@ setopt hist_find_no_dups
 # keybinds
 
 ## terminal.app
-bindkey '^[[1;5D' beginning-of-line  # Ctrl+Left
-bindkey '^[[1;5C' end-of-line        # Ctrl+Right
-bindkey '^[^[[D' backward-word       # Opt+Left
-bindkey '^[^[[C' forward-word        # Opt+Right
+# bindkey '^[[1;5D' beginning-of-line  # Ctrl+Left
+# bindkey '^[[1;5C' end-of-line        # Ctrl+Right
+# bindkey '^[^[[D' backward-word       # Opt+Left
+# bindkey '^[^[[C' forward-word        # Opt+Right
 
 ## other
-#bindkey '^[b' backward-word       # Opt+Left
+bindkey '^[b' backward-word       # Opt+Left
 #bindkey '^[f' forward-word        # Opt+Right
 #bindkey '^[[1;2D' vi-backward-char   # Shift+Left
 #bindkey '^[[1;2C' vi-forward-char    # Shift+Right
@@ -172,6 +172,9 @@ alias gi='git-ignore'
 ## command replacements
 alias top='btop'
 alias diff='delta --side-by-side'
+
+alias listen='/bin/cat -v'
+alias path='print -c ${(s/:/)PATH} | bat --file-name "\$PATH"'
 
 ### adaptive cat
 #     if called to terminal output, use bat

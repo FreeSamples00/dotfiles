@@ -56,6 +56,8 @@ font-thicken = true
 # --- WINDOW ---
 window-height = 36
 window-width = 100
+macos-titlebar-style = transparent
+title = " "
 
 # --- THEME ---
 theme = Apple System Colors
@@ -66,7 +68,7 @@ bold-is-bright = true
 
 # --- OS BEHAVIOR ---
 desktop-notifications = true
-macos-option-as-alt = true
+#macos-option-as-alt = true
 
 # --- QUIT BEHAVIOR ---
 confirm-close-surface = false
