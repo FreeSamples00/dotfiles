@@ -56,6 +56,9 @@ zinit snippet OMZP::git-auto-fetch
 zinit snippet OMZP::zbell
 zinit snippet OMZP::ssh
 
+# add to PATH
+export PATH="/usr/local/bin:$PATH"
+
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='micro'
@@ -123,7 +126,7 @@ HELP_PATH="/usr/local/src/common/help_msg.zsh"
 ## Terminal settings / manipulation
 alias config='micro ~/.zshrc'
 alias edit_help='sudo micro ${HELP_PATH}'
-alias help='bat $HELP_PATH'
+alias help='cat $HELP_PATH'
 alias reload='clear && exec zsh'
 
 
@@ -133,10 +136,14 @@ alias typora="/Applications/Typora.app/Contents/MacOS/Typora"
 alias spf='spf -pld'
 alias vsc='code'
 alias mi='micro'
-alias snake='nsnake'
 alias ghidra='ghidraRun'
 alias search='s -p duckduckgo'
 alias idle='idle3'
+
+## Games
+alias doom='wd zig terminal-doom && ./run.sh'
+alias doom-fire='wd zig DOOM-fire-zig && ./run.sh'
+alias snake='nsnake'
 
 ## Terminal QOL
 
@@ -168,6 +175,7 @@ alias manp='man-preview'
 alias ignore='micro ./.gitignore'
 alias gitree='git log --oneline --graph --color --all --decorate'
 alias gi='git-ignore'
+alias lg='lazygit'
 
 ## command replacements
 alias top='btop'

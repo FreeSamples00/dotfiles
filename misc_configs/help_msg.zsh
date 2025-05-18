@@ -36,6 +36,7 @@ Shorthands / Aliases
 Tools
 -----------------------------------
 
+'lg': lazygit terminal git UI
 'gi': gitignore creator, needs internet
 'wget': to get web content
 'wclone': clone a website w/ wget
@@ -55,3 +56,5 @@ OTHER
 -----------------------------------
 
 'snake': play snake in terminal
+'doom': play OG doom in terminal
+'doom-fire': run DOOM-Fire performance benchmark

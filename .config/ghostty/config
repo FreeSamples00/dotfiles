@@ -48,7 +48,8 @@
 
 
 # --- TEXT ---
-font-family = "Cousine Nerd Font Mono"
+#font-family = "Cousine Nerd Font Mono"
+font-family = "ComicShannsMono Nerd Font Mono"
 font-size = 18
 font-feature = -liga
 font-thicken = true
@@ -65,6 +66,9 @@ cursor-color = #00FFFD
 cursor-style = block
 cursor-style-blink = true
 bold-is-bright = true
+
+# --- SHADER ---
+
 
 # --- OS BEHAVIOR ---
 desktop-notifications = true
