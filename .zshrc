@@ -151,7 +151,7 @@ alias snake='nsnake'
 alias tree='tree -haC'
 alias cwd='pwd | copy'
 alias ls='eza --color=automatic --icons=automatic --no-user -a --group-directories-first --sort=type'
-alias ofd='pwd | xargs open -R'
+alias ofd='open -R "$(pwd)"'
 
 
 ### searching 
@@ -207,6 +207,8 @@ alias colors='terminal_colors.sh'
 alias py='python3'
 alias stow='stow -v'
 alias sizeof='du -hs'
+
+alias battery='system_profiler SPPowerDataType | grep -E "Cycle Count|Condition|Maximum Capacity" | bat'
 
 # pass help outputs through bat coloring
 alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'

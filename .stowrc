@@ -6,3 +6,5 @@
 --ignore='terminal_app_hotkey.txt'
 --ignore='update.sh'
 --ignore='.DS_Store'
+--ignore='backups'
+--ignore='misc_configs'

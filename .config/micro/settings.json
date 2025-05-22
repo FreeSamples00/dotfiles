@@ -2,5 +2,7 @@
     "colorscheme": "atom-dark",
     "macoptionsismeta": true,
     "macros": true,
-    "matchbrackets": true
+    "matchbrackets": true,
+    "autofmt": false,
+    "formatonsave": false
 }

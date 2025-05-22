@@ -1,13 +1,13 @@
 {
     "Alt-/": "lua:comment.comment",
+    "Alt-Left": "WordLeft",
+    "Alt-MouseLeft": "MouseMultiCursor",
+    "Alt-Right": "WordRight",
     "Alt-d": "command:definition",
     "Alt-f": "command:format",
     "Alt-k": "command:hover",
     "Alt-r": "command:references",
-    "AltLeft": "WordLeft",
-    "AltRight": "WordRight",
-    "CtrlSpace": "command:lspcompletion",
-    "CtrlUnderscore": "lua:comment.comment",
-    "F5": "lua:wc.wordCount",
-    "Alt-MouseLeft": "MouseMultiCursor",
+    "Ctrl-Space": "command:lspcompletion",
+    "Ctrl-Underscore": "lua:comment.comment",
+    "F5": "lua:wc.wordCount"
 }
