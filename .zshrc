@@ -100,7 +100,7 @@ setopt hist_find_no_dups
 # bindkey '^[^[[C' forward-word        # Opt+Right
 
 ## other
-bindkey '^[b' backward-word       # Opt+Left
+#bindkey '^[b' backward-word       # Opt+Left
 #bindkey '^[f' forward-word        # Opt+Right
 #bindkey '^[[1;2D' vi-backward-char   # Shift+Left
 #bindkey '^[[1;2C' vi-forward-char    # Shift+Right
@@ -155,9 +155,10 @@ alias ofd='open -R "$(pwd)"'
 
 
 ### searching 
-alias grep='grep -i --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox,.venv,venv}'
-alias grepa='grep -Rni --color=auto'
-alias grepf='find . | grep -i --color=auto'
+alias grep='grep -ni --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox,.venv,venv}'
+# alias grep='rg -ni'
+alias grepa='rga -ni'
+alias grepf='fd -u | rg -i'
 alias greph='rg --passthru'
 
 ### other
@@ -207,8 +208,10 @@ alias colors='terminal_colors.sh'
 alias py='python3'
 alias stow='stow -v'
 alias sizeof='du -hs'
+alias storage="dust -rC | bat --file-name 'Storage Breakdown'"
 
 alias battery='system_profiler SPPowerDataType | grep -E "Cycle Count|Condition|Maximum Capacity" | bat'
+alias cprofile='cprofile.sh'
 
 # pass help outputs through bat coloring
 alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
