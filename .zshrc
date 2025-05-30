@@ -195,7 +195,7 @@ alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
 
 ## SSH Connections
 alias morbius='clear && ssh schristensen34@morbius.mscsnet.mu.edu'
-alias helo='clear && ssh schristensen34@helotrix.mscsnet.mu.edu'
+alias helo="clear && ssh -t schristensen34@helotrix.mscsnet.mu.edu 'zsh'"
 
 # =================== LOGIN ACTIONS ===================
 clear

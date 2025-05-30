@@ -14,3 +14,4 @@ set noerrorbells
 set belloff=all
 set formatoptions+=r
 set ruler
+set mouse=a
