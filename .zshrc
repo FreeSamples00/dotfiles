@@ -1,52 +1,61 @@
+# =================== POWERLEVEL10K SETUP ===================
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# =================== ENVIRONMENT SETUP ===================
+# Homebrew setup
 if [[ -f "/opt/homebrew/bin/brew" ]] then
-  # If you're using macOS, you'll want this enabled
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-# Set the directory we want to store zinit and plugins
+# Path additions
+export PATH="/usr/local/bin:$PATH"
+
+# Editor configuration
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='micro'
+else
+  export EDITOR='micro'
+fi
+
+# =================== ZINIT SETUP ===================
+# Set zinit directory
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
-# Download Zinit, if it's not there yet
+# Download Zinit if needed
 if [ ! -d "$ZINIT_HOME" ]; then
    mkdir -p "$(dirname $ZINIT_HOME)"
    git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 fi
 
-# Source/Load zinit
+# Source zinit
 source "${ZINIT_HOME}/zinit.zsh"
 
-# Add in Powerlevel10k
+# =================== PLUGINS ===================
+# Theme
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 
-# Add in zsh plugins
+# ZSH enhancements
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
 zinit light MichaelAquilina/zsh-you-should-use
 
-fpath=(~/bin/wd $fpath) # wd auocomplete
+# Git and utility plugins
+fpath=(~/bin/wd $fpath)
 zinit light mfaerevaag/wd
 zinit light laggardkernel/git-ignore
 
-# Add in snippets
+# Oh-My-Zsh snippets
 zinit snippet OMZL::git.zsh
 zinit snippet OMZP::git
 zinit snippet OMZP::sudo
-zinit snippet OMZP::archlinux
-zinit snippet OMZP::aws
-zinit snippet OMZP::kubectl
-zinit snippet OMZP::kubectx
 zinit snippet OMZP::command-not-found
 
-# custom snippets
 zinit snippet OMZP::colorize
 zinit snippet OMZP::git
 zinit snippet OMZP::colored-man-pages
@@ -56,29 +65,24 @@ zinit snippet OMZP::git-auto-fetch
 zinit snippet OMZP::zbell
 zinit snippet OMZP::ssh
 
-# add to PATH
-export PATH="/usr/local/bin:$PATH"
-
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='micro'
-else
-  export EDITOR='micro'
-fi
-
-# Load completions
+# =================== COMPLETION SETUP ===================
 autoload -Uz compinit && compinit
-
 zinit cdreplay -q
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# Completion styling
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:*:*' fzf-preview 'bat --color=always --line-range :500 ${(Q)realpath}'
+
+# =================== POWERLEVEL10K CONFIGURATION ===================
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# shorten prompt length
+# Prompt customization
 typeset -g POWERLEVEL9K_SHORTEN_STRATEGY=truncate_to_last
 typeset -g POWERLEVEL9K_SHORTEN_DELIMITER=""
 
-# History
+# =================== HISTORY CONFIGURATION ===================
 HISTSIZE=5000
 HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
@@ -91,49 +95,31 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 
-# keybinds
-
-## terminal.app
-# bindkey '^[[1;5D' beginning-of-line  # Ctrl+Left
-# bindkey '^[[1;5C' end-of-line        # Ctrl+Right
-# bindkey '^[^[[D' backward-word       # Opt+Left
-# bindkey '^[^[[C' forward-word        # Opt+Right
-
-## other
-#bindkey '^[b' backward-word       # Opt+Left
-#bindkey '^[f' forward-word        # Opt+Right
-#bindkey '^[[1;2D' vi-backward-char   # Shift+Left
-#bindkey '^[[1;2C' vi-forward-char    # Shift+Right
-
-
-# Completion styling
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-zstyle ':completion:*' menu no
-zstyle ':fzf-tab:complete:*:*' fzf-preview 'bat --color=always --line-range :500 ${(Q)realpath}'
-
-# adds scrolling to apps
+# =================== PROGRAM CONFIGURATIONS ===================
+# Less/Man configuration
 export LESS="--mouse --wheel-lines=3"
 export MAN="--mouse --wheel-lines=3"
 
-# Aliases
-alias vim='nvim'
+# FZF configuration
+eval "$(fzf --zsh)"
+export FZF_DEFAULT_COMMAND='fd --hidden --strip-cwd-prefix --exclude .git'
+export FXF_CTRL_T_COMMAND='$FZF_DEFAULT_COMMAND'
+export FXF_ALT_C_COMMAND='fd --type=d --hidden --strip-cwd-prefix --exclude .git'
+export FZF_DEFAULT_OPTS='--height 50% --layout=default --border --color=hl:#2dd4bf'
+export FZF_CTRL_T_OPTS="--preview 'bat --color=always -n --line-range :500 {}'"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
+
 
 # =================== ALIASES ===================
-
 HELP_PATH="/usr/local/src/common/help_msg.zsh"
 
-## Terminal settings / manipulation
+## Terminal Configuration
 alias config='micro ~/.zshrc'
 alias edit_help='sudo micro ${HELP_PATH}'
 alias help='cat $HELP_PATH'
 alias reload='clear && exec zsh'
 
-
-## App Launches
-#alias typora='open -a typora'
-alias typora="/Applications/Typora.app/Contents/MacOS/Typora"
-alias spf='spf -pld'
+## Applications
 alias vsc='code'
 alias mi='micro'
 alias ghidra='ghidraRun'
@@ -145,49 +131,40 @@ alias doom='wd zig terminal-doom && ./run.sh'
 alias doom-fire='wd zig DOOM-fire-zig && ./run.sh'
 alias snake='nsnake'
 
-## Terminal QOL
-
-### navigation
+## File Operations
 alias tree='tree -haC'
 alias cwd='pwd | copy'
 alias ls='eza --color=automatic --icons=automatic --no-user -a --group-directories-first --sort=type'
 alias ofd='open -R "$(pwd)"'
 
-
-### searching 
+## Search Operations
 alias grep='grep -ni --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox,.venv,venv}'
-# alias grep='rg -ni'
 alias grepa='rga -ni'
 alias grepf='fd -u | rg -i'
 alias greph='rg --passthru'
 
-### other
+## Clipboard Operations
 alias copy='pbcopy'
 alias paste='pbpaste'
 
-alias morbius='morbius.sh'
-alias dabox='dabox.sh'
-alias ql='quick-look'
+## System Information
 alias info="neofetch"
 alias '?'='echo $?'
 alias manp='man-preview'
 
-## git
+## Git Operations
 alias ignore='micro ./.gitignore'
 alias gitree='git log --oneline --graph --color --all --decorate'
 alias gi='git-ignore'
 alias lg='lazygit'
 
-## command replacements
+## Command Replacements
 alias top='btop'
 alias diff='delta --side-by-side'
-
 alias listen='/bin/cat -v'
 alias path='print -c ${(s/:/)PATH} | bat --file-name "\$PATH"'
 
-### adaptive cat
-#     if called to terminal output, use bat
-#     if piped somewhere else, use traditional cat
+## Adaptive cat function
 function cat() {
     if [[ -t 1 ]]; then
         command bat "$@"
@@ -196,45 +173,32 @@ function cat() {
     fi
 }
 
-## Tag additions to commands
+## Enhanced Commands
 alias less='less -r'
 alias rm='rm -I'
 alias gcc='gcc -Wall'
 
-# tools
+## Utility Tools
 alias wclone='wget --mirror --convert-links --adjust-extension --page-requisites --show-progress'
-alias update='brew update && zinit update'
+alias update='brew update && brew upgrade && zinit update'
 alias colors='terminal_colors.sh'
 alias py='python3'
 alias stow='stow -v'
 alias sizeof='du -hs'
 alias storage="dust -rC | bat --file-name 'Storage Breakdown'"
-
 alias battery='system_profiler SPPowerDataType | grep -E "Cycle Count|Condition|Maximum Capacity" | bat'
 alias cprofile='cprofile.sh'
 
-# pass help outputs through bat coloring
+## Help Output Formatting
 alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
 alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
 
+## SSH Connections
+alias morbius='clear && ssh schristensen34@morbius.mscsnet.mu.edu'
+alias helo='clear && ssh schristensen34@helotrix.mscsnet.mu.edu'
 
-# ================== RUN ON LOGIN ==================
+# =================== LOGIN ACTIONS ===================
 clear
-quote_size=$(( (COLUMNS * 3 + 1) / 4 ))  # gets 3/4s of terminal width
-#echo "Cowthink wrap size: ${quote_size}"
+quote_size=$(( (COLUMNS * 3 + 1) / 4 ))
 fortune -as | cowthink -f tux -W ${quote_size}
 echo "\n\033[90mUse 'help'\n\033[0m"
-
-# Shell integrations
-eval "$(fzf --zsh)"
-
-# fuzzy find setup
-export FZF_DEFAULT_COMMAND='fd --hidden --strip-cwd-prefix --exclude .git'
-export FXF_CTRL_T_COMMAND='$FZF_DEFAULT_COMMAND'
-export FXF_ALT_C_COMMAND='fd --type=d --hidden --strip-cwd-prefix --exclude .git'
-
-export FZF_DEFAULT_OPTS='--height 50% --layout=default --border --color=hl:#2dd4bf'
-
-export FZF_CTRL_T_OPTS="--preview 'bat --color=always -n --line-range :500 {}'"
-export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
-

@@ -3,6 +3,7 @@ apps:/applications
 c:~/onedrive/code/c
 classes:~/onedrive/school/classes
 code:~/onedrive/code
+configs:~/.dotfiles
 cosc_3100:~/onedrive/school/classes/cosc_3100
 cosc_3250:~/onedrive/school/classes/cosc_3250
 cosc_3550:~/onedrive/school/classes/cosc_3550
