@@ -1,26 +1,86 @@
+# ================== ZSHRC SETTINGS ==================
+
+# choose a login action
+#   'none': do nothing
+#   'hostname-pretty': use figlet and lolcat to pretty print the machine name
+#   'hostname-basic': use echo and ASCII color codes to print the machine name
+#   'quote-tame': use fortune and cowsay to display a safe for work quote
+#   'quote-nsfw': use fortune and cowsay to display a quote (can be not safe for work)
+#       Note: This will not work with some fortune packages that do not come bundled with offensive options
+LOGIN_ACTION="hostname-pretty"
+
+# choice of cowsay file (the thing that says the message) I like
+COWSAY_CHOICE="tux"
+
+# default editor for aliases defined here
+DEFAULT_EDITOR="micro"
+
+# whatever GUI file manager your machine uses
+LINUX_FILE_MANAGER="xdg-open"
+
+# keep at 0, is changed later on if issues occur
+ZSHRC_ERR=0
+
+# path to the help message file (used by 'help' and 'edit_help')
+HELP_PATH="~/.dotfiles/misc_configs/help_msg.zsh"
+
+# enable escape code support during zshrc initialization
+alias echo='echo -e'
+# =================== DETERMINE OS ===================
+
+IS_LINUX=0
+IS_MACOS=0
+
+case "$OSTYPE" in
+  linux*)
+    IS_LINUX=1
+    ;;
+  darwin*)
+    IS_MACOS=1
+    ;;
+  *)
+    echo "\033[91mNot a supported OS. ($OSTYPE)\033[0m"
+    exit
+    ;;
+esac
+
 # =================== POWERLEVEL10K SETUP ===================
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
+
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+else
+  echo "PowerLevel10k path '${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh' not found"
+  ZSHRC_ERR=1
 fi
 
 # =================== ENVIRONMENT SETUP ===================
-# Homebrew setup
-if [[ -f "/opt/homebrew/bin/brew" ]] then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
+
+## homebrew setup
+if (( IS_MACOS )); then
+
+  if [[ -f "/opt/homebrew/bin/brew" ]] then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  else
+    echo "HomeBrew path ''/opt/homebrew/bin/brew' not found"
+    ZSHRC_ERR=2  
+  fi
+  
+elif (( IS_LINUX )); then
+
+  if [[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ]] then
+  	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  else
+    echo "LinuxBrew path '/home/linuxbrew/.linxbrew/bin/brew' not found"
+    ZSHRC_ERR=2
+  fi
+  
 fi
 
 # Path additions
 export PATH="/usr/local/bin:$PATH"
-
-# Editor configuration
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='micro'
-else
-  export EDITOR='micro'
-fi
 
 # =================== ZINIT SETUP ===================
 # Set zinit directory
@@ -36,34 +96,43 @@ fi
 source "${ZINIT_HOME}/zinit.zsh"
 
 # =================== PLUGINS ===================
+
+function zinit_safe() {
+  zinit "$@"
+  if (( status != 0 )); then
+    echo "\033[91mZinit $1 failed for '$2'\033[0m"
+    ZSHRC_ERR=3
+  fi
+}
+
 # Theme
-zinit ice depth=1; zinit light romkatv/powerlevel10k
+zinit_safe ice depth=1; zinit_safe light romkatv/powerlevel10k
 
 # ZSH enhancements
-zinit light zsh-users/zsh-syntax-highlighting
-zinit light zsh-users/zsh-autosuggestions
-zinit light Aloxaf/fzf-tab
-zinit light MichaelAquilina/zsh-you-should-use
+zinit_safe light zsh-users/zsh-syntax-highlighting
+zinit_safe light zsh-users/zsh-autosuggestions
+zinit_safe light Aloxaf/fzf-tab
+zinit_safe light MichaelAquilina/zsh-you-should-use
 
 # Git and utility plugins
 fpath=(~/bin/wd $fpath)
-zinit light mfaerevaag/wd
-zinit light laggardkernel/git-ignore
+zinit_safe light mfaerevaag/wd
+zinit_safe light laggardkernel/git-ignore
 
 # Oh-My-Zsh snippets
-zinit snippet OMZL::git.zsh
-zinit snippet OMZP::git
-zinit snippet OMZP::sudo
-zinit snippet OMZP::command-not-found
+zinit_safe snippet OMZL::git.zsh
+zinit_safe snippet OMZP::git
+zinit_safe snippet OMZP::sudo
+zinit_safe snippet OMZP::command-not-found
 
-zinit snippet OMZP::colorize
-zinit snippet OMZP::git
-zinit snippet OMZP::colored-man-pages
-zinit snippet OMZP::git
-zinit snippet OMZP::safe-paste
-zinit snippet OMZP::git-auto-fetch
-zinit snippet OMZP::zbell
-zinit snippet OMZP::ssh
+zinit_safe snippet OMZP::colorize
+zinit_safe snippet OMZP::git
+zinit_safe snippet OMZP::colored-man-pages
+zinit_safe snippet OMZP::git
+zinit_safe snippet OMZP::safe-paste
+zinit_safe snippet OMZP::git-auto-fetch
+zinit_safe snippet OMZP::zbell
+zinit_safe snippet OMZP::ssh
 
 # =================== COMPLETION SETUP ===================
 autoload -Uz compinit && compinit
@@ -111,31 +180,36 @@ export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 
 
 # =================== ALIASES ===================
-HELP_PATH="/usr/local/src/common/help_msg.zsh"
 
 ## Terminal Configuration
-alias config='micro ~/.zshrc'
-alias edit_help='sudo micro ${HELP_PATH}'
-alias help='cat $HELP_PATH'
+alias config="$DEFAULT_EDITOR ~/.zshrc"
+alias edit_help="$DEFAULT_EDITOR $HELP_PATH"
+alias help="cat $HELP_PATH --file-name help_message.zsh"
 alias reload='clear && exec zsh'
 
 ## Applications
 alias vsc='code'
 alias mi='micro'
-alias ghidra='ghidraRun'
 alias search='s -p duckduckgo'
 alias idle='idle3'
 
 ## Games
-alias doom='wd zig terminal-doom && ./run.sh'
-alias doom-fire='wd zig DOOM-fire-zig && ./run.sh'
-alias snake='nsnake'
+if (( IS_MACOS )); then
+  alias doom='wd zig terminal-doom && ./run.sh'
+  alias doom-fire='wd zig DOOM-fire-zig && ./run.sh'
+  alias snake='nsnake'
+fi
 
 ## File Operations
 alias tree='tree -haC'
 alias cwd='pwd | copy'
 alias ls='eza --color=automatic --icons=automatic --no-user -a --group-directories-first --sort=type'
-alias ofd='open -R "$(pwd)"'
+
+if (( IS_MACOS )); then
+  alias ofd='open -R "$(pwd)"'
+elif (( IS_LINUX )); then
+  alias ofd="$LINUX_FILE_MANAGER ."
+fi
 
 ## Search Operations
 alias grep='grep -ni --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox,.venv,venv}'
@@ -144,17 +218,24 @@ alias grepf='fd -u | rg -i'
 alias greph='rg --passthru'
 
 ## Clipboard Operations
-alias copy='pbcopy'
-alias paste='pbpaste'
+if (( IS_MACOS )); then
+  alias copy='pbcopy'
+  alias paste='pbpaste'
+elif (( IS_LINUX )); then
+  alias copy='xclip -selection clipboard -i'
+  alias paste='xclip -selection clipboard -o'
+fi
 
 ## System Information
 alias info="neofetch"
 alias '?'='echo $?'
-alias manp='man-preview'
+
+if (( IS_MACOS )); then
+  alias manp='man-preview'
+fi
 
 ## Git Operations
-alias ignore='micro ./.gitignore'
-alias gitree='git log --oneline --graph --color --all --decorate'
+alias ignore="$DEFAULT_EDITOR ./.gitignore"
 alias gi='git-ignore'
 alias lg='lazygit'
 
@@ -181,13 +262,16 @@ alias gcc='gcc -Wall'
 ## Utility Tools
 alias wclone='wget --mirror --convert-links --adjust-extension --page-requisites --show-progress'
 alias update='brew update && brew upgrade && zinit update'
-alias colors='terminal_colors.sh'
 alias py='python3'
 alias stow='stow -v'
 alias sizeof='du -hs'
 alias storage="dust -rC | bat --file-name 'Storage Breakdown'"
-alias battery='system_profiler SPPowerDataType | grep -E "Cycle Count|Condition|Maximum Capacity" | bat'
-alias cprofile='cprofile.sh'
+alias wordcount="wc -w"
+
+if (( IS_MACOS )); then
+    alias colors='terminal_colors.sh' 
+    alias battery='system_profiler SPPowerDataType | grep -E "Cycle Count|Condition|Maximum Capacity" | bat' 
+fi
 
 ## Help Output Formatting
 alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
@@ -195,10 +279,46 @@ alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
 
 ## SSH Connections
 alias morbius='clear && ssh schristensen34@morbius.mscsnet.mu.edu'
-alias helo="clear && ssh -t schristensen34@helotrix.mscsnet.mu.edu 'zsh'"
+alias helotrix="clear && ssh -t schristensen34@helotrix.mscsnet.mu.edu 'export TERM=xterm-256color; exec zsh'"
+alias calculon="clear && ssh -t sccmp@calculon 'export TERM=xterm-256color; exec zsh'"
+
+# ================== ERROR CHECK ==================
+
+if (( ZSHRC_ERR )); then
+  LOGIN_ACTION="none"
+  echo "\033[91mzsh initialization encountered an error. code: $ZSHRC_ERR\033[0m"
+fi
 
 # =================== LOGIN ACTIONS ===================
-clear
-quote_size=$(( (COLUMNS * 3 + 1) / 4 ))
-fortune -as | cowthink -f tux -W ${quote_size}
-echo "\n\033[90mUse 'help'\n\033[0m"
+case "$LOGIN_ACTION" in
+  "hostname-pretty")
+    clear
+    hostname | \grep -E -o '^[^.]+' | figlet -c -w $COLUMNS | lolcat -f
+    echo "\n\033[90mUse 'help'\033[0m"
+    ;;
+  "hostname-basic")
+    clear
+    hostname | \grep -E -o '^[^.]+' | xargs echo -e "\033[93mMachine: "
+    echo "\033[0m"
+    echo "\n\033[90mUse 'help'\033[0m"
+    ;;
+  "quote-tame")
+    clear
+    quote_size=$(( (COLUMNS * 3) / 4))
+    fortune -s | cowthink -f ${COWSAY_CHOICE} -W ${quote_size}
+    echo "\n\033[90mUse 'help'\033[0m"
+    ;;
+  "quote-nsfw")
+    clear
+    quote_size=$(( (COLUMNS * 3) / 4))
+    fortune -as | cowthink -f ${COWSAY_CHOICE} -W ${quote_size}
+    echo "\n\033[90mUse 'help'\033[0m"
+    ;;
+  "none")
+    ;;
+  *)
+    echo "\033[91mLogin action not supported ($LOGIN_ACTION)\033[0m"
+    ;;
+esac
+
+
