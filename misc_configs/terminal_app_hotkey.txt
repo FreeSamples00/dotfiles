@@ -1,7 +1,0 @@
-# Applesctip to create new terminal.app window.
-# place in automator workflow
-
-tell application "Terminal"	
-	activate	
-	do script ""
-end tell

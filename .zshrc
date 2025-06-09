@@ -1,3 +1,8 @@
+# ================== Interactivity Check ==================
+if [[ $- != *i* ]]; then
+    return
+fi
+
 # ================== ZSHRC SETTINGS ==================
 
 # choose a login action
@@ -7,13 +12,15 @@
 #   'quote-tame': use fortune and cowsay to display a safe for work quote
 #   'quote-nsfw': use fortune and cowsay to display a quote (can be not safe for work)
 #       Note: This will not work with some fortune packages that do not come bundled with offensive options
-LOGIN_ACTION="hostname-pretty"
+LOGIN_ACTION="quote-nsfw"
 
 # choice of cowsay file (the thing that says the message) I like
 COWSAY_CHOICE="tux"
 
 # default editor for aliases defined here
-DEFAULT_EDITOR="micro"
+TERMINAL_EDITOR="nvim"
+GUI_EDITOR="neovide"
+IDE_EDITOR="code"
 
 # whatever GUI file manager your machine uses
 LINUX_FILE_MANAGER="xdg-open"
@@ -26,6 +33,7 @@ HELP_PATH="~/.dotfiles/misc_configs/help_msg.zsh"
 
 # enable escape code support during zshrc initialization
 alias echo='echo -e'
+
 # =================== DETERMINE OS ===================
 
 IS_LINUX=0
@@ -181,15 +189,34 @@ export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 
 # =================== ALIASES ===================
 
+
+## Editor calls
+alias edit="$TERMINAL_EDITOR" 
+
+function editg() {
+	local -a args
+	if (( $# == 0 )); then
+		# Use '.' for the current directory.
+		args=(".")
+	else
+		args=("$@")
+	fi
+
+	# 4. Execution: Launch, silence output, background, and disown.
+	"$GUI_EDITOR" --frame transparent "${args[@]}" >/dev/null 2>&1 & disown
+}
+
+alias ide="$IDE_EDTIOR"
+
 ## Terminal Configuration
-alias config="$DEFAULT_EDITOR ~/.zshrc"
-alias edit_help="$DEFAULT_EDITOR $HELP_PATH"
+alias config="editg ~/.zshrc"
+alias vimconfig="editg ~/.config/nvim/init.lua"
+alias edit_help="edit $HELP_PATH"
 alias help="cat $HELP_PATH --file-name help_message.zsh"
 alias reload='clear && exec zsh'
 
+
 ## Applications
-alias vsc='code'
-alias mi='micro'
 alias search='s -p duckduckgo'
 alias idle='idle3'
 
@@ -216,6 +243,9 @@ alias grep='grep -ni --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.t
 alias grepa='rga -ni'
 alias grepf='fd -u | rg -i'
 alias greph='rg --passthru'
+
+## Disk Operations
+alias dd="sudo gdd status=progress conv=sync"
 
 ## Clipboard Operations
 if (( IS_MACOS )); then
@@ -273,14 +303,29 @@ if (( IS_MACOS )); then
     alias battery='system_profiler SPPowerDataType | grep -E "Cycle Count|Condition|Maximum Capacity" | bat' 
 fi
 
+function alert() {
+    TITLE='🚨Ghostty🚨'
+    TERM_APP_ID="com.mitchellh.ghostty"
+    SOUND_PATH="/system/library/sounds/Ping.aiff"
+    if [[ "$@" == "" || "$@" == " " ]]; then
+      echo "Alert" | terminal-notifier -title $TITLE -activate $TERM_APP_ID -ignoreDnD
+    else
+      echo $@ | terminal-notifier -title $TITLE -activate $TERM_APP_ID -ignoreDnD
+    fi
+    afplay $SOUND_PATH
+}
+
 ## Help Output Formatting
 alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
 alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
 
 ## SSH Connections
+CALCULON="192.168.0.155"
+
 alias morbius='clear && ssh schristensen34@morbius.mscsnet.mu.edu'
 alias helotrix="clear && ssh -t schristensen34@helotrix.mscsnet.mu.edu 'export TERM=xterm-256color; exec zsh'"
-alias calculon="clear && ssh -t sccmp@calculon 'export TERM=xterm-256color; exec zsh'"
+alias calculon="clear && ssh -t sccmp@$CALCULON 'export TERM=xterm-256color; exec zsh'"
+alias eldrad="clear && ssh -t schristensen34@eldrad.mscsnet.mu.edu 'exec bash; echo use wake and kill'"
 
 # ================== ERROR CHECK ==================
 
@@ -320,5 +365,4 @@ case "$LOGIN_ACTION" in
     echo "\033[91mLogin action not supported ($LOGIN_ACTION)\033[0m"
     ;;
 esac
-
 

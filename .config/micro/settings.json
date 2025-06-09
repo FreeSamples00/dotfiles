@@ -4,5 +4,6 @@
     "macros": true,
     "matchbrackets": true,
     "autofmt": false,
-    "formatonsave": false
+    "formatonsave": false,
+    "lsp.formatOnSave": true
 }

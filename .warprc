@@ -18,7 +18,9 @@ notes:~/obsidian
 onedrive:~/onedrive
 os_repo:~/onedrive/school/classes/cosc_3250/code/os_repo
 python:~/onedrive/code/python
+rust:~/onedrive/code/rust
 school:~/onedrive/school
 services:~/Library/Services
 temp:/tmp
+xinu:~/xinu-research
 zig:~/onedrive/code/zig

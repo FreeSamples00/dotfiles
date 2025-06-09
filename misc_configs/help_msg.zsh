@@ -28,6 +28,12 @@ File Manipulation
 'sizeof': shows sizeof dir/file
 'storage': shows a storage breakdown of given directory (use -f for file count instead of size)
 
+'dd if=<input> of=<output> bs=<size>': directly copies data from one storage location to another
+	'<input>': location to copy from
+	'<output>': location to copy to
+	'<size>': size of chunks that are copied (16m usually works well)
+	WARNING: this is a dangerous operation, be sure of input and output locations
+
 Git
 -----------------------------------
 'ignore': micro ./.gitignore

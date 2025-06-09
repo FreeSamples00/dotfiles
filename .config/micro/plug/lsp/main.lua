@@ -124,7 +124,7 @@ function init()
 
 	config.TryBindKey("Alt-k", "command:hover", false)
 	config.TryBindKey("Alt-d", "command:definition", false)
-	config.TryBindKey("Alt-f", "command:format", false)
+	config.TryBindKey("Alt-a", "command:format", false)
 	config.TryBindKey("Alt-r", "command:references", false)
 	config.TryBindKey("CtrlSpace", "command:lspcompletion", false)
 
