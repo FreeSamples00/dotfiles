@@ -206,7 +206,7 @@ function editg() {
 	"$GUI_EDITOR" --frame transparent "${args[@]}" >/dev/null 2>&1 & disown
 }
 
-alias ide="$IDE_EDTIOR"
+alias ide="$IDE_EDITOR"
 
 ## Terminal Configuration
 alias config="editg ~/.zshrc"
