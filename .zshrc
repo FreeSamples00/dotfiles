@@ -303,17 +303,19 @@ if (( IS_MACOS )); then
     alias battery='system_profiler SPPowerDataType | grep -E "Cycle Count|Condition|Maximum Capacity" | bat' 
 fi
 
-function alert() {
-    TITLE='🚨Ghostty🚨'
-    TERM_APP_ID="com.mitchellh.ghostty"
-    SOUND_PATH="/system/library/sounds/Ping.aiff"
-    if [[ "$@" == "" || "$@" == " " ]]; then
-      echo "Alert" | terminal-notifier -title $TITLE -activate $TERM_APP_ID -ignoreDnD
-    else
-      echo $@ | terminal-notifier -title $TITLE -activate $TERM_APP_ID -ignoreDnD
-    fi
-    afplay $SOUND_PATH
-}
+if ((IS_MACOS)); then
+  function alert() {
+      TITLE='🚨Ghostty🚨'
+      TERM_APP_ID="com.mitchellh.ghostty"
+      SOUND_PATH="/system/library/sounds/Ping.aiff"
+      if [[ "$@" == "" || "$@" == " " ]]; then
+        echo "Alert" | terminal-notifier -title $TITLE -activate $TERM_APP_ID -ignoreDnD
+      else
+        echo $@ | terminal-notifier -title $TITLE -activate $TERM_APP_ID -ignoreDnD
+      fi
+      afplay $SOUND_PATH
+  }
+fi
 
 ## Help Output Formatting
 alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
