@@ -13,7 +13,7 @@
 - `Hyper+M`: Messages
 - `Hyper+N`: Obsidian
 - `Hyper+T`: Typora
-- `Hyper+F`: Finder
+- `Hyper+F`: File Search (raycast)
 - `Hyper+P`: iPhone mirror
 - `Hyper+Q`: Color Picker (raycast)
 - `Hyper+D`: Dictionary (raycast)
