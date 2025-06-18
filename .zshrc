@@ -186,6 +186,16 @@ export FZF_DEFAULT_OPTS='--height 50% --layout=default --border --color=hl:#2dd4
 export FZF_CTRL_T_OPTS="--preview 'bat --color=always -n --line-range :500 {}'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 
+# =================== EDITOR CONFIG ===================
+
+# set default editor for apps to use based on remote / local
+if [[ -n "$SSH_CONNECTION" || -n "$SSH_CLIENT" ]]; then
+    export EDITOR="$TERMINAL_EDITOR"
+    export VISUAL="$TERMINAL_EDITOR"
+else
+    export EDITOR="$GUI_EDITOR"
+    export VISUAL="$GUI_EDITOR"
+fi
 
 # =================== ALIASES ===================
 
@@ -195,14 +205,7 @@ alias edit="$TERMINAL_EDITOR"
 
 function editg() {
 	local -a args
-	if (( $# == 0 )); then
-		# Use '.' for the current directory.
-		args=(".")
-	else
-		args=("$@")
-	fi
-
-	# 4. Execution: Launch, silence output, background, and disown.
+	args=("$@")
 	"$GUI_EDITOR" --frame transparent "${args[@]}" >/dev/null 2>&1 & disown
 }
 
