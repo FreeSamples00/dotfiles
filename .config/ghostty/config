@@ -48,7 +48,6 @@
 
 
 # --- TEXT ---
-#font-family = "Cousine Nerd Font Mono"
 font-family = "ComicShannsMono Nerd Font Mono"
 font-size = 18
 font-feature = -liga
@@ -62,9 +61,8 @@ title = " "
 
 # --- THEME ---
 theme = Apple System Colors
-cursor-color = #00FFFD
+cursor-color = #B6B9C3
 cursor-style = block
-cursor-style-blink = true
 bold-is-bright = true
 
 # --- SHADER ---

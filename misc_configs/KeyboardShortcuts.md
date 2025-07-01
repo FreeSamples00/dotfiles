@@ -1,8 +1,10 @@
 # Keyboard Shortcuts
 
 ## General
+- `CapsLock (held)`: Hyper key
+- `CapsLock (tapped)`: Escape
 - `Hyper+Esc`: Show Desktop
-- `Hyper+Shift+C`: CLipboard history (raycast)
+- `Hyper+Shift+C`: Clipboard history (raycast)
 - `Hyper+E`: Emoji picker (raycast)
 
 ## Applications
@@ -30,6 +32,6 @@
 - `Hyper+Shift+Down`: Decrease window size
 
 ## Spaces (desktops)
-- `Hyper+<N>`: Go to space/desktop N
+- `Hyper+<N>`: Go to space/desktop #N
 - `Cmd+Option+Right`: Right a space 
 - `Cmd+Option+Left`: Left a space 

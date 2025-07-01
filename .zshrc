@@ -34,6 +34,15 @@ HELP_PATH="~/.dotfiles/misc_configs/help_msg.zsh"
 # enable escape code support during zshrc initialization
 alias echo='echo -e'
 
+# enable bracketed pasting (avoids accidental execution w/ a newline character)
+zle_bracketed_paste=1
+
+# terminal emulator being used
+EMULATOR="ghostty"
+
+# enable and disable vim motions in the commandline
+VIM_MODE=1
+
 # =================== DETERMINE OS ===================
 
 IS_LINUX=0
@@ -197,6 +206,28 @@ else
     export VISUAL="$GUI_EDITOR"
 fi
 
+
+# =================== COMMAND LINE CONFIGS ===================
+
+if (( $VIM_MODE )); then
+  bindkey -v
+
+  # function that changes the caret shape based on vim mode
+  change_caret() {
+    if [[ $KEYMAP == vicmd ]]; then
+      printf '\e[2 q'
+    elif [[ $KEYMAP == vireplace ]]; then
+      printf '\e[4 q'
+    elif [[ $KEYMAP == main || $KEYMAP == viins ]]; then
+      printf '\e[6 q'
+    fi
+  }
+
+  zle -N zle-line-init change_caret
+  zle -N zle-keymap-select change_caret
+
+fi
+
 # =================== ALIASES ===================
 
 
@@ -268,7 +299,7 @@ if (( IS_MACOS )); then
 fi
 
 ## Git Operations
-alias ignore="$DEFAULT_EDITOR ./.gitignore"
+alias ignore="$TERMINAL_EDITOR ./.gitignore"
 alias gi='git-ignore'
 alias lg='lazygit'
 
@@ -306,7 +337,7 @@ if (( IS_MACOS )); then
     alias battery='system_profiler SPPowerDataType | grep -E "Cycle Count|Condition|Maximum Capacity" | bat' 
 fi
 
-if ((IS_MACOS)); then
+if (( IS_MACOS )) && [[ "$EMULATOR" == "ghostty" ]]; then
   function alert() {
       TITLE='🚨Ghostty🚨'
       TERM_APP_ID="com.mitchellh.ghostty"
@@ -371,3 +402,6 @@ case "$LOGIN_ACTION" in
     ;;
 esac
 
+if (( $VIM_MODE )); then
+  echo "\033[90mvim mode enabled\033[0m"
+fi
