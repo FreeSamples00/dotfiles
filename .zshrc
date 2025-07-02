@@ -22,6 +22,8 @@ TERMINAL_EDITOR="nvim"
 GUI_EDITOR="neovide"
 IDE_EDITOR="code"
 
+EDITOR=$TERMINAL_EDITOR
+
 # whatever GUI file manager your machine uses
 LINUX_FILE_MANAGER="xdg-open"
 
