@@ -11,11 +11,8 @@
 	pager = delta
 [pull]
 	rebase = false
-[mergetool "smerge"]
-	cmd = smerge mergetool \"$BASE\" \"$LOCAL\" \"$REMOTE\" -o \"$MERGED\"
-	trustExitCode = true
 [merge]
-	tool = smerge
+	tool = viewdiff
 	conflictstyle = zdiff3
 [delta]
 	side-by-side = true
@@ -28,3 +25,8 @@
 [credential "https://gist.github.com"]
 	helper = 
 	helper = !/opt/homebrew/bin/gh auth git-credential
+[diff]
+	followLinks = true
+[mergetool "viewdiff"]
+	cmd = nvim -c \"lua require(\\\"viewdiff\\\").mergetool()\" \"$MERGED\"
+	trustExitCode = false
