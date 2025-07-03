@@ -232,21 +232,36 @@ fi
 
 # =================== ALIASES ===================
 
-
 ## Editor calls
-alias edit="$TERMINAL_EDITOR" 
+
+function edit() {
+  local -a args
+  if (( $# == 0 )); then
+    args=(".")
+  else
+    args=("$@")
+  fi
+
+  "$TERMINAL_EDITOR" "${args[@]}"
+}
 
 function editg() {
 	local -a args
-	args=("$@")
+
+  if (( $# == 0 )); then
+    args=(".")
+  else 
+    args=("$@")
+  fi
+
 	"$GUI_EDITOR" --frame transparent "${args[@]}" >/dev/null 2>&1 & disown
 }
 
 alias ide="$IDE_EDITOR"
 
 ## Terminal Configuration
-alias config="editg ~/.zshrc"
-alias vimconfig="editg ~/.config/nvim/init.lua"
+alias config="edit ~/.zshrc"
+alias vimconfig="edit ~/.config/nvim/init.lua"
 alias edit_help="edit $HELP_PATH"
 alias help="cat $HELP_PATH --file-name help_message.zsh"
 alias reload='clear && exec zsh'
