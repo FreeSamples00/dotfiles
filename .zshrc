@@ -42,6 +42,9 @@ zle_bracketed_paste=1
 # terminal emulator being used
 EMULATOR="ghostty"
 
+# does the terminal emulator support images
+GRAPHICS_SUPPORT=1
+
 # enable and disable vim motions in the commandline
 VIM_MODE=1
 
@@ -366,6 +369,10 @@ if (( IS_MACOS )) && [[ "$EMULATOR" == "ghostty" ]]; then
       fi
       afplay $SOUND_PATH
   }
+fi
+
+if (( $GRAPHICS_SUPPORT == 1 )); then
+  alias xkcd='curl -H "X-TERMINAL-ROWS: $(tput lines)" -H "X-TERMINAL-COLUMNS: $(tput cols)" https://xkcd.massi.rocks/comics/random'
 fi
 
 ## Help Output Formatting
