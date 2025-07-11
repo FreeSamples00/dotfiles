@@ -48,6 +48,9 @@ GRAPHICS_SUPPORT=1
 # enable and disable vim motions in the commandline
 VIM_MODE=1
 
+# this line prevents a single EOF char (Ctrl+d) from killing the shell
+setopt IGNORE_EOF
+
 # =================== DETERMINE OS ===================
 
 IS_LINUX=0
@@ -294,9 +297,9 @@ fi
 
 ## Search Operations
 alias grep='grep -ni --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox,.venv,venv}'
-alias grepa='rga -ni'
-alias grepf='fd -u | rg -i'
-alias greph='rg --passthru'
+alias grepa='rga -niu'
+alias grepf='fd -u | rg -iu'
+alias greph='rg -u --passthru'
 
 ## Disk Operations
 alias dd="sudo gdd status=progress conv=sync"
