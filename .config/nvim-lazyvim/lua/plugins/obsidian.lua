@@ -1,0 +1,213 @@
+return {
+  "obsidian-nvim/obsidian.nvim",
+  version = "*", -- recommended, use latest release instead of latest commit
+  lazy = true,
+  ft = "markdown",
+
+  dependencies = {
+    -- Required.
+    "nvim-lua/plenary.nvim",
+  },
+  opts = {
+    workspaces = {
+      {
+        name = "school",
+        path = "~/obsidian/School",
+      },
+      {
+        name = "xinu",
+        path = "~/obsidian/xinu-research",
+      },
+      {
+        name = "no-vault",
+        path = function()
+          -- alternatively use the CWD:
+          -- return assert(vim.fn.getcwd())
+          return assert(vim.fs.dirname(vim.api.nvim_buf_get_name(0)))
+        end,
+        overrides = {
+          notes_subdir = vim.NIL, -- have to use 'vim.NIL' instead of 'nil'
+          new_notes_location = "current_dir",
+          templates = {
+            folder = vim.NIL,
+          },
+          disable_frontmatter = true,
+        },
+      },
+    },
+
+    attachments = {
+      -- The default folder to place images in via `:ObsidianPasteImg`.
+      -- If this is a relative path it will be interpreted as relative to the vault root.
+      -- You can always override this per image by passing a full path to the command instead of just a filename.
+      img_folder = "attachments/",
+
+      -- A function that determines the text to insert in the note when pasting an image.
+      -- It takes two arguments, the `obsidian.Client` and an `obsidian.Path` to the image file.
+      -- This is the default implementation.
+      ---@param client obsidian.Client
+      ---@param path obsidian.Path the absolute path to the image file
+      ---@return string
+      img_text_func = function(client, path)
+        path = client:vault_relative_path(path) or path
+        return string.format("![%s](%s)", path.name, path)
+      end,
+    },
+
+    -- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
+    completion = {
+      -- Enables completion using nvim_cmp
+      nvim_cmp = false,
+      -- Enables completion using blink.cmp
+      blink = true,
+      -- Trigger completion at 2 chars.
+      min_chars = 2,
+      -- Set to false to disable new note creation in the picker
+      create_new = true,
+    },
+
+    -- opening in obsidian
+    open = {
+      use_advanced_uri = false,
+      func = vim.ui.open,
+    },
+
+    -- follow url
+    follow_url_func = function(url)
+      vim.fn.jobstart({ "open", url })
+    end,
+
+    -- follow image path
+    follow_img_func = function(img)
+      vim.fn.jobstart({ "qlmanage", "-p", img })
+    end,
+
+    -- search result sorting
+    sort_by = "modified",
+    sort_reversed = true,
+
+    -- picker config
+    picker = {
+      name = "snacks.pick",
+      note_mappings = {
+        new = "<C-x>",
+        insert_link = "<C-l",
+      },
+      tag_mappings = {
+        tag_note = "<C-x>",
+        insert_tag = "<C-l>",
+      },
+    },
+
+    -- See https://github.com/obsidian-nvim/obsidian.nvim/wiki/Notes-on-configuration#statusline-component
+    lualine = {
+      enabled = true,
+      format = "{{properties}} properties {{backlinks}} backlinks {{words}} words {{chars}} chars",
+    },
+
+    -- see below for full list of options 👇
+  },
+
+  preferred_link_style = "markdown",
+
+  -- keybinds
+  config = function(_, opts)
+    require("obsidian").setup(opts)
+
+    -- open command menu
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "ObsidianNoteEnter",
+      callback = function()
+        vim.keymap.set("n", "<leader>oc", ":Obsidian<CR>", { desc = "Open command menu" })
+      end,
+    })
+
+    -- paste image
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "ObsidianNoteEnter",
+      callback = function()
+        vim.keymap.set("n", "<leader>pa", ":ObsidianPasteImg ", { desc = "Obsidian: Paste Image (Normal Mode)" })
+      end,
+    })
+
+    -- remove annoying checkbox toggling
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "ObsidianNoteEnter",
+      callback = function()
+        vim.keymap.set("n", "<C-CR>", ":ObsidianFollowLink vsplit<CR>", { desc = "Follow link" })
+      end,
+    })
+
+    -- create link
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "ObsidianNoteEnter",
+      callback = function()
+        vim.keymap.set("n", "<leader>ol", "v:ObsidianLink<CR>", { desc = "Create a link" })
+      end,
+    })
+
+    -- show all links
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "ObsidianNoteEnter",
+      callback = function()
+        vim.keymap.set("n", "<leader>oL", ":ObsidianLinks<CR>", { desc = "Show links" })
+      end,
+    })
+
+    -- show backlinks
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "ObsidianNoteEnter",
+      callback = function()
+        vim.keymap.set("n", "<leader>ob", ":ObsidianBacklinks<CR>", { desc = "Show backlinks" })
+      end,
+    })
+
+    -- search notes
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "ObsidianNoteEnter",
+      callback = function()
+        vim.keymap.set("n", "<leader>os", ":ObsidianSearch<CR>", { desc = "Search notes" })
+      end,
+    })
+
+    -- open quick switch via picker
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "ObsidianNoteEnter",
+      callback = function()
+        vim.keymap.set("n", "<leader>oo", ":ObsidianQuickSwitch<CR>", { desc = "Open note picker" })
+      end,
+    })
+
+    -- open table of contents
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "ObsidianNoteEnter",
+      callback = function()
+        vim.keymap.set("n", "<leader>ot", ":ObsidianTOC<CR>", { desc = "Open table of contents" })
+      end,
+    })
+
+    -- create a new note
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "ObsidianNoteEnter",
+      callback = function()
+        vim.keymap.set("n", "<leader>on", ":ObsidianNew ", { desc = "Create a new note" })
+      end,
+    })
+
+    -- search for TODOs in notes
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "ObsidianNoteEnter",
+      callback = function()
+        vim.keymap.set("n", "<leader>oT", ":ObsidianSearch TODO<CR>", { desc = "Find TODOs" })
+      end,
+    })
+
+    -- switch vaults
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "ObsidianNoteEnter",
+      callback = function()
+        vim.keymap.set("n", "<leader>ov", ":ObsidianWorkspace<CR>", { desc = "Switch vaults" })
+      end,
+    })
+  end,
+}
