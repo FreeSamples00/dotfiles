@@ -236,7 +236,8 @@ if (( $VIM_MODE )); then
 
 fi
 
-# =================== ALIASES ===================
+# 
+# =================== FUNCTIONS ===================
 
 ## Editor calls
 
@@ -263,11 +264,66 @@ function editg() {
 	"$GUI_EDITOR" --frame transparent "${args[@]}" >/dev/null 2>&1 & disown
 }
 
+## General
+
+### Backs up a file to .bak
+function backup() {
+  FORCE="false"
+  FILE=""
+  if (( $# == 0 )) || [[ "$1" == "-f" && "$2" == "" ]]; then
+    echo -e "\033[91mERR: no file passed\033[0m"
+    return
+  else
+    if [[ "$1" == "-f" ]]; then
+      FORCE="true"
+      FILE="$2"
+    else
+      FILE="$1"
+    fi
+  fi
+  BACKUP="$FILE.bak"
+
+  if [ -f "$BACKUP" ] && [ "$FORCE" = "false" ]; then
+    echo -e "\033[91mERR: backup of '$FILE' already exists. Use -f to overwrite\033[0m"
+    return
+  fi
+  cp "$FILE" "$BACKUP"
+}
+
+
+if (( IS_MACOS )) && [[ "$EMULATOR" == "ghostty" ]]; then
+  function alert() {
+      TITLE='🚨Ghostty🚨'
+      TERM_APP_ID="com.mitchellh.ghostty"
+      SOUND_PATH="/system/library/sounds/Ping.aiff"
+      if [[ "$@" == "" || "$@" == " " ]]; then
+        echo "Alert" | terminal-notifier -title $TITLE -activate $TERM_APP_ID -ignoreDnD
+      else
+        echo $@ | terminal-notifier -title $TITLE -activate $TERM_APP_ID -ignoreDnD
+      fi
+      afplay $SOUND_PATH
+  }
+fi
+
+function cat() {
+    if [[ -t 1 ]]; then
+        command bat "$@"
+    else
+        command cat "$@"
+    fi
+}
+
+# =================== ALIASES ===================
+
+# Editors
 alias ide="$IDE_EDITOR"
+
+# General
+alias clearls="clear && ls"
 
 ## Terminal Configuration
 alias config="edit ~/.zshrc"
-alias vimconfig="edit ~/.config/nvim/init.lua"
+alias vimconfig="edit ~/.config/nvim/"
 alias edit_help="edit $HELP_PATH"
 alias help="cat $HELP_PATH --file-name help_message.zsh"
 alias reload='clear && exec zsh'
@@ -299,7 +355,7 @@ fi
 alias grep='grep -ni --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox,.venv,venv}'
 alias grepa='rga -niu'
 alias grepf='fd -u | rg -iu'
-alias greph='rg -u --passthru'
+alias grepd='fd -u -t d | rg -iu'
 
 ## Disk Operations
 alias dd="sudo gdd status=progress conv=sync"
@@ -332,15 +388,6 @@ alias diff='delta --side-by-side'
 alias listen='/bin/cat -v'
 alias path='print -c ${(s/:/)PATH} | bat --file-name "\$PATH"'
 
-## Adaptive cat function
-function cat() {
-    if [[ -t 1 ]]; then
-        command bat "$@"
-    else
-        command cat "$@"
-    fi
-}
-
 ## Enhanced Commands
 alias less='less -r'
 alias rm='rm -I'
@@ -358,20 +405,6 @@ alias wordcount="wc -w"
 if (( IS_MACOS )); then
     alias colors='terminal_colors.sh' 
     alias battery='system_profiler SPPowerDataType | grep -E "Cycle Count|Condition|Maximum Capacity" | bat' 
-fi
-
-if (( IS_MACOS )) && [[ "$EMULATOR" == "ghostty" ]]; then
-  function alert() {
-      TITLE='🚨Ghostty🚨'
-      TERM_APP_ID="com.mitchellh.ghostty"
-      SOUND_PATH="/system/library/sounds/Ping.aiff"
-      if [[ "$@" == "" || "$@" == " " ]]; then
-        echo "Alert" | terminal-notifier -title $TITLE -activate $TERM_APP_ID -ignoreDnD
-      else
-        echo $@ | terminal-notifier -title $TITLE -activate $TERM_APP_ID -ignoreDnD
-      fi
-      afplay $SOUND_PATH
-  }
 fi
 
 if (( $GRAPHICS_SUPPORT == 1 )); then
