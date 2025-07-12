@@ -12,7 +12,7 @@ fi
 #   'quote-tame': use fortune and cowsay to display a safe for work quote
 #   'quote-nsfw': use fortune and cowsay to display a quote (can be not safe for work)
 #       Note: This will not work with some fortune packages that do not come bundled with offensive options
-LOGIN_ACTION="quote-nsfw"
+LOGIN_ACTION="hostname-pretty"
 
 # choice of cowsay file (the thing that says the message) I like
 COWSAY_CHOICE="tux"
