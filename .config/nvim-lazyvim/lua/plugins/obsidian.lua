@@ -114,99 +114,29 @@ return {
   config = function(_, opts)
     require("obsidian").setup(opts)
 
-    -- open command menu
+    -- setup keybinds
     vim.api.nvim_create_autocmd("User", {
       pattern = "ObsidianNoteEnter",
       callback = function()
         vim.keymap.set("n", "<leader>oc", ":Obsidian<CR>", { desc = "Open command menu" })
-      end,
-    })
-
-    -- paste image
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "ObsidianNoteEnter",
-      callback = function()
-        vim.keymap.set("n", "<leader>pa", ":ObsidianPasteImg ", { desc = "Obsidian: Paste Image (Normal Mode)" })
-      end,
-    })
-
-    -- remove annoying checkbox toggling
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "ObsidianNoteEnter",
-      callback = function()
+        vim.keymap.set("n", "<leader>oc", ":Obsidian<CR>", { desc = "Open command menu" })
         vim.keymap.set("n", "<C-CR>", ":ObsidianFollowLink vsplit<CR>", { desc = "Follow link" })
-      end,
-    })
-
-    -- create link
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "ObsidianNoteEnter",
-      callback = function()
-        vim.keymap.set("n", "<leader>ol", "v:ObsidianLink<CR>", { desc = "Create a link" })
-      end,
-    })
-
-    -- show all links
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "ObsidianNoteEnter",
-      callback = function()
-        vim.keymap.set("n", "<leader>oL", ":ObsidianLinks<CR>", { desc = "Show links" })
-      end,
-    })
-
-    -- show backlinks
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "ObsidianNoteEnter",
-      callback = function()
+        vim.keymap.set("n", "<leader>oL", "v:ObsidianLink<CR>", { desc = "Create a link" })
+        vim.keymap.set("n", "<leader>ol", ":ObsidianLinks<CR>", { desc = "Show links" })
         vim.keymap.set("n", "<leader>ob", ":ObsidianBacklinks<CR>", { desc = "Show backlinks" })
-      end,
-    })
-
-    -- search notes
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "ObsidianNoteEnter",
-      callback = function()
         vim.keymap.set("n", "<leader>os", ":ObsidianSearch<CR>", { desc = "Search notes" })
-      end,
-    })
-
-    -- open quick switch via picker
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "ObsidianNoteEnter",
-      callback = function()
         vim.keymap.set("n", "<leader>oo", ":ObsidianQuickSwitch<CR>", { desc = "Open note picker" })
-      end,
-    })
-
-    -- open table of contents
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "ObsidianNoteEnter",
-      callback = function()
         vim.keymap.set("n", "<leader>ot", ":ObsidianTOC<CR>", { desc = "Open table of contents" })
-      end,
-    })
-
-    -- create a new note
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "ObsidianNoteEnter",
-      callback = function()
         vim.keymap.set("n", "<leader>on", ":ObsidianNew ", { desc = "Create a new note" })
-      end,
-    })
-
-    -- search for TODOs in notes
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "ObsidianNoteEnter",
-      callback = function()
         vim.keymap.set("n", "<leader>oT", ":ObsidianSearch TODO<CR>", { desc = "Find TODOs" })
+        vim.keymap.set("n", "<leader>ov", ":ObsidianWorkspace<CR>", { desc = "Switch vaults" })
       end,
     })
 
-    -- switch vaults
     vim.api.nvim_create_autocmd("User", {
       pattern = "ObsidianNoteEnter",
-      callback = function()
-        vim.keymap.set("n", "<leader>ov", ":ObsidianWorkspace<CR>", { desc = "Switch vaults" })
+      callback = function(ev)
+        vim.keymap.del("n", "<CR>", { buffer = ev.buf })
       end,
     })
   end,
