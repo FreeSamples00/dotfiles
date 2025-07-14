@@ -21,10 +21,12 @@ return {
       {
         name = "notes",
         path = "~/notes",
-        templates = {
-          folder = ".templates",
-          date_format = "%m/%d/%Y",
-          time_format = "%H:%M",
+        overrides = {
+          templates = {
+            folder = ".templates",
+            date_format = "%m/%d/%Y",
+            time_format = "%H:%M",
+          },
         },
       },
       {
