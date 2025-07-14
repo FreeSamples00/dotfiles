@@ -106,6 +106,7 @@ fi
 
 # Path additions
 export PATH="/usr/local/bin:$PATH"
+export PATH="$PATH:/Users/sccmp/.local/bin"
 
 # =================== ZINIT SETUP ===================
 # Set zinit directory

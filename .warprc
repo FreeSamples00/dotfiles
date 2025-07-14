@@ -15,8 +15,9 @@ dotfiles:~/.dotfiles
 downloads:~/downloads
 fortunes:/opt/homebrew/Cellar/fortune/9708/share/games/fortunes
 local:/usr/local
-notes:~/obsidian
+notes:~/notes
 nvim:~/.dotfiles/.config/nvim
+obsidian:~/Obsidian
 onedrive:~/onedrive
 os_repo:~/onedrive/school/classes/cosc_3250/code/os_repo
 python:~/onedrive/code/python

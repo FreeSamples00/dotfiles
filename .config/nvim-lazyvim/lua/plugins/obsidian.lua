@@ -10,37 +10,53 @@ return {
   },
   opts = {
     workspaces = {
+      -- {
+      --   name = "school",
+      --   path = "~/obsidian/School",
+      -- },
+      -- {
+      --   name = "xinu",
+      --   path = "~/obsidian/xinu-research",
+      -- },
       {
-        name = "school",
-        path = "~/obsidian/School",
+        name = "notes",
+        path = "~/notes",
       },
-      {
-        name = "xinu",
-        path = "~/obsidian/xinu-research",
-      },
-      {
-        name = "no-vault",
-        path = function()
-          -- alternatively use the CWD:
-          -- return assert(vim.fn.getcwd())
-          return assert(vim.fs.dirname(vim.api.nvim_buf_get_name(0)))
-        end,
-        overrides = {
-          notes_subdir = vim.NIL, -- have to use 'vim.NIL' instead of 'nil'
-          new_notes_location = "current_dir",
-          templates = {
-            folder = vim.NIL,
-          },
-          disable_frontmatter = true,
-        },
-      },
+      -- {
+      --   name = "no-vault",
+      --   path = function()
+      --     -- alternatively use the CWD:
+      --     -- return assert(vim.fn.getcwd())
+      --     return assert(vim.fs.dirname(vim.api.nvim_buf_get_name(0)))
+      --   end,
+      --   overrides = {
+      --     notes_subdir = vim.NIL, -- have to use 'vim.NIL' instead of 'nil'
+      --     new_notes_location = "current_dir",
+      --     templates = {
+      --       folder = ".templates",
+      --       date_format = "%m/%d/%Y",
+      --       time_format = "%H:%M",
+      --     },
+      --     disable_frontmatter = true,
+      --   },
+      -- },
+    },
+
+    disable_frontmatter = true,
+    notes_subdir = vim.NIL, -- have to use 'vim.NIL' instead of 'nil'
+    new_notes_location = "current_dir",
+
+    templates = {
+      folder = ".templates",
+      date_format = "%m/%d/%Y",
+      time_format = "%H:%M",
     },
 
     attachments = {
       -- The default folder to place images in via `:ObsidianPasteImg`.
       -- If this is a relative path it will be interpreted as relative to the vault root.
       -- You can always override this per image by passing a full path to the command instead of just a filename.
-      img_folder = "attachments/",
+      img_folder = ".attachments/",
 
       -- A function that determines the text to insert in the note when pasting an image.
       -- It takes two arguments, the `obsidian.Client` and an `obsidian.Path` to the image file.
@@ -108,35 +124,47 @@ return {
     -- see below for full list of options 👇
   },
 
-  preferred_link_style = "markdown",
+  preferred_link_style = "wiki",
 
   -- keybinds
   config = function(_, opts)
     require("obsidian").setup(opts)
 
-    -- setup keybinds
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "ObsidianNoteEnter",
-      callback = function()
-        vim.keymap.set("n", "<leader>oc", ":Obsidian<CR>", { desc = "Open command menu" })
-        vim.keymap.set("n", "<leader>oc", ":Obsidian<CR>", { desc = "Open command menu" })
-        vim.keymap.set("n", "<C-CR>", ":ObsidianFollowLink vsplit<CR>", { desc = "Follow link" })
-        vim.keymap.set("n", "<leader>oL", "v:ObsidianLink<CR>", { desc = "Create a link" })
-        vim.keymap.set("n", "<leader>ol", ":ObsidianLinks<CR>", { desc = "Show links" })
-        vim.keymap.set("n", "<leader>ob", ":ObsidianBacklinks<CR>", { desc = "Show backlinks" })
-        vim.keymap.set("n", "<leader>os", ":ObsidianSearch<CR>", { desc = "Search notes" })
-        vim.keymap.set("n", "<leader>oo", ":ObsidianQuickSwitch<CR>", { desc = "Open note picker" })
-        vim.keymap.set("n", "<leader>ot", ":ObsidianTOC<CR>", { desc = "Open table of contents" })
-        vim.keymap.set("n", "<leader>on", ":ObsidianNew ", { desc = "Create a new note" })
-        vim.keymap.set("n", "<leader>oT", ":ObsidianSearch TODO<CR>", { desc = "Find TODOs" })
-        vim.keymap.set("n", "<leader>ov", ":ObsidianWorkspace<CR>", { desc = "Switch vaults" })
-      end,
-    })
-
+    -- remove keybinds
     vim.api.nvim_create_autocmd("User", {
       pattern = "ObsidianNoteEnter",
       callback = function(ev)
         vim.keymap.del("n", "<CR>", { buffer = ev.buf })
+      end,
+    })
+
+    -- setup keybinds
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "ObsidianNoteEnter",
+      callback = function()
+        -- In Note
+        vim.keymap.set("n", "<C-CR>", ":ObsidianToggleCheckbox<CR>", { desc = "Cycle Checkbox" })
+        vim.keymap.set("n", "<leader>oc", ":Obsidian<CR>", { desc = "Open command menu" })
+        vim.keymap.set("n", "<leader>ot", ":ObsidianTemplate<CR>", { desc = "Insert a template" })
+        vim.keymap.set("n", "<leader>op", ":ObsidianPasteImg ", { desc = "Paste image (choose name)" })
+        vim.keymap.set("n", "<leader>oP", ":ObsidianPasteImg<CR>", { desc = "Paste image (default name)" })
+        -- Navigation
+        vim.keymap.set("n", "<CR>", ":ObsidianFollowLink vsplit<CR>", { desc = "Follow link" })
+        vim.keymap.set("n", "<leader>oo", ":ObsidianQuickSwitch<CR>", { desc = "Open note picker" })
+        vim.keymap.set("n", "<leader>oT", ":ObsidianTOC<CR>", { desc = "Open table of contents" })
+        vim.keymap.set("n", "<leader>ov", ":ObsidianWorkspace<CR>", { desc = "Switch vaults" })
+        -- Links
+        vim.keymap.set("n", "<leader>ol", "v:ObsidianLink<CR>", { desc = "Create a link" })
+        vim.keymap.set("v", "<leader>ol", ":ObsidianLink<CR>", { desc = "Create link" })
+        vim.keymap.set("n", "<leader>oL", ":ObsidianLinks<CR>", { desc = "Show links" })
+        vim.keymap.set("n", "<leader>oB", ":ObsidianBacklinks<CR>", { desc = "Show backlinks" })
+        -- Search
+        vim.keymap.set("n", "<leader>os", ":ObsidianSearch<CR>", { desc = "Search notes" })
+        vim.keymap.set("n", "<leader>o#", ":ObsidianTags<CR>", { desc = "Search tags" })
+        -- New note
+        vim.keymap.set("n", "<leader>on", ":ObsidianNew ", { desc = "Create a new note" })
+        vim.keymap.set("n", "<leader>oN", "v:ObsidianLinkNew ", { desc = "Create and link new note" })
+        vim.keymap.set("v", "<leader>on", ":ObsidianExtractNote ", { desc = "Extract text to note" })
       end,
     })
   end,
