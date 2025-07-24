@@ -58,15 +58,13 @@ window-height = 36
 window-width = 100
 macos-titlebar-style = transparent
 title = " "
+macos-titlebar-proxy-icon = hidden
 
 # --- THEME ---
 theme = Apple System Colors
 cursor-color = #B6B9C3
-cursor-style = block
+# cursor-style = block
 bold-is-bright = true
-
-# --- SHADER ---
-
 
 # --- OS BEHAVIOR ---
 desktop-notifications = true
@@ -80,4 +78,4 @@ quit-after-last-window-closed = true
 # --- LOGIN COMMAND ---
 # action: forces new windows to run 'exec zsh'
 # purpose: fixes new windows not having correct cursor style
-command = /usr/local/bin/exec_zsh.sh
+# command = /usr/local/bin/exec_zsh.sh
