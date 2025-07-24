@@ -293,14 +293,21 @@ function cat() {
     fi
 }
 
+# =================== TMUX STUFF ===================
+
 ### create new tmux session
-function newmux() {
+function tmuxn() {
   if [[ "$1" != "" ]]; then
     command tmux new-session -s $1 "exec zsh"
   else
     command tmux new-session "exec zsh"
   fi
 }
+
+## tmux
+alias tmuxk="tmux kill-session"
+alias tmuxl="tmux ls"
+alias tmuxa="tmux attach"
 
 # =================== ALIASES ===================
 
@@ -316,10 +323,6 @@ alias vimconfig="edit ~/.config/nvim/"
 alias edit_help="edit $HELP_PATH"
 alias help="cat $HELP_PATH --file-name help_message.zsh"
 alias reload='clear && exec zsh'
-
-## tmux
-alias killmux="tmux kill-session"
-alias listmux="tmux ls"
 
 ## Applications
 alias search='s -p duckduckgo'

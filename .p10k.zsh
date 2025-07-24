@@ -44,6 +44,7 @@
     status                  # exit code of the last command
     command_execution_time  # duration of the last command
     background_jobs         # presence of background jobs
+    tmux_indicator          # dispalys if in a tmux session
     direnv                  # direnv status (https://direnv.net/)
     asdf                    # asdf version manager (https://github.com/asdf-vm/asdf)
     virtualenv              # python virtual environment (https://docs.python.org/3/library/venv.html)
@@ -1705,6 +1706,25 @@
   # This works even with POWERLEVEL9K_DISABLE_HOT_RELOAD=true.
   (( ! $+functions[p10k] )) || p10k reload
 }
+
+
+#####################################[ tmux_indicator: tmux status ]#####################################
+
+# This function checks if the TMUX environment variable is set.
+# icon options: , 󰍹
+function prompt_tmux_indicator() {
+  if [[ -n "$TMUX" ]]; then
+    p10k segment -i '' -f green
+  else
+    return
+  fi
+}
+
+
+
+
+
+
 
 # Tell `p10k configure` which file it should overwrite.
 typeset -g POWERLEVEL9K_CONFIG_FILE=${${(%):-%x}:a}
