@@ -74,6 +74,10 @@ desktop-notifications = true
 confirm-close-surface = false
 quit-after-last-window-closed = true
 
+# --- CLIPBOARD BEHAVIOR ---
+clipboard-read = allow
+clipboard-write = allow
+
 
 # --- LOGIN COMMAND ---
 # action: forces new windows to run 'exec zsh'
