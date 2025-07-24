@@ -12,7 +12,8 @@ fi
 #   'quote-tame': use fortune and cowsay to display a safe for work quote
 #   'quote-nsfw': use fortune and cowsay to display a quote (can be not safe for work)
 #       Note: This will not work with some fortune packages that do not come bundled with offensive options
-LOGIN_ACTION="hostname-pretty"
+SPLASH_SCREEN="hostname-pretty"
+LOGIN_MESSAGES=1
 
 # choice of cowsay file (the thing that says the message) I like
 COWSAY_CHOICE="tux"
@@ -46,7 +47,7 @@ EMULATOR="ghostty"
 GRAPHICS_SUPPORT=1
 
 # enable and disable vim motions in the commandline
-VIM_MODE=1
+VIM_MODE=0
 
 # this line prevents a single EOF char (Ctrl+d) from killing the shell
 setopt IGNORE_EOF
@@ -215,29 +216,6 @@ else
     export VISUAL="$GUI_EDITOR"
 fi
 
-
-# =================== COMMAND LINE CONFIGS ===================
-
-if (( $VIM_MODE )); then
-  bindkey -v
-
-  # function that changes the caret shape based on vim mode
-  change_caret() {
-    if [[ $KEYMAP == vicmd ]]; then
-      printf '\e[2 q'
-    elif [[ $KEYMAP == vireplace ]]; then
-      printf '\e[4 q'
-    elif [[ $KEYMAP == main || $KEYMAP == viins ]]; then
-      printf '\e[6 q'
-    fi
-  }
-
-  zle -N zle-line-init change_caret
-  zle -N zle-keymap-select change_caret
-
-fi
-
-# 
 # =================== FUNCTIONS ===================
 
 ## Editor calls
@@ -291,7 +269,7 @@ function backup() {
   cp "$FILE" "$BACKUP"
 }
 
-
+### sends a macos alert
 if (( IS_MACOS )) && [[ "$EMULATOR" == "ghostty" ]]; then
   function alert() {
       TITLE='🚨Ghostty🚨'
@@ -306,12 +284,22 @@ if (( IS_MACOS )) && [[ "$EMULATOR" == "ghostty" ]]; then
   }
 fi
 
+### overwrites cat, using bat interactivley and default cat in pipes
 function cat() {
     if [[ -t 1 ]]; then
         command bat "$@"
     else
         command cat "$@"
     fi
+}
+
+### create new tmux session
+function newmux() {
+  if [[ "$1" != "" ]]; then
+    command tmux new-session -s $1 "exec zsh"
+  else
+    command tmux new-session "exec zsh"
+  fi
 }
 
 # =================== ALIASES ===================
@@ -329,6 +317,9 @@ alias edit_help="edit $HELP_PATH"
 alias help="cat $HELP_PATH --file-name help_message.zsh"
 alias reload='clear && exec zsh'
 
+## tmux
+alias killmux="tmux kill-session"
+alias listmux="tmux ls"
 
 ## Applications
 alias search='s -p duckduckgo'
@@ -424,45 +415,91 @@ alias helotrix="clear && ssh -t schristensen34@helotrix.mscsnet.mu.edu 'export T
 alias calculon="clear && ssh -t sccmp@$CALCULON 'export TERM=xterm-256color; exec zsh'"
 alias eldrad="clear && ssh -t schristensen34@eldrad.mscsnet.mu.edu 'exec bash; echo use wake and kill'"
 
+# =================== COMMAND LINE CONFIGS  & KEYBINDS ===================
+
+if (( $VIM_MODE )); then
+
+  USE_PLUGIN=0
+  
+  if (( $USE_PLUGIN )); then # zsh-vi-mode plugin
+    zinit ice depth=1
+    zinit light jeffreytse/zsh-vi-mode
+
+  else # built-in zsh vi mode
+    bindkey -v # sets vim mode
+
+    # function that changes the caret shape based on vim mode
+    change_caret() {
+      if [[ $KEYMAP == vicmd ]]; then
+        printf '\e[2 q'
+      elif [[ $KEYMAP == vireplace ]]; then
+        printf '\e[4 q'
+      elif [[ $KEYMAP == main || $KEYMAP == viins ]]; then
+        printf '\e[6 q'
+      fi
+    }
+
+    zle -N zle-line-init change_caret
+    zle -N zle-keymap-select change_caret
+
+  fi
+
+else # emacs mode
+  bindkey -e 
+fi
+
 # ================== ERROR CHECK ==================
 
 if (( ZSHRC_ERR )); then
-  LOGIN_ACTION="none"
+  SPLASH_SCREEN="none"
   echo "\033[91mzsh initialization encountered an error. code: $ZSHRC_ERR\033[0m"
 fi
 
 # =================== LOGIN ACTIONS ===================
-case "$LOGIN_ACTION" in
+
+if (( IS_MACOS )); then
+  NAME=$(scutil --get ComputerName)
+elif (( IS_LINUX )); then
+  NAME=$(hostname | \grep -E -o '^[^.]+')
+else
+  NAME = "NAME NOT FOUND"
+fi
+
+case "$SPLASH_SCREEN" in
   "hostname-pretty")
     clear
-    hostname | \grep -E -o '^[^.]+' | figlet -c -w $COLUMNS | lolcat -f
-    echo "\n\033[90mUse 'help'\033[0m"
+    echo $NAME | figlet -c -w $COLUMNS | lolcat -f
     ;;
   "hostname-basic")
     clear
-    hostname | \grep -E -o '^[^.]+' | xargs echo -e "\033[93mMachine: "
+    echo $NAME | xargs echo -e "\033[93mMachine: "
     echo "\033[0m"
-    echo "\n\033[90mUse 'help'\033[0m"
     ;;
   "quote-tame")
     clear
     quote_size=$(( (COLUMNS * 3) / 4))
     fortune -s | cowthink -f ${COWSAY_CHOICE} -W ${quote_size}
-    echo "\n\033[90mUse 'help'\033[0m"
     ;;
   "quote-nsfw")
     clear
     quote_size=$(( (COLUMNS * 3) / 4))
     fortune -as | cowthink -f ${COWSAY_CHOICE} -W ${quote_size}
-    echo "\n\033[90mUse 'help'\033[0m"
     ;;
   "none")
+    LOGIN_MESSAGES=0
     ;;
   *)
-    echo "\033[91mLogin action not supported ($LOGIN_ACTION)\033[0m"
+    echo "\033[91mLogin action not supported ($SPLASH_SCREEN)\033[0m"
     ;;
 esac
 
-if (( $VIM_MODE )); then
-  echo "\033[90mvim mode enabled\033[0m"
+if (( $LOGIN_MESSAGES )); then
+
+  echo "\n\033[90mUse 'help'\033[0m"
+
+  if (( $VIM_MODE )); then
+    echo "\033[90mvim mode enabled\033[0m"
+  fi
 fi
+
+printf '\e[5 q'
