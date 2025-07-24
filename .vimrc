@@ -1,5 +1,5 @@
 set termguicolors          
-colorscheme pablo          
+colorscheme habamax          
 
 syntax on
 set number                  
