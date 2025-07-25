@@ -45,6 +45,19 @@ outer.bottom = 8
 outer.top = 8
 outer.right = 8
 
+# ========================= APP SPECIFIC SETTINGS =========================
+[[on-window-detected]]
+if.app-name-regex-substring = 'messages'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'mail'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'discord'
+run = 'layout floating'
+
 # ========================= MAIN BINDINGS =========================
 [mode.main.binding]
 
