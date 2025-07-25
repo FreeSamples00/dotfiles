@@ -316,6 +316,8 @@ alias ide="$IDE_EDITOR"
 
 # General
 alias clearls="clear && ls"
+alias c="clear"
+alias cls="clear && ls"
 
 ## Terminal Configuration
 alias config="edit ~/.zshrc"
@@ -323,10 +325,6 @@ alias vimconfig="edit ~/.config/nvim/"
 alias edit_help="edit $HELP_PATH"
 alias help="cat $HELP_PATH --file-name help_message.zsh"
 alias reload='clear && exec zsh'
-
-## Applications
-alias search='s -p duckduckgo'
-alias idle='idle3'
 
 ## Games
 if (( IS_MACOS )); then
@@ -346,14 +344,11 @@ elif (( IS_LINUX )); then
   alias ofd="$LINUX_FILE_MANAGER ."
 fi
 
-## Search Operations
+## Grep Variants
 alias grep='grep -ni --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox,.venv,venv}'
 alias grepa='rga -niu'
 alias grepf='fd -u | rg -iu'
 alias grepd='fd -u -t d | rg -iu'
-
-## Disk Operations
-alias dd="sudo gdd status=progress conv=sync"
 
 ## Clipboard Operations
 if (( IS_MACOS )); then
@@ -382,6 +377,7 @@ alias top='btop'
 alias diff='delta --side-by-side'
 alias listen='/bin/cat -v'
 alias path='print -c ${(s/:/)PATH} | bat --file-name "\$PATH"'
+alias clear="\clear" # this fixes spacing when using ghostty w/out titlebar
 
 ## Enhanced Commands
 alias less='less -r'
@@ -391,7 +387,8 @@ alias gcc='gcc -Wall'
 ## Utility Tools
 alias wclone='wget --mirror --convert-links --adjust-extension --page-requisites --show-progress'
 alias update='brew update && brew upgrade && zinit update'
-alias py='python3'
+alias py='uv'
+alias python="python3"
 alias stow='stow -v'
 alias sizeof='du -hs'
 alias storage="dust -rC | bat --file-name 'Storage Breakdown'"
@@ -505,4 +502,5 @@ if (( $LOGIN_MESSAGES )); then
   fi
 fi
 
+# make cursor blinking bar
 printf '\e[5 q'
