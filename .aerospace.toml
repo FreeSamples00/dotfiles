@@ -6,7 +6,7 @@
 
 
 # ========================= GLOBAL SETTINGS =========================
-after-startup-command = []
+after-startup-command = ['exec-and-forget borders']
 
 # ========== auto-start ==========
 start-at-login = true
