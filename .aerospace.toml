@@ -58,6 +58,10 @@ run = 'layout floating'
 if.app-name-regex-substring = 'discord'
 run = 'layout floating'
 
+[[on-window-detected]]
+if.app-name-regex-substring = 'finder'
+run = 'layout floating'
+
 # ========================= MAIN BINDINGS =========================
 [mode.main.binding]
 
@@ -104,8 +108,7 @@ cmd-alt-ctrl-p = 'exec-and-forget open -a "iphone mirroring"'
 # ========================= TILING HOTKEYS =========================
 
 # ========== layout ==========
-cmd-alt-ctrl-slash = 'layout tiles horizontal vertical'
-cmd-alt-ctrl-comma = 'layout accordion horizontal vertical'
+cmd-alt-ctrl-shift-enter = 'layout h_tiles h_accordion'
 cmd-alt-ctrl-enter = 'layout floating tiling'
 cmd-alt-ctrl-shift-r = 'flatten-workspace-tree'
 
