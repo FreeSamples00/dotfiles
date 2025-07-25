@@ -8,3 +8,4 @@
 --ignore='backups'
 --ignore='misc_configs'
 --ignore='.*\.sh'
+--ignore='.*\.md'
