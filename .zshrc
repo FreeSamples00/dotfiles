@@ -220,7 +220,6 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:*:*' fzf-preview 'bat --color=always --line-range :500 ${(Q)realpath}'
-zstyle ':completion:*:ssh:users' ignored-patterns '_*'
 
 # =================== POWERLEVEL10K CONFIGURATION ===================
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
