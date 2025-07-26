@@ -70,6 +70,56 @@ case "$OSTYPE" in
     ;;
 esac
 
+# =================== LOGIN ACTIONS ===================
+
+if (( IS_MACOS )); then
+  NAME=$(scutil --get ComputerName)
+elif (( IS_LINUX )); then
+  NAME=$(hostname | \grep -E -o '^[^.]+')
+else
+  NAME = "NAME NOT FOUND"
+fi
+
+case "$SPLASH_SCREEN" in
+  "hostname-pretty")
+    clear
+    echo $NAME | figlet -c -w $COLUMNS | lolcat -f
+    ;;
+  "hostname-basic")
+    clear
+    echo $NAME | xargs echo -e "\033[93mMachine: "
+    echo "\033[0m"
+    ;;
+  "quote-tame")
+    clear
+    quote_size=$(( (COLUMNS * 3) / 4))
+    fortune -s | cowthink -f ${COWSAY_CHOICE} -W ${quote_size}
+    ;;
+  "quote-nsfw")
+    clear
+    quote_size=$(( (COLUMNS * 3) / 4))
+    fortune -as | cowthink -f ${COWSAY_CHOICE} -W ${quote_size}
+    ;;
+  "none")
+    LOGIN_MESSAGES=0
+    ;;
+  *)
+    echo "\033[91mLogin action not supported ($SPLASH_SCREEN)\033[0m"
+    ;;
+esac
+
+if (( $LOGIN_MESSAGES )); then
+
+  echo "\n\033[90mUse 'help'\033[0m"
+
+  if (( $VIM_MODE )); then
+    echo "\033[90mvim mode enabled\033[0m"
+  fi
+fi
+
+# make cursor blinking bar
+printf '\e[5 q'
+
 # =================== POWERLEVEL10K SETUP ===================
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -170,6 +220,7 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:*:*' fzf-preview 'bat --color=always --line-range :500 ${(Q)realpath}'
+zstyle ':completion:*:ssh:users' ignored-patterns '_*'
 
 # =================== POWERLEVEL10K CONFIGURATION ===================
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -446,53 +497,3 @@ if (( ZSHRC_ERR )); then
   SPLASH_SCREEN="none"
   echo "\033[91mzsh initialization encountered an error. code: $ZSHRC_ERR\033[0m"
 fi
-
-# =================== LOGIN ACTIONS ===================
-
-if (( IS_MACOS )); then
-  NAME=$(scutil --get ComputerName)
-elif (( IS_LINUX )); then
-  NAME=$(hostname | \grep -E -o '^[^.]+')
-else
-  NAME = "NAME NOT FOUND"
-fi
-
-case "$SPLASH_SCREEN" in
-  "hostname-pretty")
-    clear
-    echo $NAME | figlet -c -w $COLUMNS | lolcat -f
-    ;;
-  "hostname-basic")
-    clear
-    echo $NAME | xargs echo -e "\033[93mMachine: "
-    echo "\033[0m"
-    ;;
-  "quote-tame")
-    clear
-    quote_size=$(( (COLUMNS * 3) / 4))
-    fortune -s | cowthink -f ${COWSAY_CHOICE} -W ${quote_size}
-    ;;
-  "quote-nsfw")
-    clear
-    quote_size=$(( (COLUMNS * 3) / 4))
-    fortune -as | cowthink -f ${COWSAY_CHOICE} -W ${quote_size}
-    ;;
-  "none")
-    LOGIN_MESSAGES=0
-    ;;
-  *)
-    echo "\033[91mLogin action not supported ($SPLASH_SCREEN)\033[0m"
-    ;;
-esac
-
-if (( $LOGIN_MESSAGES )); then
-
-  echo "\n\033[90mUse 'help'\033[0m"
-
-  if (( $VIM_MODE )); then
-    echo "\033[90mvim mode enabled\033[0m"
-  fi
-fi
-
-# make cursor blinking bar
-printf '\e[5 q'
