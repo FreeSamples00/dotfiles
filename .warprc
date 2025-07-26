@@ -24,6 +24,7 @@ python:~/onedrive/code/python
 rust:~/onedrive/code/rust
 school:~/onedrive/school
 services:~/Library/Services
+ssh:~/.ssh
 temp:/tmp
 xinu:~/xinu-research
 zig:~/onedrive/code/zig
