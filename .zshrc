@@ -407,14 +407,6 @@ fi
 alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
 alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
 
-## SSH Connections
-CALCULON="192.168.0.155"
-
-alias morbius='clear && ssh schristensen34@morbius.mscsnet.mu.edu'
-alias helotrix="clear && ssh -t schristensen34@helotrix.mscsnet.mu.edu 'export TERM=xterm-256color; exec zsh'"
-alias calculon="clear && ssh -t sccmp@$CALCULON 'export TERM=xterm-256color; exec zsh'"
-alias eldrad="clear && ssh -t schristensen34@eldrad.mscsnet.mu.edu 'exec bash; echo use wake and kill'"
-
 # =================== COMMAND LINE CONFIGS  & KEYBINDS ===================
 
 if (( $VIM_MODE )); then
