@@ -28,6 +28,20 @@ default-root-container-orientation = 'auto'
 # ========== disable macos hide behavior ==========
 automatically-unhide-macos-hidden-apps = true
 
+# ========== monitor settings ==========
+[workspace-to-monitor-force-assignment]
+1 = 'built-in'
+
+2 = 'main'
+3 = 'main'
+4 = 'main'
+5 = 'main'
+
+6 = 'secondary'
+7 = 'secondary'
+8 = 'secondary'
+9 = 'secondary'
+
 # ========== keyboard layout ==========
 [key-mapping]
 preset = 'qwerty'
@@ -113,7 +127,8 @@ cmd-alt-ctrl-p = 'exec-and-forget open -a "iphone mirroring"'
 
 # ========== layout ==========
 cmd-alt-ctrl-shift-enter = 'layout h_tiles h_accordion'
-cmd-alt-ctrl-enter = 'layout floating tiling'
+# cmd-alt-ctrl-enter = 'layout floating tiling'
+cmd-alt-ctrl-enter = 'fullscreen'
 cmd-alt-ctrl-shift-r = 'flatten-workspace-tree'
 
 # ========== focus ==========
