@@ -80,6 +80,10 @@ run = 'layout floating'
 if.app-name-regex-substring = 'find my'
 run = 'layout floating'
 
+[[on-window-detected]]
+if.app-name-regex-substring = 'maps'
+run = 'layout floating'
+
 # ========================= MAIN BINDINGS =========================
 [mode.main.binding]
 
