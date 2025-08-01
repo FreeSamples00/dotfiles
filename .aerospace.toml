@@ -84,6 +84,18 @@ run = 'layout floating'
 if.app-name-regex-substring = 'maps'
 run = 'layout floating'
 
+[[on-window-detected]]
+if.app-name-regex-substring = 'reminders'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'calendar'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'music'
+run = 'layout floating'
+
 # ========================= MAIN BINDINGS =========================
 [mode.main.binding]
 
