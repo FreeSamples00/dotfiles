@@ -1,14 +1,12 @@
 return {
   "nvim-lualine/lualine.nvim",
-  -- Add nvim-web-devicons as a dependency for file icons
   dependencies = { "nvim-tree/nvim-web-devicons" },
   opts = function(_, opts)
-    -- Start with the base options for slanted look and icons
     opts.options = vim.tbl_deep_extend("force", opts.options or {}, {
       icons_enabled = true,
-      theme = "auto", -- 'auto' will try to match your colorscheme, or pick one like 'onedark', 'catppuccin', etc.
-      component_separators = { left = "", right = "" }, -- Your chosen separators for components
-      section_separators = { left = "", right = "" }, -- Your chosen slanted separators for sections
+      theme = "auto",
+      component_separators = { left = "", right = "" },
+      section_separators = { left = "", right = "" },
       disabled_filetypes = {
         "NvimTree",
         "packer",
@@ -16,21 +14,17 @@ return {
       always_last_session = true,
       lsp_progress = {
         enabled = true,
-        spinner_symbols = { "", "", "" },
+        spinner_symbols = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧" },
       },
     })
 
     local function get_repo_or_dir_name()
       -- Try to get the Git top-level directory
-      -- 'git rev-parse --show-toplevel' outputs the path, or errors if not in a repo.
-      -- We capture stderr to /dev/null and remove newline.
       local git_toplevel = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null"):match("(.*)\n")
 
       if git_toplevel and git_toplevel ~= "" then
-        -- If in a Git repo, return the basename of the top-level directory
-        return " " .. vim.fn.fnamemodify(git_toplevel, ":t")
+        return "󰊢 " .. vim.fn.fnamemodify(git_toplevel, ":t")
       else
-        -- If not in a Git repo, return the basename of the current working directory
         return " " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
       end
     end
@@ -40,7 +34,7 @@ return {
       lualine_a = { "mode" },
       lualine_b = { get_repo_or_dir_name },
       lualine_c = {
-        { "branch" },
+        { "branch", icon = "" },
         {
           "diagnostics",
           sources = { "nvim_lsp" },
