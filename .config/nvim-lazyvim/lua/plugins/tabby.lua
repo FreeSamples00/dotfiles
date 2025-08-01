@@ -1,10 +1,8 @@
 return {
-  "nanozuki/tabby.nvim", -- The plugin's name/path for LazyVim to install
+  "nanozuki/tabby.nvim",
   enable = true,
-  event = "VimEnter", -- Example: load on Vim startup. Choose an appropriate event.
-  -- or `cmd = "TabbyToggle"`, or `ft = "lua"`, etc., for lazy loading.
+  event = "VimEnter",
   config = function()
-    -- All your setup code goes here, inside this function
     local theme = {
       fill = "TabLineFill",
       head = "TabLine",
@@ -21,7 +19,6 @@ return {
         return {
           {
             { "  ", hl = theme.head },
-            -- line.sep("", theme.head, theme.fill),
             line.sep("", theme.head, theme.fill),
           },
           line.tabs().foreach(function(tab)
@@ -30,7 +27,15 @@ return {
               line.sep("", hl, theme.fill),
               tab.is_current() and "" or "",
               tab.number(),
-              tab.name(),
+              (function()
+                local tab_name = tab.name()
+                local bad_prefix = "[Floating]"
+                if string.sub(tab_name, 1, #bad_prefix) == bad_prefix then
+                  return ""
+                else
+                  return tab_name
+                end
+              end)(),
               tab.close_btn(""),
               line.sep("", hl, theme.fill),
               hl = hl,
@@ -39,25 +44,23 @@ return {
           end),
           line.spacer(),
           line.bufs().foreach(function(buf)
-            local buf_hl = theme.win -- Using the same highlight group as windows
+            local buf_hl = theme.win
             return {
-              line.sep("", buf_hl, theme.fill),
-              --  for current buffer in focused window,  for others
+              line.sep("", buf_hl, theme.fill),
               buf.is_current() and "" or "",
-              buf.name(), -- Use buf.name() for the buffer name
-              line.sep("", buf_hl, theme.fill),
+              buf.name(),
+              line.sep("", buf_hl, theme.fill),
               hl = buf_hl,
               margin = " ",
             }
           end),
           {
-            line.sep("", theme.tail, theme.fill),
+            line.sep("", theme.tail, theme.fill),
             { "  ", hl = theme.tail },
           },
           hl = theme.fill,
         }
       end,
-      -- option = {}, -- setup modules' option,
     })
   end,
 }
