@@ -28,11 +28,9 @@ return {
         end
       end
 
-      vim.keymap.set({ "i" }, "<C-Space>", toggle_blink_completion, {
+      vim.keymap.set({ "i" }, "<C-c>", toggle_blink_completion, {
         desc = "Manually toggle blink cmp completion",
       })
-
-      return opts
     end,
   },
 }
