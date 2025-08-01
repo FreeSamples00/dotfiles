@@ -316,7 +316,7 @@ function backup() {
     echo -e "\033[91mERR: backup of '$FILE' already exists. Use -f to overwrite\033[0m"
     return
   fi
-  cp "$FILE" "$BACKUP"
+  mv "$FILE" "$BACKUP"
 }
 
 ### sends a macos alert
