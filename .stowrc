@@ -7,5 +7,6 @@
 --ignore='.DS_Store'
 --ignore='backups'
 --ignore='misc_configs'
+--ignore='nondot_configs'
 --ignore='.*\.sh'
 --ignore='.*\.md'

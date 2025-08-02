@@ -1,7 +1,6 @@
 # Documentation:  https://ghostty.org/docs/config
 
 # --- TEXT ---
-# font-family = "ComicShannsMono Nerd Font Mono"
 font-family = "JetBrainsMono Nerd Font Mono"
 font-size = 18
 font-feature = +liga
@@ -12,8 +11,6 @@ window-height = 36
 window-width = 100
 macos-titlebar-style = hidden
 macos-titlebar-proxy-icon = hidden
-# macos-titlebar-style = transparent
-# title = " "
 
 # --- THEME ---
 theme = Apple System Colors
