@@ -380,7 +380,6 @@ alias reload='clear && exec zsh'
 if (( IS_MACOS )); then
   alias doom='wd zig terminal-doom && ./run.sh'
   alias doom-fire='wd zig DOOM-fire-zig && ./run.sh'
-  alias snake='nsnake'
 fi
 
 ## File Operations
