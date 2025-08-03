@@ -190,6 +190,7 @@ zinit_safe light zsh-users/zsh-syntax-highlighting
 zinit_safe light zsh-users/zsh-autosuggestions
 zinit_safe light Aloxaf/fzf-tab
 zinit_safe light MichaelAquilina/zsh-you-should-use
+zinit light zsh-users/zsh-completions
 
 # Git and utility plugins
 fpath=(~/bin/wd $fpath)
@@ -290,34 +291,10 @@ function editg() {
     args=("$@")
   fi
 
-	"$GUI_EDITOR" --frame transparent "${args[@]}" >/dev/null 2>&1 & disown
+	"$GUI_EDITOR" --frame buttonless "${args[@]}" >/dev/null 2>&1 & disown
 }
 
 ## General
-
-### Backs up a file to .bak
-function backup() {
-  FORCE="false"
-  FILE=""
-  if (( $# == 0 )) || [[ "$1" == "-f" && "$2" == "" ]]; then
-    echo -e "\033[91mERR: no file passed\033[0m"
-    return
-  else
-    if [[ "$1" == "-f" ]]; then
-      FORCE="true"
-      FILE="$2"
-    else
-      FILE="$1"
-    fi
-  fi
-  BACKUP="$FILE.bak"
-
-  if [ -f "$BACKUP" ] && [ "$FORCE" = "false" ]; then
-    echo -e "\033[91mERR: backup of '$FILE' already exists. Use -f to overwrite\033[0m"
-    return
-  fi
-  mv "$FILE" "$BACKUP"
-}
 
 ### sends a macos alert
 if (( IS_MACOS )) && [[ "$EMULATOR" == "ghostty" ]]; then
@@ -336,6 +313,10 @@ fi
 
 ### overwrites cat, using bat interactivley and default cat in pipes
 function cat() {
+  if [[ "$1" == "-h" || "$1" == "--help" ]] then
+    bat -h
+    exit
+  fi
     if [[ -t 1 ]]; then
         command bat "$@"
     else
