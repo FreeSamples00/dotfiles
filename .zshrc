@@ -290,8 +290,12 @@ function editg() {
   else 
     args=("$@")
   fi
-
-	"$GUI_EDITOR" --frame buttonless "${args[@]}" >/dev/null 2>&1 & disown
+  
+  if (( IS_MACOS )); then
+    "$GUI_EDITOR" --frame buttonless "${args[@]}" >/dev/null 2>&1 & disown
+  else
+    "$GUI_EDITOR" --frame transparent "${args[@]}" >/dev/null 2>&1 & disown
+  fi
 }
 
 ## General
