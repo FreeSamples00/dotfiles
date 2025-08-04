@@ -96,6 +96,10 @@ run = 'layout floating'
 if.app-name-regex-substring = 'music'
 run = 'layout floating'
 
+[[on-window-detected]]
+if.app-name-regex-substring = 'weather'
+run = 'layout floating'
+
 # ========================= MAIN BINDINGS =========================
 [mode.main.binding]
 
