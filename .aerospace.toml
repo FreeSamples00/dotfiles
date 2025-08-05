@@ -104,6 +104,10 @@ run = 'layout floating'
 if.app-name-regex-substring = 'crossover'
 run = 'layout floating'
 
+[[on-window-detected]]
+if.app-name-regex-substring = 'photos'
+run = 'layout floating'
+
 # ========================= MAIN BINDINGS =========================
 [mode.main.binding]
 
