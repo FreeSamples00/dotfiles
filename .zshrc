@@ -395,6 +395,7 @@ function tmuxn() {
 alias tmuxk="tmux kill-session"
 alias tmuxl="tmux ls"
 alias tmuxa="tmux attach"
+alias tmuxd="tmux detatch"
 
 # ============================ 16. ALIASES =====================================
 # Shortcuts for frequently used commands.
