@@ -281,6 +281,7 @@ function edit() {
 
   "$TERMINAL_EDITOR" "${args[@]}"
 }
+compdef _files edit
 
 function editg() {
 	local -a args
@@ -297,6 +298,7 @@ function editg() {
     "$GUI_EDITOR" --frame transparent "${args[@]}" >/dev/null 2>&1 & disown
   fi
 }
+compdef _files editg
 
 ## General
 
@@ -327,6 +329,7 @@ function cat() {
         command cat "$@"
     fi
 }
+compdef _files cat
 
 # =================== TMUX STUFF ===================
 
@@ -360,6 +363,17 @@ alias vimconfig="edit ~/.config/nvim/"
 alias edit_help="edit $HELP_PATH"
 alias help="cat $HELP_PATH --file-name help_message.zsh"
 alias reload='clear && exec zsh'
+
+## Video
+function play() {
+  if ! [[ -f "$1" ]]; then
+    echo -e "\033[93mFile not found\033[0m"
+    exit 1
+  fi
+
+  command nohup mpv "$1" &>/dev/null &
+}
+compdef _files play
 
 ## Games
 if (( IS_MACOS )); then
@@ -397,10 +411,6 @@ fi
 alias info="neofetch"
 alias '?'='echo $?'
 
-if (( IS_MACOS )); then
-  alias manp='man-preview'
-fi
-
 ## Git Operations
 alias ignore="$TERMINAL_EDITOR ./.gitignore"
 alias gi='git-ignore'
@@ -427,14 +437,15 @@ alias stow='stow -v'
 alias sizeof='du -hs'
 alias storage="dust -rC | bat --file-name 'Storage Breakdown'"
 alias wordcount="wc -w"
+alias colors='terminal_colors.sh' 
 
 if (( IS_MACOS )); then
-    alias colors='terminal_colors.sh' 
     alias battery='system_profiler SPPowerDataType | grep -E "Cycle Count|Condition|Maximum Capacity" | bat' 
+    alias manp='man-preview'
 fi
 
 if (( $GRAPHICS_SUPPORT == 1 )); then
-  alias xkcd='curl -H "X-TERMINAL-ROWS: $(tput lines)" -H "X-TERMINAL-COLUMNS: $(tput cols)" https://xkcd.massi.rocks/comics/random'
+    alias xkcd='curl -H "X-TERMINAL-ROWS: $(tput lines)" -H "X-TERMINAL-COLUMNS: $(tput cols)" https://xkcd.massi.rocks/comics/random'
 fi
 
 ## Help Output Formatting
