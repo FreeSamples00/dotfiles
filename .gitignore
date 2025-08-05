@@ -1,0 +1,4 @@
+*.bak
+.config/raycast
+.DS_Store
+**/TODO.md
