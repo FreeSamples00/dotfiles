@@ -1,10 +1,27 @@
-# ================== Interactivity Check ==================
+# ==============================================================================
+#
+#                                 _
+#                         _______| |__  _ __ ___ 
+#                        |_  / __| '_ \| '__/ __|
+#                       _ / /\__ \ | | | | | (__ 
+#                      (_)___|___/_| |_|_|  \___|
+#
+#                         ZSH Configuration File
+# ==============================================================================
+
+# ============================ 1. INTERACTIVITY CHECK ==========================
+# Prevents execution if not in an interactive shell.
+# ==============================================================================
 if [[ $- != *i* ]]; then
     return
 fi
 
-# ================== ZSHRC SETTINGS ==================
+# ============================ 2. CORE SETTINGS & VARIABLES ====================
+# Configuration variables for shell behavior, editors, and display.
+# ==============================================================================
 
+# 2.1. Login & Splash Screen Configuration
+# ------------------------------------------------------------------------------
 # choose a login action
 #   'none': do nothing
 #   'hostname-pretty': use figlet and lolcat to pretty print the machine name
@@ -18,6 +35,8 @@ LOGIN_MESSAGES=1
 # choice of cowsay file (the thing that says the message) I like
 COWSAY_CHOICE="tux"
 
+# 2.2. Editor Definitions
+# ------------------------------------------------------------------------------
 # default editor for aliases defined here
 TERMINAL_EDITOR="nvim"
 GUI_EDITOR="neovide"
@@ -25,15 +44,18 @@ IDE_EDITOR="code"
 
 EDITOR=$TERMINAL_EDITOR
 
+# 2.3. File Manager Configuration
+# ------------------------------------------------------------------------------
 # whatever GUI file manager your machine uses
 LINUX_FILE_MANAGER="xdg-open"
 
+# 2.4. Internal Script Variables & Error Handling
+# ------------------------------------------------------------------------------
 # keep at 0, is changed later on if issues occur
 ZSHRC_ERR=0
 
-# path to the help message file (used by 'help' and 'edit_help')
-HELP_PATH="~/.dotfiles/misc_configs/help_msg.zsh"
-
+# 2.5. Terminal Behavior & Capabilities
+# ------------------------------------------------------------------------------
 # enable escape code support during zshrc initialization
 alias echo='echo -e'
 
@@ -52,8 +74,9 @@ VIM_MODE=0
 # this line prevents a single EOF char (Ctrl+d) from killing the shell
 setopt IGNORE_EOF
 
-# =================== DETERMINE OS ===================
-
+# ============================ 3. OPERATING SYSTEM DETECTION ===================
+# Determines the current operating system for platform-specific configurations.
+# ==============================================================================
 IS_LINUX=0
 IS_MACOS=0
 
@@ -70,8 +93,9 @@ case "$OSTYPE" in
     ;;
 esac
 
-# =================== LOGIN ACTIONS ===================
-
+# ============================ 4. INITIAL LOGIN ACTIONS ========================
+# Executes commands based on the configured splash screen setting.
+# ==============================================================================
 if (( IS_MACOS )); then
   NAME=$(scutil --get ComputerName)
 elif (( IS_LINUX )); then
@@ -110,17 +134,20 @@ esac
 
 if (( $LOGIN_MESSAGES )); then
 
-  echo "\n\033[90mUse 'help'\033[0m"
-
   if (( $VIM_MODE )); then
     echo "\033[90mvim mode enabled\033[0m"
+  else
+    echo "\033[90memac mode enabled\033[0m"
   fi
+
 fi
 
 # make cursor blinking bar
 printf '\e[5 q'
 
-# =================== POWERLEVEL10K SETUP ===================
+# ============================ 5. POWERLEVEL10K INSTANT PROMPT =================
+# Essential for fast prompt rendering. Must be near the top.
+# ==============================================================================
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -132,9 +159,12 @@ else
   ZSHRC_ERR=1
 fi
 
-# =================== ENVIRONMENT SETUP ===================
+# ============================ 6. ENVIRONMENT SETUP ============================
+# Configures system-wide environment variables and paths.
+# ==============================================================================
 
-## homebrew setup
+# 6.1. Homebrew Setup
+# ------------------------------------------------------------------------------
 if (( IS_MACOS )); then
 
   if [[ -f "/opt/homebrew/bin/brew" ]] then
@@ -155,11 +185,14 @@ elif (( IS_LINUX )); then
   
 fi
 
-# Path additions
+# 6.2. Path Additions
+# ------------------------------------------------------------------------------
 export PATH="/usr/local/bin:$PATH"
 export PATH="$PATH:/Users/sccmp/.local/bin"
 
-# =================== ZINIT SETUP ===================
+# ============================ 7. ZINIT PLUGIN MANAGER SETUP ===================
+# Initializes Zinit and prepares for plugin loading.
+# ==============================================================================
 # Set zinit directory
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
@@ -172,8 +205,9 @@ fi
 # Source zinit
 source "${ZINIT_HOME}/zinit.zsh"
 
-# =================== PLUGINS ===================
-
+# ============================ 8. ZSH PLUGINS & SNIPPETS =======================
+# Loads various Zsh plugins and Oh-My-Zsh snippets via Zinit.
+# ==============================================================================
 function zinit_safe() {
   zinit "$@"
   if (( status != 0 )); then
@@ -212,7 +246,9 @@ zinit_safe snippet OMZP::git-auto-fetch
 zinit_safe snippet OMZP::zbell
 zinit_safe snippet OMZP::ssh
 
-# =================== COMPLETION SETUP ===================
+# ============================ 9. ZSH COMPLETION SETUP =========================
+# Configures Zsh's auto-completion system and FZF-tab.
+# ==============================================================================
 autoload -Uz compinit && compinit
 zinit cdreplay -q
 
@@ -222,14 +258,18 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:*:*' fzf-preview 'bat --color=always --line-range :500 ${(Q)realpath}'
 
-# =================== POWERLEVEL10K CONFIGURATION ===================
+# ============================ 10. POWERLEVEL10K CONFIGURATION ==================
+# Customizes the appearance and behavior of the Powerlevel10k prompt.
+# ==============================================================================
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Prompt customization
 typeset -g POWERLEVEL9K_SHORTEN_STRATEGY=truncate_to_last
 typeset -g POWERLEVEL9K_SHORTEN_DELIMITER=""
 
-# =================== HISTORY CONFIGURATION ===================
+# ============================ 11. ZSH HISTORY CONFIGURATION ====================
+# Defines how command history is managed.
+# ===============================================================================
 HISTSIZE=5000
 HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
@@ -240,14 +280,18 @@ setopt hist_ignore_space
 setopt hist_ignore_all_dups
 setopt hist_save_no_dups
 setopt hist_ignore_dups
-setopt hist_find_no_dups
 
-# =================== PROGRAM CONFIGURATIONS ===================
-# Less/Man configuration
+# ============================ 12. PROGRAM-SPECIFIC CONFIGURATIONS =============
+# Settings for various command-line tools.
+# ===============================================================================
+
+# 12.1. Less / Man Configuration
+# -------------------------------------------------------------------------------
 export LESS="--mouse --wheel-lines=3"
 export MAN="--mouse --wheel-lines=3"
 
-# FZF configuration
+# 12.2. FZF Configuration
+# -------------------------------------------------------------------------------
 eval "$(fzf --zsh)"
 export FZF_DEFAULT_COMMAND='fd --hidden --strip-cwd-prefix --exclude .git'
 export FXF_CTRL_T_COMMAND='$FZF_DEFAULT_COMMAND'
@@ -256,8 +300,9 @@ export FZF_DEFAULT_OPTS='--height 50% --layout=default --border --color=hl:#2dd4
 export FZF_CTRL_T_OPTS="--preview 'bat --color=always -n --line-range :500 {}'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 
-# =================== EDITOR CONFIG ===================
-
+# ============================ 13. EDITOR ENVIRONMENT CONFIG ===================
+# Dynamically sets the default editor based on SSH connection status.
+# ===============================================================================
 # set default editor for apps to use based on remote / local
 if [[ -n "$SSH_CONNECTION" || -n "$SSH_CLIENT" ]]; then
     export EDITOR="$TERMINAL_EDITOR"
@@ -267,10 +312,12 @@ else
     export VISUAL="$GUI_EDITOR"
 fi
 
-# =================== FUNCTIONS ===================
+# ============================ 14. FUNCTIONS ===================================
+# Custom shell functions for extended functionality.
+# ===============================================================================
 
-## Editor calls
-
+# 14.1. Editor Call Functions
+# -------------------------------------------------------------------------------
 function edit() {
   local -a args
   if (( $# == 0 )); then
@@ -300,8 +347,8 @@ function editg() {
 }
 compdef _files editg
 
-## General
-
+# 14.2. General Utility Functions
+# -------------------------------------------------------------------------------
 ### sends a macos alert
 if (( IS_MACOS )) && [[ "$EMULATOR" == "ghostty" ]]; then
   function alert() {
@@ -331,7 +378,9 @@ function cat() {
 }
 compdef _files cat
 
-# =================== TMUX STUFF ===================
+# ============================ 15. TMUX CONFIGURATION & ALIASES ================
+# Settings and aliases for Tmux.
+# ===============================================================================
 
 ### create new tmux session
 function tmuxn() {
@@ -347,24 +396,27 @@ alias tmuxk="tmux kill-session"
 alias tmuxl="tmux ls"
 alias tmuxa="tmux attach"
 
-# =================== ALIASES ===================
+# ============================ 16. ALIASES =====================================
+# Shortcuts for frequently used commands.
+# ===============================================================================
 
-# Editors
+# 16.1. Editor Aliases
+# -------------------------------------------------------------------------------
 alias ide="$IDE_EDITOR"
 
-# General
-alias clearls="clear && ls"
+# 16.2. General Aliases
+# -------------------------------------------------------------------------------
 alias c="clear"
 alias cls="clear && ls"
 
-## Terminal Configuration
+# 16.3. Terminal Configuration Aliases
+# -------------------------------------------------------------------------------
 alias config="edit ~/.zshrc"
 alias vimconfig="edit ~/.config/nvim/"
-alias edit_help="edit $HELP_PATH"
-alias help="cat $HELP_PATH --file-name help_message.zsh"
 alias reload='clear && exec zsh'
 
-## Video
+# 16.4. Media Playback Aliases
+# -------------------------------------------------------------------------------
 function play() {
   if ! [[ -f "$1" ]]; then
     echo -e "\033[93mFile not found\033[0m"
@@ -375,13 +427,8 @@ function play() {
 }
 compdef _files play
 
-## Games
-if (( IS_MACOS )); then
-  alias doom='wd zig terminal-doom && ./run.sh'
-  alias doom-fire='wd zig DOOM-fire-zig && ./run.sh'
-fi
-
-## File Operations
+# 16.6. File Operation Aliases
+# -------------------------------------------------------------------------------
 alias tree='tree -haC'
 alias cwd='pwd | copy'
 alias ls='eza --color=automatic --icons=automatic --no-user -a --group-directories-first --sort=type'
@@ -392,68 +439,84 @@ elif (( IS_LINUX )); then
   alias ofd="$LINUX_FILE_MANAGER ."
 fi
 
-## Grep Variants
+# 16.7. Grep / Search Aliases
+# -------------------------------------------------------------------------------
 alias grep='grep -ni --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox,.venv,venv}'
 alias grepa='rga -niu'
 alias grepf='fd -u | rg -iu'
 alias grepd='fd -u -t d | rg -iu'
 
-## Clipboard Operations
+# 16.8. Clipboard Aliases
+# -------------------------------------------------------------------------------
 if (( IS_MACOS )); then
+
   alias copy='pbcopy'
   alias paste='pbpaste'
+
 elif (( IS_LINUX )); then
+
   alias copy='xclip -selection clipboard -i'
   alias paste='xclip -selection clipboard -o'
+
 fi
 
-## System Information
+# 16.9. System Information Aliases
+# -------------------------------------------------------------------------------
 alias info="neofetch"
 alias '?'='echo $?'
 
-## Git Operations
+# 16.10. Git Operation Aliases
+# -------------------------------------------------------------------------------
 alias ignore="$TERMINAL_EDITOR ./.gitignore"
 alias gi='git-ignore'
 alias lg='lazygit'
 
-## Command Replacements
+# 16.11. Command Replacements
+# -------------------------------------------------------------------------------
 alias top='btop'
 alias diff='delta --side-by-side'
 alias listen='/bin/cat -v'
 alias path='print -c ${(s/:/)PATH} | bat --file-name "\$PATH"'
 alias clear="\clear" # this fixes spacing when using ghostty w/out titlebar
 
-## Enhanced Commands
+# 16.12. Enhanced Core Commands
+# -------------------------------------------------------------------------------
 alias less='less -r'
 alias rm='rm -I'
 alias gcc='gcc -Wall'
 
-## Utility Tools
+# 16.13. Utility Tools
+# -------------------------------------------------------------------------------
 alias wclone='wget --mirror --convert-links --adjust-extension --page-requisites --show-progress'
 alias update='brew update && brew upgrade && zinit update'
 alias py='uv'
-alias python="python3"
 alias stow='stow -v'
 alias sizeof='du -hs'
 alias storage="dust -rC | bat --file-name 'Storage Breakdown'"
 alias wordcount="wc -w"
 alias colors='terminal_colors.sh' 
 
+# 16.14. macOS Specific Utilities
+# -------------------------------------------------------------------------------
 if (( IS_MACOS )); then
     alias battery='system_profiler SPPowerDataType | grep -E "Cycle Count|Condition|Maximum Capacity" | bat' 
     alias manp='man-preview'
 fi
 
+# 16.15. Graphical Utilities
+# -------------------------------------------------------------------------------
 if (( $GRAPHICS_SUPPORT == 1 )); then
     alias xkcd='curl -H "X-TERMINAL-ROWS: $(tput lines)" -H "X-TERMINAL-COLUMNS: $(tput cols)" https://xkcd.massi.rocks/comics/random'
 fi
 
-## Help Output Formatting
+# 16.16. Help Output Formatting Aliases (Global)
+# -------------------------------------------------------------------------------
 alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
 alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
 
-# =================== COMMAND LINE CONFIGS  & KEYBINDS ===================
-
+# ============================ 17. COMMAND LINE EDITOR & KEYBINDS ==============
+# Configures Zsh's line editor mode (Vi/Emacs) and custom keybindings.
+# ===============================================================================
 if (( $VIM_MODE )); then
 
   USE_PLUGIN=0
@@ -482,11 +545,14 @@ if (( $VIM_MODE )); then
   fi
 
 else # emacs mode
+
   bindkey -e 
+
 fi
 
-# ================== ERROR CHECK ==================
-
+# ============================ 18. FINAL ERROR CHECK ===========================
+# Displays an error message if initialization issues occurred.
+# ===============================================================================
 if (( ZSHRC_ERR )); then
   SPLASH_SCREEN="none"
   echo "\033[91mzsh initialization encountered an error. code: $ZSHRC_ERR\033[0m"
