@@ -188,6 +188,7 @@ fi
 # ------------------------------------------------------------------------------
 export PATH="/usr/local/bin:$PATH"
 export PATH="$PATH:/Users/sccmp/.local/bin"
+export PATH="/usr/local/texlive/2025/bin/universal-darwin:$PATH"
 
 # ============================ 7. ZINIT PLUGIN MANAGER SETUP ===================
 # Initializes Zinit and prepares for plugin loading.
@@ -379,6 +380,7 @@ function cat() {
 }
 compdef _files cat
 
+
 # ============================ 15. TMUX CONFIGURATION & ALIASES ================
 # Settings and aliases for Tmux.
 # ===============================================================================
@@ -497,6 +499,8 @@ alias sizeof='du -hs'
 alias storage="dust -rC | bat --file-name 'Storage Breakdown'"
 alias wordcount="wc -w"
 alias colors='terminal_colors.sh' 
+alias 2pdf='mdpdf --ghstyle=true'
+alias llm='gollama'
 
 # 16.14. macOS Specific Utilities
 # -------------------------------------------------------------------------------
