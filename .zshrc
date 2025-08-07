@@ -73,6 +73,15 @@ VIM_MODE=0
 # this line prevents a single EOF char (Ctrl+d) from killing the shell
 setopt IGNORE_EOF
 
+# -------------------------------------------------------------------------------
+function err() {
+  if (( $# != 1 )); then
+    echo "Bad args calling err"
+    exit 1
+  fi
+  echo -e "\033[91mERR: $1\033[0m"
+}
+
 # ============================ 3. OPERATING SYSTEM DETECTION ===================
 # Determines the current operating system for platform-specific configurations.
 # ==============================================================================
@@ -87,8 +96,8 @@ case "$OSTYPE" in
     IS_MACOS=1
     ;;
   *)
-    echo "\033[91mNot a supported OS. ($OSTYPE)\033[0m"
-    exit
+    err "Not a supported OS. ($OSTYPE)"
+    exit 1
     ;;
 esac
 
@@ -100,7 +109,7 @@ if (( IS_MACOS )); then
 elif (( IS_LINUX )); then
   NAME=$(hostname | \grep -E -o '^[^.]+')
 else
-  NAME = "NAME NOT FOUND"
+  NAME ="NAME NOT FOUND"
 fi
 
 case "$SPLASH_SCREEN" in
@@ -370,7 +379,7 @@ fi
 function cat() {
   if [[ "$1" == "-h" || "$1" == "--help" ]] then
     bat -h
-    exit
+    exit 0
   fi
     if [[ -t 1 ]]; then
         command bat "$@"
@@ -423,7 +432,7 @@ alias reload='clear && exec zsh'
 # -------------------------------------------------------------------------------
 function play() {
   if ! [[ -f "$1" ]]; then
-    echo -e "\033[93mFile not found\033[0m"
+    err "File not found"
     exit 1
   fi
 
@@ -499,8 +508,74 @@ alias sizeof='du -hs'
 alias storage="dust -rC | bat --file-name 'Storage Breakdown'"
 alias wordcount="wc -w"
 alias colors='terminal_colors.sh' 
-alias 2pdf='mdpdf --ghstyle=true'
-alias llm='gollama'
+alias 2pdf='mdpdf --ghstyle=true --border 0.5in'
+alias llm='gollama && \clear'
+
+# 16.13. AI tools
+# -------------------------------------------------------------------------------
+
+### Prompt a local model
+function prompt() {
+  MODEL="gpt-oss:20b"
+  PROMPT=""
+  RAW_OUTPUT=0
+  THINKING_MODE=""
+
+  while getopts "lrhm:t:" opt; do
+    case "$opt" in
+      l)
+        ollama list | tail -n +2 | awk '{print $1}' | cat --file-name "MODELS"
+        return 0
+        ;;
+      h)
+        echo -e "Prompt an llm locally\n"
+        echo -e "Usage: prompt [flags] message\n"
+        echo -e "Options:"
+        echo -e "\t-h\t\tThis help message"
+        echo -e "\t-m\t\tChoose a model (default: $MODEL)"
+        echo -e "\t-r\t\tShow raw output (normally uses glow for formatting)"
+        echo -e "\t-l\t\tList available models"
+        echo -e "\t-t\t\tThinking mode. Options: true/false, low/medium/high"
+        return 0
+        ;;
+      m)
+        if ! ollama list | grep -q "$OPTARG"; then
+          err "Model not found, check w/ 'ollama list'"
+          return 1
+        fi
+        MODEL="$OPTARG"
+        ;;
+      t)
+        OPTIONS="true, false, high, medium, low"
+        if ! echo "$OPTIONS" | sed -E 's/, */\n/g' | grep -qxF "$OPTARG"; then
+          err "Thinking option '$OPTARG' invalid. Options: $OPTIONS"
+          return 1
+        fi
+        THINKING_MODE="$OPTARG"
+        ;;
+      r)
+        RAW_OUTPUT=1
+        ;;
+      *)
+        return 1
+        ;;
+    esac
+  done
+  shift $((OPTIND - 1))
+  PROMPT="$1"
+
+  if [[ "$THINKING_MODE" == "" ]]; then
+    OUTPUT=$(command ollama run "$MODEL" --hidethinking "$PROMPT")
+  else
+    OUTPUT=$(command ollama run "$MODEL" --think="$THINKING_MODE" --hidethinking "$PROMPT")
+  fi
+
+  if (( RAW_OUTPUT )); then
+    echo "$OUTPUT"
+  else
+    echo "$OUTPUT" | glow
+  fi
+}
 
 # 16.14. macOS Specific Utilities
 # -------------------------------------------------------------------------------
