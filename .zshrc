@@ -1,5 +1,4 @@
 # ==============================================================================
-#
 #                                 _
 #                         _______| |__  _ __ ___ 
 #                        |_  / __| '_ \| '__/ __|
@@ -318,6 +317,7 @@ fi
 
 # 14.1. Editor Call Functions
 # -------------------------------------------------------------------------------
+alias e="edit"
 function edit() {
   local -a args
   if (( $# == 0 )); then
@@ -330,6 +330,7 @@ function edit() {
 }
 compdef _files edit
 
+alias eg="editg"
 function editg() {
 	local -a args
 
