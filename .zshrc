@@ -135,9 +135,9 @@ esac
 if (( $LOGIN_MESSAGES )); then
 
   if (( $VIM_MODE )); then
-    echo "\033[90mvim mode enabled\033[0m"
+    echo "\033[90mInput Mode: Vim\033[0m"
   else
-    echo "\033[90memacs mode enabled\033[0m"
+    echo "\033[90mInput Mode: Emacs\033[0m"
   fi
 
 fi
