@@ -108,6 +108,10 @@ run = 'layout floating'
 if.app-name-regex-substring = 'photos'
 run = 'layout floating'
 
+[[on-window-detected]]
+if.app-name-regex-substring = 'activity monitor'
+run = 'layout floating'
+
 # ========================= MAIN BINDINGS =========================
 [mode.main.binding]
 
