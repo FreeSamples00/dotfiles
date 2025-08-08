@@ -509,7 +509,6 @@ alias storage="dust -rC | bat --file-name 'Storage Breakdown'"
 alias wordcount="wc -w"
 alias colors='terminal_colors.sh' 
 alias 2pdf='mdpdf --ghstyle=true --border 0.5in'
-alias llm='gollama && \clear'
 
 # 16.13. AI tools
 # -------------------------------------------------------------------------------
