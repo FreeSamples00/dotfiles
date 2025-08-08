@@ -104,6 +104,7 @@ esac
 # ============================ 4. INITIAL LOGIN ACTIONS ========================
 # Executes commands based on the configured splash screen setting.
 # ==============================================================================
+sleep 0.05 # just enough time for aerospace to kick in before the splash screen
 if (( IS_MACOS )); then
   NAME=$(scutil --get ComputerName)
 elif (( IS_LINUX )); then
