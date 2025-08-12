@@ -24,6 +24,8 @@
 
 
 # ========================= GLOBAL SETTINGS =========================
+
+# launch borders-app: highlights border of focused windows
 after-startup-command = ['exec-and-forget borders']
 
 # ========== auto-start ==========
@@ -78,56 +80,15 @@ outer.top = 8
 outer.right = 8
 
 # ========================= APP SPECIFIC SETTINGS =========================
+
+# macOS native
 [[on-window-detected]]
-if.app-name-regex-substring = 'messages'
+if.app-name-regex-substring = 'messages|finder|find my|maps|reminders|calendar|music|weather|activity monitor|photos|mail'
 run = 'layout floating'
 
-# [[on-window-detected]]
-# if.app-name-regex-substring = 'mail'
-# run = 'layout floating'
-
+# non-native
 [[on-window-detected]]
-if.app-name-regex-substring = 'discord'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'finder'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'find my'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'maps'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'reminders'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'calendar'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'music'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'weather'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'crossover'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'photos'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'activity monitor'
+if.app-name-regex-substring = 'discord|crossover|steam'
 run = 'layout floating'
 
 # ========================= MAIN BINDINGS =========================
@@ -177,8 +138,8 @@ cmd-alt-ctrl-p = 'exec-and-forget open -a "iphone mirroring"'
 
 # ========== layout ==========
 cmd-alt-ctrl-shift-enter = 'layout h_tiles h_accordion'
-# cmd-alt-ctrl-enter = 'layout floating tiling'
-cmd-alt-ctrl-enter = 'fullscreen'
+cmd-alt-ctrl-enter = 'layout floating tiling'
+# cmd-alt-ctrl-enter = 'fullscreen'
 cmd-alt-ctrl-shift-r = 'flatten-workspace-tree'
 
 # ========== focus ==========
