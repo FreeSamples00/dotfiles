@@ -476,7 +476,7 @@ fi
 
 # 16.9. System Information Aliases
 # -------------------------------------------------------------------------------
-alias info="neofetch"
+alias info="fastfetch"
 alias '?'='echo $?'
 
 # 16.10. Git Operation Aliases
@@ -510,6 +510,7 @@ alias storage="dust -rC | bat --file-name 'Storage Breakdown'"
 alias wordcount="wc -w"
 alias colors='terminal_colors.sh' 
 alias 2pdf='mdpdf --ghstyle=true --border 0.5in'
+alias ghidra="ghidraRun"
 
 # 16.13. AI tools
 # -------------------------------------------------------------------------------
