@@ -27,6 +27,3 @@
 	helper = !/opt/homebrew/bin/gh auth git-credential
 [diff]
 	followLinks = true
-[mergetool "viewdiff"]
-	cmd = nvim -c \"lua require(\\\"viewdiff\\\").mergetool()\" \"$MERGED\"
-	trustExitCode = false
