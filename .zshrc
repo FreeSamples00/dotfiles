@@ -390,6 +390,25 @@ function cat() {
 }
 compdef _files cat
 
+### gets the root of git repo, if no repo present returns cwd
+function git_root() {
+  local root_dir=$(git rev-parse --show-toplevel 2>/dev/null)
+  if [[ "$root_dir" == "" ]]; then
+    echo "$(pwd)"
+  else
+    echo "$root_dir"
+  fi
+}
+
+### edit the project gitignore
+function ignore() {
+  $TERMINAL_EDITOR "$(git_root)/.gitignore"
+}
+
+### edit project todo file
+function todo() {
+  $TERMINAL_EDITOR "$(git_root)/TODO.md"
+}
 
 # ============================ 15. TMUX CONFIGURATION & ALIASES ================
 # Settings and aliases for Tmux.
@@ -481,7 +500,6 @@ alias '?'='echo $?'
 
 # 16.10. Git Operation Aliases
 # -------------------------------------------------------------------------------
-alias ignore="$TERMINAL_EDITOR ./.gitignore"
 alias gi='git-ignore'
 alias lg='lazygit'
 
