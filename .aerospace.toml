@@ -83,7 +83,7 @@ outer.right = 8
 
 # macOS native
 [[on-window-detected]]
-if.app-name-regex-substring = 'messages|finder|find my|maps|reminders|calendar|music|weather|activity monitor|photos|mail'
+if.app-name-regex-substring = 'messages|finder|find my|maps|reminders|calendar|music|weather|activity monitor|photos|mail|passwords'
 run = 'layout floating'
 
 # non-native
