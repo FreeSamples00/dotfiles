@@ -1,5 +1,10 @@
+## Messy stuff
 *.bak
-.config/raycast
 .DS_Store
 
+## large / unneeded tool files
 **/update-notifier-*
+.config/raycast
+
+## sensitive info
+.adventofcode.session
