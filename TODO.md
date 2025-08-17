@@ -8,9 +8,11 @@
   - [ ] add to other things
 
 - [ ] `difftastic` for new diff tool (smarter diffing)
-    - see [documentation](https://difftastic.wilfred.me.uk/git.html) for git
+  - see [documentation](https://difftastic.wilfred.me.uk/git.html) for git
 
 - [ ] `mergiraf` for git merges
+
+- [ ] switch from p10k prompt to starship
 
 ## Neovim
 
