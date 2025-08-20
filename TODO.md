@@ -12,7 +12,19 @@
 
 - [ ] `mergiraf` for git merges
 
-- [ ] switch from `p10k` prompt to `starship`
+- [ ] switch from `p10k` prompt to `starship`:
+  - [ ] left side:
+    - [ ] shortened working directory
+    - [ ] branch
+    - [ ] git changes
+    - [ ] prompt arrow w/ return code coloring
+  - [ ] right side:
+    - [ ] time
+    - [ ] time spent running (if over limit)
+    - [ ] tmux indicator
+    - [ ] message about unexpected return codes
+    - [ ] ssh client indicator
+  - [ ] compress old prompts?
 
 ## Neovim
 
