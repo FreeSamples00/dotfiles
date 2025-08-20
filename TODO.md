@@ -16,7 +16,15 @@
 
 ## Neovim
 
-- [ ] change completion acceptance key to `Ctrl + y`
+- [ ] change completion keybinds:
+  - [ ] `ctrl + y`: accept completion
+  - [ ] `ctrl + n`: dismiss completion menu
+  - [ ] `ctrl + space`: manually trigger completions
+  - [ ] `ctrl + j`: cycle completions (down)
+  - [ ] `ctrl + k`: cycle completions (up)
+
+- [ ] lualine elements to add:
+  - [ ] macro recording indicator
 
 ## O/S
 
