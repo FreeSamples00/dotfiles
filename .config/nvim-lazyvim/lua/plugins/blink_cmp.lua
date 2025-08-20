@@ -1,3 +1,5 @@
+-- This plugin extends nvim-cmp with a faster rust based fuzzy search
+
 return {
   {
     "saghen/blink.cmp",
@@ -28,6 +30,7 @@ return {
         end
       end
 
+      -- keybind to toggle completion
       vim.keymap.set({ "i" }, "<C-c>", toggle_blink_completion, {
         desc = "Manually toggle blink cmp completion",
       })
