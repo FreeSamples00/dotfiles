@@ -29,7 +29,7 @@ palette = 'default_colors'
 format = """
 $directory\
 $git_branch\
-$git_metrics\
+$git_status\
 $git_state\
 \
  $fill \
@@ -68,16 +68,36 @@ format = "[ $path]($style) "
 
 # ========== Git ==========
 
+# shows branch name
 [git_branch]
 disabled = false
 symbol = '󰊢'
 style = 'git_orange'
 format = "[-](spacer_color) [$symbol $branch]($style) "
 
+# shows status of the repo (conflict, ahead, behind, etc)
 [git_status]
 disabled = false
 
-[git_metrics]
+ahead = '⇡${count} '
+behind = '⇣${count} '
+modified = '!${count} '
+untracked = '?${count} '
+stashed = '*${count} '
+conflicted = '~${count} '
+staged = '+${count} '
+
+format = """
+[$ahead$behind](git_ahead_behind)\
+[$stashed](git_stashed)\
+[$conflicted](git_conflicted)\
+[$staged](git_staged)\
+[$modified](git_modified)\
+[$untracked](git_untracked)\
+"""
+
+# shows state of any git operations (rebase, merge, etc)
+[git_state]
 disabled = false
 
 # ========== Time ==========
@@ -120,6 +140,14 @@ format = '[]($style) [-](spacer_color) '
 spacer_color = '#464646'
 timer_color = '#ADA81D'
 dir_color = '#099EF4'
-git_orange = '#F05233'
 clock_color = '#1A6DBF'
 tmux_color = '#32D74B'
+
+git_orange = '#F05233'
+git_modified = 'yellow'
+git_untracked = 'blue'
+git_ahead_behind = 'green'
+git_staged = 'green'
+git_unstaged = 'blue'
+git_stashed = 'purple'
+git_conflicted = 'red'
