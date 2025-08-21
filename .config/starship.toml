@@ -54,22 +54,25 @@ symbol = "-"
 
 [character]
 disabled = false
-success_symbol = '[❯](bold green)'
-error_symbol = '[❯](bold red)'
+success_symbol = ' [❯](bold green)'
+error_symbol = ' [❯](bold red)'
 
 # ========== Files and Directories ==========
 
 [directory]
 disabled = false
+truncation_length = 1
+truncation_symbol = '../'
 style = 'dull_blue'
-format = "[$path]($style) "
+format = "[ $path]($style) "
 
 # ========== Git ==========
 
 [git_branch]
 disabled = false
-symbol = ''
-format = "[-](dull_grey) [$symbol]($style)[$branch]($style) "
+symbol = '󰊢'
+style = 'git_orange'
+format = "[-](dull_grey) [$symbol $branch]($style) "
 
 [git_status]
 disabled = false
@@ -115,3 +118,4 @@ format = '[]($style) [-](dull_grey) '
 dull_grey = '#464646'
 dull_yellow = '#ada81d'
 dull_blue = '#099ef4'
+git_orange = '#F05233'

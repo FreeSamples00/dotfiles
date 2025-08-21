@@ -443,7 +443,7 @@ compdef _files play
 # -------------------------------------------------------------------------------
 alias tree='tree -haC'
 alias cwd='pwd | copy'
-alias ls='eza --color=automatic --icons=automatic --no-user -a --group-directories-first --sort=type'
+alias ls='eza --color=automatic --icons=automatic --no-user -a --group-directories-first --sort=type; echo ""'
 
 if (( IS_MACOS )); then
   alias ofd='open -R "$(pwd)"'
