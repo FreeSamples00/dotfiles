@@ -1,3 +1,15 @@
+" ================================================================================
+"
+"                              _
+"                      __   __(_) _ __ ___   _ __  ___
+"                      \ \ / /| || '_ ` _ \ | '__|/ __|
+"                      _\ V / | || | | | | || |  | (__
+"                     (_)\_/  |_||_| |_| |_||_|   \___|
+"
+"                           Vim Configuration File
+" ================================================================================
+
+
 " ==================== Colors ====================
 set termguicolors          
 colorscheme habamax          
@@ -27,6 +39,8 @@ set incsearch
 set ignorecase              
 set smartcase               
 
+set clipboard=unnamedplus
+
 " ==================== Mappings ====================
 
 " set leader key
@@ -46,16 +60,7 @@ vnoremap d "_d
 xnoremap p "_dP
 xnoremap P "_dP
 
-" --- Cursor Shape Configuration ---
-" These settings send terminal escape codes to change the cursor shape.
-" They are primarily for terminal Vim and may not apply to GUI Vim (like Neovide).
-" Escape codes for cursor shapes (CSI Ps SP q):
-"   Ps = 0 or 1: Blinking Block
-"   Ps = 2: Steady Block
-"   Ps = 3: Blinking Underline
-"   Ps = 4: Steady Underline
-"   Ps = 5: Blinking Bar (I-beam)
-"   Ps = 6: Steady Bar (I-beam)
+" ==================== Cursor Shape Configuration ====================
 
 " Normal mode and exiting Insert/Replace/Visual mode: Block cursor
 " \x1b[2 q sets a steady block cursor. Use \x1b[1 q for blinking block.
