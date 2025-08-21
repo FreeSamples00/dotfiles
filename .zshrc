@@ -82,12 +82,29 @@ case "$OSTYPE" in
     ;;
 esac
 
+# ==================== ENVIRONMENT SETUP ====================
 
-# ========== Path Additions ==========
-# Append common binary paths to the PATH variable.
-export PATH="/usr/local/bin:$PATH"
-export PATH="$PATH:/Users/sccmp/.local/bin"
-export PATH="/usr/local/texlive/2025/bin/universal-darwin:$PATH"
+# ========== Homebrew Setup ==========
+# Initialize Homebrew for macOS or Linuxbrew for Linux.
+if (( IS_MACOS )); then
+
+  if [[ -f "/opt/homebrew/bin/brew" ]] then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  else
+    echo "HomeBrew path ''/opt/homebrew/bin/brew' not found"
+    ZSHRC_ERR=2
+  fi
+
+elif (( IS_LINUX )); then
+
+  if [[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ]] then
+  	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  else
+    echo "LinuxBrew path '/home/linuxbrew/.linxbrew/bin/brew' not found"
+    ZSHRC_ERR=2
+  fi
+
+fi
 
 # ==================== INITIAL LOGIN ACTIONS ====================
 # Execute splash screen based on configuration.
@@ -139,30 +156,6 @@ fi
 
 # Set cursor blinking bar.
 printf '\e[5 q'
-
-# ==================== ENVIRONMENT SETUP ====================
-
-# ========== Homebrew Setup ==========
-# Initialize Homebrew for macOS or Linuxbrew for Linux.
-if (( IS_MACOS )); then
-
-  if [[ -f "/opt/homebrew/bin/brew" ]] then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-  else
-    echo "HomeBrew path ''/opt/homebrew/bin/brew' not found"
-    ZSHRC_ERR=2
-  fi
-
-elif (( IS_LINUX )); then
-
-  if [[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ]] then
-  	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-  else
-    echo "LinuxBrew path '/home/linuxbrew/.linxbrew/bin/brew' not found"
-    ZSHRC_ERR=2
-  fi
-
-fi
 
 # ==================== ZINIT PLUGIN MANAGER ====================
 # Initialize Zinit and prepare for plugin loading.
