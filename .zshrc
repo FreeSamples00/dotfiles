@@ -8,6 +8,12 @@
 #                         ZSH Configuration File
 # ==============================================================================
 
+# pause so that window can be tiled before splash screen is rendered
+sleep 0.1
+
+# timekeeping
+START_TIME=$(gdate +%s%3N)
+
 # ============================ 1. INTERACTIVITY CHECK ==========================
 # Prevents execution if not in an interactive shell.
 # ==============================================================================
@@ -104,7 +110,6 @@ esac
 # ============================ 4. INITIAL LOGIN ACTIONS ========================
 # Executes commands based on the configured splash screen setting.
 # ==============================================================================
-sleep 0.1 # just enough time for aerospace to kick in before the splash screen
 if (( IS_MACOS )); then
   NAME=$(scutil --get ComputerName)
 elif (( IS_LINUX )); then
@@ -153,20 +158,6 @@ fi
 
 # make cursor blinking bar
 printf '\e[5 q'
-
-# ============================ 5. POWERLEVEL10K INSTANT PROMPT =================
-# Essential for fast prompt rendering. Must be near the top.
-# ==============================================================================
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-else
-  echo "PowerLevel10k path '${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh' not found"
-  ZSHRC_ERR=1
-fi
 
 # ============================ 6. ENVIRONMENT SETUP ============================
 # Configures system-wide environment variables and paths.
@@ -226,9 +217,6 @@ function zinit_safe() {
   fi
 }
 
-# Theme
-zinit_safe ice depth=1; zinit_safe light romkatv/powerlevel10k
-
 # ZSH enhancements
 zinit_safe light zsh-users/zsh-syntax-highlighting
 zinit_safe light zsh-users/zsh-autosuggestions
@@ -267,15 +255,6 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:*:*' fzf-preview 'bat --color=always --line-range :500 ${(Q)realpath}'
-
-# ============================ 10. POWERLEVEL10K CONFIGURATION ==================
-# Customizes the appearance and behavior of the Powerlevel10k prompt.
-# ==============================================================================
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# Prompt customization
-typeset -g POWERLEVEL9K_SHORTEN_STRATEGY=truncate_to_last
-typeset -g POWERLEVEL9K_SHORTEN_DELIMITER=""
 
 # ============================ 11. ZSH HISTORY CONFIGURATION ====================
 # Defines how command history is managed.
@@ -427,7 +406,7 @@ function tmuxn() {
 alias tmuxk="tmux kill-session"
 alias tmuxl="tmux ls"
 alias tmuxa="tmux attach"
-alias tmuxd="tmux detatch"
+alias tmuxd="tmux detach"
 
 # ============================ 16. ALIASES =====================================
 # Shortcuts for frequently used commands.
@@ -657,3 +636,11 @@ if (( ZSHRC_ERR )); then
   SPLASH_SCREEN="none"
   echo "\033[91mzsh initialization encountered an error. code: $ZSHRC_ERR\033[0m"
 fi
+
+eval "$(starship init zsh)"
+
+# timekeeping
+END_TIME=$(gdate +%s%3N)
+
+# Calculate the difference
+echo "\033[90mLoad time: $(( END_TIME - START_TIME ))ms\033[0m"

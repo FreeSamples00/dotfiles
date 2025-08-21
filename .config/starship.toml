@@ -1,0 +1,117 @@
+# ============================================================================
+#
+#           _                     _      _          _                     _
+#      ___ | |_  __ _  _ __  ___ | |__  (_) _ __   | |_  ___   _ __ ___  | |
+#     / __|| __|/ _` || '__|/ __|| '_ \ | || '_ \  | __|/ _ \ | '_ ` _ \ | |
+#   _ \__ \| |_| (_| || |   \__ \| | | || || |_) |_| |_| (_) || | | | | || |
+#  (_)|___/ \__|\__,_||_|   |___/|_| |_||_|| .__/(_)\__|\___/ |_| |_| |_||_|
+#                                          |_|
+#
+#                           Starship configuration file
+# ============================================================================
+
+
+# ==================== Settings ====================
+
+# Get editor completions
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# newline between prompts
+add_newline = false
+
+# Wait 10 milliseconds for starship to check files under the current directory.
+scan_timeout = 10
+
+palette = 'default_colors'
+
+# ==================== Prompt ====================
+
+format = """
+$directory\
+$git_branch\
+$git_metrics\
+$git_state\
+\
+ $fill \
+$status\
+$custom\
+$hostname\
+$cmd_duration\
+$time\
+\
+$line_break\
+$character\
+"""
+
+# ==================== Modules ====================
+
+# ========== Aesthetic ==========
+
+[fill]
+disabled = false
+style = 'dull_grey'
+symbol = "-"
+
+[character]
+disabled = false
+success_symbol = '[❯](bold green)'
+error_symbol = '[❯](bold red)'
+
+# ========== Files and Directories ==========
+
+[directory]
+disabled = false
+style = 'dull_blue'
+format = "[$path]($style) "
+
+# ========== Git ==========
+
+[git_branch]
+disabled = false
+symbol = ''
+format = "[-](dull_grey) [$symbol]($style)[$branch]($style) "
+
+[git_status]
+disabled = false
+
+[git_metrics]
+disabled = false
+
+# ========== Time ==========
+
+[cmd_duration]
+disabled = false
+style = 'dull_yellow'
+format = "[$duration]($style) [-](dull_grey) "
+
+[time]
+disabled = false
+use_12hr = true
+style = 'dull_yellow'
+time_format = "%H:%M:%S"
+format = "[$time]($style)"
+
+# ========== Conditional Information ==========
+
+[status]
+disabled = false
+style = 'red'
+format = "[$symbol$common_meaning$signal_name$maybe_int]($style) [-](dull_grey) "
+
+[hostname]
+disabled = false
+ssh_only = true
+trim_at = '.'
+style = 'bold yellow'
+format = '[$hostname]($style) [-](dull_grey) '
+
+[custom.tmux]
+command = 'echo "$TMUX"'
+when = 'test -n "$TMUX"'
+format = '[]($style) [-](dull_grey) '
+
+# ==================== Colors ====================
+[palettes.default_colors]
+dull_grey = '#464646'
+dull_yellow = '#ada81d'
+dull_blue = '#099ef4'
