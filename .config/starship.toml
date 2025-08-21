@@ -86,7 +86,7 @@ untracked = '?${count} '
 stashed = '*${count} '
 conflicted = '~${count} '
 staged = '+${count} '
-deleted = '-${count}'
+deleted = '-${count} '
 
 format = """
 [$ahead_behind](git_ahead_behind)\
