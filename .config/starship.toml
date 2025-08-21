@@ -49,7 +49,7 @@ $character\
 
 [fill]
 disabled = false
-style = 'dull_grey'
+style = 'spacer_color'
 symbol = "-"
 
 [character]
@@ -63,7 +63,7 @@ error_symbol = ' [❯](bold red)'
 disabled = false
 truncation_length = 1
 truncation_symbol = '../'
-style = 'dull_blue'
+style = 'dir_color'
 format = "[ $path]($style) "
 
 # ========== Git ==========
@@ -72,7 +72,7 @@ format = "[ $path]($style) "
 disabled = false
 symbol = '󰊢'
 style = 'git_orange'
-format = "[-](dull_grey) [$symbol $branch]($style) "
+format = "[-](spacer_color) [$symbol $branch]($style) "
 
 [git_status]
 disabled = false
@@ -84,38 +84,42 @@ disabled = false
 
 [cmd_duration]
 disabled = false
-style = 'dull_yellow'
-format = "[$duration]($style) [-](dull_grey) "
+style = 'timer_color'
+format = "[󰔛 $duration]($style) [-](spacer_color) "
 
 [time]
 disabled = false
 use_12hr = true
-style = 'dull_yellow'
+style = 'clock_color'
 time_format = "%H:%M:%S"
-format = "[$time]($style)"
+format = "[ $time]($style)"
 
 # ========== Conditional Information ==========
 
 [status]
 disabled = false
 style = 'red'
-format = "[$symbol$common_meaning$signal_name$maybe_int]($style) [-](dull_grey) "
+symbol = ''
+format = "[$symbol $common_meaning$signal_name$maybe_int]($style) [-](spacer_color) "
 
 [hostname]
 disabled = false
 ssh_only = true
 trim_at = '.'
 style = 'bold yellow'
-format = '[$hostname]($style) [-](dull_grey) '
+format = '[󰒋 $hostname]($style) [-](spacer_color) '
 
 [custom.tmux]
 command = 'echo "$TMUX"'
 when = 'test -n "$TMUX"'
-format = '[]($style) [-](dull_grey) '
+format = '[]($style) [-](spacer_color) '
 
 # ==================== Colors ====================
+
 [palettes.default_colors]
-dull_grey = '#464646'
-dull_yellow = '#ada81d'
-dull_blue = '#099ef4'
+spacer_color = '#464646'
+timer_color = '#ADA81D'
+dir_color = '#099EF4'
 git_orange = '#F05233'
+clock_color = '#1A6DBF'
+tmux_color = '#32D74B'
