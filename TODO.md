@@ -10,6 +10,8 @@
 - [ ] look into **transient prompt** in starship (under advanced configuration)
 
 - [ ] clean up `.zshrc` focusing on removing unused stuff
+- **TO REMOVE**:
+  - [ ] ...
 
 ## Neovim
 
