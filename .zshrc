@@ -402,7 +402,7 @@ compdef _files play
 # ========== File Operation Aliases ==========
 alias tree='tree -haC'
 alias cwd='pwd | copy'
-alias ls='eza --color=automatic --icons=automatic --no-user -a --group-directories-first --sort=type; echo ""'
+alias ls='eza --color=automatic --icons=automatic --no-user -a --group-directories-first --sort=type'
 
 if (( IS_MACOS )); then
   alias ofd='open -R "$(pwd)"'
