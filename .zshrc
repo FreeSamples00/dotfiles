@@ -82,6 +82,13 @@ case "$OSTYPE" in
     ;;
 esac
 
+
+# ========== Path Additions ==========
+# Append common binary paths to the PATH variable.
+export PATH="/usr/local/bin:$PATH"
+export PATH="$PATH:/Users/sccmp/.local/bin"
+export PATH="/usr/local/texlive/2025/bin/universal-darwin:$PATH"
+
 # ==================== INITIAL LOGIN ACTIONS ====================
 # Execute splash screen based on configuration.
 if (( IS_MACOS )); then
@@ -156,12 +163,6 @@ elif (( IS_LINUX )); then
   fi
 
 fi
-
-# ========== Path Additions ==========
-# Append common binary paths to the PATH variable.
-export PATH="/usr/local/bin:$PATH"
-export PATH="$PATH:/Users/sccmp/.local/bin"
-export PATH="/usr/local/texlive/2025/bin/universal-darwin:$PATH"
 
 # ==================== ZINIT PLUGIN MANAGER ====================
 # Initialize Zinit and prepare for plugin loading.
