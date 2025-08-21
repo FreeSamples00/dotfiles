@@ -89,7 +89,7 @@ staged = '+${count} '
 deleted = '-${count}'
 
 format = """
-[$ahead$behind](git_ahead_behind)\
+[$ahead_behind](git_ahead_behind)\
 [$stashed](git_stashed)\
 [$conflicted](git_conflicted)\
 [$staged](git_staged)\
