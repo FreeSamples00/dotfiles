@@ -86,12 +86,14 @@ untracked = '?${count} '
 stashed = '*${count} '
 conflicted = '~${count} '
 staged = '+${count} '
+deleted = '-${count}'
 
 format = """
 [$ahead$behind](git_ahead_behind)\
 [$stashed](git_stashed)\
 [$conflicted](git_conflicted)\
 [$staged](git_staged)\
+[$deleted](git_deleted)\
 [$modified](git_modified)\
 [$untracked](git_untracked)\
 """
@@ -151,3 +153,4 @@ git_staged = 'green'
 git_unstaged = 'blue'
 git_stashed = 'purple'
 git_conflicted = 'red'
+git_deleted = 'red'
