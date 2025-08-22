@@ -130,6 +130,12 @@ zinit_safe snippet OMZP::git-auto-fetch
 zinit_safe snippet OMZP::zbell
 zinit_safe snippet OMZP::ssh
 
+# setup zoxide
+unalias zi
+eval "$(zoxide init zsh)"
+alias cd='z'
+alias zd='zi'
+
 # ==================== ZSH COMPLETION SETUP ====================
 
 autoload -Uz compinit && compinit
