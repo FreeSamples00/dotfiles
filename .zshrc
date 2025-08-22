@@ -54,7 +54,7 @@ case "$OSTYPE" in
   *)
     OPERATING_SYSTEM=""
     ERROR_STATUS="$ERROR_STATUS\n\tNot a supported OS. ($OSTYPE)"
-    ;
+    ;;
 esac
 
 # ==================== ENVIRONMENT SETUP ====================
