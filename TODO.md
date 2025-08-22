@@ -9,9 +9,12 @@
 
 - [ ] look into **transient prompt** in starship (under advanced configuration)
 
+- [ ] look into `zoxide` for use alongside `cd`
+
 - [ ] clean up `.zshrc` focusing on removing unused stuff
-- **TO REMOVE**:
-  - [ ] ...
+  - [ ] look into `zinit` plugins and remove unused ones
+
+- [ ] look into `zinit` vs `homebrew` for packages
 
 ## Neovim
 
