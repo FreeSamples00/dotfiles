@@ -132,9 +132,9 @@ style = 'bold yellow'
 format = '[󰒋 $hostname]($style) [-](spacer_color) '
 
 [custom.tmux]
-command = 'echo "$TMUX"'
+command = 'tmux display-message -p "#{session_name}"'
 when = 'test -n "$TMUX"'
-format = '[]($style) [-](spacer_color) '
+format = '[ $output]($style) [-](spacer_color) '
 
 # ==================== Colors ====================
 
