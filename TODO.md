@@ -7,19 +7,16 @@
 
 - [ ] `mergiraf` for git merges
 
-- [ ] look into **transient prompt** in starship (under advanced configuration)
-
-- [ ] look into `zoxide` for use alongside `cd`
-
 - [ ] clean up `.zshrc` focusing on removing unused stuff
   - [ ] look into `zinit` plugins and remove unused ones
 
 - [ ] look into `zinit` vs `homebrew` for packages
+  - [ ] make `zinit` manage all packages used or references in the .zshrc (as possible)
 
 ## Neovim
 
 - [ ] change completion keybinds:
-  - [ ] `ctrl + y`: accept completion
+  - [ ] `ctrl + y`: accept completion (ctrl enter?)
   - [ ] `ctrl + n`: dismiss completion menu
   - [ ] `ctrl + space`: manually trigger completions
   - [ ] `ctrl + j`: cycle completions (down)
