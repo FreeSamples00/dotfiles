@@ -67,7 +67,7 @@ if [[ "$OPERATING_SYSTEM" == "macos" ]]; then
   if [[ -f "/opt/homebrew/bin/brew" ]] then
     eval "$(/opt/homebrew/bin/brew shellenv)"
   else
-    ERROR_STATUS="$ERROR_STATUS\n\tHomeBrew path ''/opt/homebrew/bin/brew' not found"
+    ERROR_STATUS="$ERROR_STATUS\n\tHomeBrew path ''/opt/homebrew/bin/brew' not found (line ${LINENO})"
   fi
 
 elif [[ "$OPERATING_SYSTEM" == "linux" ]]; then
@@ -75,7 +75,7 @@ elif [[ "$OPERATING_SYSTEM" == "linux" ]]; then
   if [[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ]] then
   	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
   else
-    ERROR_STATUS="$ERRORS_STATUS\n\tLinuxBrew path '/home/linuxbrew/.linxbrew/bin/brew' not found"
+    ERROR_STATUS="$ERROR_STATUS\n\tLinuxBrew path '/home/linuxbrew/.linxbrew/bin/brew' not found(line ${LINENO})"
   fi
 
 fi
@@ -100,7 +100,7 @@ source "${ZINIT_HOME}/zinit.zsh"
 function zinit_safe() {
   zinit "$@"
   if (( status != 0 )); then
-    ERROR_STATUS="$ERROR_STATUS\n\t\033[91mZinit $1 failed for '$2'\033[0m"
+    ERROR_STATUS="$ERROR_STATUS\n\tZinit $1 failed for '$2' (line: ${LINENO})"
   fi
 }
 
@@ -379,11 +379,12 @@ fi
 alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
 alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
 
+
 # ==================== ERROR CHECK ====================
 
 if [[ "$ERROR_STATUS" != "" ]]; then
   DO_SPLASH_SCREEN=0
-  echo "\033[91mzsh initialization encountered an error. code:\033[0m $ZSHRC_ERR\n"
+  echo -e "\nzsh \033[91mERROR\033[0m\n$ERROR_STATUS\n"
 fi
 
 # ==================== LOGIN ACTIONS ====================
