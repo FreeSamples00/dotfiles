@@ -4,6 +4,7 @@
 
 - [ ] `difftastic` for new diff tool (smarter diffing)
   - see [documentation](https://difftastic.wilfred.me.uk/git.html) for git
+  - compare against delta for diffing
 
 - [ ] `mergiraf` for git merges
 
