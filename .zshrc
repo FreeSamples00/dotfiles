@@ -10,9 +10,6 @@
 
 # ==================== PRE-INITIALIZATION ====================
 
-# Initial pause for window tiling
-sleep 0.1
-
 # take start time
 START_TIME=$(gdate +%s%3N)
 
@@ -20,7 +17,7 @@ START_TIME=$(gdate +%s%3N)
 
 # Prevents execution if not in an interactive shell.
 if [[ $- != *i* ]]; then
-    return
+  return
 fi
 
 # ==================== CORE SETTINGS & VARIABLES ====================
@@ -51,7 +48,6 @@ case "$OSTYPE" in
   darwin*)
     OPERATING_SYSTEM="macos"
     ;;
-
   *)
     OPERATING_SYSTEM=""
     ERROR_STATUS="$ERROR_STATUS\n\tNot a supported OS. ($OSTYPE)"
@@ -73,7 +69,7 @@ if [[ "$OPERATING_SYSTEM" == "macos" ]]; then
 elif [[ "$OPERATING_SYSTEM" == "linux" ]]; then
 
   if [[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ]] then
-  	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
   else
     ERROR_STATUS="$ERROR_STATUS\n\tLinuxBrew path '/home/linuxbrew/.linxbrew/bin/brew' not found(line ${LINENO})"
   fi
@@ -87,8 +83,8 @@ ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
 # Download Zinit if not present.
 if [ ! -d "$ZINIT_HOME" ]; then
-   mkdir -p "$(dirname $ZINIT_HOME)"
-   git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+  mkdir -p "$(dirname $ZINIT_HOME)"
+  git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 fi
 
 # Source Zinit.
@@ -188,6 +184,7 @@ export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 alias e="edit"
 function edit() {
   local -a args
+
   if (( $# == 0 )); then
     args=(".")
   else
@@ -196,21 +193,26 @@ function edit() {
 
   "$EDITOR" "${args[@]}"
 }
+
 compdef _files edit
 
 # Sends a macOS alert via terminal-notifier.
 if [[ "$OPERATING_SYSTEM" == "macos" ]] && [[ "$EMULATOR" == "ghostty" ]]; then
+
   function alert() {
-      TITLE='🚨Ghostty🚨'
-      TERM_APP_ID="com.mitchellh.ghostty"
-      SOUND_PATH="/system/library/sounds/Ping.aiff"
-      if [[ "$@" == "" || "$@" == " " ]]; then
-        echo "Alert" | terminal-notifier -title $TITLE -activate $TERM_APP_ID -ignoreDnD
-      else
-        echo $@ | terminal-notifier -title $TITLE -activate $TERM_APP_ID -ignoreDnD
-      fi
-      afplay $SOUND_PATH
+    TITLE='🚨Ghostty🚨'
+    TERM_APP_ID="com.mitchellh.ghostty"
+    SOUND_PATH="/system/library/sounds/Ping.aiff"
+
+    if [[ "$@" == "" || "$@" == " " ]]; then
+      echo "Alert" | terminal-notifier -title $TITLE -activate $TERM_APP_ID -ignoreDnD
+    else
+      echo $@ | terminal-notifier -title $TITLE -activate $TERM_APP_ID -ignoreDnD
+    fi
+
+    afplay $SOUND_PATH
   }
+
 fi
 
 # Overwrites `cat` with `bat` for interactive use.
@@ -219,12 +221,14 @@ function cat() {
     bat -h
     exit 0
   fi
-    if [[ -t 1 ]]; then
-        command bat "$@"
-    else
-        command cat "$@"
-    fi
+
+  if [[ -t 1 ]]; then
+    command bat "$@"
+  else
+    command cat "$@"
+  fi
 }
+
 compdef _files cat
 
 # Gets the root of the current Git repository.
@@ -301,11 +305,9 @@ alias cwd='pwd | copy'
 alias ls='eza --color=automatic --icons=automatic --no-user -a --group-directories-first --sort=type'
 
 if [[ "$OPERATING_SYSTEM" == "macos" ]]; then
-
   alias ofd='open -R "$(pwd)"'
 
 elif [[ "$OPERATING_SYSTEM" == "linux" ]]; then
-
   alias ofd="$LINUX_FILE_MANAGER ."
 
 fi
@@ -351,7 +353,7 @@ alias clear="\clear" # fixes spacing for ghostty
 
 # ========== Enhanced Core Commands ==========
 
-alias less='less -r'
+alias less='less -R'
 alias rm='rm -I'
 alias gcc='gcc -Wall'
 
@@ -370,8 +372,7 @@ alias ghidra="ghidraRun"
 # ========== macOS Specific Utilities ==========
 
 if [[ "$OPERATING_SYSTEM" == "macos" ]]; then
-    alias battery='system_profiler SPPowerDataType | grep -E "Cycle Count|Condition|Maximum Capacity" | bat'
-    alias manp='man-preview'
+  alias battery='system_profiler SPPowerDataType | grep -E "Cycle Count|Condition|Maximum Capacity" | bat'
 fi
 
 # ========== Help Output Formatting Aliases (Global) ==========
