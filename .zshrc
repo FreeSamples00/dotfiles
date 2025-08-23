@@ -1,8 +1,8 @@
 # ==============================================================================
 #                                 _
-#                         _______| |__  _ __ ___ 
+#                         _______| |__  _ __ ___
 #                        |_  / __| '_ \| '__/ __|
-#                       _ / /\__ \ | | | | | (__ 
+#                       _ / /\__ \ | | | | | (__
 #                      (_)___|___/_| |_|_|  \___|
 #
 #                         ZSH Configuration File
@@ -28,6 +28,7 @@ fi
 DO_SPLASH_SCREEN=1
 
 EDITOR="nvim"
+PAGER="bat --paging=always"
 
 LINUX_FILE_MANAGER="xdg-open"
 
@@ -95,46 +96,55 @@ source "${ZINIT_HOME}/zinit.zsh"
 
 # ==================== ZSH PLUGINS & SNIPPETS ====================
 
-# Safe Zinit wrapper.
+# zinit wrapper w/ error 'handling'
 function zinit_safe() {
   zinit "$@"
   if (( status != 0 )); then
-    echo "\033[91mZinit $1 failed for '$2'\033[0m"
-    ZSHRC_ERR=3
+    ERROR_STATUS="$ERROR_STATUS\n\t\033[91mZinit $1 failed for '$2'\033[0m"
   fi
 }
 
 # ========== ZSH Enhancements ==========
-zinit_safe light zsh-users/zsh-syntax-highlighting
-zinit_safe light zsh-users/zsh-autosuggestions
-zinit_safe light Aloxaf/fzf-tab
-zinit_safe light MichaelAquilina/zsh-you-should-use
-zinit light zsh-users/zsh-completions
+
+zinit_safe light zsh-users/zsh-syntax-highlighting # syntax highlights in commandline
+zinit_safe light zsh-users/zsh-autosuggestions # history based completions
+zinit_safe light Aloxaf/fzf-tab # use fzf for tab completions
+zinit_safe light MichaelAquilina/zsh-you-should-use # reminds you of aliases if you do not use them
+zinit light zsh-users/zsh-completions # aggregates zsh completion scripts
 
 # ========== Git & Utility Plugins ==========
+
 fpath=(~/bin/wd $fpath)
-zinit_safe light mfaerevaag/wd
-zinit_safe light laggardkernel/git-ignore
+zinit_safe light mfaerevaag/wd # warp directory TODO: remove?
+zinit_safe light laggardkernel/git-ignore # generate gitignores
 
 # ========== Oh-My-Zsh Snippets ==========
-zinit_safe snippet OMZL::git.zsh
-zinit_safe snippet OMZP::git
-zinit_safe snippet OMZP::sudo
-zinit_safe snippet OMZP::command-not-found
-zinit_safe snippet OMZP::colorize
-zinit_safe snippet OMZP::git
-zinit_safe snippet OMZP::colored-man-pages
-zinit_safe snippet OMZP::git
-zinit_safe snippet OMZP::safe-paste
-zinit_safe snippet OMZP::git-auto-fetch
-zinit_safe snippet OMZP::zbell
-zinit_safe snippet OMZP::ssh
 
-# setup zoxide
-unalias zi
+zinit_safe snippet OMZL::git.zsh
+zinit_safe snippet OMZP::git # git aliases
+zinit_safe snippet OMZP::sudo # esc-esc for sudo
+zinit_safe snippet OMZP::ssh # add .ssh/config completions
+
+# ==================== ZOXIDE ====================
+
+unalias zi # zi is zinit by default
 eval "$(zoxide init zsh)"
 alias cd='z'
 alias zd='zi'
+
+# ==================== MAN COLORIZING ====================
+
+export LESS_TERMCAP_mb=$'\e[1;36m' # start blinking (bold cyan)
+export LESS_TERMCAP_md=$'\e[1;33m' # start bold (bold yellow)
+export LESS_TERMCAP_me=$'\e[0m'    # end attributes
+export LESS_TERMCAP_so=$'\e[1;44;33m' # start standout (bold yellow on blue) - for headings/sections
+export LESS_TERMCAP_se=$'\e[0m'    # end standout
+export LESS_TERMCAP_us=$'\e[1;32m' # start underline (bold green) - for paths/filenames
+export LESS_TERMCAP_ue=$'\e[0m'    # end underline
+export LESS_TERMCAP_mh=$'\e[0m'    # disable half-bright
+export LESS_TERMCAP_mr=$'\e[7m'    # enter reverse mode
+export LESS_TERMCAP_ZJ=$'\e[1;35m' # bold magenta for comments (this one is less common, customize as needed)
+export LESS_TERMCAP_ZN=$'\e[0m'    # end ZJ
 
 # ==================== ZSH COMPLETION SETUP ====================
 
@@ -322,14 +332,17 @@ elif [[ "$OPERATING_SYSTEM" == "linux" ]]; then
 fi
 
 # ========== System Information Aliases ==========
+
 alias info="fastfetch"
 alias '?'='echo $?'
 
 # ========== Git Operation Aliases ==========
+
 alias gi='git-ignore'
 alias lg='lazygit'
 
 # ========== Command Replacements ==========
+
 alias top='btop'
 alias diff='delta --side-by-side'
 alias listen='/bin/cat -v'
@@ -337,11 +350,13 @@ alias path='print -c ${(s/:/)PATH} | bat --file-name "\$PATH"'
 alias clear="\clear" # fixes spacing for ghostty
 
 # ========== Enhanced Core Commands ==========
+
 alias less='less -r'
 alias rm='rm -I'
 alias gcc='gcc -Wall'
 
 # ========== Utility Tools ==========
+
 alias wclone='wget --mirror --convert-links --adjust-extension --page-requisites --show-progress'
 alias update='brew update && brew upgrade && zinit update'
 alias py='uv'
@@ -351,7 +366,6 @@ alias storage="dust -rC | bat --file-name 'Storage Breakdown'"
 alias colors='terminal_colors.sh'
 alias 2pdf='mdpdf --ghstyle=true --border 0.5in'
 alias ghidra="ghidraRun"
-alias prompt='prompt.sh'
 
 # ========== macOS Specific Utilities ==========
 
@@ -361,6 +375,7 @@ if [[ "$OPERATING_SYSTEM" == "macos" ]]; then
 fi
 
 # ========== Help Output Formatting Aliases (Global) ==========
+
 alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
 alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
 
@@ -385,9 +400,6 @@ fi
 
 if (( DO_SPLASH_SCREEN )); then
   echo $NAME | figlet -c -w $COLUMNS | lolcat -f
-else
-  echo $NAME | xargs echo -e "\033[93mMachine: "
-  echo "\033[0m"
 fi
 
 # ========== DISPLAY LOAD TIME ==========
@@ -396,7 +408,7 @@ fi
 END_TIME=$(gdate +%s%3N)
 
 # Calculate and display load time.
-echo "\033[90mLoad time: $(( END_TIME - START_TIME ))ms\033[0m"
+echo "\033[90mzsh load time: $(( END_TIME - START_TIME ))ms\033[0m"
 
 # ========== PROMPT ==========
 
