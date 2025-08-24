@@ -4,12 +4,6 @@ bash:~/onedrive/code/bash
 c:~/onedrive/code/c
 classes:~/onedrive/school/classes
 code:~/onedrive/code
-configs:~/.dotfiles
-cosc_3100:~/onedrive/school/classes/cosc_3100
-cosc_3250:~/onedrive/school/classes/cosc_3250
-cosc_3550:~/onedrive/school/classes/cosc_3550
-cosc_3570:~/onedrive/school/classes/cosc_3570
-cosc_3820:~/onedrive/school/classes/cosc_3820
 desktop:~/desktop
 documents:~/Documents
 dotfiles:~/.dotfiles
@@ -18,9 +12,7 @@ fortunes:/opt/homebrew/Cellar/fortune/9708/share/games/fortunes
 local:/usr/local
 notes:~/notes
 nvim:~/.dotfiles/.config/nvim
-obsidian:~/Obsidian
 onedrive:~/onedrive
-os_repo:~/onedrive/school/classes/cosc_3250/code/os_repo
 python:~/onedrive/code/python
 rust:~/onedrive/code/rust
 school:~/onedrive/school
