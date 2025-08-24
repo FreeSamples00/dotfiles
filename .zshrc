@@ -116,7 +116,7 @@ zinit_safe light laggardkernel/git-ignore # generate gitignores
 
 # ========== Oh-My-Zsh Snippets ==========
 
-zinit_safe snippet OMZL::git.zsh
+zinit_safe snippet OMZL::git.zsh # no idea what this is for (might be important?)
 zinit_safe snippet OMZP::git # git aliases
 zinit_safe snippet OMZP::sudo # esc-esc for sudo
 zinit_safe snippet OMZP::ssh # add .ssh/config completions
@@ -127,20 +127,6 @@ unalias zi # zi is zinit by default
 eval "$(zoxide init zsh)"
 alias cd='z'
 alias zd='zi'
-
-# ==================== MAN COLORIZING ====================
-
-export LESS_TERMCAP_mb=$'\e[1;36m' # start blinking (bold cyan)
-export LESS_TERMCAP_md=$'\e[1;33m' # start bold (bold yellow)
-export LESS_TERMCAP_me=$'\e[0m'    # end attributes
-export LESS_TERMCAP_so=$'\e[1;44;33m' # start standout (bold yellow on blue) - for headings/sections
-export LESS_TERMCAP_se=$'\e[0m'    # end standout
-export LESS_TERMCAP_us=$'\e[1;32m' # start underline (bold green) - for paths/filenames
-export LESS_TERMCAP_ue=$'\e[0m'    # end underline
-export LESS_TERMCAP_mh=$'\e[0m'    # disable half-bright
-export LESS_TERMCAP_mr=$'\e[7m'    # enter reverse mode
-export LESS_TERMCAP_ZJ=$'\e[1;35m' # bold magenta for comments (this one is less common, customize as needed)
-export LESS_TERMCAP_ZN=$'\e[0m'    # end ZJ
 
 # ==================== ZSH COMPLETION SETUP ====================
 
@@ -167,6 +153,21 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 
 # ==================== PROGRAM-SPECIFIC CONFIGURATIONS ====================
+
+
+# ========== MAN COLORIZING ==========
+
+export LESS_TERMCAP_mb=$'\e[1;36m' # start blinking (bold cyan)
+export LESS_TERMCAP_md=$'\e[1;33m' # start bold (bold yellow)
+export LESS_TERMCAP_me=$'\e[0m'    # end attributes
+export LESS_TERMCAP_so=$'\e[1;44;33m' # start standout (bold yellow on blue) - for headings/sections
+export LESS_TERMCAP_se=$'\e[0m'    # end standout
+export LESS_TERMCAP_us=$'\e[1;32m' # start underline (bold green) - for paths/filenames
+export LESS_TERMCAP_ue=$'\e[0m'    # end underline
+export LESS_TERMCAP_mh=$'\e[0m'    # disable half-bright
+export LESS_TERMCAP_mr=$'\e[7m'    # enter reverse mode
+export LESS_TERMCAP_ZJ=$'\e[1;35m' # bold magenta for comments (this one is less common, customize as needed)
+export LESS_TERMCAP_ZN=$'\e[0m'    # end ZJ
 
 # ========== FZF Configuration ==========
 
