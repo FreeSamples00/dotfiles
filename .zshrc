@@ -24,6 +24,8 @@ fi
 
 DO_SPLASH_SCREEN=1
 
+USE_ENHANCED_CLEAR=1
+
 EDITOR="nvim"
 PAGER="bat --paging=always"
 
@@ -278,8 +280,29 @@ alias tmuxd="tmux detach"
 
 # ========== General Aliases ==========
 
-alias c="clear"
-alias cls="clear && ls"
+function enhanced_clear() {
+
+  if [[ "$TMUX" != "" ]]; then
+    clear
+    return
+  fi
+
+  PROMPT_SIZE=5
+
+  for _ in {$PROMPT_SIZE..$LINES}; do
+    echo "="
+  done
+
+  printf $'\e[H\e[J'
+}
+
+if (( $USE_ENHANCED_CLEAR )); then
+  alias c="enhanced_clear"
+  alias cls="echo '\n' && enhanced_clear && echo && ls"
+else
+  alias c="clear"
+  alias cls="clear && ls"
+fi
 
 # ========== Terminal Configuration Aliases ==========
 
