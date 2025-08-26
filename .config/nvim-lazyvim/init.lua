@@ -1,7 +1,7 @@
 -- bootstrap lazy.nvim, LazyVim and your plugins
 
---NOTE: percentage of screen from top or bottom and which autoscrolling is triggered
--- - use 50 for typewriter style
+-- -- percentage of screen from top or bottom and which autoscrolling is triggered
+-- -- - use 50 for typewriter style
 local TRIGGER_PERCENTAGE = 40
 
 local function set_dynamic_scrolloff()
