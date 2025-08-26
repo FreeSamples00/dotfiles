@@ -290,7 +290,7 @@ function enhanced_clear() {
   PROMPT_SIZE=5
 
   for _ in {$PROMPT_SIZE..$LINES}; do
-    echo "="
+    echo ""
   done
 
   printf $'\e[H\e[J'
