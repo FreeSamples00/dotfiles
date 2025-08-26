@@ -14,6 +14,10 @@
 - [ ] look into `zinit` vs `homebrew` for packages
   - [ ] make `zinit` manage all packages used or references in the .zshrc (as possible)
 
+- [ ] make a stripped down `.bashrc`
+
+- [ ] `lazydocker`
+
 ## Neovim
 
 - [ ] change completion keybinds:
