@@ -128,6 +128,9 @@ end tell'; open -a Mail'''
 # IPHONE MIRRORING
 cmd-alt-ctrl-p = 'exec-and-forget open -a "iphone mirroring"'
 
+# UTM vm software
+cmd-alt-ctrl-v = 'exec-and-forget open -a "UTM"'
+
 # ========================= TILING HOTKEYS =========================
 
 # ========== layout ==========
