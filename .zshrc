@@ -324,7 +324,7 @@ compdef _files play
 
 # ========== File Operation Aliases ==========
 
-alias tree='tree -haC'
+alias tree='tree -haC -I .git'
 alias cwd='pwd | copy'
 alias ls='eza --color=automatic --icons=automatic --no-user -a --group-directories-first --sort=type'
 
@@ -385,7 +385,6 @@ alias gcc='gcc -Wall'
 
 alias wclone='wget --mirror --convert-links --adjust-extension --page-requisites --show-progress'
 alias update='brew update && brew upgrade && zinit update'
-alias py='uv'
 alias stow='stow -v'
 alias sizeof='du -hs'
 alias storage="dust -rC | bat --file-name 'Storage Breakdown'"
