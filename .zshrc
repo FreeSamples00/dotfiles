@@ -26,7 +26,8 @@ DO_SPLASH_SCREEN=1
 
 USE_ENHANCED_CLEAR=1
 
-EDITOR="nvim"
+export EDITOR="nvim"
+export VISUAL="nvim"
 PAGER="bat --paging=always"
 
 LINUX_FILE_MANAGER="xdg-open"
