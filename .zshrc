@@ -8,18 +8,6 @@
 #                         ZSH Configuration File
 # ==============================================================================
 
-# ==================== PRE-INITIALIZATION ====================
-
-# take start time
-START_TIME=$(gdate +%s%3N)
-
-# ==================== INTERACTIVITY CHECK ====================
-
-# Prevents execution if not in an interactive shell.
-if [[ $- != *i* ]]; then
-  return
-fi
-
 # ==================== CORE SETTINGS & VARIABLES ====================
 
 DO_SPLASH_SCREEN=1
@@ -41,6 +29,13 @@ alias echo='echo -e'
 zle_bracketed_paste=1
 
 setopt IGNORE_EOF
+
+# ==================== INTERACTIVITY CHECK ====================
+
+# Prevents execution if not in an interactive shell.
+if [[ $- != *i* ]]; then
+  return
+fi
 
 # ==================== OPERATING SYSTEM DETECTION ====================
 
@@ -78,6 +73,11 @@ elif [[ "$OPERATING_SYSTEM" == "linux" ]]; then
   fi
 
 fi
+
+# ==================== TIMEKEEPING ====================
+
+# take start time
+START_TIME=$(gdate +%s%3N)
 
 # ==================== ZINIT PLUGIN MANAGER ====================
 
