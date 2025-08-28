@@ -82,7 +82,7 @@ run = 'layout floating'
 
 # non-native
 [[on-window-detected]]
-if.app-name-regex-substring = 'discord|crossover|steam'
+if.app-name-regex-substring = 'crossover|steam'
 run = 'layout floating'
 
 # ========================= MAIN BINDINGS =========================
