@@ -109,7 +109,7 @@ zinit_safe light zsh-users/zsh-syntax-highlighting # syntax highlights in comman
 zinit_safe light zsh-users/zsh-autosuggestions # history based completions
 zinit_safe light Aloxaf/fzf-tab # use fzf for tab completions
 zinit_safe light MichaelAquilina/zsh-you-should-use # reminds you of aliases if you do not use them
-zinit light zsh-users/zsh-completions # aggregates zsh completion scripts
+zinit_safe light zsh-users/zsh-completions # aggregates zsh completion scripts
 
 # ========== Git & Utility Plugins ==========
 
@@ -409,7 +409,18 @@ alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
 
 if [[ "$ERROR_STATUS" != "" ]]; then
   DO_SPLASH_SCREEN=0
-  echo -e "\nzsh \033[91mERROR\033[0m\n$ERROR_STATUS\n"
+  local MESSAGE_LENGTH=35
+  echo -ne "\n\n\033[91mErrors During Zsh Initialization\033[90m "
+  for _ in {$MESSAGE_LENGTH..$COLUMNS}; do
+    echo -n "="
+  done
+  echo -e "\033[0m"
+  echo -e "$ERROR_STATUS"
+  echo -e " \033[90m"
+  for _ in {2..$COLUMNS}; do
+    echo -n "="
+  done
+  echo "\033[0m\n\n"
 fi
 
 # ==================== LOGIN ACTIONS ====================
