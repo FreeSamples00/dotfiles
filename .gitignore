@@ -5,6 +5,7 @@
 ## large / unneeded tool files
 **/update-notifier-*
 .config/raycast
+**/btop
 
 ## sensitive info
 .adventofcode.session
