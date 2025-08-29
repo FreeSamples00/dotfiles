@@ -255,6 +255,11 @@ function todo() {
   $EDITOR "$(git_root)/TODO.md"
 }
 
+# edit a project's README.md file
+function readme() {
+  $EDITOR "$(git_root)/README.md"
+}
+
 # ==================== TMUX CONFIGURATION & ALIASES ====================
 
 function tmuxn() {
