@@ -18,6 +18,8 @@
 
 - [ ] `lazydocker`
 
+- [ ] add indicator to prompt for background process (from ctrl + z)
+
 ## Neovim
 
 - [ ] change completion keybinds:
@@ -37,3 +39,5 @@
 - [ ] stop using `onedrive`:
   - [ ] host projects on github
   - [ ] switch to icloud?
+
+- [ ] switch to 1password or other?
