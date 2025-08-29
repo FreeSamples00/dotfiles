@@ -81,6 +81,7 @@ disabled = false
 
 ahead = '⇡${count} '
 behind = '⇣${count} '
+diverged = '⇣${ahead_count}⇡${behind_count} '
 modified = '!${count} '
 untracked = '?${count} '
 stashed = '*${count} '
