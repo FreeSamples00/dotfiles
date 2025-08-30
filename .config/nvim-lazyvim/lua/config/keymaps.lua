@@ -2,24 +2,44 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
--- Normal mode: Remap 'd' to delete without yanking (black-hole register)
+-- ==================== 'd' without yanking ====================
+
+-- Normal mode
 vim.keymap.set("n", "d", '"_d', {
   remap = false, -- Equivalent to 'noremap'
   silent = true, -- Prevents messages like "Invalid key" if you type 'd' too fast alone
-  desc = "Delete without yanking (black hole)",
+  desc = "Delete without yanking",
 })
 
--- Visual mode: Remap 'd' to delete visual selection without yanking
+-- Visual mode
 vim.keymap.set("v", "d", '"_d', {
   remap = false, -- Equivalent to 'noremap'
   silent = true,
-  desc = "Delete visual selection without yanking (black hole)",
+  desc = "Delete visual selection without yanking",
 })
 
--- Visual mode: remap 'p' & 'P' to put replace text w/out yanking the replaced text
+-- ==================== 'c' without yanking ====================
+
+-- Normal mode
+vim.keymap.set("n", "c", '"_c', {
+  remap = false, -- Equivalent to 'noremap'
+  silent = true, -- Prevents messages like "Invalid key" if you type 'd' too fast alone
+  desc = "Delete without yanking",
+})
+
+-- Visual mode
+vim.keymap.set("v", "c", '"_c', {
+  remap = false, -- Equivalent to 'noremap'
+  silent = true,
+  desc = "Delete visual selection without yanking",
+})
+
+-- ==================== 'p' without yanking ====================
+
+-- Visual mode
 vim.keymap.set("x", "p", [["_dP]], {
-  desc = "Paste without copying overwritten text (visual)",
+  desc = "Paste without copying overwritten text",
 })
 vim.keymap.set("x", "P", [["_dP]], {
-  desc = "Paste without copying overwritten text (visual)",
+  desc = "Paste without copying overwritten text",
 })
