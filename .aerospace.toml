@@ -131,6 +131,9 @@ cmd-alt-ctrl-p = 'exec-and-forget open -a "iphone mirroring"'
 # UTM vm software
 cmd-alt-ctrl-v = 'exec-and-forget open -a "UTM"'
 
+# discord
+cmd-alt-ctrl-d = 'exec-and-forget open -a "discord"'
+
 # ========================= TILING HOTKEYS =========================
 
 # ========== layout ==========
