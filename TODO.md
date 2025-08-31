@@ -18,6 +18,8 @@
 
 - [ ] `lazydocker`
 
+- [ ] add `glow` for md files in cat
+
 - [ ] add indicator to prompt for background process (from ctrl + z)
 
 ## Neovim
