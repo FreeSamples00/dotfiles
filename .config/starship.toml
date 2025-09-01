@@ -112,9 +112,8 @@ format = "[󰔛 $duration]($style) [-](spacer_color) "
 
 [time]
 disabled = false
-use_12hr = true
 style = 'clock_color'
-time_format = "%H:%M:%S"
+time_format = "%I:%M:%S"
 format = "[ $time]($style)"
 
 # ========== Conditional Information ==========
