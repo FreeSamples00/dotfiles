@@ -43,3 +43,5 @@
   - [ ] switch to icloud?
 
 - [ ] switch to 1password or other?
+
+- [ ] use [SketchyVim](https://github.com/FelixKratz/SketchyVim)?
