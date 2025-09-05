@@ -7,5 +7,6 @@ sketchybar \
   --add item "$NAME" "$SIDE" \
   --set "$NAME" \
         update_freq=10 \
-        icon=  \
-        script="$PLUGIN_DIR/clock.sh" \
+        icon=󰸗  \
+        script="$SCRIPT_DIR/clock.sh" \
+        click_script="open -a calendar"

@@ -16,20 +16,18 @@
 
 # ==================== TODO ====================
 # TODO:
-# - brightness indicator
-# - DND mode
-# - background highlighting for all visible workspaces?
-# - date by numbers or month abbreviated?
 # - clicking on a workspace reveals the windows in it (dropdown)
-# - apple logo top right?
+#   - aerospace list-windows --workspace 2 --format "%{app-name} -> %{window-title}"
+#   - trim with trimmed_string="${my_string:0:$desired_length}"
 
 # ==================== Setup ====================
 
 source "$CONFIG_DIR/aesthetics.sh"
-export PLUGIN_DIR="$CONFIG_DIR/plugins"
-ITEM_DIR="$CONFIG_DIR/items"
+export SCRIPT_DIR="$CONFIG_DIR/scripts"
+COMPONENT_DIR="$CONFIG_DIR/components"
 
 # ==================== Settings ==================== 
+# NOTE: order is out to in
 
 left_items=(
   "aerospace"
@@ -40,6 +38,7 @@ right_items=(
   "clock"
   "battery"
   "volume"
+  "wifi"
 )
 
 bar=(
@@ -73,15 +72,15 @@ default=(
 sketchybar --bar "${bar[@]}" --default "${default[@]}" 
 
 for item in "${left_items[@]}"; do
-  source "$ITEM_DIR/$item.sh" left
+  source "$COMPONENT_DIR/$item.sh" left
 done
 
 for item in "${right_items[@]}"; do
-  source "$ITEM_DIR/$item.sh" right
+  source "$COMPONENT_DIR/$item.sh" right
 done
 
-source "$ITEM_DIR/left_bracket.sh"
-source "$ITEM_DIR/right_bracket.sh"
+source "$COMPONENT_DIR/left_bracket.sh"
+source "$COMPONENT_DIR/right_bracket.sh"
 
 # ==================== Run Scripts ====================
 # WARNING: never do this in a script
@@ -90,27 +89,3 @@ sketchybar --update
 
 # ensure a workspace is highlighted
 sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE="$(aerospace list-workspaces --focused)"
-
-# ##### Adding Mission Control Space Indicators #####
-# # Let's add some mission control spaces:
-# # https://felixkratz.github.io/SketchyBar/config/components#space----associate-mission-control-spaces-with-an-item
-# # to indicate active and available mission control spaces.
-#
-# SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
-# for i in "${!SPACE_ICONS[@]}"
-# do
-#   sid="$(($i+1))"
-#   space=(
-#     space="$sid"
-#     icon="${SPACE_ICONS[i]}"
-#     icon.padding_left=7
-#     icon.padding_right=7
-#     background.color=0x40ffffff
-#     background.corner_radius=5
-#     background.height=25
-#     label.drawing=off
-#     script="$PLUGIN_DIR/space.sh"
-#     click_script="yabai -m space --focus $sid"
-#   )
-#   sketchybar --add space space."$sid" left --set space."$sid" "${space[@]}"
-# done

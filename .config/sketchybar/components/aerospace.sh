@@ -23,7 +23,7 @@ for sid in $(aerospace list-workspaces --all); do
         --subscribe "$NAME" aerospace_workspace_change \
         --set "$NAME" \
               label="$sid" \
-              script="$PLUGIN_DIR/aerospace.sh $sid" \
+              script="$SCRIPT_DIR/aerospace.sh $sid" \
               label.highlight_color="$WORKSPACE_FOCUSED_COLOR" \
               padding_left=0 \
               padding_right=0 \

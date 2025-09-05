@@ -1,10 +1,11 @@
-#! /bin/bash
+#!/bin/sh
 
 SIDE="$1"
 NAME="volume.$SIDE"
 
-sketchybar  \
+sketchybar \
   --add item "$NAME" "$SIDE" \
   --subscribe "$NAME" volume_change \
   --set "$NAME" \
-        script="$PLUGIN_DIR/volume.sh" \
+        script="$SCRIPT_DIR/volume.sh" \
+        click_script="$SCRIPT_DIR/mute.sh"

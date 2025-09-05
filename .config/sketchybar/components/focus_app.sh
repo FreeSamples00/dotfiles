@@ -8,4 +8,4 @@ sketchybar --add item "$NAME" "$SIDE" \
            --subscribe "$NAME" front_app_switched \
            --set "$NAME" \
                  icon.drawing=off \
-                 script="$PLUGIN_DIR/focus_app.sh" \
+                 script="$SCRIPT_DIR/focus_app.sh" \
