@@ -1,0 +1,116 @@
+#! /bin/bash
+
+# ==========================================================================================
+#
+#                      _        _       _           _
+#                  ___| | _____| |_ ___| |__  _   _| |__   __ _ _ __ _ __ ___
+#                 / __| |/ / _ \ __/ __| '_ \| | | | '_ \ / _` | '__| '__/ __|
+#                 \__ \   <  __/ || (__| | | | |_| | |_) | (_| | |  | | | (__
+#                 |___/_|\_\___|\__\___|_| |_|\__, |_.__/ \__,_|_|  |_|  \___|
+#                                             |___/
+#
+#                                 SketchyBar Configuration File
+#
+# ==========================================================================================
+
+
+# ==================== TODO ====================
+# TODO:
+# - brightness indicator
+# - DND mode
+# - background highlighting for all visible workspaces?
+# - date by numbers or month abbreviated?
+# - clicking on a workspace reveals the windows in it (dropdown)
+# - apple logo top right?
+
+# ==================== Setup ====================
+
+source "$CONFIG_DIR/aesthetics.sh"
+export PLUGIN_DIR="$CONFIG_DIR/plugins"
+ITEM_DIR="$CONFIG_DIR/items"
+
+# ==================== Settings ==================== 
+
+left_items=(
+  "aerospace"
+  "focus_app"
+)
+
+right_items=(
+  "clock"
+  "battery"
+  "volume"
+)
+
+bar=(
+  height="$BAR_HEIGHT"
+  color="$BAR_COLOR"
+  shadow-"$SHADOW"
+  position="$BAR_POSITION"
+  sticky="$BAR_STICKY"
+  padding_right="$BAR_PADDING_RIGHT"
+  padding_left="$BAR_PADDING_LEFT"
+  blur_radius="$BAR_BLUR_RADIUS"
+  corner_radius="$BAR_CORNER_RADIUS"
+)
+
+default=(
+  updates=when_shown
+  padding_left="$PADDING"
+  padding_right="$PADDING"
+  icon.font="$FONT:Bold:$ICON_SIZE"
+  label.font="$FONT:Bold:$FONT_SIZE"
+  icon.color="$ICON_COLOR"
+  label.color="$LABEL_COLOR"
+  icon.padding_left="$ICON_PADDING"
+  icon.padding_right="$ICON_PADDING"
+  label.padding_left="$ICON_PADDING"
+  label.padding_right="$ICON_PADDING"
+)
+
+# ==================== Setup ====================
+
+sketchybar --bar "${bar[@]}" --default "${default[@]}" 
+
+for item in "${left_items[@]}"; do
+  source "$ITEM_DIR/$item.sh" left
+done
+
+for item in "${right_items[@]}"; do
+  source "$ITEM_DIR/$item.sh" right
+done
+
+source "$ITEM_DIR/left_bracket.sh"
+source "$ITEM_DIR/right_bracket.sh"
+
+# ==================== Run Scripts ====================
+# WARNING: never do this in a script
+
+sketchybar --update
+
+# ensure a workspace is highlighted
+sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE="$(aerospace list-workspaces --focused)"
+
+# ##### Adding Mission Control Space Indicators #####
+# # Let's add some mission control spaces:
+# # https://felixkratz.github.io/SketchyBar/config/components#space----associate-mission-control-spaces-with-an-item
+# # to indicate active and available mission control spaces.
+#
+# SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
+# for i in "${!SPACE_ICONS[@]}"
+# do
+#   sid="$(($i+1))"
+#   space=(
+#     space="$sid"
+#     icon="${SPACE_ICONS[i]}"
+#     icon.padding_left=7
+#     icon.padding_right=7
+#     background.color=0x40ffffff
+#     background.corner_radius=5
+#     background.height=25
+#     label.drawing=off
+#     script="$PLUGIN_DIR/space.sh"
+#     click_script="yabai -m space --focus $sid"
+#   )
+#   sketchybar --add space space."$sid" left --set space."$sid" "${space[@]}"
+# done
