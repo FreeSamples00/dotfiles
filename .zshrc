@@ -397,6 +397,7 @@ alias storage="dust -rC | bat --file-name 'Storage Breakdown'"
 alias colors='terminal_colors.sh'
 alias 2pdf='mdpdf --ghstyle=true --border 0.5in'
 alias ghidra="ghidraRun"
+alias bench='hyperfine'
 
 # ========== macOS Specific Utilities ==========
 
