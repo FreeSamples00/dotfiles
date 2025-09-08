@@ -43,6 +43,7 @@ right_items=(
   "battery"
   "volume"
   "mail"
+  "dexcom"
 )
 
 bar=(
