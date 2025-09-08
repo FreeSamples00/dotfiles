@@ -128,7 +128,7 @@ cmd-alt-ctrl-m = 'exec-and-forget open -a messages'
 cmd-alt-ctrl-z = 'exec-and-forget open -n /Applications/Zen.app'
 
 # MAIL
-cmd-alt-ctrl-g = '''exec-and-forget osascript -e 'tell application "Mail"
+cmd-alt-ctrl-shift-m = '''exec-and-forget osascript -e 'tell application "Mail"
     check for new mail
 end tell'; open -a Mail'''
 
