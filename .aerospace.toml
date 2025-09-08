@@ -192,7 +192,7 @@ cmd-alt-ctrl-shift-6 = 'move-node-to-workspace 6'
 # cmd-alt-ctrl-shift-9 = 'move-node-to-workspace 9'
 
 # ========== monitors ==========
-cmd-alt-ctrl-tab = 'workspace-back-and-forth'
+cmd-alt-ctrl-tab = 'focus-monitor --wrap-around next'
 cmd-alt-ctrl-shift-tab = [
   'move-node-to-monitor --wrap-around next',
   'focus-monitor --wrap-around next',
