@@ -2,7 +2,7 @@
 
 SIDE="$1"
 NAME="wifi.$SIDE"
-REFRESH_INTERVAL=30 # in seconds
+REFRESH_INTERVAL=15 # in seconds
 
 sketchybar \
   --add item "$NAME" "$SIDE" \
