@@ -14,4 +14,4 @@ case $(date "+%p") in
     ;;
 esac
 
-sketchybar --set "$NAME" label="$(date '+%b%e %l:%M')$AM_PM"
+sketchybar --set "$NAME" label="$(date '+%b %e %l:%M')$AM_PM"
