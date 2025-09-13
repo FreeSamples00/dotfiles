@@ -330,7 +330,7 @@ compdef _files play
 
 # ========== File Operation Aliases ==========
 
-alias tree='tree -haC -I .git'
+alias tree='tree -aC -I .git -I .venv'
 alias cwd='pwd | copy'
 alias ls='eza --color=automatic --icons=automatic --no-user -a --group-directories-first --sort=type'
 
