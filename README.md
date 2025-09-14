@@ -1,12 +1,12 @@
 # My Dotfiles
 
-## Dotfiles Setup
+## Dotfiles
 
 1. run `./stow.sh test`
 2. ensure all proposed links look good
 3. run `./stow.sh link`
 
-## Homebrew setup
+## Homebrew
 
 To install [Homebrew](https://brew.sh/) packages:
 
