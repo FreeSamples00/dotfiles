@@ -305,9 +305,11 @@ function enhanced_clear() {
 if (( $USE_ENHANCED_CLEAR )); then
   alias c="enhanced_clear"
   alias cls="echo '\n' && enhanced_clear && echo && ls"
+  alias ctr="echo "\n" && enhanced_clear && tr"
 else
   alias c="clear"
   alias cls="clear && ls"
+  alias ctr="clear && tr"
 fi
 
 # ========== Terminal Configuration Aliases ==========
@@ -331,6 +333,7 @@ compdef _files play
 # ========== File Operation Aliases ==========
 
 alias tree='tree -aC -I .git -I .venv'
+alias tr="tree"
 alias cwd='pwd | copy'
 alias ls='eza --color=automatic --icons=automatic --no-user -a --group-directories-first --sort=type'
 

@@ -1,12 +1,8 @@
---ignore='typora'
---ignore='vsc.extensions'
---ignore='Brewfile'
+--target=~
+--dotfiles
+
 --ignore='.*\.bak'
---ignore='help_msg.zsh'
---ignore='terminal_app_hotkey.txt'
 --ignore='.DS_Store'
---ignore='backups'
---ignore='misc_configs'
---ignore='nondot_configs'
 --ignore='.*\.sh'
 --ignore='.*\.md'
+--ignore=.stowrc

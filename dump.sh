@@ -1,7 +1,7 @@
-#! /bin/bash
+#!/bin/bash
 
 # filepaths
-STORAGE_DIR="${HOME}/.dotfiles/nondot_configs"
+STORAGE_DIR="${HOME}/dotfiles/_dumps"
 BREW_PATH="${STORAGE_DIR}/Brewfile"
 CRON_PATH="${STORAGE_DIR}/Cronjobs"
 
