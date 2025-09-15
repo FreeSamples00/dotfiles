@@ -1,5 +1,9 @@
 #!/bin/sh
 
+sketchybar \
+  --set "$NAME" \
+        label="--"
+
 UNREAD=$(osascript -e 'tell application "Mail"
   set total to 0
   repeat with acc in accounts

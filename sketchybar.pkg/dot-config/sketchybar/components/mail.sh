@@ -11,5 +11,5 @@ sketchybar \
         script="$SCRIPT_DIR/mail.sh" \
         click_script="open -a mail"  \
         icon="󰶈" \
-        label="NULL"
+        label="--"
 
