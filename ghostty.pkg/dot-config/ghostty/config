@@ -1,4 +1,15 @@
+# ============================================================
+#                   _               _   _
+#              __ _| |__   ___  ___| |_| |_ _   _
+#             / _` | '_ \ / _ \/ __| __| __| | | |
+#            | (_| | | | | (_) \__ \ |_| |_| |_| |
+#             \__, |_| |_|\___/|___/\__|\__|\__, |
+#             |___/                         |___/
+#                 Ghostty Configuration File
+# ============================================================
+
 # Documentation:  https://ghostty.org/docs/config
+
 
 # --- TEXT ---
 font-family = "JetBrainsMono Nerd Font Mono"
@@ -12,10 +23,21 @@ window-width = 100
 macos-titlebar-style = hidden
 macos-titlebar-proxy-icon = hidden
 
-# --- THEME ---
+# --- COLORS ---
 theme = Apple System Colors
-cursor-color = #B6B9C3
+# cursor-color = #B6B9C3
+cursor-color = #9399B2
 bold-is-bright = true
+
+# --- CURSOR ---
+adjust-cursor-thickness = +5
+adjust-cursor-height = -3
+# cursor-invert-fg-bg = true
+cursor-opacity = 0.85
+cursor-style-blink = false
+
+# --- BELL ---
+bell-features = system, attention, system, title, border
 
 # --- OS BEHAVIOR ---
 desktop-notifications = true
