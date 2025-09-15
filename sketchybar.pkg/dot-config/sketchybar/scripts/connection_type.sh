@@ -32,7 +32,7 @@ hw=${hw:-Unknown}
 
 # 3) classification
 case "$hw" in
-  *iPhone*|*iPad*|*iPhone\ USB*)
+  *iPhone*|*iPad*)
     echo "hotspot"
     exit 0
     ;;
@@ -40,7 +40,7 @@ case "$hw" in
     echo "hotspot"
     exit 0
     ;;
-  *Ethernet*|*Thunderbolt*|*USB\ Ethernet*|*USB\ 10/100/1000*)
+  *Ethernet*|*Thunderbolt**|*USB*|*LAN*)
     echo "ethernet"
     exit 0
     ;;
