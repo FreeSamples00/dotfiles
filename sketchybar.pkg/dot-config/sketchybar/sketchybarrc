@@ -20,7 +20,6 @@
 # - clicking on a workspace reveals the windows in it (dropdown)
 #   - aerospace list-windows --workspace 2 --format "%{app-name} -> %{window-title}"
 #   - trim with trimmed_string="${my_string:0:$desired_length}"
-# - use dexcom API and display BG?
 # - get unread imessages?
 
 # ==================== Setup ====================
@@ -51,8 +50,6 @@ bar=(
   shadow-"$SHADOW"
   position="$BAR_POSITION"
   sticky="$BAR_STICKY"
-  padding_right="$BAR_PADDING_RIGHT"
-  padding_left="$BAR_PADDING_LEFT"
   blur_radius="$BAR_BLUR_RADIUS"
   corner_radius="$BAR_CORNER_RADIUS"
 )
