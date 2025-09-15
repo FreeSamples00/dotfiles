@@ -16,3 +16,8 @@ To install [Homebrew](https://brew.sh/) packages:
 ## Cronjobs
 
 Cronjobs are dumped into `dotfiles/_dump/Cronjobs`
+
+## Touch ID sudo
+
+to enable touch ID for _sudo_, run:
+`sed "s/^#auth/auth/" /etc/pam.d/sudo_local.template | sudo tee /etc/pam.d/sudo_local`
