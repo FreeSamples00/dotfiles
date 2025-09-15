@@ -20,7 +20,10 @@
 # ========================= GLOBAL SETTINGS =========================
 
 # launch borders-app: highlights border of focused windows
-after-startup-command = ['exec-and-forget borders', 'exec-and-forget sketchybar']
+after-startup-command = [
+'exec-and-forget borders',
+# 'exec-and-forget sketchybar'
+]
 
 # ========== auto-start ==========
 start-at-login = true
@@ -75,7 +78,7 @@ outer.left = 8
 outer.bottom = 8
 outer.right = 8
 outer.top = [
-  { monitor."built-in" = 10 },
+  { monitor."built-in" = 8 },
   { monitor."main" = 40 },
   40
 ]
