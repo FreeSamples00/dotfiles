@@ -11,6 +11,7 @@ YELLOW=0xffeed49f
 ORANGE=0xfff5a97f
 MAGENTA=0xffc6a0f6
 GREY=0xff1e1e1e
+LIGHT_GREY=0xff9399b2
 TRANSPARENT=0x00000000
 
 # ==================== Component Variables ====================
@@ -58,4 +59,5 @@ export WORKSPACE_LEFT_ENDCAP="["
 export WORKSPACE_RIGHT_ENDCAP="]"
 
 export WORKSPACE_FOCUSED_COLOR=$GREEN
-
+export WORKSPACE_EMPTY_COLOR=$LIGHT_GREY
+export WORKSPACE_DEFAULT_COLOR=$LABEL_COLOR
