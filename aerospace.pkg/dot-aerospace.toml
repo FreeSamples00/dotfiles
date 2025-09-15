@@ -119,7 +119,6 @@ cmd-alt-ctrl-space = 'exec-and-forget open -na ghostty'
 
 # CALCULATOR
 cmd-alt-ctrl-c = 'exec-and-forget open -a calculator'
-# cmd-alt-ctrl-shift-c = 'exec-and-forget open -na calculator'
 
 # MESSAGES
 cmd-alt-ctrl-m = 'exec-and-forget open -a messages'
@@ -177,9 +176,6 @@ cmd-alt-ctrl-3 = 'workspace 3'
 cmd-alt-ctrl-4 = 'workspace 4'
 cmd-alt-ctrl-5 = 'workspace 5'
 cmd-alt-ctrl-6 = 'workspace 6'
-# cmd-alt-ctrl-7 = 'workspace 7'
-# cmd-alt-ctrl-8 = 'workspace 8'
-# cmd-alt-ctrl-9 = 'workspace 9'
 
 cmd-alt-ctrl-shift-1 = 'move-node-to-workspace 1'
 cmd-alt-ctrl-shift-2 = 'move-node-to-workspace 2'
@@ -187,9 +183,6 @@ cmd-alt-ctrl-shift-3 = 'move-node-to-workspace 3'
 cmd-alt-ctrl-shift-4 = 'move-node-to-workspace 4'
 cmd-alt-ctrl-shift-5 = 'move-node-to-workspace 5'
 cmd-alt-ctrl-shift-6 = 'move-node-to-workspace 6'
-# cmd-alt-ctrl-shift-7 = 'move-node-to-workspace 7'
-# cmd-alt-ctrl-shift-8 = 'move-node-to-workspace 8'
-# cmd-alt-ctrl-shift-9 = 'move-node-to-workspace 9'
 
 # ========== monitors ==========
 cmd-alt-ctrl-tab = 'focus-monitor --wrap-around next'
