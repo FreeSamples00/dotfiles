@@ -24,6 +24,7 @@ for sid in $(aerospace list-workspaces --all); do
         --set "$NAME" \
               label="$sid" \
               script="$SCRIPT_DIR/aerospace.sh $sid" \
+              click_script="aerospace workspace $sid" \
               padding_left=0 \
               padding_right=0 \
               label.padding_left=3 \
