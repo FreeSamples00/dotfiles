@@ -42,6 +42,7 @@ right_items=(
   "battery"
   "volume"
   "mail"
+  "focus"
 )
 
 bar=(
