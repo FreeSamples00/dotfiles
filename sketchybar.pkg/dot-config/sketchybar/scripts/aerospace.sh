@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source "$CONFIG_DIR/aesthetics.sh"
+FOCUSED_WORKSPACE=$(aerospace list-workspaces --focused)
 
 if [ "$1" == "$FOCUSED_WORKSPACE" ]; then
     sketchybar \
@@ -16,4 +17,3 @@ else
   fi
 
 fi
-

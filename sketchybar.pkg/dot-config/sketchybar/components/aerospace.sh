@@ -21,6 +21,7 @@ for sid in $(aerospace list-workspaces --all); do
     sketchybar \
         --add item "$NAME" "$SIDE" \
         --subscribe "$NAME" aerospace_workspace_change \
+        --subscribe "$NAME" front_app_switched \
         --set "$NAME" \
               label="$sid" \
               script="$SCRIPT_DIR/aerospace.sh $sid" \
