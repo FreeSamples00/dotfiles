@@ -21,8 +21,8 @@
 
 # launch borders-app: highlights border of focused windows
 after-startup-command = [
-'exec-and-forget borders',
-# 'exec-and-forget sketchybar'
+# 'exec-and-forget borders',
+'exec-and-forget sketchybar'
 ]
 
 # ========== auto-start ==========
