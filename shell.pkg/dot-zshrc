@@ -200,25 +200,6 @@ function edit() {
 
 compdef _files edit
 
-# Sends a macOS alert via terminal-notifier.
-if [[ "$OPERATING_SYSTEM" == "macos" ]] && [[ "$EMULATOR" == "ghostty" ]]; then
-
-  function alert() {
-    TITLE='🚨Ghostty🚨'
-    TERM_APP_ID="com.mitchellh.ghostty"
-    SOUND_PATH="/system/library/sounds/Ping.aiff"
-
-    if [[ "$@" == "" || "$@" == " " ]]; then
-      echo "Alert" | terminal-notifier -title $TITLE -activate $TERM_APP_ID -ignoreDnD
-    else
-      echo $@ | terminal-notifier -title $TITLE -activate $TERM_APP_ID -ignoreDnD
-    fi
-
-    afplay $SOUND_PATH
-  }
-
-fi
-
 # Overwrites `cat` with `bat` for interactive use.
 function cat() {
   if [[ "$1" == "-h" || "$1" == "--help" ]] then
@@ -315,7 +296,6 @@ fi
 # ========== Terminal Configuration Aliases ==========
 
 alias config="edit ~/.zshrc"
-alias vimconfig="edit ~/.config/nvim/"
 alias reload='clear && exec zsh'
 
 # ========== Media Playback ==========
