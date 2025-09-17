@@ -47,7 +47,7 @@ automatically-unhide-macos-hidden-apps = true
 
 # ========== events ==========
 exec-on-workspace-change = ['/bin/bash', '-c',
-  'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+  'sketchybar --trigger aerospace_workspace_change'
 ]
 
 on-focused-monitor-changed = 'move-mouse monitor-lazy-center'
@@ -127,7 +127,8 @@ cmd-alt-ctrl-c = 'exec-and-forget open -a calculator'
 cmd-alt-ctrl-m = 'exec-and-forget open -a messages'
 
 # ZEN
-cmd-alt-ctrl-z = 'exec-and-forget open -n /Applications/Zen.app'
+# cmd-alt-ctrl-z = 'exec-and-forget open -na Zen'
+cmd-alt-ctrl-z = 'exec-and-forget ~/dotfiles/aerospace.pkg/zen_helper.sh'
 
 # MAIL
 cmd-alt-ctrl-shift-m = '''exec-and-forget osascript -e 'tell application "Mail"
@@ -135,7 +136,8 @@ cmd-alt-ctrl-shift-m = '''exec-and-forget osascript -e 'tell application "Mail"
 end tell'; open -a Mail'''
 
 # IPHONE MIRRORING
-cmd-alt-ctrl-p = 'exec-and-forget open -a "iphone mirroring"'
+# cmd-alt-ctrl-p = 'exec-and-forget open -a "iphone mirroring"'
+cmd-alt-ctrl-p = 'exec-and-forget open -a "Passwords"'
 
 # UTM vm software
 cmd-alt-ctrl-v = 'exec-and-forget open -a "UTM"'
