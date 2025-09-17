@@ -18,18 +18,9 @@
 
 - [ ] `lazydocker`
 
-- [ ] add `glow` for md files in cat
-
 - [ ] add indicator to prompt for background process (from ctrl + z)
 
 ## Neovim
-
-- [ ] change completion keybinds:
-  - [ ] `ctrl + y`: accept completion (ctrl enter?)
-  - [ ] `ctrl + n`: dismiss completion menu
-  - [ ] `ctrl + space`: manually trigger completions
-  - [ ] `ctrl + j`: cycle completions (down)
-  - [ ] `ctrl + k`: cycle completions (up)
 
 - [ ] lualine elements to add:
   - [ ] macro recording indicator
