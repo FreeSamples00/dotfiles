@@ -114,7 +114,6 @@ zinit_safe light zsh-users/zsh-completions # aggregates zsh completion scripts
 # ========== Git & Utility Plugins ==========
 
 fpath=(~/bin/wd $fpath)
-zinit_safe light mfaerevaag/wd # warp directory TODO: remove?
 zinit_safe light laggardkernel/git-ignore # generate gitignores
 
 # ========== Oh-My-Zsh Snippets ==========
