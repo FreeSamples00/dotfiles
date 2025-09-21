@@ -32,7 +32,7 @@ export ICON_COLOR=$WHITE # Color of all icons
 export LABEL_COLOR=$WHITE # Color of all labels
 export SHADOW_COLOR=$BLACK
 
-export BAR_HEIGHT=40
+export BAR_HEIGHT=35
 export BAR_POSITION="top"
 export BAR_STICKY="on"
 export BAR_PADDING_RIGHT=10
