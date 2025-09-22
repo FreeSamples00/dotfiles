@@ -67,6 +67,9 @@ default=(
   icon.padding_right="$ICON_PADDING"
   label.padding_left="$ICON_PADDING"
   label.padding_right="$ICON_PADDING"
+  popup.background.drawing=on
+  popup.background.color="$BACKGROUND_COLOR"
+  popup.background.corner_radius="$BACKGROUND_RADIUS"
 )
 
 # ==================== Setup ====================
