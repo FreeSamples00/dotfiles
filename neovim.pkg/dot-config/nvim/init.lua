@@ -1,5 +1,12 @@
 -- bootstrap lazy.nvim, LazyVim and your plugins
 
+-- neovide settings
+if vim.g.neovide then
+  vim.o.guifont = "JetBrainsMono Nerd Font Mono:h18"
+  vim.g.neovide_window_focused = "transparent"
+  vim.g.neovide_no_window_decorations = true
+end
+
 -- -- percentage of screen from top or bottom and which autoscrolling is triggered
 -- -- - use 50 for typewriter style
 local TRIGGER_PERCENTAGE = 40

@@ -16,6 +16,7 @@ USE_ENHANCED_CLEAR=1
 
 export EDITOR="nvim"
 export VISUAL="nvim"
+export GUI_EDITOR="neovide"
 PAGER="bat --paging=always"
 
 LINUX_FILE_MANAGER="xdg-open"
@@ -184,20 +185,16 @@ export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 # ==================== FUNCTIONS ====================
 
 # neovim shorthand
-alias e="edit"
-function edit() {
-  local -a args
+alias e="nvim"
+compdef _files e
 
-  if (( $# == 0 )); then
-    args=(".")
-  else
-    args=("$@")
-  fi
-
-  "$EDITOR" "${args[@]}"
-}
-
-compdef _files edit
+# neovide shorthand
+if [[ $OPERATING_SYSTEM == "macos" ]]; then
+  alias eg="neovide --frame=buttonless"
+else
+  alias eg="neovide --frame=none"
+fi
+compdef _files eg
 
 # Overwrites `cat` with `bat` for interactive use.
 function cat() {
@@ -294,7 +291,7 @@ fi
 
 # ========== Terminal Configuration Aliases ==========
 
-alias config="edit ~/.zshrc"
+alias config="$EDITOR ~/.zshrc"
 alias reload='clear && exec zsh'
 
 # ========== Media Playback ==========
