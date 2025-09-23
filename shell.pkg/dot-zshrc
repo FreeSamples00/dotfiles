@@ -189,11 +189,13 @@ alias e="nvim"
 compdef _files e
 
 # neovide shorthand
-if [[ $OPERATING_SYSTEM == "macos" ]]; then
-  alias eg="neovide --frame=buttonless"
-else
-  alias eg="neovide --frame=none"
-fi
+function eg() {
+  if [[ "$OPERATING_SYSTEM" == "macos" ]]; then
+    ( "$GUI_EDITOR" --frame=buttonless "$@" >/dev/null 2>&1 & )
+  else
+    ( "$GUI_EDITOR" --frame=transparent "$@" >/dev/null 2>&1 & )
+  fi
+}
 compdef _files eg
 
 # Overwrites `cat` with `bat` for interactive use.
