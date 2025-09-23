@@ -9,7 +9,7 @@ end
 
 -- -- percentage of screen from top or bottom and which autoscrolling is triggered
 -- -- - use 50 for typewriter style
-local TRIGGER_PERCENTAGE = 40
+local TRIGGER_PERCENTAGE = 35
 
 local function set_dynamic_scrolloff()
   local h = vim.api.nvim_win_get_height(0)
