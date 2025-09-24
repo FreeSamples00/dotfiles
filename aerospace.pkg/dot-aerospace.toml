@@ -135,15 +135,17 @@ cmd-alt-ctrl-shift-m = '''exec-and-forget osascript -e 'tell application "Mail"
     check for new mail
 end tell'; open -a Mail'''
 
-# IPHONE MIRRORING
-# cmd-alt-ctrl-p = 'exec-and-forget open -a "iphone mirroring"'
+# PASSWORDS
 cmd-alt-ctrl-p = 'exec-and-forget open -a "Passwords"'
 
 # UTM vm software
 cmd-alt-ctrl-v = 'exec-and-forget open -a "UTM"'
 
-# discord
-cmd-alt-ctrl-d = 'exec-and-forget open -a "discord"'
+# DISCORD
+cmd-alt-ctrl-d = 'exec-and-forget open -a "Discord"'
+
+# FINDER
+cmd-alt-ctrl-f = 'exec-and-forget open -a "Finder"'
 
 # ========================= TILING HOTKEYS =========================
 
