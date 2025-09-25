@@ -43,3 +43,12 @@ vim.keymap.set("x", "p", [["_dP]], {
 vim.keymap.set("x", "P", [["_dP]], {
   desc = "Paste without copying overwritten text",
 })
+
+-- ==================== Terminal Emulator ====================
+
+vim.api.nvim_create_autocmd("TermOpen", {
+  pattern = "*",
+  callback = function()
+    vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true, buffer = 0 })
+  end,
+})
