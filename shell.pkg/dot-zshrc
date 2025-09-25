@@ -206,7 +206,7 @@ function cat() {
   fi
 
   if [[ -t 1 ]]; then
-    command bat "$@"
+    command bat -p "$@"
   else
     command cat "$@"
   fi
