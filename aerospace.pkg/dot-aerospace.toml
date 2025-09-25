@@ -115,6 +115,11 @@ run = 'layout floating'
 
 # ========================= GENERAL HOTKEYS =========================
 
+# Screenshots
+# - hold ctrl while taking to save directly to clipboard
+# - otherwise saves to /tmp from GUI
+cmd-alt-ctrl-shift-s = 'exec-and-forget screencapture -diu -J "window" -f /tmp/'
+
 # ========================= APPLICATION HOTKEYS =========================
 
 # GHOSTTY
