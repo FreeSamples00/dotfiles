@@ -20,7 +20,6 @@
 # - clicking on a workspace reveals the windows in it (dropdown)
 #   - aerospace list-windows --workspace 2 --format "%{app-name} -> %{window-title}"
 #   - trim with trimmed_string="${my_string:0:$desired_length}"
-# - get unread imessages?
 
 # ==================== Setup ====================
 
@@ -42,6 +41,7 @@ right_items=(
   "battery"
   "volume"
   "mail"
+  "caffeinate"
   "focus"
 )
 
