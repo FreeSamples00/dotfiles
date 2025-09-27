@@ -120,6 +120,32 @@ run = 'layout floating'
 # - otherwise saves to /tmp from GUI
 cmd-alt-ctrl-shift-s = 'exec-and-forget screencapture -diu -J "window" -f /tmp/'
 
+# Toggle preview's dark mode
+ctrl-d = '''exec-and-forget osascript -e 'tell application "System Events"
+  if not (exists process "Preview") then return
+  if not (frontmost of process "Preview") then return
+
+  tell process "Preview"
+    set winCount to count of windows
+    if winCount < 1 then return
+    repeat with i from winCount to 1 by -1
+      try
+        tell application "Preview" to set index of window i to 1
+        delay 0.1
+        tell menu bar 1
+          tell menu bar item "View"
+            tell menu 1
+              if exists menu item "Use Dark Appearance for PDF" then
+                click menu item "Use Dark Appearance for PDF"
+              end if
+            end tell
+          end tell
+        end tell
+      end try
+    end repeat
+  end tell
+end tell'
+'''
 
 # ========================= APPLICATION HOTKEYS =========================
 
