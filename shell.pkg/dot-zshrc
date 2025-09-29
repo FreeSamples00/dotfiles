@@ -190,11 +190,7 @@ compdef _files e
 
 # neovide shorthand
 function eg() {
-  if [[ "$OPERATING_SYSTEM" == "macos" ]]; then
-    ( "$GUI_EDITOR" --frame=buttonless "$@" >/dev/null 2>&1 & )
-  else
-    ( "$GUI_EDITOR" --frame=transparent "$@" >/dev/null 2>&1 & )
-  fi
+    ( "$GUI_EDITOR" "$@" >/dev/null 2>&1 & )
 }
 compdef _files eg
 
