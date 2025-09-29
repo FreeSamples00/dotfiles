@@ -352,7 +352,9 @@ alias lg='lazygit'
 
 # ========== Command Replacements ==========
 
-alias top='btop'
+alias top='btop -p 0'
+alias ntop='btop -p 2'
+alias ptop='btop -p 1'
 alias diff='delta --side-by-side'
 alias listen='/bin/cat -v'
 alias path='print -c ${(s/:/)PATH} | bat --file-name "\$PATH"'

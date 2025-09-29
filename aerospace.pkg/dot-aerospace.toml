@@ -186,12 +186,12 @@ exec-and-forget osascript -e 'tell application "Ghostty"
     activate
     tell application "System Events" to keystroke "n" using {command down}
     delay 0.12
-    tell application "System Events" to keystroke "top"
+    tell application "System Events" to keystroke "ptop"
     tell application "System Events" to key code 36
   else
     activate
     delay 0.12
-    tell application "System Events" to keystroke "top"
+    tell application "System Events" to keystroke "ptop"
     tell application "System Events" to key code 36
   end if
 end tell'
