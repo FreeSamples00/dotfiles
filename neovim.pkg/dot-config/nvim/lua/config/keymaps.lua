@@ -52,3 +52,20 @@ vim.api.nvim_create_autocmd("TermOpen", {
     vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true, buffer = 0 })
   end,
 })
+
+-- ==================== Neovide ====================
+
+if vim.g.neovide then
+  -- Paste (normal / visual)
+  vim.keymap.set("n", "<D-v>", '"+p', { noremap = true, silent = true })
+  vim.keymap.set("v", "<D-v>", '"+p', { noremap = true, silent = true })
+
+  -- Paste in insert mode (Ctrl-R + reads + register)
+  vim.keymap.set("i", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+
+  -- Paste in command-line mode (e.g. after ':')
+  vim.keymap.set("c", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+
+  -- Copy with Cmd+C in visual mode
+  vim.keymap.set("v", "<D-c>", '"+y', { noremap = true, silent = true })
+end
