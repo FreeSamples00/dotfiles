@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # script
 
 # The $SELECTED variable is available for space components and indicates if

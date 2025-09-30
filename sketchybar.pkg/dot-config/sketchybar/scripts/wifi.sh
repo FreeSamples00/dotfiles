@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # script
 
 CONNECTION_TYPE=$("$CONFIG_DIR/scripts/connection_type.sh")

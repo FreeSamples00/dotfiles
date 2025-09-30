@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # script
 
 # formatting follows https://en.wikipedia.org/wiki/ISO_8601

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # script
 
 # The brightness_change event supplies a $INFO variable in which the current brightness

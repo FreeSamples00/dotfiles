@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # script
 
 if osascript -e 'output muted of (get volume settings)' | grep "true"; then

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # script
 
 # Some events send additional information specific to the event in the $INFO
