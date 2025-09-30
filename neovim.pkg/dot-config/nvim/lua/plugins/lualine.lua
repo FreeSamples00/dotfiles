@@ -70,7 +70,6 @@ return {
     }
 
     -- TMUX indicator for lualine_x
-    -- Ensure lualine_x exists as a table before inserting
     opts.sections.lualine_x = opts.sections.lualine_x or {}
     table.insert(opts.sections.lualine_x, 1, {
       function()
@@ -82,6 +81,23 @@ return {
       end,
       color = {
         fg = "#7AA87F",
+        bg = nil,
+        gui = "bold",
+      },
+    })
+
+    -- MACRO indicator for lualine_x
+    opts.sections.lualine_x = opts.sections.lualine_x or {}
+    table.insert(opts.sections.lualine_x, 1, {
+      function()
+        local reg = vim.fn.reg_recording()
+        if reg == "" then
+          return ""
+        end -- not recording
+        return " " .. reg
+      end,
+      color = {
+        fg = "#cb2000",
         bg = nil,
         gui = "bold",
       },
