@@ -1,4 +1,5 @@
 #!/bin/sh
+# script
 
 # formatting follows https://en.wikipedia.org/wiki/ISO_8601
 

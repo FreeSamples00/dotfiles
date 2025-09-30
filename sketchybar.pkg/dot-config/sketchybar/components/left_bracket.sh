@@ -1,4 +1,5 @@
 #! /bin/bash
+# components
 
 sketchybar \
   --add bracket left_bracket '/.*\.left/' \

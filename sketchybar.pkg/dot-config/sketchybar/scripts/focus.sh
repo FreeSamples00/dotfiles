@@ -1,4 +1,5 @@
 #!/bin/bash
+# script
 
 FOCUS=$(shortcuts run "Focus_Helper")
 

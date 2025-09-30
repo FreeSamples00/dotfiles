@@ -1,4 +1,5 @@
 #! /bin/bash
+# components
 
 sketchybar \
   --add bracket right_bracket '/.*\.right/' \

@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # script
 
 sketchybar \

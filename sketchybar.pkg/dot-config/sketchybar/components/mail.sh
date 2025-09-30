@@ -1,4 +1,5 @@
 #!/bin/sh
+# components
 
 SIDE="$1"
 NAME="mail.$SIDE"

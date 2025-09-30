@@ -1,4 +1,5 @@
 #!/bin/sh
+# script
 
 sketchybar \
   --set "$NAME" \

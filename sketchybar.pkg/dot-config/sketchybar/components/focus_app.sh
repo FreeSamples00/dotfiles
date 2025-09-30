@@ -1,4 +1,5 @@
 #! /bin/bash
+# components
 
 
 SIDE="$1"

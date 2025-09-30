@@ -1,4 +1,5 @@
 #!/bin/bash
+# script
 
 source "$CONFIG_DIR/aesthetics.sh"
 FOCUSED_WORKSPACE=$(aerospace list-workspaces --focused)
