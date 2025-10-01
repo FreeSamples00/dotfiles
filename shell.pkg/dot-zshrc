@@ -23,13 +23,11 @@ LINUX_FILE_MANAGER="xdg-open"
 
 ERROR_STATUS=""
 
-EMULATOR="ghostty"
-
 alias echo='echo -e'
 
-zle_bracketed_paste=1
+set zle_bracketed_paste
 
-setopt IGNORE_EOF
+setopt IGNORE_EOF # prevent shell from exiting upon EOF
 
 # ==================== INTERACTIVITY CHECK ====================
 
