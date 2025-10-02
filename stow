@@ -17,11 +17,11 @@ if [[ "$1" == "" || "$1" == "-h" || "$1" == "--help" ]]; then
   echo -e "\tunlink: delete all links"
   exit 1
 elif [[ "$1" == "test" ]]; then
-  stow -nv ./*.pkg
+  stow -nv *.pkg
 elif [[ "$1" == "link" ]]; then
-  stow -v ./*.pkg
+  stow -v *.pkg
 elif [[ "$1" == "unlink" ]]; then
-  stow -Dv ./*.pkg
+  stow -Dv *.pkg
 else
   echo "Command '$1' not found"
   exit 1
