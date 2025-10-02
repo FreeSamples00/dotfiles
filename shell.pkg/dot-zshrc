@@ -8,389 +8,76 @@
 #                         ZSH Configuration File
 # ==============================================================================
 
-# ==================== CORE SETTINGS & VARIABLES ====================
-
-DO_SPLASH_SCREEN=1
-
-USE_ENHANCED_CLEAR=1
-
-export EDITOR="nvim"
-export VISUAL="nvim"
-export GUI_EDITOR="neovide"
-PAGER="bat --paging=always"
-
-LINUX_FILE_MANAGER="xdg-open"
-
-ERROR_STATUS=""
-
-alias echo='echo -e'
-
-set zle_bracketed_paste
-
-setopt IGNORE_EOF # prevent shell from exiting upon EOF
-
 # ==================== INTERACTIVITY CHECK ====================
 
-# Prevents execution if not in an interactive shell.
 if [[ $- != *i* ]]; then
   return
 fi
+
+# ==================== CORE SETTINGS & VARIABLES ====================
+
+SHELL_CONFIG="$HOME/dotfiles/shell.pkg"
+
+function shell_source() {
+  if ! [ -f "$SHELL_CONFIG/$1.zsh" ]; then
+    echo "$1.zsh could not be sourced"
+  fi
+  source "$SHELL_CONFIG/$1.zsh"
+}
+
+shell_source settings
 
 # ==================== OPERATING SYSTEM DETECTION ====================
 
 case "$OSTYPE" in
   linux*)
     OPERATING_SYSTEM="linux"
+    shell_source linux
+    HOSTNAME=$(hostname | \grep -E -o '^[^.]+')
     ;;
   darwin*)
     OPERATING_SYSTEM="macos"
+    shell_source macos
+    HOSTNAME=$(scutil --get ComputerName)
     ;;
   *)
     OPERATING_SYSTEM=""
+    HOSTNAME="HOSTNAME NOT FOUND"
     ERROR_STATUS="$ERROR_STATUS\n\tNot a supported OS. ($OSTYPE)"
     ;;
 esac
 
-# ==================== ENVIRONMENT SETUP ====================
-
-# ========== Homebrew Setup ==========
-
-if [[ "$OPERATING_SYSTEM" == "macos" ]]; then
-
-  if [[ -f "/opt/homebrew/bin/brew" ]] then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-  else
-    ERROR_STATUS="$ERROR_STATUS\n\tHomeBrew path ''/opt/homebrew/bin/brew' not found (line ${LINENO})"
-  fi
-
-elif [[ "$OPERATING_SYSTEM" == "linux" ]]; then
-
-  if [[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ]] then
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-  else
-    ERROR_STATUS="$ERROR_STATUS\n\tLinuxBrew path '/home/linuxbrew/.linxbrew/bin/brew' not found(line ${LINENO})"
-  fi
-
-fi
-
 # ==================== TIMEKEEPING ====================
 
-# take start time
 START_TIME=$(gdate +%s%3N)
 
-# ==================== ZINIT PLUGIN MANAGER ====================
+# ==================== SOURCING ====================
 
-# Set zinit directory.
-ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+shell_source zinit
 
-# Download Zinit if not present.
-if [ ! -d "$ZINIT_HOME" ]; then
-  mkdir -p "$(dirname $ZINIT_HOME)"
-  git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
-fi
+shell_source zsh
 
-# Source Zinit.
-source "${ZINIT_HOME}/zinit.zsh"
+shell_source zoxide
 
-# ==================== ZSH PLUGINS & SNIPPETS ====================
+shell_source colorize
 
-# zinit wrapper w/ error 'handling'
-function zinit_safe() {
-  zinit "$@"
-  if (( status != 0 )); then
-    ERROR_STATUS="$ERROR_STATUS\n\tZinit $1 failed for '$2' (line: ${LINENO})"
+shell_source fzf
+
+shell_source tmux
+
+shell_source functions
+
+shell_source aliases
+
+# ==================== IMPORT FROM PACKAGES ====================
+
+local DOTFILES_DIR="$HOME/dotfiles"
+
+for package in $DOTFILES_DIR/*.pkg; do
+  if [ -f "$package/init.zsh" ]; then
+    source "$package/init.zsh"
   fi
-}
-
-# ========== ZSH Enhancements ==========
-
-zinit_safe light zsh-users/zsh-syntax-highlighting # syntax highlights in commandline
-zinit_safe light zsh-users/zsh-autosuggestions # history based completions
-zinit_safe light Aloxaf/fzf-tab # use fzf for tab completions
-zinit_safe light MichaelAquilina/zsh-you-should-use # reminds you of aliases if you do not use them
-zinit_safe light zsh-users/zsh-completions # aggregates zsh completion scripts
-
-# ========== Git & Utility Plugins ==========
-
-fpath=(~/bin/wd $fpath)
-zinit_safe light laggardkernel/git-ignore # generate gitignores
-
-# ========== Oh-My-Zsh Snippets ==========
-
-zinit_safe snippet OMZL::git.zsh # no idea what this is for (might be important?)
-zinit_safe snippet OMZP::git # git aliases
-zinit_safe snippet OMZP::sudo # esc-esc for sudo
-zinit_safe snippet OMZP::ssh # add .ssh/config completions
-
-# ==================== ZOXIDE ====================
-
-unalias zi # zi is zinit by default
-eval "$(zoxide init zsh)"
-alias cd='z'
-alias zd='zi'
-
-# ==================== ZSH COMPLETION SETUP ====================
-
-autoload -Uz compinit && compinit
-zinit cdreplay -q
-
-# Completion styling.
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-zstyle ':completion:*' menu no
-zstyle ':fzf-tab:complete:*:*' fzf-preview 'bat --color=always --line-range :500 ${(Q)realpath}'
-
-# ==================== ZSH HISTORY CONFIGURATION ====================
-
-HISTSIZE=5000
-HISTFILE=~/.zsh_history
-SAVEHIST=$HISTSIZE
-HISTDUP=erase
-setopt appendhistory
-setopt sharehistory
-setopt hist_ignore_space
-setopt hist_ignore_all_dups
-setopt hist_save_no_dups
-setopt hist_ignore_dups
-
-# ==================== PROGRAM-SPECIFIC CONFIGURATIONS ====================
-
-
-# ========== MAN COLORIZING ==========
-
-export LESS_TERMCAP_mb=$'\e[1;36m' # start blinking (bold cyan)
-export LESS_TERMCAP_md=$'\e[1;33m' # start bold (bold yellow)
-export LESS_TERMCAP_me=$'\e[0m'    # end attributes
-export LESS_TERMCAP_so=$'\e[1;44;33m' # start standout (bold yellow on blue) - for headings/sections
-export LESS_TERMCAP_se=$'\e[0m'    # end standout
-export LESS_TERMCAP_us=$'\e[1;32m' # start underline (bold green) - for paths/filenames
-export LESS_TERMCAP_ue=$'\e[0m'    # end underline
-export LESS_TERMCAP_mh=$'\e[0m'    # disable half-bright
-export LESS_TERMCAP_mr=$'\e[7m'    # enter reverse mode
-export LESS_TERMCAP_ZJ=$'\e[1;35m' # bold magenta for comments (this one is less common, customize as needed)
-export LESS_TERMCAP_ZN=$'\e[0m'    # end ZJ
-
-# ========== FZF Configuration ==========
-
-eval "$(fzf --zsh)"
-export FZF_DEFAULT_COMMAND='fd --hidden --strip-cwd-prefix --exclude .git'
-export FXF_CTRL_T_COMMAND='$FZF_DEFAULT_COMMAND'
-export FXF_ALT_C_COMMAND='fd --type=d --hidden --strip-cwd-prefix --exclude .git'
-export FZF_DEFAULT_OPTS='--height 50% --layout=default --border --color=hl:#2dd4bf'
-export FZF_CTRL_T_OPTS="--preview 'bat --color=always -n --line-range :500 {}'"
-export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
-
-# ==================== FUNCTIONS ====================
-
-# neovim shorthand
-alias e="nvim"
-compdef _files e
-
-# neovide shorthand
-function eg() {
-    ( "$GUI_EDITOR" "$@" >/dev/null 2>&1 & )
-}
-compdef _files eg
-
-# Overwrites `cat` with `bat` for interactive use.
-# function cat() {
-#   if [[ "$1" == "-h" || "$1" == "--help" ]] then
-#     bat -h
-#     exit 0
-#   fi
-#
-#   if [[ -t 1 ]]; then
-#     command bat -p "$@"
-#   else
-#     command cat "$@"
-#   fi
-# }
-# compdef _files cat
-
-# Gets the root of the current Git repository.
-function git_root() {
-  local root_dir=$(git rev-parse --show-toplevel 2>/dev/null)
-  if [[ "$root_dir" == "" ]]; then
-    echo "$(pwd)"
-  else
-    echo "$root_dir"
-  fi
-}
-
-# Edits the project's .gitignore file.
-function ignore() {
-  $EDITOR "$(git_root)/.gitignore"
-}
-
-# Edits the project's TODO.md file.
-function todo() {
-  $EDITOR "$(git_root)/TODO.md"
-}
-
-# edit a project's README.md file
-function readme() {
-  $EDITOR "$(git_root)/README.md"
-}
-
-# ==================== TMUX CONFIGURATION & ALIASES ====================
-
-function tmuxn() {
-  if [[ "$1" != "" ]]; then
-    command tmux new-session -s $1 "exec zsh"
-  else
-    command tmux new-session "exec zsh"
-  fi
-}
-
-function tmuxa() {
-  if [[ "$1" == "" ]]; then
-    command tmux attach
-  else
-    command tmux attach -t "$1"
-  fi
-}
-
-alias tmuxk="tmux kill-session"
-alias tmuxl="tmux ls"
-alias tmuxd="tmux detach"
-
-# ==================== ALIASES ====================
-
-# ========== General Aliases ==========
-
-function enhanced_clear() {
-
-  if [[ "$TMUX" != "" ]]; then
-    clear
-    return
-  fi
-
-  PROMPT_SIZE=5
-
-  for _ in {$PROMPT_SIZE..$LINES}; do
-    echo ""
-  done
-
-  printf $'\e[H\e[J'
-}
-
-if (( $USE_ENHANCED_CLEAR )); then
-  alias c="enhanced_clear"
-  alias cls="echo '\n' && enhanced_clear && echo && ls"
-  alias ctr="echo "\n" && enhanced_clear && tr"
-else
-  alias c="clear"
-  alias cls="clear && ls"
-  alias ctr="clear && tr"
-fi
-
-# ========== Terminal Configuration Aliases ==========
-
-alias config="$EDITOR ~/.zshrc"
-alias reload='clear && exec zsh'
-
-# ========== Media Playback ==========
-
-function play() {
-  if ! [[ -f "$1" ]]; then
-    printf "\033[91mERR: file not found\033[0m\n"
-    exit 1
-  fi
-
-  command nohup mpv "$1" &>/dev/null &
-}
-compdef _files play
-
-# ========== File Operation Aliases ==========
-
-alias tree='tree -aC -I .git -I .venv'
-alias cwd='pwd | copy'
-alias ls='eza --color=automatic --icons=automatic --no-user -a --group-directories-first --sort=type'
-
-if [[ "$OPERATING_SYSTEM" == "macos" ]]; then
-  alias ofd='open -R "$(pwd)"'
-
-elif [[ "$OPERATING_SYSTEM" == "linux" ]]; then
-  alias ofd="$LINUX_FILE_MANAGER ."
-
-fi
-
-# ========== Grep / Search Aliases ==========
-
-alias grep='grep -ni --color=auto --exclude-dir={.bzr,cvs,.git,.hg,.svn,.idea,.tox,.venv,venv}'
-# alias grepa='rga -niu'
-# alias grepf='fd -u | rg -iu'
-# alias grepd='fd -u -t d | rg -iu'
-alias grepa='grep -Rni --exclude-dir={.bzr,cvs,.git,.hg,.svn,.idea,.tox,.venv,venv}'
-alias grepf='find . | grep -i'
-alias grepd='find . -type d | rg -iu'
-
-# ========== Clipboard Aliases ==========
-
-if [[ "$OPERATING_SYSTEM" == "macos" ]]; then
-
-  alias copy='pbcopy'
-  alias paste='pbpaste'
-
-elif [[ "$OPERATING_SYSTEM" == "linux" ]]; then
-
-  alias copy='xclip -selection clipboard -i'
-  alias paste='xclip -selection clipboard -o'
-
-fi
-
-# ========== System Information Aliases ==========
-
-alias '?'='echo $?'
-
-# ========== Git Operation Aliases ==========
-
-alias gi='git-ignore'
-alias lg='lazygit'
-
-# ========== Command Replacements ==========
-
-alias cat="bat -p"
-
-alias top='btop -p 0'
-alias ntop='btop -p 2'
-alias ptop='btop -p 1'
-
-alias diff='delta --side-by-side'
-
-# alias listen='/bin/cat -v'
-# alias clear="\clear" # fixes spacing for ghostty
-
-# ========== Enhanced Core Commands ==========
-
-alias less='less -R'
-alias rm='rm -I'
-alias gcc='gcc -Wall'
-
-# ========== Utility Tools ==========
-
-alias update='brew update && brew upgrade && brew cleanup; zinit update'
-
-alias sizeof='du -hs'
-alias storage="dust -rC | bat --file-name 'Storage Breakdown'"
-
-alias wclone='wget --mirror --convert-links --adjust-extension --page-requisites --show-progress'
-alias colors='terminal_colors.sh'
-alias 2pdf='mdpdf --ghstyle=true --border 0.5in'
-alias bench='hyperfine'
-alias path='print -c ${(s/:/)PATH} | bat --file-name "\$PATH"'
-
-# ========== macOS Specific Utilities ==========
-
-if [[ "$OPERATING_SYSTEM" == "macos" ]]; then
-  alias battery='system_profiler SPPowerDataType | grep -E "Cycle Count|Condition|Maximum Capacity" | bat'
-fi
-
-# ========== Help Output Formatting Aliases (Global) ==========
-
-alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
-alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
-
+done
 
 # ==================== ERROR CHECK ====================
 
@@ -410,35 +97,17 @@ if [[ "$ERROR_STATUS" != "" ]]; then
   echo "\033[0m\n\n"
 fi
 
-# ==================== LOGIN ACTIONS ====================
-
-# ========== SPLASH SCREEN ==========
-
-if [[ "$OPERATING_SYSTEM" == "macos" ]]; then
-  NAME=$(scutil --get ComputerName)
-elif [[ "$OPERATING_SYSTEM" == "linux" ]]; then
-  NAME=$(hostname | \grep -E -o '^[^.]+')
-else
-  NAME ="NAME NOT FOUND"
-fi
+# ==================== SPLASH SCREEN ==================== 
 
 if (( DO_SPLASH_SCREEN )); then
-  echo $NAME | figlet -c -w $COLUMNS | lolcat -f
+  shell_source splash_screen
 fi
 
-# ========== DISPLAY LOAD TIME ==========
+# ==== DISPLAY LOAD TIME ====
 
-# get end time
-END_TIME=$(gdate +%s%3N)
+# END_TIME=$(gdate +%s%3N)
+echo "\033[90mzsh load time: $(( $(gdate +%s%3N) - START_TIME ))ms\033[0m"
 
-# Calculate and display load time.
-echo "\033[90mzsh load time: $(( END_TIME - START_TIME ))ms\033[0m"
+# ==================== PROMPT & CURSOR ==================== 
 
-# ========== PROMPT ==========
-
-eval "$(starship init zsh)"
-
-# ========== SET CURSOR AND INPUT MODE ==========
-
-printf '\e[5 q' # blinking bar
-bindkey -e
+shell_source prompt
