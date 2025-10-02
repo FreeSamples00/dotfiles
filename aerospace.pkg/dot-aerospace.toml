@@ -171,7 +171,7 @@ end tell'; open -a Mail'''
 cmd-alt-ctrl-p = 'exec-and-forget open -a "Passwords"'
 
 # UTM vm software
-cmd-alt-ctrl-v = 'exec-and-forget open -a "UTM"'
+cmd-alt-ctrl-v = 'exec-and-forget open -a "VMWare Fusion"'
 
 # DISCORD
 cmd-alt-ctrl-d = 'exec-and-forget open -a "Discord"'
