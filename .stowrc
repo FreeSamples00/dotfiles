@@ -2,6 +2,7 @@
 --dir=~/dotfiles
 --dotfiles
 
+--ignore='.*.zsh'
 --ignore='.*\.bak'
 --ignore='.DS_Store'
 --ignore='.*\.sh'
