@@ -46,5 +46,4 @@ alias wclone='wget --mirror --convert-links --adjust-extension --page-requisites
 alias colors='terminal_colors.sh'
 alias 2pdf='mdpdf --ghstyle=true --border 0.5in'
 alias bench='hyperfine'
-alias path='print -c ${(s/:/)PATH} | bat --file-name "\$PATH"'
 

@@ -57,6 +57,8 @@ shell_source zinit
 
 shell_source zsh
 
+shell_source path
+
 shell_source zoxide
 
 shell_source colorize
@@ -105,7 +107,6 @@ fi
 
 # ==== DISPLAY LOAD TIME ====
 
-# END_TIME=$(gdate +%s%3N)
 echo "\033[90mzsh load time: $(( $(gdate +%s%3N) - START_TIME ))ms\033[0m"
 
 # ==================== PROMPT & CURSOR ==================== 

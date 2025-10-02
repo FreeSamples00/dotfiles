@@ -9,4 +9,4 @@ fi
 alias copy='pbcopy'
 alias paste='pbpaste'
 alias ofd='open -R "$(pwd)"'
-alias battery='system_profiler SPPowerDataType | grep -E "Cycle Count|Condition|Maximum Capacity" | cat'
+alias battery='system_profiler SPPowerDataType | \grep -E "Cycle Count|Condition|Maximum Capacity" | cat | column'
