@@ -8,7 +8,7 @@ else
   alias ctr="clear && tree"
 fi
 
-alias config="$EDITOR ~/.zshrc"
+alias config="$EDITOR ~/dotfiles/shell.pkg"
 alias reload='clear && exec zsh'
 
 alias tree='tree -aC -I .git -I .venv'
@@ -17,7 +17,7 @@ alias ls='eza --color=automatic --icons=automatic --no-user -a --group-directori
 
 alias grep='grep -ni --color=auto --exclude-dir={.bzr,cvs,.git,.hg,.svn,.idea,.tox,.venv,venv}'
 alias grepa='grep -Rni --exclude-dir={.bzr,cvs,.git,.hg,.svn,.idea,.tox,.venv,venv}'
-alias grepf='find . | grep -i'
+alias grepf='find . | \grep -i --color=always'
 alias grepd='find . -type d | rg -iu'
 
 alias '?'='echo $?'
