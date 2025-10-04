@@ -16,7 +16,7 @@ fi
 
 # ==================== CORE SETTINGS & VARIABLES ====================
 
-SHELL_CONFIG="$HOME/dotfiles/shell.pkg"
+SHELL_CONFIG="$HOME/dotfiles/zsh.pkg"
 
 function shell_source() {
   if ! [ -f "$SHELL_CONFIG/$1.zsh" ]; then

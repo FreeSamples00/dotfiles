@@ -19,6 +19,7 @@ alias grep='grep -ni --color=auto --exclude-dir={.bzr,cvs,.git,.hg,.svn,.idea,.t
 alias grepa='grep -Rni --exclude-dir={.bzr,cvs,.git,.hg,.svn,.idea,.tox,.venv,venv}'
 alias grepf='find . | \grep -i --color=always'
 alias grepd='find . -type d | rg -iu'
+alias grepb='brew list | \grep --color=always'
 
 alias '?'='echo $?'
 
