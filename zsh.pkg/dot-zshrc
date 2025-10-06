@@ -65,8 +65,6 @@ shell_source colorize
 
 shell_source fzf
 
-shell_source tmux
-
 shell_source functions
 
 shell_source aliases

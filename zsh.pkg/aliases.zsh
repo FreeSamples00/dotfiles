@@ -8,7 +8,7 @@ else
   alias ctr="clear && tree"
 fi
 
-alias config="$EDITOR ~/dotfiles/shell.pkg"
+alias config="$EDITOR ~/dotfiles/zsh.pkg"
 alias reload='clear && exec zsh'
 
 alias tree='tree -aC -I .git -I .venv'
