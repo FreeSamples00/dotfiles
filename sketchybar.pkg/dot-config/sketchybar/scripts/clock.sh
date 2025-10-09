@@ -1,9 +1,7 @@
 #!/bin/bash
 # script
 
-# formatting follows https://en.wikipedia.org/wiki/ISO_8601
-
-case $(date "+%p") in
+case $(gdate "+%p") in
   AM)
     AM_PM=" am"
     ;;
@@ -15,4 +13,4 @@ case $(date "+%p") in
     ;;
 esac
 
-sketchybar --set "$NAME" label="$(date '+%b %e %l:%M')$AM_PM"
+sketchybar --set "$NAME" label="$(gdate '+%b %e %l:%M')$AM_PM"
