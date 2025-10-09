@@ -47,3 +47,4 @@ alias wclone='wget --mirror --convert-links --adjust-extension --page-requisites
 alias 2pdf='mdpdf --ghstyle=true --border 0.5in'
 alias bench='hyperfine'
 
+alias colors="echo 'use ttyc'; ttyc"
