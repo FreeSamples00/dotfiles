@@ -16,8 +16,20 @@ BREW_PATH="${STORAGE_DIR}/Brewfile"
 CRON_PATH="${STORAGE_DIR}/Cronjobs"
 
 # dump brewfile
-rm "$BREW_PATH"
-brew bundle dump --no-vscode --file="$BREW_PATH"
+rm -f "$BREW_PATH"
+
+if (brew bundle dump --no-vscode --file="$BREW_PATH"); then
+  echo "Dumping brew bundle"
+else
+  echo "FAILED: could not dump brew bundle"
+  exit 1
+fi
 
 # dump cron jobs
-crontab -l >"$CRON_PATH"
+
+if (crontab -l >"$CRON_PATH"); then
+  echo "Dumping crontab"
+else
+  echo "FAILED: could not dump crontab"
+  exit 1
+fi
