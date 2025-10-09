@@ -43,6 +43,7 @@ right_items=(
   "mail"
   "caffeinate"
   "focus"
+  "restart_notifier"
 )
 
 bar=(
