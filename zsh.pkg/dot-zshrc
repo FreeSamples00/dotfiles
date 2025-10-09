@@ -79,6 +79,10 @@ for package in $DOTFILES_DIR/*.pkg; do
   fi
 done
 
+if [ -f "$DOTFILES_DIR/scripts/init.zsh" ]; then
+  source "$DOTFILES_DIR/scripts/init.zsh"
+fi
+
 # ==================== ERROR CHECK ====================
 
 if [[ "$ERROR_STATUS" != "" ]]; then

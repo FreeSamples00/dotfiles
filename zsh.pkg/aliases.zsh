@@ -44,7 +44,6 @@ alias sizeof='du -hs'
 alias storage="dust -rC | bat --file-name 'Storage Breakdown'"
 
 alias wclone='wget --mirror --convert-links --adjust-extension --page-requisites --show-progress'
-alias colors='terminal_colors.sh'
 alias 2pdf='mdpdf --ghstyle=true --border 0.5in'
 alias bench='hyperfine'
 

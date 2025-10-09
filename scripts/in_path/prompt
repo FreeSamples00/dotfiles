@@ -1,0 +1,64 @@
+MODEL="gpt-oss:20b"
+PROMPT=""
+RAW_OUTPUT=0
+THINKING_MODE=""
+
+while getopts "lrhm:t:" opt; do
+  case "$opt" in
+  l)
+    ollama list | tail -n +2 | awk '{print $1}' | bat --file-name "MODELS"
+    exit 0
+    ;;
+  h)
+    printf "Prompt an llm locally\n"
+    printf "Usage: prompt [flags] message\n"
+    printf "Options:\n"
+    printf "\t-h\t\tThis help message\n"
+    printf "\t-m\t\tChoose a model (default: %s)\n" "$MODEL"
+    printf "\t-r\t\tShow raw output (normally uses glow for formatting)\n"
+    printf "\t-l\t\tList available models\n"
+    printf "\t-t\t\tThinking mode. Options: true/false, low/medium/high\n"
+    exit 0
+    ;;
+  m)
+    if ! ollama list | grep -q "$OPTARG"; then
+      err "Model not found, check w/ 'ollama list'"
+      exit 1
+    fi
+    MODEL="$OPTARG"
+    ;;
+  t)
+    OPTIONS="true, false, high, medium, low"
+    if ! echo "$OPTIONS" | sed -E 's/, */\n/g' | grep -qxF "$OPTARG"; then
+      err "Thinking option '$OPTARG' invalid. Options: $OPTIONS"
+      exit 1
+    fi
+    THINKING_MODE="$OPTARG"
+    ;;
+  r)
+    RAW_OUTPUT=1
+    ;;
+  *)
+    exit 1
+    ;;
+  esac
+done
+shift $((OPTIND - 1))
+PROMPT="$1"
+
+if [[ "$PROMPT" == "" ]]; then
+  printf "\033[91mERR: no input\033[0m\n"
+  exit 1
+fi
+
+if [[ "$THINKING_MODE" == "" ]]; then
+  OUTPUT=$(command ollama run "$MODEL" --hidethinking "$PROMPT")
+else
+  OUTPUT=$(command ollama run "$MODEL" --think="$THINKING_MODE" --hidethinking "$PROMPT")
+fi
+
+if ((RAW_OUTPUT)); then
+  echo "$OUTPUT"
+else
+  echo "$OUTPUT" | glow
+fi

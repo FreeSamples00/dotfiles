@@ -1,0 +1,92 @@
+# foreground codes
+declare -a fg=(30 31 32 33 34 35 36 37 90 91 92 93 94 95 96 97)
+
+# background codes
+declare -a bg=(40 41 42 43 44 45 46 47 100 101 102 103 104 105 106 107)
+
+# -h, print help message
+if [[ "$1" == "-h" ]]; then
+	echo "Options"
+	echo "\t-h        this help message"
+	echo "\t-f        formatting"
+	echo "\t-fg       foreground color codes"
+	echo "\t-bg       background colors codes"
+	echo "\t-a        both color codes (default)"
+	echo "\t-c <a b>  combines foreground a with background b"
+	exit
+fi
+
+# print formatting rules
+
+
+# -fg, print foreground
+if [[ "$1" == "-fg" ]]; then
+	echo "\n=== FOREGOROUND COLOR CODES ===\n"
+	echo " code | sample text"
+	echo "------+-------------"
+	for code in "${fg[@]}"; do
+		printf "%5d | \033[($code)mHello World!\033[0m\n" "$code"
+	done
+	echo
+	exit
+fi
+
+# -bg, print background
+if [[ "$1" == "-bg" ]]; then
+	echo "\n=== BACKGROUND COLOR CODES ===\n"
+	echo " code | sample text"
+	echo "------+-------------"
+	for code in "${bg[@]}"; do
+		printf "%5d | \033[($code)mHello World!\033[0m\n" "$code"
+	done
+	echo
+	exit
+fi
+
+# -a, print both
+if [ "$1" == "-a" ]  || [ "$1" == "" ]; then
+	echo "\n===== FOREGROUND & BACKGROUND COLOR CODES =====\n"
+	echo " fg code | sample  text | bg code | sample  text"
+	echo "---------+--------------+---------+--------------"
+	for i in ${!fg[*]}; do
+		printf "   %-5d | \033[${fg[$i]}mHello World!\033[0m |   %-5d | \033[${bg[$i]}mHello World!\033[0m\n" "${fg[$i]}" "${bg[$i]}"
+	done
+	echo
+	exit
+fi
+
+# -f, print formatting
+if [[ "$1" == "-f" ]]; then
+	echo "\n=== Formatting ===\n"
+
+	printf "Apply formatting code \033[33mX\033[0m: \\" 
+	printf "033[\033[33mX\033[0mm\n"
+
+	printf "Apply multiple codes \033[33mX\033[0m, \033[33mY\033[0m: \\"
+	printf  "033[\033[33mX\033[0m;\033[33mY\033[0mm\n"
+
+	printf "Remove all formatting: \\"
+	printf  "033[\033[33m0\033[0mm\n"
+
+	echo
+	exit
+fi
+
+# -c combine bg and fg
+if [[ "$1" == "-c" ]]; then
+
+	if ! printf '%s\0' "${fg[@]}" | grep -Fxqz -- "${2}"; then
+    	echo "\033[91mError: '${2}' not found in foreground colors\033[0m"
+    	exit
+	fi
+
+	if ! printf '%s\0' "${bg[@]}" | grep -Fxqz -- "${3}"; then
+    	echo "\033[91mError: '${3}' not found in background colors\033[0m"
+    	exit
+	fi
+
+	printf "\nExample: \033[%d;%dmHello World!\033[0m\n" ${2} ${3}
+	printf "Escape Code: \\"
+	printf "033[%d;%dm\n" ${2} ${3}
+	echo
+fi
