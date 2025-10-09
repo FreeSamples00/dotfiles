@@ -15,10 +15,10 @@ alias tree='tree -aC -I .git -I .venv'
 alias cwd='pwd | copy'
 alias ls='eza --color=automatic --icons=automatic --no-user -a --group-directories-first --sort=type'
 
-alias grep='grep -ni --color=auto --exclude-dir={.bzr,cvs,.git,.hg,.svn,.idea,.tox,.venv,venv}'
+alias grep='grep -i --color=auto'
 alias grepa='grep -Rni --exclude-dir={.bzr,cvs,.git,.hg,.svn,.idea,.tox,.venv,venv}'
 alias grepf='find . | \grep -i --color=always'
-alias grepd='find . -type d | rg -iu'
+alias grepd='find . -type d | grep -i'
 alias grepb='brew list | \grep --color=always'
 
 alias '?'='echo $?'
