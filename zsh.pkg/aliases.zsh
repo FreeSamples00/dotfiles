@@ -48,3 +48,5 @@ alias 2pdf='mdpdf --ghstyle=true --border 0.5in'
 alias bench='hyperfine'
 
 alias colors="echo 'use ttyc'; ttyc"
+
+alias clast='fc -ln -1 | tr -d "\n" | pbcopy'
