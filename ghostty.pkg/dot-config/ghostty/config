@@ -37,7 +37,7 @@ cursor-opacity = 0.85
 cursor-style-blink = false
 
 # --- BELL ---
-bell-features = system, attention, system, title, border
+bell-features = system, attention, title, no-border
 
 # --- OS BEHAVIOR ---
 desktop-notifications = true
