@@ -21,3 +21,12 @@ alias grep='grep -ni --color=auto --exclude-dir={.bzr,cvs,.git,.hg,.svn,.idea,.t
 alias grepa='grep -Rni --exclude-dir={.bzr,cvs,.git,.hg,.svn,.idea,.tox,.venv,venv}'
 alias grepf='find . | \grep -i --color=always'
 alias grepd='find . -type d | rg -iu'
+
+alias gst='git status'
+alias gl='git pull'
+alias gp='git push'
+alias gf='git fetch'
+alias gc='git commit --verbose'
+alias gca='git commit --verbose --all'
+alias ga='git add'
+alias grmc='git rm --cached'
