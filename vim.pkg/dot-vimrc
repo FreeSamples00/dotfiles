@@ -12,13 +12,11 @@
 
 " ==================== Colors ====================
 set termguicolors          
-colorscheme habamax          
 
 " ==================== Settings ====================
 syntax on
 set number                  
 set relativenumber          
-set cursorline              
 set laststatus=0            
 
 set title
