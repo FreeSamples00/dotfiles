@@ -7,7 +7,7 @@ NAME="focus.$SIDE"
 sketchybar \
   --add item "$NAME" "$SIDE" \
   --set "$NAME" \
-        update_freq=10 \
+        update_freq=4 \
         icon="" \
         padding_left=0 \
         padding_right=0 \
