@@ -6,7 +6,7 @@
 # (_)\__,_| \___||_|   \___/ |___/| .__/  \__,_| \___|\___|(_)\__|\___/ |_| |_| |_||_|
 #                                 |_|
 #
-#                   Aerospace Configuration File
+#                               Aerospace Configuration File
 # =====================================================================================
 
 
@@ -118,6 +118,7 @@ run = 'layout floating'
 # Screenshots
 # - hold ctrl while taking to save directly to clipboard
 # - otherwise saves to /tmp from GUI
+# - space cycles between area and window selection mode
 cmd-alt-ctrl-shift-s = 'exec-and-forget screencapture -diu -J "window" -f /tmp/'
 
 # Toggle preview's dark mode
@@ -170,7 +171,7 @@ end tell'; open -a Mail'''
 # PASSWORDS
 cmd-alt-ctrl-p = 'exec-and-forget open -a "Passwords"'
 
-# UTM vm software
+# VMWARE FUSION
 cmd-alt-ctrl-v = 'exec-and-forget open -a "VMWare Fusion"'
 
 # DISCORD
