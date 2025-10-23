@@ -7,6 +7,28 @@
 #            Bash Configuration File              #
 # =============================================== #
 
+
+# quit on non-interactive
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# ==== history ====
+HISTCONTROL=ignoreboth
+shopt -s histappend
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# ==== shell settings ====
+shopt -s checkwinsize
+
+# ==== prompt ====
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
+
+# ==== aliases ====
 alias config='vim ~/.bashrc'
 alias reload='clear && . ~/.bashrc'
 alias ls='ls -A --color=auto'
@@ -47,6 +69,15 @@ export LESS_TERMCAP_mh=$'\e[0m'    # disable half-bright
 export LESS_TERMCAP_mr=$'\e[7m'    # enter reverse mode
 export LESS_TERMCAP_ZJ=$'\e[1;35m' # bold magenta for comments (this one is less common, customize as needed)
 export LESS_TERMCAP_ZN=$'\e[0m'    # end ZJ
+
+# ==== completions ====
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
 
 # ==== path stuff ====
 if [[ -d "$HOME/dotfiles/scripts/in_path" ]]; then
