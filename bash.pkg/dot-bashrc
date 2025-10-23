@@ -17,11 +17,14 @@ alias e="vim"
 alias '?'='echo $?'
 alias less='less -R'
 alias rm='rm -I'
+
+# ==== grep aliases ====
 alias grep='grep -ni --color=auto --exclude-dir={.bzr,cvs,.git,.hg,.svn,.idea,.tox,.venv,venv}'
 alias grepa='grep -Rni --exclude-dir={.bzr,cvs,.git,.hg,.svn,.idea,.tox,.venv,venv}'
 alias grepf='find . | \grep -i --color=always'
 alias grepd='find . -type d | rg -iu'
 
+# ==== git aliases ====
 alias gst='git status'
 alias gl='git pull'
 alias gp='git push'
@@ -32,6 +35,20 @@ alias gca='git commit --verbose --all'
 alias ga='git add'
 alias grmc='git rm --cached'
 
+# ==== colorize man pages ====
+export LESS_TERMCAP_mb=$'\e[1;36m' # start blinking (bold cyan)
+export LESS_TERMCAP_md=$'\e[1;33m' # start bold (bold yellow)
+export LESS_TERMCAP_me=$'\e[0m'    # end attributes
+export LESS_TERMCAP_so=$'\e[1;44;33m' # start standout (bold yellow on blue) - for headings/sections
+export LESS_TERMCAP_se=$'\e[0m'    # end standout
+export LESS_TERMCAP_us=$'\e[1;32m' # start underline (bold green) - for paths/filenames
+export LESS_TERMCAP_ue=$'\e[0m'    # end underline
+export LESS_TERMCAP_mh=$'\e[0m'    # disable half-bright
+export LESS_TERMCAP_mr=$'\e[7m'    # enter reverse mode
+export LESS_TERMCAP_ZJ=$'\e[1;35m' # bold magenta for comments (this one is less common, customize as needed)
+export LESS_TERMCAP_ZN=$'\e[0m'    # end ZJ
+
+# ==== path stuff ====
 if [[ -d "$HOME/dotfiles/scripts/in_path" ]]; then
   export PATH="$HOME/dotfiles/scripts/in_path:$PATH"
 fi
