@@ -10,6 +10,7 @@
 
 # Documentation:  https://ghostty.org/docs/config
 
+shell-integration-features = ssh-env
 
 # --- TEXT ---
 font-family = "JetBrainsMono Nerd Font Mono"
