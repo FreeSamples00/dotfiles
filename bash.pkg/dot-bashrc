@@ -1,11 +1,11 @@
-# ============================================================
-#                 _               _
-#                | |__   __ _ ___| |__  _ __ ___
-#                | '_ \ / _` / __| '_ \| '__/ __|
-#               _| |_) | (_| \__ \ | | | | | (__
-#              (_)_.__/ \__,_|___/_| |_|_|  \___|
-#                   Bash Configuration File
-# ============================================================
+# =============================================== #
+#          _               _                      #
+#         | |__   __ _ ___| |__  _ __ ___         #
+#         | '_ \ / _` / __| '_ \| '__/ __|        #
+#        _| |_) | (_| \__ \ | | | | | (__         #
+#       (_)_.__/ \__,_|___/_| |_|_|  \___|        #
+#            Bash Configuration File              #
+# =============================================== #
 
 alias config='vim ~/.bashrc'
 alias reload='clear && . ~/.bashrc'
@@ -27,6 +27,7 @@ alias gl='git pull'
 alias gp='git push'
 alias gf='git fetch'
 alias gc='git commit --verbose'
+alias gcm='git commit -m'
 alias gca='git commit --verbose --all'
 alias ga='git add'
 alias grmc='git rm --cached'
