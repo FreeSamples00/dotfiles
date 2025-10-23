@@ -30,18 +30,16 @@ fi
 case "$FLAG" in
 	"-m")
 		# minimal setup
+		TARGETS="vim.pkg bash.pkg git.pkg"
 		case "$ACTION" in
 			"test")
-				#stow -nv *.pkg
-				echo "minimal test"
+				stow -nv $TARGETS
 				;;
 			"link")
-				#stow -v *.pkg
-				echo "minimal link"
+				stow -v $TARGETS
 				;;
 			"unlink")
-				#stow -Dv *.pkg
-				echo "minimal unlink"
+				stow -Dv $TARGETS
 				;;
 			*)
 				echo "Unknown command: '$ACTION'"
@@ -51,19 +49,16 @@ case "$FLAG" in
 		;;
 	"NIL")
 		# full setup
+    		TARGETS="*.pkg"
 		case "$ACTION" in
 			"test")
-				TEMP="*.pkg"
-				echo $TEMP
-				stow -nv *.pkg
+				stow -nv $TARGETS
 				;;
 			"link")
-				#stow -v *.pkg
-				echo "full link"
+				stow -v $TARGETS
 				;;
 			"unlink")
-				#stow -Dv *.pkg
-				echo "full unlink"
+				stow -Dv $TARGETS
 				;;
 			*)
 				echo "Unknown command: '$ACTION'"

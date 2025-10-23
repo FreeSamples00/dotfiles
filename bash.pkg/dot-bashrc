@@ -31,3 +31,7 @@ alias gcm='git commit -m'
 alias gca='git commit --verbose --all'
 alias ga='git add'
 alias grmc='git rm --cached'
+
+if [[ -d "$HOME/dotfiles/scripts/in_path" ]]; then
+  export PATH="$HOME/dotfiles/scripts/in_path:$PATH"
+fi
