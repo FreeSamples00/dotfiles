@@ -20,10 +20,15 @@ fi
 
 
 if [[ "$FLAG" == "-h" ]] || (( $# == 0 )); then
-  echo -e "Needs command:\n"
-  echo -e "\ttest: dry run"
-  echo -e "\tlink: apply links"
-  echo -e "\tunlink: delete all links"
+  echo -e "Usage"
+  echo -e "\t$(basename $0) [options] <arguments>"
+  echo -e "\nOptions"
+  echo -e "\t-h\t\t this helpful message"
+  echo -e "\t-m\t\t minimal setup"
+  echo -e "\nArguments"
+  echo -e "\ttest\t\t simulate links, no changes"
+  echo -e "\tlink\t\t create links"
+  echo -e "\tunlink\t\t remove links"
   exit 0
 fi
 
