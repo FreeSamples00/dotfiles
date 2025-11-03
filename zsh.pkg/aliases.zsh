@@ -61,3 +61,8 @@ alias gcm='git commit -m'
 alias gca='git commit --verbose --all'
 alias ga='git add'
 alias grmc='git rm --cached'
+
+# ==== torrent ====
+if (which transmission-cli >/dev/null); then
+  alias torrent="transmission-cli"
+fi
