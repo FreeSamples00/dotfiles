@@ -13,4 +13,5 @@ case $(gdate "+%p") in
     ;;
 esac
 
-sketchybar --set "$NAME" label="$(gdate '+%b %e %l:%M')$AM_PM"
+# use - in format specifiers to remove padding
+sketchybar --set "$NAME" label="$(gdate '+%b %-e %-l:%M')$AM_PM"
