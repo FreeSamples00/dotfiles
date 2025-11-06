@@ -9,7 +9,7 @@ else
 fi
 
 alias config="$EDITOR ~/dotfiles/zsh.pkg"
-alias reload='clear && exec zsh'
+alias reload='\clear && exec zsh'
 alias update='brew update && brew upgrade && brew cleanup; zinit update'
 
 alias tree='tree -aC -I .git -I .venv'
@@ -49,8 +49,8 @@ alias colors="echo -e '\033[93mUse ttyc\033[0m'; ttyc"
 alias copylast='fc -ln -1 | tr -d "\n" | pbcopy'
 
 # ==== git aliases ====
-alias gi='git-ignore'
 alias lg='lazygit'
+function gi() { curl -sLw "\n" https://www.toptal.com/developers/gitignore/api/$@ ;}
 
 alias gst='git status'
 alias gl='git pull'
