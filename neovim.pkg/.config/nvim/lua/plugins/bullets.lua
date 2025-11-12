@@ -7,6 +7,7 @@ return {
     vim.g.bullets_nested_checkboxes = 0
     vim.g.bullets_checkbox_markers = " x"
     vim.g.bullets_outline_levels = { "num", "abc", "std-" }
+    vim.g.bullets_renumber_on_change = 0
 
     -- Keybinds
     vim.keymap.set({ "i", "n" }, "<C-[>", "<cmd>BulletPromote<cr>", { desc = "Promote bullet" })
