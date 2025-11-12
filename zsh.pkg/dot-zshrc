@@ -1,3 +1,5 @@
+#!/bin/zsh
+
 # ======================================= #
 #                  _                      #
 #          _______| |__  _ __ ___         #
@@ -52,21 +54,36 @@ START_TIME=$(gdate +%s%3N)
 
 # ==================== SOURCING ====================
 
-shell_source zinit
+local ZSH_MODULES=(
+  "zinit"
+  "zsh"
+  "path"
+  "zoxide"
+  "colorize"
+  "fzf"
+  "functions"
+  "aliases"
+)
 
-shell_source zsh
+for module in $ZSH_MODULES[@]; do
+  shell_source $module
+done
 
-shell_source path
-
-shell_source zoxide
-
-shell_source colorize
-
-shell_source fzf
-
-shell_source functions
-
-shell_source aliases
+# shell_source zinit
+#
+# shell_source zsh
+#
+# shell_source path
+#
+# shell_source zoxide
+#
+# shell_source colorize
+#
+# shell_source fzf
+#
+# shell_source functions
+#
+# shell_source aliases
 
 # ==================== IMPORT FROM PACKAGES ====================
 
@@ -113,3 +130,6 @@ echo "\033[90mzsh load time: $(( $(gdate +%s%3N) - START_TIME ))ms\033[0m"
 # ==================== PROMPT & CURSOR ==================== 
 
 shell_source prompt
+
+# Created by `pipx` on 2025-11-12 07:17:28
+export PATH="$PATH:/Users/scc/.local/bin"
