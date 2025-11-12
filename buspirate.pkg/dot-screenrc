@@ -1,0 +1,2 @@
+bindkey "\177" stuff ^H
+termcapinfo xterm* ti@:te@
