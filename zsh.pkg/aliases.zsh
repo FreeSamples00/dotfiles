@@ -14,7 +14,7 @@ alias update='brew update && brew upgrade && brew cleanup; zinit update'
 
 alias tree='tree -aC -I .git -I .venv'
 alias cwd='pwd | copy'
-alias ls='eza --color=automatic --icons=automatic --no-user -a --group-directories-first --sort=type'
+alias ls='eza --color=automatic --icons=automatic --no-user -a --group-directories-first --sort=type -I="._*"'
 
 # ==== grep aliases ====
 alias grep='grep -i --color=auto'
