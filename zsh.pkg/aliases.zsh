@@ -5,16 +5,15 @@ if (( $USE_ENHANCED_CLEAR )); then
 else
   alias c="clear"
   alias cls="clear && ls"
-  alias ctr="clear && tree"
 fi
 
 alias config="$EDITOR ~/dotfiles/zsh.pkg"
 alias reload='\clear && exec zsh'
 alias update='brew update && brew upgrade && brew cleanup; zinit update'
 
-alias tree='tree -aC -I .git -I .venv'
+alias tree='tree -aC -I .git -I .venv -I "._*"'
 alias cwd='pwd | copy'
-alias ls='eza --color=automatic --icons=automatic --no-user -a --group-directories-first --sort=type'
+alias ls='eza --color=automatic --icons=automatic --no-user -a --group-directories-first --sort=type -I="._*"'
 
 # ==== grep aliases ====
 alias grep='grep -i --color=auto'
