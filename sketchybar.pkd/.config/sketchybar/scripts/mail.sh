@@ -22,4 +22,3 @@ end tell')
 sketchybar \
   --set "$NAME" \
         label="$UNREAD" \
-
