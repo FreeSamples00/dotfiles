@@ -41,6 +41,7 @@ right_items=(
   "battery"
   "volume"
   "mail"
+  "packages"
   "caffeinate"
   "focus"
   "restart_notifier"
