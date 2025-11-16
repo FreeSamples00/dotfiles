@@ -1,9 +1,12 @@
 #!/bin/bash
 # script
 
+# for this to work, the getfocus binary needs full disk permissions
+
 FOCUS=$("$CONFIG_DIR/scripts/getfocus" 2>&1)
 
-if [[ "$FOCUS" == "None" ]]; then
+case "$FOCUS" in
+  None)
     sketchybar --set "$NAME" \
                       icon="" \
                       padding_left=0 \
@@ -12,8 +15,8 @@ if [[ "$FOCUS" == "None" ]]; then
                       icon.padding_right=0 \
                       label.padding_left=0 \
                       label.padding_right=0
-
-elif [[ "$FOCUS" == "Do Not Disturb" ]]; then
+    ;;
+  "Do Not Disturb")
     sketchybar --set "$NAME" \
                       icon="" \
                       padding_left="12" \
@@ -22,8 +25,8 @@ elif [[ "$FOCUS" == "Do Not Disturb" ]]; then
                       icon.padding_right="$ICON_PADDING" \
                       label.padding_left="$ICON_PADDING" \
                       label.padding_right="$ICON_PADDING"
-
-elif [[ "$FOCUS" == "Sleep" ]]; then
+    ;;
+  Sleep)
     sketchybar --set "$NAME" \
                       icon="" \
                       padding_left="12" \
@@ -32,8 +35,8 @@ elif [[ "$FOCUS" == "Sleep" ]]; then
                       icon.padding_right="$ICON_PADDING" \
                       label.padding_left="$ICON_PADDING" \
                       label.padding_right="$ICON_PADDING"
-
-elif [[ "$FOCUS" == "Reduce Interruptions" ]]; then
+    ;;
+  "Reduce Interruptions")
     sketchybar --set "$NAME" \
                       icon="󱏬" \
                       padding_left="12" \
@@ -42,7 +45,8 @@ elif [[ "$FOCUS" == "Reduce Interruptions" ]]; then
                       icon.padding_right="$ICON_PADDING" \
                       label.padding_left="$ICON_PADDING" \
                       label.padding_right="$ICON_PADDING"
-else 
+    ;;
+  *)
   sketchybar --set "$NAME" \
                       icon="?" \
                       padding_left="12" \
@@ -51,4 +55,5 @@ else
                       icon.padding_right="$ICON_PADDING" \
                       label.padding_left="$ICON_PADDING" \
                       label.padding_right="$ICON_PADDING"
-fi
+  ;;
+esac
