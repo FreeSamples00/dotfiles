@@ -17,7 +17,7 @@ fi
 
 # ==================== CORE SETTINGS & VARIABLES ====================
 
-SHELL_CONFIG="$HOME/dotfiles/zsh.pkg"
+SHELL_CONFIG="$HOME/dotfiles/zsh.pkd"
 
 function shell_source() {
   if ! [ -f "$SHELL_CONFIG/$1.zsh" ]; then
@@ -89,7 +89,7 @@ done
 
 local DOTFILES_DIR="$HOME/dotfiles"
 
-for package in $DOTFILES_DIR/*.pkg; do
+for package in $DOTFILES_DIR/*.pkd; do
   if [ -f "$package/init.zsh" ]; then
     source "$package/init.zsh"
   fi

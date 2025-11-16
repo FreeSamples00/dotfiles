@@ -35,7 +35,7 @@ fi
 case "$FLAG" in
 	"-m")
 		# minimal setup
-		TARGETS="vim.pkg bash.pkg git.pkg"
+		TARGETS="vim.pkd bash.pkd git.pkd"
 		case "$ACTION" in
 			"test")
 				stow -nv $TARGETS
@@ -54,7 +54,7 @@ case "$FLAG" in
 		;;
 	"NIL")
 		# full setup
-    		TARGETS="*.pkg"
+    		TARGETS="*.pkd"
 		case "$ACTION" in
 			"test")
 				stow -nv $TARGETS

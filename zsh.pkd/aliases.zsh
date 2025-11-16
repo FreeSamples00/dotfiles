@@ -7,7 +7,7 @@ else
   alias cls="clear && ls"
 fi
 
-alias config="$EDITOR ~/dotfiles/zsh.pkg"
+alias config="$EDITOR ~/dotfiles/zsh.pkd"
 alias reload='\clear && exec zsh'
 alias update='brew update && brew upgrade && brew cleanup; zinit update'
 
