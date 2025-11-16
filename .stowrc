@@ -2,6 +2,7 @@
 --dir=~/dotfiles
 --dotfiles
 
+--ignore='GhidraMCP.*'
 --ignore='.*\.zsh'
 --ignore='.*\.bak'
 --ignore='.DS_Store'
