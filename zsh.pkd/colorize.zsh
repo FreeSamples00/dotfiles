@@ -15,4 +15,4 @@ export LESS_TERMCAP_ZN=$'\e[0m'    # end ZJ
 
 alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
 alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
-
+alias -g -- -help='--help 2>&1 | bat --language=help --style=plain'
