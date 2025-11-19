@@ -2,10 +2,14 @@
 
 FORCE=0
 KEEP=0
+REVERSE=0
 IS_DIR=0
 
-while getopts "fkh" opt; do
+while getopts "fkhr" opt; do
   case "$opt" in
+  r)
+    REVERSE=1
+    ;;
   f)
     FORCE=1
     ;;
@@ -18,6 +22,7 @@ while getopts "fkh" opt; do
     echo -e "\t-h\t\tthis help message"
     echo -e "\t-f\t\toverwrite pre-existing backups"
     echo -e "\t-k\t\tkeep original file"
+    echo -e "\t-r\t\treverse (remove .bak)"
     exit 0
     ;;
   \?)
@@ -35,26 +40,50 @@ if (($# != 1)); then
 fi
 
 FILE="$1"
-BACKUP="$1.bak"
-
-if [ -d "$FILE" ]; then
-  IS_DIR=1
-elif ! [ -f "$FILE" ]; then
+if ! [ -f "$FILE" ]; then
   echo "ERR: $FILE not found"
   exit 1
 fi
 
-if [ -f "$BACKUP" ] || [ -d "$BACKUP" ]; then
-  if (($FORCE)); then
-    \rm -rf "$BACKUP"
-  else
-    echo "ERR: Backup already present. Use -f to overwrite"
+if ((REVERSE)); then
+
+  if ! [[ "$FILE" == *.bak ]]; then
+    echo "ERR: file cannot be reversed, not *.bak"
     exit 1
   fi
-fi
 
-if (($KEEP)); then
-  cp -R "$FILE" "$BACKUP"
+  UNBACKUP="${FILE%.bak}"
+  
+  if [ -f "$UNBACKUP" ]; then
+    if ((FORCE)); then
+      \rm -rf "$UNBACKUP"
+    else
+      echo "ERR: Original already present. Use -f to overwrite"
+      exit 1
+    fi
+  fi
+
+  if ((KEEP)); then
+    cp -R "$FILE" "$UNBACKUP"
+  else
+    mv "$FILE" "$UNBACKUP"
+  fi
+
 else
-  mv "$FILE" "$BACKUP"
+  BACKUP="$1.bak"
+
+  if [ -f "$BACKUP" ] || [ -d "$BACKUP" ]; then
+    if ((FORCE)); then
+      \rm -rf "$BACKUP"
+    else
+      echo "ERR: Backup already present. Use -f to overwrite"
+      exit 1
+    fi
+  fi
+
+  if ((KEEP)); then
+    cp -R "$FILE" "$BACKUP"
+  else
+    mv "$FILE" "$BACKUP"
+  fi
 fi
