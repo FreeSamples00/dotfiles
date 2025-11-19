@@ -3,7 +3,6 @@
 FORCE=0
 KEEP=0
 REVERSE=0
-IS_DIR=0
 
 while getopts "fkhr" opt; do
   case "$opt" in
@@ -34,56 +33,54 @@ done
 
 shift $((OPTIND - 1))
 
-if (($# != 1)); then
-  echo "ERR: invalid number of args"
-  exit 1
-fi
+for arg in "$@"; do
 
-FILE="$1"
-if ! [ -f "$FILE" ]; then
-  echo "ERR: $FILE not found"
-  exit 1
-fi
-
-if ((REVERSE)); then
-
-  if ! [[ "$FILE" == *.bak ]]; then
-    echo "ERR: file cannot be reversed, not *.bak"
+  FILE="$arg"
+  if ! [ -f "$FILE" ] && ! [ -d "$FILE" ]; then
+    echo "ERR: $FILE not found"
     exit 1
   fi
 
-  UNBACKUP="${FILE%.bak}"
-  
-  if [ -f "$UNBACKUP" ]; then
-    if ((FORCE)); then
-      \rm -rf "$UNBACKUP"
-    else
-      echo "ERR: Original already present. Use -f to overwrite"
+  if ((REVERSE)); then
+
+    if ! [[ "$FILE" == *.bak ]]; then
+      echo "ERR: file cannot be reversed, not *.bak"
       exit 1
     fi
-  fi
 
-  if ((KEEP)); then
-    cp -R "$FILE" "$UNBACKUP"
-  else
-    mv "$FILE" "$UNBACKUP"
-  fi
+    UNBACKUP="${FILE%.bak}"
+    
+    if [ -f "$UNBACKUP" ] || [ -d "$UNBACKUP" ]; then
+      if ((FORCE)); then
+        \rm -rf "$UNBACKUP"
+      else
+        echo "ERR: Original already present. Use -f to overwrite"
+        exit 1
+      fi
+    fi
 
-else
-  BACKUP="$1.bak"
-
-  if [ -f "$BACKUP" ] || [ -d "$BACKUP" ]; then
-    if ((FORCE)); then
-      \rm -rf "$BACKUP"
+    if ((KEEP)); then
+      cp -R "$FILE" "$UNBACKUP"
     else
-      echo "ERR: Backup already present. Use -f to overwrite"
-      exit 1
+      mv "$FILE" "$UNBACKUP"
+    fi
+
+  else
+    BACKUP="$FILE.bak"
+
+    if [ -f "$BACKUP" ] || [ -d "$BACKUP" ]; then
+      if ((FORCE)); then
+        \rm -rf "$BACKUP"
+      else
+        echo "ERR: Backup already present. Use -f to overwrite"
+        exit 1
+      fi
+    fi
+
+    if ((KEEP)); then
+      cp -R "$FILE" "$BACKUP"
+    else
+      mv "$FILE" "$BACKUP"
     fi
   fi
-
-  if ((KEEP)); then
-    cp -R "$FILE" "$BACKUP"
-  else
-    mv "$FILE" "$BACKUP"
-  fi
-fi
+done
