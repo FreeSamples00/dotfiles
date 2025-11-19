@@ -130,6 +130,3 @@ echo "\033[90mzsh load time: $(( $(gdate +%s%3N) - START_TIME ))ms\033[0m"
 # ==================== PROMPT & CURSOR ==================== 
 
 shell_source prompt
-
-# Created by `pipx` on 2025-11-12 07:17:28
-export PATH="$PATH:/Users/scc/.local/bin"

@@ -33,9 +33,8 @@ bold-is-bright = true
 # --- CURSOR ---
 adjust-cursor-thickness = +5
 adjust-cursor-height = -3
-# cursor-invert-fg-bg = true
 cursor-opacity = 0.85
-cursor-style-blink = false
+cursor-style-blink = true
 
 # --- BELL ---
 bell-features = system, attention, title, no-border
