@@ -25,7 +25,7 @@ while getopts "fkhr" opt; do
     exit 0
     ;;
   \?)
-    echo "ERR: invalid option"
+    echo "ERR: '$opt' not a valid option"
     exit 1
     ;;
   esac
@@ -37,15 +37,15 @@ for arg in "$@"; do
 
   FILE="$arg"
   if ! [ -f "$FILE" ] && ! [ -d "$FILE" ]; then
-    echo "ERR: $FILE not found"
-    exit 1
+    echo "ERR: '$FILE' not found"
+    continue
   fi
 
   if ((REVERSE)); then
 
     if ! [[ "$FILE" == *.bak ]]; then
-      echo "ERR: file cannot be reversed, not *.bak"
-      exit 1
+      echo "ERR: '$FILE' cannot be reversed, not *.bak"
+      continue
     fi
 
     UNBACKUP="${FILE%.bak}"
@@ -54,8 +54,8 @@ for arg in "$@"; do
       if ((FORCE)); then
         \rm -rf "$UNBACKUP"
       else
-        echo "ERR: Original already present. Use -f to overwrite"
-        exit 1
+        echo "ERR: '$UNBACKUP' already present. Use -f to overwrite"
+        continue
       fi
     fi
 
@@ -72,8 +72,8 @@ for arg in "$@"; do
       if ((FORCE)); then
         \rm -rf "$BACKUP"
       else
-        echo "ERR: Backup already present. Use -f to overwrite"
-        exit 1
+        echo "ERR: '$BACKUP' already present. Use -f to overwrite"
+        continue
       fi
     fi
 
