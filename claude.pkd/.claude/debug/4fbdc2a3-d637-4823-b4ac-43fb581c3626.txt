@@ -1,0 +1,26 @@
+2025-11-20T00:30:33.186Z [DEBUG] Watching for changes in setting files /Users/scc/.claude/settings.json, /Users/scc/.claude/settings.json...
+2025-11-20T00:30:33.219Z [DEBUG] [LSP MANAGER] initializeLspServerManager() called
+2025-11-20T00:30:33.219Z [DEBUG] [LSP MANAGER] Created manager instance, state=pending
+2025-11-20T00:30:33.219Z [DEBUG] [LSP MANAGER] Starting async initialization (generation 1)
+2025-11-20T00:30:33.219Z [DEBUG] [LSP SERVER MANAGER] initialize() called
+2025-11-20T00:30:33.219Z [DEBUG] [LSP SERVER MANAGER] Calling getAllLspServers()
+2025-11-20T00:30:33.225Z [DEBUG] Found 0 plugins (0 enabled, 0 disabled)
+2025-11-20T00:30:33.227Z [DEBUG] Total LSP servers loaded: 0
+2025-11-20T00:30:33.227Z [DEBUG] [LSP SERVER MANAGER] getAllLspServers returned 0 server(s)
+2025-11-20T00:30:33.227Z [DEBUG] LSP manager initialized with 0 servers
+2025-11-20T00:30:33.227Z [DEBUG] LSP server manager initialized successfully
+2025-11-20T00:30:33.227Z [DEBUG] LSP notification handlers registered successfully for all 0 server(s)
+2025-11-20T00:30:33.284Z [DEBUG] Writing to temp file: /Users/scc/.claude.json.tmp.33319.1763598633284
+2025-11-20T00:30:33.284Z [DEBUG] Preserving file permissions: 100600
+2025-11-20T00:30:33.284Z [DEBUG] Temp file written successfully, size: 41173 bytes
+2025-11-20T00:30:33.284Z [DEBUG] Applied original permissions to temp file
+2025-11-20T00:30:33.284Z [DEBUG] Renaming /Users/scc/.claude.json.tmp.33319.1763598633284 to /Users/scc/.claude.json
+2025-11-20T00:30:33.284Z [DEBUG] File /Users/scc/.claude.json written atomically
+2025-11-20T00:30:35.816Z [DEBUG] Writing to temp file: /Users/scc/.claude.json.tmp.33319.1763598635816
+2025-11-20T00:30:35.817Z [DEBUG] Preserving file permissions: 100600
+2025-11-20T00:30:35.817Z [DEBUG] Temp file written successfully, size: 41445 bytes
+2025-11-20T00:30:35.817Z [DEBUG] Applied original permissions to temp file
+2025-11-20T00:30:35.818Z [DEBUG] Renaming /Users/scc/.claude.json.tmp.33319.1763598635816 to /Users/scc/.claude.json
+2025-11-20T00:30:35.818Z [DEBUG] File /Users/scc/.claude.json written atomically
+2025-11-20T00:30:35.823Z [DEBUG] Skipping SessionEnd:other hook execution - workspace trust not accepted
+2025-11-20T00:30:35.823Z [DEBUG] LSP server manager shut down successfully

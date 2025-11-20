@@ -1,0 +1,86 @@
+[DEBUG] Detected Homebrew cask installation: /opt/homebrew/Caskroom/claude-code/2.0.37/claude
+[ERROR] Failed to save config with lock: Error: ENOENT: no such file or directory, lstat '/Users/scc/.claude.json'
+[DEBUG] Writing to temp file: /Users/scc/.claude.json.tmp.70873.1762969325140
+[DEBUG] Setting permissions for new file: 600
+[DEBUG] Temp file written successfully, size: 103 bytes
+[DEBUG] Renaming /Users/scc/.claude.json.tmp.70873.1762969325140 to /Users/scc/.claude.json
+[DEBUG] File /Users/scc/.claude.json written atomically
+[DEBUG] [LSP MANAGER] initializeLspServerManager() called
+[DEBUG] [LSP MANAGER] Created manager instance, state=pending
+[DEBUG] [LSP MANAGER] Starting async initialization (generation 1)
+[DEBUG] [LSP SERVER MANAGER] initialize() called
+[DEBUG] [LSP SERVER MANAGER] Calling getAllLspServers()
+[DEBUG] Writing to temp file: /Users/scc/.claude.json.tmp.70873.1762969325142
+[DEBUG] Preserving file permissions: 100600
+[DEBUG] Temp file written successfully, size: 183 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /Users/scc/.claude.json.tmp.70873.1762969325142 to /Users/scc/.claude.json
+[DEBUG] File /Users/scc/.claude.json written atomically
+[DEBUG] Writing to temp file: /Users/scc/.claude.json.tmp.70873.1762969325144
+[DEBUG] Preserving file permissions: 100600
+[DEBUG] Temp file written successfully, size: 220 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /Users/scc/.claude.json.tmp.70873.1762969325144 to /Users/scc/.claude.json
+[DEBUG] File /Users/scc/.claude.json written atomically
+[DEBUG] Found 0 plugins (0 enabled, 0 disabled)
+[DEBUG] Total LSP servers loaded: 0
+[DEBUG] [LSP SERVER MANAGER] getAllLspServers returned 0 server(s)
+[DEBUG] LSP manager initialized with 0 servers
+[DEBUG] LSP server manager initialized successfully
+[DEBUG] LSP notification handlers registered successfully for all 0 server(s)
+[DEBUG] Loading skills from directories: managed=/Library/Application Support/ClaudeCode/.claude/skills, user=/Users/scc/.claude/skills, project=/Users/scc/.claude/skills
+[DEBUG] >>>>> getPluginSkills CALLED <<<<<
+[DEBUG] getPluginSkills: Processing 0 enabled plugins
+[DEBUG] Total plugin skills loaded: 0
+[DEBUG] Total plugin commands loaded: 0
+[DEBUG] Loaded 0 unique skills (managed: 0, user: 0, project: 0, duplicates removed: 0)
+[DEBUG] getSkillsIfEnabled returning: 0 skill dir commands, 0 plugin skills
+[DEBUG] Registered 0 hooks from 0 plugins
+[DEBUG] Creating shell snapshot for zsh (/bin/zsh)
+[DEBUG] Looking for shell config file: /Users/scc/.zshrc
+[DEBUG] Snapshots directory: /Users/scc/.claude/shell-snapshots
+[DEBUG] Creating snapshot at: /Users/scc/.claude/shell-snapshots/snapshot-zsh-1762969325235-pw14go.sh
+[DEBUG] Shell binary exists: true
+[DEBUG] Execution timeout: 10000ms
+[DEBUG] Writing to temp file: /Users/scc/.claude/todos/3fc15800-70eb-4f90-b031-cb397f8e9909-agent-3fc15800-70eb-4f90-b031-cb397f8e9909.json.tmp.70873.1762969325236
+[DEBUG] Temp file written successfully, size: 2 bytes
+[DEBUG] Renaming /Users/scc/.claude/todos/3fc15800-70eb-4f90-b031-cb397f8e9909-agent-3fc15800-70eb-4f90-b031-cb397f8e9909.json.tmp.70873.1762969325236 to /Users/scc/.claude/todos/3fc15800-70eb-4f90-b031-cb397f8e9909-agent-3fc15800-70eb-4f90-b031-cb397f8e9909.json
+[DEBUG] File /Users/scc/.claude/todos/3fc15800-70eb-4f90-b031-cb397f8e9909-agent-3fc15800-70eb-4f90-b031-cb397f8e9909.json written atomically
+[DEBUG] Total plugin agents loaded: 0
+[DEBUG] Shell snapshot created successfully (1227 bytes)
+[DEBUG] Writing to temp file: /Users/scc/.claude.json.tmp.70873.1762969325398
+[DEBUG] Preserving file permissions: 100600
+[DEBUG] Temp file written successfully, size: 302 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /Users/scc/.claude.json.tmp.70873.1762969325398 to /Users/scc/.claude.json
+[DEBUG] File /Users/scc/.claude.json written atomically
+[DEBUG] Writing to temp file: /Users/scc/.claude.json.tmp.70873.1762969325399
+[DEBUG] Preserving file permissions: 100600
+[DEBUG] Temp file written successfully, size: 332 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /Users/scc/.claude.json.tmp.70873.1762969325399 to /Users/scc/.claude.json
+[DEBUG] File /Users/scc/.claude.json written atomically
+[DEBUG] Writing to temp file: /Users/scc/.claude.json.tmp.70873.1762969325463
+[DEBUG] Preserving file permissions: 100600
+[DEBUG] Temp file written successfully, size: 37270 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /Users/scc/.claude.json.tmp.70873.1762969325463 to /Users/scc/.claude.json
+[DEBUG] File /Users/scc/.claude.json written atomically
+[DEBUG] Writing to temp file: /Users/scc/.claude.json.tmp.70873.1762969331062
+[DEBUG] Preserving file permissions: 100600
+[DEBUG] Temp file written successfully, size: 37270 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /Users/scc/.claude.json.tmp.70873.1762969331062 to /Users/scc/.claude.json
+[DEBUG] File /Users/scc/.claude.json written atomically
+[DEBUG] Writing to temp file: /Users/scc/.claude.json.tmp.70873.1762969331064
+[DEBUG] Preserving file permissions: 100600
+[DEBUG] Temp file written successfully, size: 37270 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /Users/scc/.claude.json.tmp.70873.1762969331064 to /Users/scc/.claude.json
+[DEBUG] File /Users/scc/.claude.json written atomically
+[DEBUG] Skipping SessionEnd:other hook execution - workspace trust not accepted
+[DEBUG] Cleaned up session snapshot: /Users/scc/.claude/shell-snapshots/snapshot-zsh-1762969325235-pw14go.sh
+[DEBUG] LSP server manager shut down successfully
+[DEBUG] BigQuery metrics exporter flush complete
+[DEBUG] BigQuery metrics exporter flush complete
+[DEBUG] BigQuery metrics exporter shutdown complete

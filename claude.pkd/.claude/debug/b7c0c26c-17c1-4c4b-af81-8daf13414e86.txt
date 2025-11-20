@@ -1,0 +1,112 @@
+2025-11-20T00:31:28.933Z [DEBUG] Watching for changes in setting files /Users/scc/.claude/settings.json, /Users/scc/.claude/settings.json...
+2025-11-20T00:31:28.963Z [DEBUG] [LSP MANAGER] initializeLspServerManager() called
+2025-11-20T00:31:28.963Z [DEBUG] [LSP MANAGER] Created manager instance, state=pending
+2025-11-20T00:31:28.963Z [DEBUG] [LSP MANAGER] Starting async initialization (generation 1)
+2025-11-20T00:31:28.964Z [DEBUG] [LSP SERVER MANAGER] initialize() called
+2025-11-20T00:31:28.964Z [DEBUG] [LSP SERVER MANAGER] Calling getAllLspServers()
+2025-11-20T00:31:28.969Z [DEBUG] Found 0 plugins (0 enabled, 0 disabled)
+2025-11-20T00:31:28.971Z [DEBUG] Total LSP servers loaded: 0
+2025-11-20T00:31:28.972Z [DEBUG] [LSP SERVER MANAGER] getAllLspServers returned 0 server(s)
+2025-11-20T00:31:28.972Z [DEBUG] LSP manager initialized with 0 servers
+2025-11-20T00:31:28.972Z [DEBUG] LSP server manager initialized successfully
+2025-11-20T00:31:28.972Z [DEBUG] LSP notification handlers registered successfully for all 0 server(s)
+2025-11-20T00:31:28.974Z [DEBUG] Loading skills from directories: managed=/Library/Application Support/ClaudeCode/.claude/skills, user=/Users/scc/.claude/skills, project=/Users/scc/.claude/skills
+2025-11-20T00:31:28.975Z [DEBUG] >>>>> getPluginSkills CALLED <<<<<
+2025-11-20T00:31:29.048Z [DEBUG] Creating shell snapshot for zsh (/bin/zsh)
+2025-11-20T00:31:29.049Z [DEBUG] Looking for shell config file: /Users/scc/.zshrc
+2025-11-20T00:31:29.049Z [DEBUG] Snapshots directory: /Users/scc/.claude/shell-snapshots
+2025-11-20T00:31:29.049Z [DEBUG] Creating snapshot at: /Users/scc/.claude/shell-snapshots/snapshot-zsh-1763598689049-3uo2qh.sh
+2025-11-20T00:31:29.049Z [DEBUG] Shell binary exists: true
+2025-11-20T00:31:29.049Z [DEBUG] Execution timeout: 10000ms
+2025-11-20T00:31:29.049Z [DEBUG] Writing to temp file: /Users/scc/.claude/todos/b7c0c26c-17c1-4c4b-af81-8daf13414e86-agent-b7c0c26c-17c1-4c4b-af81-8daf13414e86.json.tmp.34022.1763598689049
+2025-11-20T00:31:29.050Z [DEBUG] Temp file written successfully, size: 2 bytes
+2025-11-20T00:31:29.050Z [DEBUG] Renaming /Users/scc/.claude/todos/b7c0c26c-17c1-4c4b-af81-8daf13414e86-agent-b7c0c26c-17c1-4c4b-af81-8daf13414e86.json.tmp.34022.1763598689049 to /Users/scc/.claude/todos/b7c0c26c-17c1-4c4b-af81-8daf13414e86-agent-b7c0c26c-17c1-4c4b-af81-8daf13414e86.json
+2025-11-20T00:31:29.050Z [DEBUG] File /Users/scc/.claude/todos/b7c0c26c-17c1-4c4b-af81-8daf13414e86-agent-b7c0c26c-17c1-4c4b-af81-8daf13414e86.json written atomically
+2025-11-20T00:31:29.051Z [DEBUG] Writing to temp file: /Users/scc/.claude.json.tmp.34022.1763598689051
+2025-11-20T00:31:29.051Z [DEBUG] Preserving file permissions: 100600
+2025-11-20T00:31:29.051Z [DEBUG] Temp file written successfully, size: 41502 bytes
+2025-11-20T00:31:29.051Z [DEBUG] Applied original permissions to temp file
+2025-11-20T00:31:29.051Z [DEBUG] Renaming /Users/scc/.claude.json.tmp.34022.1763598689051 to /Users/scc/.claude.json
+2025-11-20T00:31:29.051Z [DEBUG] File /Users/scc/.claude.json written atomically
+2025-11-20T00:31:29.052Z [DEBUG] getPluginSkills: Processing 0 enabled plugins
+2025-11-20T00:31:29.052Z [DEBUG] Total plugin skills loaded: 0
+2025-11-20T00:31:29.052Z [DEBUG] Total plugin commands loaded: 0
+2025-11-20T00:31:29.052Z [DEBUG] Registered 0 hooks from 0 plugins
+2025-11-20T00:31:29.052Z [DEBUG] Loaded 0 unique skills (managed: 0, user: 0, project: 0, duplicates removed: 0)
+2025-11-20T00:31:29.052Z [DEBUG] getSkillsIfEnabled returning: 0 skill dir commands, 0 plugin skills
+2025-11-20T00:31:29.052Z [DEBUG] Total plugin agents loaded: 0
+2025-11-20T00:31:29.067Z [DEBUG] Writing to temp file: /Users/scc/.claude.json.tmp.34022.1763598689067
+2025-11-20T00:31:29.067Z [DEBUG] Preserving file permissions: 100600
+2025-11-20T00:31:29.067Z [DEBUG] Temp file written successfully, size: 41502 bytes
+2025-11-20T00:31:29.067Z [DEBUG] Applied original permissions to temp file
+2025-11-20T00:31:29.067Z [DEBUG] Renaming /Users/scc/.claude.json.tmp.34022.1763598689067 to /Users/scc/.claude.json
+2025-11-20T00:31:29.067Z [DEBUG] File /Users/scc/.claude.json written atomically
+2025-11-20T00:31:29.067Z [DEBUG] Writing to temp file: /Users/scc/.claude.json.tmp.34022.1763598689067
+2025-11-20T00:31:29.067Z [DEBUG] Preserving file permissions: 100600
+2025-11-20T00:31:29.068Z [DEBUG] Temp file written successfully, size: 41502 bytes
+2025-11-20T00:31:29.068Z [DEBUG] Applied original permissions to temp file
+2025-11-20T00:31:29.068Z [DEBUG] Renaming /Users/scc/.claude.json.tmp.34022.1763598689067 to /Users/scc/.claude.json
+2025-11-20T00:31:29.068Z [DEBUG] File /Users/scc/.claude.json written atomically
+2025-11-20T00:31:29.083Z [DEBUG] Shell snapshot created successfully (1251 bytes)
+2025-11-20T00:31:29.241Z [DEBUG] Metrics opt-out API response: enabled=true, vcsLinking=false
+2025-11-20T00:31:30.175Z [DEBUG] MCP server "ghidra": Starting connection with timeout of 30000ms
+2025-11-20T00:31:30.179Z [DEBUG] Writing to temp file: /Users/scc/.claude.json.tmp.34022.1763598690179
+2025-11-20T00:31:30.179Z [DEBUG] Preserving file permissions: 100600
+2025-11-20T00:31:30.179Z [DEBUG] Temp file written successfully, size: 41502 bytes
+2025-11-20T00:31:30.179Z [DEBUG] Applied original permissions to temp file
+2025-11-20T00:31:30.179Z [DEBUG] Renaming /Users/scc/.claude.json.tmp.34022.1763598690179 to /Users/scc/.claude.json
+2025-11-20T00:31:30.180Z [DEBUG] File /Users/scc/.claude.json written atomically
+2025-11-20T00:31:30.183Z [DEBUG] Skipping SessionStart:startup hook execution - workspace trust not accepted
+2025-11-20T00:31:30.197Z [DEBUG] Writing to temp file: /Users/scc/.claude.json.tmp.34022.1763598690197
+2025-11-20T00:31:30.197Z [DEBUG] Preserving file permissions: 100600
+2025-11-20T00:31:30.197Z [DEBUG] Temp file written successfully, size: 41397 bytes
+2025-11-20T00:31:30.197Z [DEBUG] Applied original permissions to temp file
+2025-11-20T00:31:30.197Z [DEBUG] Renaming /Users/scc/.claude.json.tmp.34022.1763598690197 to /Users/scc/.claude.json
+2025-11-20T00:31:30.197Z [DEBUG] File /Users/scc/.claude.json written atomically
+2025-11-20T00:31:30.198Z [DEBUG] Detected Homebrew cask installation: /opt/homebrew/Caskroom/claude-code/2.0.46/claude
+2025-11-20T00:31:30.199Z [DEBUG] Detected Homebrew cask installation: /opt/homebrew/Caskroom/claude-code/2.0.46/claude
+2025-11-20T00:31:30.199Z [DEBUG] performStartupChecks called
+2025-11-20T00:31:30.199Z [DEBUG] Trust not accepted for current directory - skipping plugin installations
+2025-11-20T00:31:30.202Z [DEBUG] AutoUpdaterWrapper: Installation type: package-manager
+2025-11-20T00:31:30.202Z [DEBUG] Detected Homebrew cask installation: /opt/homebrew/Caskroom/claude-code/2.0.46/claude
+2025-11-20T00:31:30.204Z [DEBUG] Writing to temp file: /Users/scc/.claude.json.tmp.34022.1763598690204
+2025-11-20T00:31:30.204Z [DEBUG] Preserving file permissions: 100600
+2025-11-20T00:31:30.204Z [DEBUG] Temp file written successfully, size: 41502 bytes
+2025-11-20T00:31:30.204Z [DEBUG] Applied original permissions to temp file
+2025-11-20T00:31:30.204Z [DEBUG] Renaming /Users/scc/.claude.json.tmp.34022.1763598690204 to /Users/scc/.claude.json
+2025-11-20T00:31:30.204Z [DEBUG] File /Users/scc/.claude.json written atomically
+2025-11-20T00:31:30.210Z [DEBUG] Loaded plugins - Enabled: 0, Disabled: 0, Commands: 0, Agents: 0, Errors: 0
+2025-11-20T00:31:30.212Z [DEBUG] Summarizing all 2 messages (~0 tokens)
+2025-11-20T00:31:30.215Z [DEBUG] Skipping SubagentStart:Explore hook execution - workspace trust not accepted
+2025-11-20T00:31:30.217Z [DEBUG] Skipping SubagentStart:Plan hook execution - workspace trust not accepted
+2025-11-20T00:31:30.384Z [DEBUG] MCP server "ghidra": Successfully connected to undefined server in 212ms
+2025-11-20T00:31:30.384Z [DEBUG] MCP server "ghidra": Connection established with capabilities: {"hasTools":true,"hasPrompts":true,"hasResources":true,"serverVersion":{"name":"ghidra-mcp","version":"1.21.2"}}
+2025-11-20T00:31:30.385Z [ERROR] MCP server "ghidra" Server stderr: Processing request of type ListToolsRequest
+2025-11-20T00:31:30.385Z [ERROR] MCP server "ghidra" Server stderr: Processing request of type ListPromptsRequest
+2025-11-20T00:31:30.387Z [ERROR] MCP server "ghidra" Server stderr: Processing request of type ListResourcesRequest
+2025-11-20T00:31:30.465Z [DEBUG] PackageManagerAutoUpdater: Update available 2.0.46 -> 2.0.47
+2025-11-20T00:31:30.638Z [DEBUG] Stream started - received first chunk
+2025-11-20T00:31:30.792Z [DEBUG] Skills and commands included in Skill tool:
+2025-11-20T00:31:30.792Z [DEBUG] Slash commands included in SlashCommand tool:
+2025-11-20T00:31:30.795Z [DEBUG] Stream started - received first chunk
+2025-11-20T00:31:31.253Z [DEBUG] Stream started - received first chunk
+2025-11-20T00:31:31.263Z [DEBUG] Writing to temp file: /Users/scc/.claude.json.tmp.34022.1763598691263
+2025-11-20T00:31:31.263Z [DEBUG] Preserving file permissions: 100600
+2025-11-20T00:31:31.264Z [DEBUG] Temp file written successfully, size: 41502 bytes
+2025-11-20T00:31:31.264Z [DEBUG] Applied original permissions to temp file
+2025-11-20T00:31:31.264Z [DEBUG] Renaming /Users/scc/.claude.json.tmp.34022.1763598691263 to /Users/scc/.claude.json
+2025-11-20T00:31:31.264Z [DEBUG] File /Users/scc/.claude.json written atomically
+2025-11-20T00:31:31.908Z [DEBUG] Skipping SubagentStop hook execution - workspace trust not accepted
+2025-11-20T00:31:31.980Z [DEBUG] Detected Homebrew cask installation: /opt/homebrew/Caskroom/claude-code/2.0.46/claude
+2025-11-20T00:31:31.980Z [DEBUG] AutoUpdaterWrapper: Installation type: package-manager
+2025-11-20T00:31:32.211Z [DEBUG] PackageManagerAutoUpdater: Update available 2.0.46 -> 2.0.47
+2025-11-20T00:31:34.336Z [DEBUG] Skipping SubagentStop hook execution - workspace trust not accepted
+2025-11-20T00:31:58.780Z [DEBUG] Skipping SessionEnd:other hook execution - workspace trust not accepted
+2025-11-20T00:31:58.781Z [DEBUG] Cleaned up session snapshot: /Users/scc/.claude/shell-snapshots/snapshot-zsh-1763598689049-3uo2qh.sh
+2025-11-20T00:31:58.783Z [DEBUG] LSP server manager shut down successfully
+2025-11-20T00:31:58.784Z [DEBUG] Writing to temp file: /Users/scc/.claude.json.tmp.34022.1763598718784
+2025-11-20T00:31:58.784Z [DEBUG] Preserving file permissions: 100600
+2025-11-20T00:31:58.784Z [DEBUG] Temp file written successfully, size: 41911 bytes
+2025-11-20T00:31:58.784Z [DEBUG] Applied original permissions to temp file
+2025-11-20T00:31:58.784Z [DEBUG] Renaming /Users/scc/.claude.json.tmp.34022.1763598718784 to /Users/scc/.claude.json
+2025-11-20T00:31:58.784Z [DEBUG] File /Users/scc/.claude.json written atomically
