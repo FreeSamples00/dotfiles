@@ -26,7 +26,6 @@ macos-titlebar-proxy-icon = hidden
 
 # --- COLORS ---
 theme = Apple System Colors
-# cursor-color = #B6B9C3
 cursor-color = #9399B2
 bold-is-bright = true
 
@@ -49,3 +48,4 @@ quit-after-last-window-closed = true
 # --- CLIPBOARD BEHAVIOR ---
 clipboard-read = allow
 clipboard-write = allow
+keybind = shift+enter=text:\x1b\r
