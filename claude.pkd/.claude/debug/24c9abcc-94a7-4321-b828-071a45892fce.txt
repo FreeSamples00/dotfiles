@@ -1,6 +1,0 @@
-2025-11-20T00:10:42.348Z [DEBUG] Watching for changes in setting files /Users/scc/.claude/settings.json, /Users/scc/.claude/settings.json...
-2025-11-20T00:10:42.379Z [DEBUG] [LSP MANAGER] initializeLspServerManager() called
-2025-11-20T00:10:42.380Z [DEBUG] [LSP MANAGER] Created manager instance, state=pending
-2025-11-20T00:10:42.380Z [DEBUG] [LSP MANAGER] Starting async initialization (generation 1)
-2025-11-20T00:10:42.380Z [DEBUG] [LSP SERVER MANAGER] initialize() called
-2025-11-20T00:10:42.380Z [DEBUG] [LSP SERVER MANAGER] Calling getAllLspServers()
