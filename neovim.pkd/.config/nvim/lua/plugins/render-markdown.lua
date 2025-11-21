@@ -20,5 +20,9 @@ return {
       position = "inline",
       icons = { "# ", "## ", "### ", "#### ", "##### ", "###### " },
     },
+
+    code = {
+      border = "none",
+    },
   },
 }
