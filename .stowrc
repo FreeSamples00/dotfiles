@@ -9,3 +9,4 @@
 --ignore='.*\.sh'
 --ignore='.*\.md'
 --ignore=.stowrc
+--ignore="no_link"
