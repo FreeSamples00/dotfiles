@@ -4,6 +4,9 @@ return {
   "saghen/blink.cmp",
 
   opts = {
+    fuzzy = {
+      implementation = "lua",
+    },
     keymap = {
       preset = "default",
       ["<Tab>"] = { "select_next", "fallback" },
