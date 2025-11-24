@@ -10,69 +10,87 @@
 #              stow wrapper to setup dotfiles                #
 # ========================================================== #
 
-if [[ "$1" == "-m" ]] || [[ "$1" == "-h" ]]; then
-	FLAG="$1"
-	ACTION="$2"
-else
-	FLAG="NIL"
-	ACTION="$1"
-fi
+# default args
+ARGUMENTS=(
+  "--target"
+  "$HOME"
+  "--dir"
+  "$HOME/dotfiles"
+  "--dotfiles"
+  "-v"
+)
 
+# file extension for packages
+FILE_EXTENSION="pkd"
 
-if [[ "$FLAG" == "-h" ]] || (( $# == 0 )); then
+# help message
+if [[ "$1" == "-h" || "$1" == "--help" ]] || (( $# == 0 )); then
   echo -e "Usage"
-  echo -e "\t$(basename $0) [options] <arguments>"
+  echo -e "\t$(basename $0) [options] <package> [<package> ...]"
   echo -e "\nOptions"
-  echo -e "\t-h\t\t this helpful message"
-  echo -e "\t-m\t\t minimal setup"
+  echo -e "\t-h, --help\t\t this helpful message"
+  echo -e "\t-a, --all\t\t stow all packages"
+  echo -e "\t-t, --test\t\t testing mode, no change to file system"
+  echo -e "\t-e, --exclude\t exclude packages passed"
+  echo -e "\t-d, --delete\t\t delete existing links"
   echo -e "\nArguments"
-  echo -e "\ttest\t\t simulate links, no changes"
-  echo -e "\tlink\t\t create links"
-  echo -e "\tunlink\t\t remove links"
+  echo -e "\t<package>\t\t package basename to stow"
   exit 0
 fi
 
-case "$FLAG" in
-	"-m")
-		# minimal setup
-		TARGETS="vim.pkd bash.pkd git.pkd"
-		case "$ACTION" in
-			"test")
-				stow -nv $TARGETS
-				;;
-			"link")
-				stow -v $TARGETS
-				;;
-			"unlink")
-				stow -Dv $TARGETS
-				;;
-			*)
-				echo "Unknown command: '$ACTION'"
-				exit 1
-				;;
-		esac
-		;;
-	"NIL")
-		# full setup
-    		TARGETS="*.pkd"
-		case "$ACTION" in
-			"test")
-				stow -nv $TARGETS
-				;;
-			"link")
-				stow -v $TARGETS
-				;;
-			"unlink")
-				stow -Dv $TARGETS
-				;;
-			*)
-				echo "Unknown command: '$ACTION'"
-				exit 1
-				;;
-		esac
-		;;
-	*)
-		echo "Unkown flag: '$FLAG'"
-		exit 1
-		;;
-esac
+# init variables
+ALL_FLAG=false
+EXCLUDE_FLAG=false
+TARGETS=()
+
+# parse arguments
+for ARG in "$@"; do
+  case "$ARG" in
+    -a|--all)
+      ALL_FLAG=true
+      ;;
+    -t|--test)
+      ARGUMENTS+=("--no")
+      ;;
+    -e|--exclude)
+      EXCLUDE_FLAG=true
+      ;;
+    -d|--delete)
+      ARGUMENTS+=("--delete")
+      ;;
+    *)
+      if ! [ -d "$ARG.$FILE_EXTENSION" ]; then
+        echo -e "Package Not Found: $ARG.$FILE_EXTENSION"
+        exit 1
+      fi
+      TARGETS+=("$ARG.$FILE_EXTENSION")
+  esac
+done
+
+# read stowignore file
+while IFS= read -r LINE; do
+  ARGUMENTS+=("--ignore=$LINE")
+done < .stowignore
+
+if $ALL_FLAG; then
+  ARGUMENTS+=(*.$FILE_EXTENSION)
+elif $EXCLUDE_FLAG; then
+  for pkg in *.$FILE_EXTENSION; do
+      skip=false
+      for target in "${TARGETS[@]}"; do
+        if [[ "$pkg" == "$target" ]]; then
+          skip=true
+          break
+        fi
+      done
+      if ! $skip; then
+        ARGUMENTS+=("$pkg")
+      fi
+    done
+else
+  for TARGET in "${TARGETS[@]}" ; do
+    ARGUMENTS+=("$TARGET")
+  done
+fi
+
+stow "${ARGUMENTS[@]}"
