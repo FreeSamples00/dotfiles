@@ -1,0 +1,71 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "theme": "opencode",
+  "model": "anthropic/claude-haiku-4-5",
+  // Define permissions for model tooling
+  "permission": {
+    "edit": "ask",
+    "bash": {
+      "*": "ask",
+      // Allowed by default
+      /// File Exploration
+      "pwd": "allow",
+      "ls": "allow",
+      "find": "allow",
+      "cat": "allow",
+      "tail": "allow",
+      "head": "allow",
+      "grep": "allow",
+      "rg": "allow",
+      "file": "allow",
+      "stat": "allow",
+      "wc": "allow",
+      "tree": "allow",
+      /// Git info commands
+      "git status": "allow",
+      "git diff": "allow",
+      "git log": "allow",
+      "git show": "allow",
+      "git rev-parse": "allow",
+      /// Command info
+      "which": "allow",
+      "brew list": "allow",
+      // Denied by default
+      "git *": "deny",
+    },
+    "webfetch": "allow",
+    "doom_loop": "ask",
+    "external_directory": "ask",
+  },
+  "agent": {
+    "plan": {
+      "model": "anthropic/claude-haiku-4-5",
+      "tools": {
+        "write": false,
+        "edit": false,
+        "bash": true,
+      },
+    },
+    "build": {
+      "model": "anthropic/claude-sonnet-4-5",
+      "tools": {
+        "write": true,
+        "edit": true,
+        "bash": true,
+      },
+    },
+  },
+  "mcp": {
+    "ghidra": {
+      "type": "local",
+      "command": [
+        "uv",
+        "run",
+        "/Users/scc/dotfiles/ghidra.pkd/GhidraMCP-release-1-4/bridge_mcp_ghidra.py",
+        "--ghidra-server",
+        "http://127.0.0.1:8080/",
+      ],
+      "enabled": true,
+    },
+  },
+}
