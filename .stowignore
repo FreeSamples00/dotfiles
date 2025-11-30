@@ -1,7 +1,12 @@
+# In package file
 .*\.zsh
 .*\.bak
 .*\.sh
+no_link
+
+# System Files
 .DS_Store
 .stowrc
-no_link
+
+# Package specific files
 GhidraMCP.*

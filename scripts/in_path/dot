@@ -118,6 +118,8 @@ function cmd_stow() {
     exit 1
   fi
   while IFS= read -r LINE; do
+    # Skip empty lines and lines starting with #
+    [[ -z "$LINE" || "$LINE" =~ ^[[:space:]]*# ]] && continue
     STOW_ARGUMENTS+=("--ignore=$LINE")
   done < "$STOWIGNORE"
 
