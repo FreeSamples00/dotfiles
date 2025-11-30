@@ -9,10 +9,12 @@ To install [Homebrew](https://brew.sh/) packages:
 
 ## 2. Dotfiles
 
+_**NOTE:** You can manually select packages to link, see `./dot stow -h`_
+
 1. remove any stale symlinks or conflicting config files
-2. run `./stow.sh test` (this will tell you if there are any conflicts)
+2. run `./dot stow -t -a` (this will tell you if there are any conflicts)
 3. ensure all proposed links look good
-4. run `./stow.sh link`
+4. run `./dot stow -a`
 
 ## Cronjobs
 
