@@ -9,6 +9,18 @@
 #          dotfiles manager         #
 # ================================= #
 
+# ==================== GLOBAL VARS ====================
+
+# file extension for packages
+PACKAGE_EXTENSION="pkd"
+
+# dotfiles path
+DOT_DIR="$HOME/dotfiles"
+
+# ==================== SUBCOMMANDS / FUNCTIONS ====================
+
+# ========== HELP MESSAGE ==========
+
 function cmd_help() {
   case "$1" in
     dot)
@@ -54,18 +66,15 @@ function cmd_help() {
   exit 0
 }
 
-function cmd_stow() {
-  # file extension for packages
-  FILE_EXTENSION="pkd"
+# ========== STOW SUBCOMMAND ==========
 
-  # target directory
-  DOT_DIR="$HOME/dotfiles"
+function cmd_stow() {
 
   # stowignore file
   STOWIGNORE="$DOT_DIR/.stowignore"
 
   # package regex
-  PACKAGE_REGEX=$DOT_DIR/*.$FILE_EXTENSION
+  PACKAGE_REGEX=$DOT_DIR/*.$PACKAGE_EXTENSION
 
   # default args
   STOW_ARGUMENTS=(
@@ -104,11 +113,11 @@ function cmd_stow() {
         cmd_help stow "$0"
         ;;
       *)
-        if ! [ -d "$DOT_DIR/$ARG.$FILE_EXTENSION" ]; then
-          echo -e "Package Not Found: $ARG.$FILE_EXTENSION"
+        if ! [ -d "$DOT_DIR/$ARG.$PACKAGE_EXTENSION" ]; then
+          echo -e "Package Not Found: $ARG.$PACKAGE_EXTENSION"
           exit 1
         fi
-        TARGETS+=("$ARG.$FILE_EXTENSION")
+        TARGETS+=("$ARG.$PACKAGE_EXTENSION")
     esac
   done
 
@@ -151,9 +160,11 @@ function cmd_stow() {
   \stow "${STOW_ARGUMENTS[@]}"
 }
 
+# ========== DUMP SUBCOMMAND ==========
+
 function cmd_dump() {
   # filepaths
-  STORAGE_DIR="${HOME}/dotfiles/_dumps"
+  STORAGE_DIR="$DOT_DIR/_dumps"
   BREW_PATH="${STORAGE_DIR}/Brewfile"
   CRON_PATH="${STORAGE_DIR}/Cronjobs"
 
@@ -185,6 +196,8 @@ function cmd_dump() {
     exit 1
   fi
 }
+
+# ==================== SUBCOMMAND PARSER ====================
 
 if (( $# == 0 )); then
   cmd_help dot "$0"
