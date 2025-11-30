@@ -1,7 +1,6 @@
 .*\.zsh
 .*\.bak
 .*\.sh
-.*\.md
 .DS_Store
 .stowrc
 no_link
