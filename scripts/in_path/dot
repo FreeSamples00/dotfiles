@@ -1,0 +1,207 @@
+#!/bin/bash
+
+# ================================= #
+#              _       _            #
+#           __| | ___ | |_          #
+#          / _` |/ _ \| __|         #
+#         | (_| | (_) | |_          #
+#          \__,_|\___/ \__|         #
+#          dotfiles manager         #
+# ================================= #
+
+function cmd_help() {
+  case "$1" in
+    dot)
+      echo -e "Description"
+      echo -e "\t Dotfiles manager"
+      echo -e "\nUsage"
+      echo -e "\t$(basename $2) [options] <subcommand>"
+      echo -e "\nOptions"
+      echo -e "\t-h, --help\t this helpfule message"
+      echo -e "\nSubcommands"
+      echo -e "\tstow\t\t manages symlinks"
+      echo -e "\tdump\t\t dumps static configs"
+      ;;
+    stow)
+      echo -e "Description"
+      echo -e "\t Symlink manager"
+      echo -e "\nUsage"
+      echo -e "\t$(basename "$2") stow [options] <package> [<package> ...]"
+      echo -e "\nOptions"
+      echo -e "\t-h, --help\t\t this helpful message"
+      echo -e "\t-a, --all\t\t stow all packages"
+      echo -e "\t-t, --test\t\t testing mode, no change to file system"
+      echo -e "\t-e, --exclude\t exclude packages passed"
+      echo -e "\t-d, --delete\t delete existing links"
+      echo -e "\nArguments"
+      echo -e "\t<package>\t\t package basename to stow"
+      ;;
+    dump)
+      echo -e "Description"
+      echo -e "\t Dumps unlinked configs:"
+      echo -e "\t\t-Brewfile  (list of brew packages)"
+      echo -e "\t\t-Crontab   (cronjob settings)"
+      echo -e "\nUsage"
+      echo -e "\t$(basename "$2") dump [options]"
+      echo -e "\nOptions"
+      echo -e "\t-h, --help\t this helpful message"
+      ;;
+    *)
+      echo "Unknown help message '$1'"
+      exit 1
+      ;;
+  esac
+  exit 0
+}
+
+function cmd_stow() {
+  # file extension for packages
+  FILE_EXTENSION="pkd"
+
+  # target directory
+  DOT_DIR="$HOME/dotfiles"
+
+  # stowignore file
+  STOWIGNORE="$DOT_DIR/.stowignore"
+
+  # package regex
+  PACKAGE_REGEX=$DOT_DIR/*.$FILE_EXTENSION
+
+  # default args
+  STOW_ARGUMENTS=(
+    "--target=$HOME"
+    "--dir=$DOT_DIR"
+    "--dotfiles"
+    "-v"
+  )
+
+  # help message
+  if [[ "$1" == "-h" || "$1" == "--help" ]] || (( $# == 0 )); then
+    cmd_help stow "$0"
+  fi
+
+  # init variables
+  ALL_FLAG=false
+  EXCLUDE_FLAG=false
+  TARGETS=()
+
+  # parse arguments
+  for ARG in "$@"; do
+    case "$ARG" in
+      -a|--all)
+        ALL_FLAG=true
+        ;;
+      -t|--test)
+        STOW_ARGUMENTS+=("--no")
+        ;;
+      -e|--exclude)
+        EXCLUDE_FLAG=true
+        ;;
+      -d|--delete)
+        STOW_ARGUMENTS+=("--delete")
+        ;;
+      -h|--help)
+        cmd_help stow "$0"
+        ;;
+      *)
+        if ! [ -d "$ARG.$FILE_EXTENSION" ]; then
+          echo -e "Package Not Found: $ARG.$FILE_EXTENSION"
+          exit 1
+        fi
+        TARGETS+=("$ARG.$FILE_EXTENSION")
+    esac
+  done
+
+  # read stowignore file
+  if ! [ -f "$STOWIGNORE" ]; then
+    echo "stowignore '$STOWIGNORE' not found"
+    exit 1
+  fi
+  while IFS= read -r LINE; do
+    STOW_ARGUMENTS+=("--ignore=$LINE")
+  done < "$STOWIGNORE"
+
+  if $ALL_FLAG; then
+    for pkg in $PACKAGE_REGEX; do
+      pkg=$(basename "$pkg")
+      STOW_ARGUMENTS+=("$pkg")
+    done
+  elif $EXCLUDE_FLAG; then
+    for pkg in $PACKAGE_REGEX; do
+        pkg=$(basename "$pkg")
+        skip=false
+        for target in "${TARGETS[@]}"; do
+          if [[ "$pkg" == "$target" ]]; then
+            skip=true
+            break
+          fi
+        done
+        if ! $skip; then
+          STOW_ARGUMENTS+=("$pkg")
+        fi
+      done
+  else
+    for TARGET in "${TARGETS[@]}" ; do
+      STOW_ARGUMENTS+=("$TARGET")
+    done
+  fi
+
+  \stow "${STOW_ARGUMENTS[@]}"
+}
+
+function cmd_dump() {
+  # filepaths
+  STORAGE_DIR="${HOME}/dotfiles/_dumps"
+  BREW_PATH="${STORAGE_DIR}/Brewfile"
+  CRON_PATH="${STORAGE_DIR}/Cronjobs"
+
+  if (( $# != 0 )); then
+    if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+      cmd_help dump "$0"
+    else
+      echo "Dump takes no arguments"
+      exit 1
+    fi
+  fi
+
+  # dump brewfile
+  rm -f "$BREW_PATH"
+
+  if (brew bundle dump --no-vscode --file="$BREW_PATH"); then
+    echo "Dumping brew bundle"
+  else
+    echo "FAILED: could not dump brew bundle"
+    exit 1
+  fi
+
+  # dump cron jobs
+
+  if (crontab -l >"$CRON_PATH"); then
+    echo "Dumping crontab"
+  else
+    echo "FAILED: could not dump crontab"
+    exit 1
+  fi
+}
+
+if (( $# == 0 )); then
+  cmd_help dot "$0"
+fi
+
+case "$1" in
+  -h|--help)
+    cmd_help dot "$0"
+    ;;
+  stow)
+    shift
+    cmd_stow "$@"
+    ;;
+  dump)
+    shift
+    cmd_dump "$@"
+    ;;
+  *)
+    echo "Unkown subcommand '$1'"
+    exit 1
+    ;;
+esac
