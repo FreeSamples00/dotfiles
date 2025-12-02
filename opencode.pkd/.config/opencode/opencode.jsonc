@@ -41,6 +41,7 @@
     "plan": {
       "model": "anthropic/claude-haiku-4-5",
       "tools": {
+        "read": true,
         "write": false,
         "edit": false,
         "bash": true,
@@ -49,6 +50,7 @@
     "build": {
       "model": "anthropic/claude-sonnet-4-5",
       "tools": {
+        "read": true,
         "write": true,
         "edit": true,
         "bash": true,
