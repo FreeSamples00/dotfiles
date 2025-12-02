@@ -43,7 +43,7 @@ right_items=(
   "mail"
   "packages"
   "caffeinate"
-  "focus"
+  # "focus"
   "restart_notifier"
 )
 
