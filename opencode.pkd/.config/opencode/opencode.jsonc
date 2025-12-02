@@ -56,6 +56,12 @@
     },
   },
   "mcp": {
+    "pdf_reader": {
+      "type": "local",
+      "command": ["uvx", "pdf-reader-mcp"],
+      "timeout": 60000,
+      "enabled": true,
+    },
     "ghidra": {
       "type": "local",
       "command": [
