@@ -17,6 +17,7 @@ case $CONNECTION_TYPE in
     ;;
   offline)
     ICON="󰖪"
+    HIGHLIGHT="on"
     ;;
   *)
     ICON="󱚵"
