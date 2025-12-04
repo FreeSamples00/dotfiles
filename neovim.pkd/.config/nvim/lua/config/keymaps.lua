@@ -57,8 +57,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
 
 if vim.g.neovide then
   -- Paste (normal / visual)
-  vim.keymap.set("n", "<D-v>", '"+p', { noremap = true, silent = true })
-  vim.keymap.set("v", "<D-v>", '"+p', { noremap = true, silent = true })
+  vim.keymap.set({ "n", "v" }, "<D-v>", '"+p', { noremap = true, silent = true })
 
   -- Paste in insert mode (Ctrl-R + reads + register)
   vim.keymap.set("i", "<D-v>", "<C-R>+", { noremap = true, silent = true })
@@ -68,4 +67,9 @@ if vim.g.neovide then
 
   -- Copy with Cmd+C in visual mode
   vim.keymap.set("v", "<D-c>", '"+y', { noremap = true, silent = true })
+
+  -- resize neovide font
+  vim.keymap.set({ "n", "v" }, "<D-=>", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1<CR>")
+  vim.keymap.set({ "n", "v" }, "<D-->", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1<CR>")
+  vim.keymap.set({ "n", "v" }, "<D-0>", ":lua vim.g.neovide_scale_factor = 1<CR>")
 end
