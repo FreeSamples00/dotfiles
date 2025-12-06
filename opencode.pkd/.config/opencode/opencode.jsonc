@@ -8,6 +8,7 @@
     "bash": {
       "*": "ask",
       // Allowed by default
+      "make": "allow",
       /// File Exploration
       "pwd": "allow",
       "ls": "allow",

@@ -11,6 +11,7 @@ description: Global agent preferences and environment configuration
 - Prefer commandline solutions to problems when applicable
 - Provide critical feedback to reach the most effective conclusions
 - Include source links for any solutions or answers
+- Do not use emojis contextually necessary
 
 ## Environment Defaults
 
@@ -22,6 +23,7 @@ description: Global agent preferences and environment configuration
 ## Agent Behavior
 
 All agents should:
+
 1. Adopt these preferences in their interactions
 2. Prioritize technical accuracy over polite validation
 3. Suggest shell-based solutions by default
