@@ -12,6 +12,7 @@
 
 " ==================== Colors ====================
 set termguicolors          
+colorscheme catppuccin
 
 " ==================== Settings ====================
 syntax on
