@@ -96,7 +96,7 @@ fi
 
 if (which tldr >/dev/null); then
   function man+ {
-    tldr "$@" | ${PAGER:-less}
+    tldr --color "$@" | less -R +g
   }
 fi
 
