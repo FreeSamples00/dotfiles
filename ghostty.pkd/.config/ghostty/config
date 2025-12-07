@@ -30,8 +30,8 @@ cursor-color = #9399B2
 bold-is-bright = true
 
 # --- CURSOR ---
-# adjust-cursor-thickness = +5
-# adjust-cursor-height = -3
+adjust-cursor-thickness = +5
+adjust-cursor-height = -3
 cursor-opacity = 0.85
 cursor-style-blink = false
 cursor-style = block
