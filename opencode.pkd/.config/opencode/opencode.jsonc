@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "theme": "opencode",
+  "theme": "opencode-custom",
   "model": "anthropic/claude-haiku-4-5",
   // Define permissions for model tooling
   "permission": {
@@ -11,7 +11,7 @@
       "make": "allow",
       /// File Exploration
       "pwd": "allow",
-      "ls": "allow",
+      "ls *": "allow",
       "find": "allow",
       "cat": "allow",
       "tail": "allow",
