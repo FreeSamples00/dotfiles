@@ -10,7 +10,7 @@
 
 # Documentation:  https://ghostty.org/docs/config
 
-shell-integration-features = ssh-env
+shell-integration-features = ssh-env, no-cursor
 
 # --- TEXT ---
 font-family = "JetBrainsMono Nerd Font Mono"
@@ -30,10 +30,11 @@ cursor-color = #9399B2
 bold-is-bright = true
 
 # --- CURSOR ---
-adjust-cursor-thickness = +5
-adjust-cursor-height = -3
+# adjust-cursor-thickness = +5
+# adjust-cursor-height = -3
 cursor-opacity = 0.85
-cursor-style-blink = true
+cursor-style-blink = false
+cursor-style = block
 
 # --- BELL ---
 bell-features = system, attention, title, no-border
