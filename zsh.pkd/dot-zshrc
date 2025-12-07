@@ -69,22 +69,6 @@ for module in $ZSH_MODULES[@]; do
   shell_source $module
 done
 
-# shell_source zinit
-#
-# shell_source zsh
-#
-# shell_source path
-#
-# shell_source zoxide
-#
-# shell_source colorize
-#
-# shell_source fzf
-#
-# shell_source functions
-#
-# shell_source aliases
-
 # ==================== IMPORT FROM PACKAGES ====================
 
 local DOTFILES_DIR="$HOME/dotfiles"

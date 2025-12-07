@@ -1,2 +1,4 @@
-eval "$(starship init zsh)"
+if (which starship >/dev/null); then
+  eval "$(starship init zsh)"
+fi
 bindkey -e
