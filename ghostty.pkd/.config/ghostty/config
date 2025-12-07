@@ -17,6 +17,8 @@ font-family = "JetBrainsMono Nerd Font Mono"
 font-size = 18
 font-feature = +liga
 font-thicken = true
+link-url = true
+font-thicken = true
 
 # --- WINDOW ---
 window-height = 36
@@ -26,20 +28,22 @@ macos-titlebar-proxy-icon = hidden
 
 # --- COLORS ---
 theme = Apple System Colors
-cursor-color = #9399B2
-bold-is-bright = true
+cursor-color = #CBD6F7
+cursor-text = #1E1E1E 
+bold-color = bright
 
 # --- CURSOR ---
-adjust-cursor-thickness = +5
-adjust-cursor-height = -3
+adjust-cursor-thickness = +6
+adjust-cursor-height = -4
 cursor-opacity = 0.85
 cursor-style-blink = false
 cursor-style = block
+mouse-hide-while-typing = true
+custom-shader = shaders/cursor_warp.glsl
+custom-shader-animation = always
 
-# --- BELL ---
+# --- BELL & NOTIFICATIONS ---
 bell-features = system, attention, title, no-border
-
-# --- OS BEHAVIOR ---
 desktop-notifications = true
 
 # --- QUIT BEHAVIOR ---
@@ -50,3 +54,18 @@ quit-after-last-window-closed = true
 clipboard-read = allow
 clipboard-write = allow
 keybind = shift+enter=text:\x1b\r
+clipboard-trim-trailing-spaces = true
+
+# --- App Icon ---
+macos-titlebar-proxy-icon = hidden
+macos-icon = custom-style
+macos-icon-frame = plastic
+macos-icon-ghost-color = FFFFFF
+macos-icon-screen-color = 000000
+
+# --- QUICK TERMINAL ---
+keybind = global:super+t=toggle_quick_terminal
+quick-terminal-position = bottom
+quick-terminal-size = 35%,95%
+quick-terminal-autohide = true
+quick-terminal-animation-duration = 0.01
