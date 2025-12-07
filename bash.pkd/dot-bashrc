@@ -46,6 +46,9 @@ alias grepa='grep -Rni --exclude-dir={.bzr,cvs,.git,.hg,.svn,.idea,.tox,.venv,ve
 alias grepf='find . | \grep -i --color=always'
 alias grepd='find . -type d | rg -iu'
 
+alias yubi-git='GIT_SSH_COMMAND="ssh -i $PWD/id_ed25519_sk_rk" git'
+alias yub-sshkey='ssh-keygen -K'
+
 # ==== git aliases ====
 alias gst='git status'
 alias gl='git pull'

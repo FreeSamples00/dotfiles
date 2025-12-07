@@ -61,6 +61,9 @@ alias gca='git commit --verbose --all'
 alias ga='git add'
 alias grmc='git rm --cached'
 
+alias yubi-git='GIT_SSH_COMMAND="ssh -i $PWD/id_ed25519_sk_rk" git'
+alias yub-sshkey='ssh-keygen -K'
+
 # ==== torrent ====
 if (which transmission-cli >/dev/null); then
   alias torrent="transmission-cli"
