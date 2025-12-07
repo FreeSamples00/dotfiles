@@ -44,6 +44,14 @@ vim.keymap.set("x", "P", [["_dP]], {
   desc = "Paste without copying overwritten text",
 })
 
+-- ==================== `xx` to cut line ====================
+
+vim.keymap.set("n", "xx", "yydd", {
+  remap = false,
+  silent = true,
+  desc = "Yank line then delete it",
+})
+
 -- ==================== Terminal Emulator ====================
 
 vim.api.nvim_create_autocmd("TermOpen", {

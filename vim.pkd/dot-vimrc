@@ -58,6 +58,9 @@ vnoremap d "_d
 xnoremap p "_dP
 xnoremap P "_dP
 
+" Custom sequence bindings: Yank line then delete it
+nnoremap xx yydd
+
 " ==================== Cursor Shape Configuration ====================
 
 " Normal mode and exiting Insert/Replace/Visual mode: Block cursor
