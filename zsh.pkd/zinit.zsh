@@ -20,11 +20,35 @@ function zinit_safe() {
   fi
 }
 
-zinit_safe light zsh-users/zsh-syntax-highlighting # syntax highlights in commandline
-zinit_safe light zsh-users/zsh-autosuggestions # history based completions
-zinit_safe light Aloxaf/fzf-tab # use fzf for tab completions
-zinit_safe light MichaelAquilina/zsh-you-should-use # reminds you of aliases if you do not use them
+# ==================== IMMEDIATE LOADS ====================
+# Critical for tab completion - must load before first command
+
 zinit_safe light zsh-users/zsh-completions # aggregates zsh completion scripts
-zinit_safe snippet OMZL::git.zsh # no idea what this is for (might be important?)
+zinit_safe light Aloxaf/fzf-tab # use fzf for tab completions
+
+# ==================== TURBO MODE LOADS ====================
+# Visual enhancements - can load after prompt appears
+
+# Priority 0a - Load first in async batch
+zinit ice wait'0a' lucid atinit'ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20'
+zinit_safe light zsh-users/zsh-autosuggestions # history based completions
+
+# Priority 0b - Load second
+zinit ice wait'0b' lucid
+zinit_safe light zsh-users/zsh-syntax-highlighting # syntax highlights in commandline
+
+# Priority 1 - Lower priority, load after 1 second
+zinit ice wait'1' lucid
+zinit_safe light MichaelAquilina/zsh-you-should-use # reminds you of aliases if you do not use them
+
+# ==================== OH-MY-ZSH SNIPPETS ====================
+# These are small, but can still defer
+
+zinit ice wait'0c' lucid
+zinit_safe snippet OMZL::git.zsh # oh-my-zsh git library
+
+zinit ice wait'0c' lucid
 zinit_safe snippet OMZP::sudo # esc-esc for sudo
+
+zinit ice wait'0c' lucid
 zinit_safe snippet OMZP::ssh # add .ssh/config completions
