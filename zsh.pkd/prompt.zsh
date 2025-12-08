@@ -1,4 +1,4 @@
-if (which starship >/dev/null); then
+if (( $+commands[starship] )); then
   eval "$(starship init zsh)"
 fi
 bindkey -e

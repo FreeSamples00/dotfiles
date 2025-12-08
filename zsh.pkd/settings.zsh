@@ -4,7 +4,7 @@ DO_SPLASH_SCREEN=1
 
 USE_ENHANCED_CLEAR=1
 
-if (which nvim >/dev/null); then
+if (( $+commands[nvim] )); then
   export EDITOR="nvim"
   export VISUAL="nvim"
 else
@@ -12,11 +12,11 @@ else
   export VISUAL="vim"
 fi
 
-if (which neovide >/dev/null); then
+if (( $+commands[neovide] )); then
   export GUI_EDITOR="neovide"
 fi
 
-if (which bat >/dev/null); then
+if (( $+commands[bat] )); then
   export PAGER="bat --paging=always -p"
 else
   export PAGER="less -R"

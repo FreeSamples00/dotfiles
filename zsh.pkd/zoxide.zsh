@@ -1,6 +1,6 @@
 # ==================== ZOXIDE ====================
 
-if (which zoxide >/dev/null); then
+if (( $+commands[zoxide] )); then
   unalias zi # zi is zinit by default
   eval "$(zoxide init zsh)"
   alias cd='z'

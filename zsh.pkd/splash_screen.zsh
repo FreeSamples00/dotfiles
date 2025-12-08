@@ -1,5 +1,5 @@
-if (which figlet >/dev/null); then
-  if (which lolcat >/dev/null); then
+if (( $+commands[figlet] )); then
+  if (( $+commands[lolcat] )); then
     echo $HOSTNAME | figlet -c -w $COLUMNS | lolcat -f
   else
     echo $HOSTNAME | figlet -c -w $COLUMNS

@@ -1,5 +1,5 @@
 
-if (which git >/dev/null); then
+if (( $+commands[git] )); then
 
   # Gets the root of the current Git repository.
   function git_root() {

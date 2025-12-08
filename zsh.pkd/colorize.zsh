@@ -13,7 +13,7 @@ export LESS_TERMCAP_ZJ=$'\e[1;35m' # bold magenta for comments (this one is less
 export LESS_TERMCAP_ZN=$'\e[0m'    # end ZJ
 
 
-if (which bat >/dev/null); then
+if (( $+commands[bat] )); then
   alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
   alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
   alias -g -- -help='--help 2>&1 | bat --language=help --style=plain'
