@@ -66,6 +66,6 @@ macos-icon-screen-color = 000000
 # --- QUICK TERMINAL ---
 keybind = global:super+e=toggle_quick_terminal
 quick-terminal-position = bottom
-quick-terminal-size = 35%,95%
+quick-terminal-size = 35%,80%
 quick-terminal-autohide = true
 quick-terminal-animation-duration = 0.01
