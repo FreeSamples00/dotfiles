@@ -65,16 +65,15 @@ nnoremap xx yydd
 
 " ==================== Cursor Shape Configuration ====================
 
-" Normal mode and exiting Insert/Replace/Visual mode: Block cursor
-" \x1b[2 q sets a steady block cursor. Use \x1b[1 q for blinking block.
-let &t_EI = "\x1b[2 q" " End Insert (back to Normal mode)
-let &t_VE = "\x1b[2 q" " Visual mode Exit (back to Normal mode)
-let &t_ER = "\x1b[2 q" " End Replace (back to Normal mode)
+" Set cursor shape sequences (faster \033 instead of \x1b)
+let &t_SI = "\033[5 q"   " Blinking bar in insert mode
+let &t_EI = "\033[2 q"   " Steady block in normal mode
+let &t_SR = "\033[3 q"   " Blinking underline in replace mode
+let &t_VE = "\033[2 q"   " Visual mode exit
 
-" Insert mode: Line cursor (vertical bar / I-beam)
-" \x1b[5 q sets a blinking bar cursor. Use \x1b[6 q for steady bar.
-let &t_SI = "\x1b[5 q" " Start Insert
-
-" Replace mode: Underscore cursor
-" \x1b[3 q sets a blinking underline cursor. Use \x1b[4 q for steady underline.
-let &t_SR = "\x1b[3 q" " Start Replace
+" Use autocommands to avoid redundant updates and improve responsiveness
+augroup CursorMode
+  autocmd!
+  autocmd InsertEnter * silent exec '!echo -ne "\033[5 q"'
+  autocmd InsertLeave * silent exec '!echo -ne "\033[2 q"'
+augroup END
