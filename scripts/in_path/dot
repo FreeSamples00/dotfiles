@@ -85,13 +85,15 @@ function stow_check() {
         fi
       fi
       # gain sudo
-      echo -n "Need sudo. "
-      if ! ( sudo echo -n "" ); then
+      if ! ( sudo -n true ); then
+        echo -n "Need sudo. "
+        if ! ( sudo echo -n "" ); then
+          echo ""
+          echo "Sudo failed, Exiting..."
+          exit 1
+        fi
         echo ""
-        echo "Sudo failed, Exiting..."
-        exit 1
       fi
-      echo ""
       # try installing with apt
       if ( which apt >/dev/null ); then
         if _=$( sudo apt install -y stow 2>&1 ); then
