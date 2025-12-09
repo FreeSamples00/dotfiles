@@ -20,6 +20,8 @@ set number
 set relativenumber          
 set laststatus=0            
 set cursorline
+set ruler
+set rulerformat=%f\ %l:%c
 
 set title
 set titlestring=%f
