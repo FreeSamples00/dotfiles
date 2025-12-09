@@ -21,7 +21,8 @@ set relativenumber
 set laststatus=0            
 set cursorline
 set ruler
-set rulerformat=%f\ %l:%c
+set rulerformat=%f\ \ %l:%c
+set showmode
 
 set title
 set titlestring=%f
@@ -42,6 +43,8 @@ set ignorecase
 set smartcase               
 
 set clipboard=unnamedplus
+
+set ttimeoutlen=10
 
 " ==================== Mappings ====================
 
@@ -65,6 +68,19 @@ xnoremap P "_dP
 " Custom sequence bindings: Yank line then delete it
 nnoremap xx yydd
 
+" ==================== Mode Message Customization ====================
+
+" Create a highlight group for normal mode message (bold text, no background)
+hi NormalModeMsg gui=bold cterm=bold
+
+" Display NORMAL mode message when entering normal mode
+augroup NormalModeMsg
+  autocmd!
+  autocmd InsertLeave * echohl NormalModeMsg | echo "-- NORMAL --" | echohl None
+  autocmd CmdlineLeave * echohl NormalModeMsg | echo "-- NORMAL --" | echohl None
+  autocmd VimEnter * echohl NormalModeMsg | echo "-- NORMAL --" | echohl None
+augroup END
+
 " ==================== Cursor Shape Configuration ====================
 
 " Set cursor shape sequences (faster \033 instead of \x1b)
@@ -72,10 +88,3 @@ let &t_SI = "\033[5 q"   " Blinking bar in insert mode
 let &t_EI = "\033[2 q"   " Steady block in normal mode
 let &t_SR = "\033[3 q"   " Blinking underline in replace mode
 let &t_VE = "\033[2 q"   " Visual mode exit
-
-" Use autocommands to avoid redundant updates and improve responsiveness
-augroup CursorMode
-  autocmd!
-  autocmd InsertEnter * silent exec '!echo -ne "\033[5 q"'
-  autocmd InsertLeave * silent exec '!echo -ne "\033[2 q"'
-augroup END
