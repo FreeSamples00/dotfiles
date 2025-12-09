@@ -68,19 +68,6 @@ xnoremap P "_dP
 " Custom sequence bindings: Yank line then delete it
 nnoremap xx yydd
 
-" ==================== Mode Message Customization ====================
-
-" Create a highlight group for normal mode message (bold text, no background)
-hi NormalModeMsg gui=bold cterm=bold
-
-" Display NORMAL mode message when entering normal mode
-augroup NormalModeMsg
-  autocmd!
-  autocmd InsertLeave * echohl NormalModeMsg | echo "-- NORMAL --" | echohl None
-  autocmd CmdlineLeave * echohl NormalModeMsg | echo "-- NORMAL --" | echohl None
-  autocmd VimEnter * echohl NormalModeMsg | echo "-- NORMAL --" | echohl None
-augroup END
-
 " ==================== Cursor Shape Configuration ====================
 
 " Set cursor shape sequences (faster \033 instead of \x1b)
