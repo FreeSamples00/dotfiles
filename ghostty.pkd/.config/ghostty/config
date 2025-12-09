@@ -18,7 +18,6 @@ font-size = 18
 font-feature = +liga
 font-thicken = true
 link-url = true
-font-thicken = true
 
 # --- WINDOW ---
 window-height = 36
