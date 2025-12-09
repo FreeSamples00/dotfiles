@@ -79,25 +79,26 @@ function stow_check() {
       if ( which brew >/dev/null ); then
         if _=$( brew install stow 2>&1 ); then
           echo "Installed with 'brew install stow'"
+          echo
           return
         else
           echo "Installing with 'brew install stow' failed"
         fi
       fi
       # gain sudo
-      if ! ( sudo -n true ); then
+      if ! _=$( sudo -n true 2>&1 ); then
         echo -n "Need sudo. "
         if ! ( sudo echo -n "" ); then
           echo ""
           echo "Sudo failed, Exiting..."
           exit 1
         fi
-        echo ""
       fi
       # try installing with apt
       if ( which apt >/dev/null ); then
         if _=$( sudo apt install -y stow 2>&1 ); then
           echo "Installed with 'sudo apt install stow'"
+          echo
           sudo -k
           return
         else
