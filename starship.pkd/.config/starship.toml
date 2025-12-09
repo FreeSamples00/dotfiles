@@ -32,8 +32,9 @@ $git_branch\
 $git_status\
 $git_state\
 \
- $fill \
+$fill \
 $status\
+$sudo\
 $custom\
 $hostname\
 $cmd_duration\
@@ -132,6 +133,12 @@ ssh_only = true
 trim_at = '.'
 style = 'bold yellow'
 format = '[󰒋 $hostname]($style) [-](spacer_color) '
+
+[sudo]
+disabled = false
+format = '[SUDO]($style) [-](spacer_color) '
+symbol = ''
+style = 'bold red'
 
 [custom.tmux]
 command = 'tmux display-message -p "#{session_name}"'
