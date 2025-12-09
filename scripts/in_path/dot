@@ -27,7 +27,7 @@ function cmd_help() {
       echo -e "Description"
       echo -e "\t Dotfiles manager"
       echo -e "\nUsage"
-      echo -e "\t$(basename $2) [options] <subcommand>"
+      echo -e "\t$(basename "$2") [options] <subcommand>"
       echo -e "\nOptions"
       echo -e "\t-h, --help\t this helpfule message"
       echo -e "\nSubcommands"
@@ -36,7 +36,7 @@ function cmd_help() {
       ;;
     stow)
       echo -e "Description"
-      echo -e "\t Symlink manager"
+      echo -e "\t Symlink manager (wraps Gnu Stow)"
       echo -e "\nUsage"
       echo -e "\t$(basename "$2") stow [options] <package> [<package> ...]"
       echo -e "\nOptions"
@@ -68,6 +68,52 @@ function cmd_help() {
 
 # ========== STOW SUBCOMMAND ==========
 
+# Check for Gnu Stow in path
+function stow_check() {
+  if ! ( which stow >/dev/null ); then
+    echo -n "Gnu Stow not found in path, install it? (may require sudo) [Y/n]: "
+    read -r IN
+    IN=$(echo "$IN" | awk -F " " '{print tolower($0)}')
+    if [ "$IN" == "y" ]; then
+      # try install with brew
+      if ( which brew >/dev/null ); then
+        if _=$( brew install stow 2>&1 ); then
+          echo "Installed with 'brew install stow'"
+          return
+        else
+          echo "Installing with 'brew install stow' failed"
+        fi
+      fi
+      # gain sudo
+      echo -n "Need sudo. "
+      if ! ( sudo echo -n "" ); then
+        echo ""
+        echo "Sudo failed, Exiting..."
+        exit 1
+      fi
+      echo ""
+      # try installing with apt
+      if ( which apt >/dev/null ); then
+        if _=$( sudo apt install -y stow 2>&1 ); then
+          echo "Installed with 'sudo apt install stow'"
+          sudo -k
+          return
+        else
+          echo "Installing with 'sudo apt install stow' failed"
+        fi
+      fi
+      # install failed, exit cleanly
+      sudo -k
+      echo -e "Failed to install, Exiting..."
+      exit 1
+    else
+      # install denied, exit cleanly
+      echo -e "Exiting..."
+      exit 0
+    fi
+  fi
+}
+
 function cmd_stow() {
 
   # stowignore file
@@ -88,6 +134,9 @@ function cmd_stow() {
   if [[ "$1" == "-h" || "$1" == "--help" ]] || (( $# == 0 )); then
     cmd_help stow "$0"
   fi
+
+  # check for stow
+  stow_check
 
   # init variables
   ALL_FLAG=false
