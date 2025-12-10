@@ -29,7 +29,17 @@ if (( $+commands[tree] )); then
 fi
 
 if (( $+commands[eza] )); then
-  alias ls='eza --color=automatic --icons=automatic --no-user -a --group-directories-first --sort=type -I="._*"'
+  alias ls='eza \
+    --color=automatic \
+    --icons=automatic \
+    --no-user \
+    -a \
+    --group-directories-first \
+    --sort=type \
+    --hyperlink \
+    --grid\
+    --header \
+    -I="._*"'
 else
   alias ls='ls -A --color=automatic'
 fi
