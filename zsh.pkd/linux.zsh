@@ -2,7 +2,7 @@
 if [[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ]] then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 else
-  ERROR_STATUS="$ERROR_STATUS\n\tLinuxBrew path '/home/linuxbrew/.linxbrew/bin/brew' not found(line ${LINENO})"
+  config_err "LinuxBrew path '/home/linuxbrew/.linxbrew/bin/brew' not found"
 fi
 
 # OS specific shorthands

@@ -19,32 +19,40 @@ fi
 
 SHELL_CONFIG="$HOME/dotfiles/zsh.pkd"
 
-function shell_source() {
-  if ! [ -f "$SHELL_CONFIG/$1.zsh" ]; then
-    echo "$1.zsh could not be sourced"
-  fi
-  source "$SHELL_CONFIG/$1.zsh"
+# Add error to ERROR_STATUS with automatic filename and line number
+function config_err() {
+  local message="$1"
+  local caller_info="${funcfiletrace[1]##*/}"
+  ERROR_STATUS="$ERROR_STATUS\n\t$message ($caller_info)"
 }
 
-shell_source settings
+function config_source() {
+  if ! [ -f "$SHELL_CONFIG/$1.zsh" ]; then
+    config_err "Could not source: '$1.zsh'"
+  else
+    source "$SHELL_CONFIG/$1.zsh"
+  fi
+}
+
+config_source settings
 
 # ==================== OPERATING SYSTEM DETECTION ====================
 
 case "$OSTYPE" in
   linux*)
     OPERATING_SYSTEM="linux"
-    shell_source linux
+    config_source linux
     HOSTNAME=$(hostname | \grep -E -o '^[^.]+')
     ;;
   darwin*)
     OPERATING_SYSTEM="macos"
-    shell_source macos
+    config_source macos
     HOSTNAME=$(scutil --get ComputerName)
     ;;
   *)
     OPERATING_SYSTEM=""
     HOSTNAME="HOSTNAME NOT FOUND"
-    ERROR_STATUS="$ERROR_STATUS\n\tNot a supported OS. ($OSTYPE)"
+    config_err "OS '($OSTYPE)' not supported"
     ;;
 esac
 
@@ -62,11 +70,13 @@ local ZSH_MODULES=(
   "colorize"
   "fzf"
   "functions"
+  "grc"
   "aliases"
+  "completions"
 )
 
 for module in $ZSH_MODULES[@]; do
-  shell_source $module
+  config_source $module
 done
 
 # ==================== IMPORT FROM PACKAGES ====================
@@ -98,19 +108,19 @@ if [[ "$ERROR_STATUS" != "" ]]; then
   for _ in {2..$COLUMNS}; do
     echo -n "="
   done
-  echo "\033[0m\n\n"
+  echo "\033[0m\n"
 fi
 
 # ==================== SPLASH SCREEN ==================== 
 
 if (( DO_SPLASH_SCREEN )); then
-  shell_source splash_screen
+  config_source splash_screen
 fi
 
 # ==== DISPLAY LOAD TIME ====
 
-echo "\033[90mzsh load time: $(( $(gdate +%s%3N) - START_TIME ))ms\033[0m"
+echo "\033[90mload time: $(( $(gdate +%s%3N) - START_TIME ))ms\033[0m"
 
 # ==================== PROMPT & CURSOR ==================== 
 
-shell_source prompt
+config_source prompt

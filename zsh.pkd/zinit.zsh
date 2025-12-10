@@ -16,7 +16,7 @@ source "${ZINIT_HOME}/zinit.zsh"
 function zinit_safe() {
   zinit "$@"
   if (( status != 0 )); then
-    ERROR_STATUS="$ERROR_STATUS\n\tZinit $1 failed for '$2' (line: ${LINENO})"
+    config_err "Zinit $1 failed for '$2'"
   fi
 }
 

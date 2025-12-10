@@ -18,7 +18,7 @@ alias sizeof='du -hs'
 # ---------- CONDITIONAL ----------
 
 if (( $USE_ENHANCED_CLEAR )); then
-  shell_source enhanced_clear
+  config_source enhanced_clear
 else
   alias c="clear"
   alias cls="clear && ls"
