@@ -72,7 +72,7 @@ local ZSH_MODULES=(
   "functions"
   "grc"
   "aliases"
-  "completions"
+  # "completions"
 )
 
 for module in $ZSH_MODULES[@]; do
