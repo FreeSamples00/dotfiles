@@ -18,6 +18,8 @@
 
 ## Misc
 
+- [ ] use noseyparker or other secret sniffer as precommit hook?
+
 - [ ] update readme
   - [ ] command changes
   - [ ] add sections for major features
