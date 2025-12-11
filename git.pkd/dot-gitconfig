@@ -16,3 +16,5 @@
 [delta]
 	side-by-side = true
 	navigate = true
+[pull]
+	rebase = false
