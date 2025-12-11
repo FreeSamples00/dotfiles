@@ -1,29 +1,18 @@
-[filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
+# User Info
 [user]
 	name = Spencer Christensen
 	email = 134820811+FreeSamples00@users.noreply.github.com
+
+# Convert https to ssh
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
+[url "ssh://git@gist.github.com/"]
+	insteadOf = https://gist.github.com/
+
+# Settings
 [core]
 	excludesfile = /Users/sccmp/.globalgitignore
 	pager = delta
-[pull]
-	rebase = false
-[merge]
-	tool = viewdiff
-	conflictstyle = zdiff3
 [delta]
 	side-by-side = true
 	navigate = true
-[interactive]
-    diffFilter = delta --color-only
-[credential "https://github.com"]
-	helper = 
-	helper = !/opt/homebrew/bin/gh auth git-credential
-[credential "https://gist.github.com"]
-	helper = 
-	helper = !/opt/homebrew/bin/gh auth git-credential
-[diff]
-	followLinks = true
