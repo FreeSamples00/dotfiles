@@ -1,0 +1,52 @@
+#compdef dot
+
+_dot() {
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
+
+  _arguments -C \
+    '1: :->subcommand' \
+    '*::arg:->args'
+
+  case $state in
+    subcommand)
+      _values 'subcommand' \
+        'stow' \
+        'dump' \
+        '-h' \
+        '--help'
+      ;;
+    
+    args)
+      case $line[1] in
+        stow)
+          local -a stow_opts packages
+          stow_opts=(
+            '-a' '--all'
+            '-t' '--test'
+            '-e' '--exclude'
+            '-d' '--delete'
+            '-h' '--help'
+          )
+          
+          # Get packages
+          for pkg in $HOME/dotfiles/*.pkd(N); do
+            packages+=(${${pkg:t}%.pkd})
+          done
+          
+          _values 'options and packages' \
+            $stow_opts \
+            $packages
+          ;;
+        
+        dump)
+          _values 'options' \
+            '-h' \
+            '--help'
+          ;;
+      esac
+      ;;
+  esac
+}
+
+_dot "$@"
