@@ -106,6 +106,19 @@ if (( $+commands[git] )); then
   alias ga='git add'
   alias grmc='git rm --cached'
   alias yubi-git='GIT_SSH_COMMAND="ssh -i $PWD/id_ed25519_sk_rk" git'
+  function gcl() {
+    if if [[ "$1" == "-h" || "$1" == "--help" || $# -eq 0 ]]; then
+      echo -e \
+      "\nDescription:\n" \
+      "\n\tShorthand for cloning github repositories\n" \
+      "\nUsage:\n" \
+      "\n\t$0 <username>/<repository>"
+      exit 0
+    fi
+    TARGET="git@github.com:$1"
+    shift
+    git clone "$TARGET" "$@"
+  }
 fi
 
 if (( $+commands[tldr] )); then
