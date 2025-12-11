@@ -45,9 +45,10 @@ else
 fi
 
 if (( $+commands[bat] )); then
+  export BAT_OPTS="--plain"
   alias cat="bat -p"
   if (( $+commands[dust] )); then
-    alias storage="dust -rC | bat --file-name 'Storage Breakdown'"
+    alias storage="dust -rC | bat"
   fi
 fi
 
@@ -105,6 +106,7 @@ if (( $+commands[git] )); then
   alias gca='git commit --verbose --all'
   alias ga='git add'
   alias grmc='git rm --cached'
+  alias gb='bit branch'
   alias yubi-git='GIT_SSH_COMMAND="ssh -i $PWD/id_ed25519_sk_rk" git'
   function gcl() {
     if if [[ "$1" == "-h" || "$1" == "--help" || $# -eq 0 ]]; then
