@@ -16,7 +16,7 @@ _dot() {
         '-h' \
         '--help'
       ;;
-    
+
     args)
       case $line[1] in
         stow)
@@ -28,17 +28,17 @@ _dot() {
             '-d' '--delete'
             '-h' '--help'
           )
-          
+
           # Get packages
           for pkg in $HOME/dotfiles/*.pkd(N); do
             packages+=(${${pkg:t}%.pkd})
           done
-          
+
           _values 'options and packages' \
             $stow_opts \
             $packages
           ;;
-        
+
         dump)
           _values 'options' \
             '-h' \

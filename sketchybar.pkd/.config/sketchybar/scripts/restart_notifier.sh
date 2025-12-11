@@ -24,4 +24,3 @@ else
           icon.padding_left=0 \
           icon.padding_right=0
 fi
-

@@ -1,4 +1,4 @@
-# ==================== COLORIZE MAN & HELP PAGES ==================== 
+# ==================== COLORIZE MAN & HELP PAGES ====================
 
 export LESS_TERMCAP_mb=$'\e[1;36m' # start blinking (bold cyan)
 export LESS_TERMCAP_md=$'\e[1;33m' # start bold (bold yellow)

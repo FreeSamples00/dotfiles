@@ -13,4 +13,3 @@ sketchybar \
         click_script="open -a mail"  \
         icon="󰶈" \
         label="--"
-

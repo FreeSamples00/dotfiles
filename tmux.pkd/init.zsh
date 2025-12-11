@@ -19,4 +19,3 @@ function tmuxa() {
 alias tmuxk="tmux kill-session"
 alias tmuxl="tmux ls"
 alias tmuxd="tmux detach"
-

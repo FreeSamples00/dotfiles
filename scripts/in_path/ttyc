@@ -59,7 +59,7 @@ fi
 if [[ "$1" == "-f" ]]; then
 	echo "\n=== Formatting ===\n"
 
-	printf "Apply formatting code \033[33mX\033[0m: \\" 
+	printf "Apply formatting code \033[33mX\033[0m: \\"
 	printf "033[\033[33mX\033[0mm\n"
 
 	printf "Apply multiple codes \033[33mX\033[0m, \033[33mY\033[0m: \\"

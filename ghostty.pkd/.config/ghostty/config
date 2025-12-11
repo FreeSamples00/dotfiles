@@ -28,7 +28,7 @@ macos-titlebar-proxy-icon = hidden
 # --- COLORS ---
 theme = Apple System Colors
 cursor-color = #CBD6F7
-cursor-text = #1E1E1E 
+cursor-text = #1E1E1E
 bold-color = bright
 
 # --- CURSOR ---

@@ -111,7 +111,7 @@ if [[ "$ERROR_STATUS" != "" ]]; then
   echo "\033[0m\n"
 fi
 
-# ==================== SPLASH SCREEN ==================== 
+# ==================== SPLASH SCREEN ====================
 
 if (( DO_SPLASH_SCREEN )); then
   config_source splash_screen
@@ -121,6 +121,6 @@ fi
 
 echo "\033[90mload time: $(( $(gdate +%s%3N) - START_TIME ))ms\033[0m"
 
-# ==================== PROMPT & CURSOR ==================== 
+# ==================== PROMPT & CURSOR ====================
 
 config_source prompt

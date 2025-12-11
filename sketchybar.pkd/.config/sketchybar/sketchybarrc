@@ -27,7 +27,7 @@ source "$CONFIG_DIR/aesthetics.sh"
 export SCRIPT_DIR="$CONFIG_DIR/scripts"
 COMPONENT_DIR="$CONFIG_DIR/components"
 
-# ==================== Settings ==================== 
+# ==================== Settings ====================
 # NOTE: order is out to in
 
 left_items=(
@@ -76,7 +76,7 @@ default=(
 
 # ==================== Setup ====================
 
-sketchybar --bar "${bar[@]}" --default "${default[@]}" 
+sketchybar --bar "${bar[@]}" --default "${default[@]}"
 
 for item in "${left_items[@]}"; do
   source "$COMPONENT_DIR/$item.sh" left

@@ -45,7 +45,7 @@ prompt_fill_line() {
     # Calculate visible length: user + space + host + space + dir
     local visible_len=$((${#user} + 1 + ${#host} + 1 + ${#dir}))
     local fill_len=$((COLUMNS - visible_len))
-    
+
     # Only add dashes if there's space
     if [ $fill_len -gt 0 ]; then
         printf '%*s' "$fill_len" '' | tr ' ' '-'

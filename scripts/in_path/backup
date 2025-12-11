@@ -49,7 +49,7 @@ for arg in "$@"; do
     fi
 
     UNBACKUP="${FILE%.bak}"
-    
+
     if [ -f "$UNBACKUP" ] || [ -d "$UNBACKUP" ]; then
       if ((FORCE)); then
         \rm -rf "$UNBACKUP"
