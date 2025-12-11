@@ -1,16 +1,25 @@
-// --- CONFIGURATION ---
+// ========== GHOSTTY SHADERS ==========
+// From: https://github.com/hifanx/dotfiles/blob/c13cd075d993b406489bbb535ef199f11e1c0fb7/ghostty/.config/ghostty/shaders/cursor_warp.glsl#L4
+
+
+// ---------- CONFIGURATION ----------
+
 vec4 TRAIL_COLOR = iCurrentCursorColor; // can change to eg: vec4(0.2, 0.6, 1.0, 0.5);
-const float DURATION = 0.15; // total animation time
-const float TRAIL_SIZE = 1.0; // 0.0 = all corners move together. 1.0 = max smear (leading corners jump instantly)
+const float DURATION = 0.15;            // total animation time
+const float TRAIL_SIZE = 1.0;           // 0.0 = all corners move together. 1.0 = max smear (leading corners jump instantly)
 const float THRESHOLD_MIN_DISTANCE = 1; // min distance to show trail (units of cursor height)
-const float BLUR = 1.0; // blur size in pixels (for antialiasing)
-const float TRAIL_THICKNESS = 1.0;  // 1.0 = full cursor height, 0.0 = zero height, >1.0 = funky aah
-const float TRAIL_THICKNESS_X = 0.9;
+const float BLUR = 1.0;                 // blur size in pixels (for antialiasing)
+const float TRAIL_THICKNESS = 1.0;      // 1.0 = full cursor height, 0.0 = zero height, >1.0 = funky aah
+const float TRAIL_THICKNESS_X = 0.9;    // ...
 
-const float FADE_ENABLED = 0.0; // 1.0 to enable fade gradient along the trail, 0.0 to disable
-const float FADE_EXPONENT = 5.0; // exponent for fade gradient along the trail
+const float FADE_ENABLED = 0.0;         // 1.0 to enable fade gradient along the trail, 0.0 to disable
+const float FADE_EXPONENT = 5.0;        // exponent for fade gradient along the trail
 
-// --- CONSTANTS for easing functions ---
+// ---------- EASING ----------
+// uncomment one ease() function, defines how trail is calculated
+
+// --- CONSTANTS ---
+
 const float PI = 3.14159265359;
 const float C1_BACK = 1.70158;
 const float C2_BACK = C1_BACK * 1.525;
@@ -20,7 +29,7 @@ const float C5_ELASTIC = (2.0 * PI) / 4.5;
 const float SPRING_STIFFNESS = 9.0;
 const float SPRING_DAMPING = 0.9;
 
-// --- EASING FUNCTIONS ---
+// --- FUNCTIONS ---
 
 // // Linear
 float ease(float x) {
@@ -82,6 +91,8 @@ float ease(float x) {
 //     float osc = cos(freq * 6.283185 * x) + (SPRING_DAMPING * sqrt(SPRING_STIFFNESS) / freq) * sin(freq * 6.283185 * x);
 //     return 1.0 - decay * osc;
 // }
+
+// ========== NON-CONFIG STUFF ==========
 
 float getSdfRectangle(in vec2 p, in vec2 xy, in vec2 b)
 {

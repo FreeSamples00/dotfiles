@@ -38,7 +38,7 @@ cursor-opacity = 0.85
 cursor-style-blink = false
 cursor-style = block
 mouse-hide-while-typing = true
-custom-shader = shaders/cursor_warp.glsl
+custom-shader = shaders/cursor_trail.glsl
 custom-shader-animation = always
 
 # --- BELL & NOTIFICATIONS ---
