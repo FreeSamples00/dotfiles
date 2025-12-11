@@ -9,3 +9,11 @@ repos:
       - id: check-added-large-files
       - id: detect-private-key
         name: Detect Private Keys
+
+  - repo: https://github.com/trufflesecurity/trufflehog
+    rev: v3.92.2
+    hooks:
+      - id: trufflehog
+        name: TruffleHog Secret Scanner
+        entry: trufflehog git file://. --since-commit HEAD --results=verified,unknown --fail
+        args: []
