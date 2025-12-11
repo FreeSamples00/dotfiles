@@ -34,10 +34,10 @@ $git_state\
 \
 $fill \
 $status\
-$sudo\
 $custom\
 $hostname\
 $cmd_duration\
+$sudo\
 $time\
 \
 $line_break\
