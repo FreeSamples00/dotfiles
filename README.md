@@ -111,14 +111,3 @@ EOF
 ### VMWare VM
 
 When connecting yubikey over USB with a VM running you should be prompted to optionally connect it to the VM. Now it should work in the VM.
-
-### Accounts Set Up
-
-| Main Key | Backup Key | Account                    |
-| :------: | :--------: | :------------------------- |
-|    X     |            | SSH Key                    |
-|    X     |     X      | Github                     |
-|    X     |     X      | iCloud                     |
-|    X     |     X      | Google - sccmpls@gmail.com |
-|    X     |     X      | Microsoft                  |
-|    X     |     X      | Vanguard                   |
