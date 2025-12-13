@@ -48,9 +48,11 @@ to enable touch ID for _sudo_, run:
 
 ### SSH Key
 
-> [!INFO] From https://developers.yubico.com/SSH/Securing_SSH_with_FIDO2.html
+> [!NOTE]
+> From https://developers.yubico.com/SSH/Securing_SSH_with_FIDO2.html
 
-> [!DANGER] Must use ssh that is linked to libfido2, e.g. /opt/homebrew/bin/ssh on macos
+> [!CAUTION]
+> Must use ssh that is linked to libfido2, e.g. /opt/homebrew/bin/ssh on macos
 
 #### Key Generation
 
