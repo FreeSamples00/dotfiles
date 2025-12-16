@@ -16,11 +16,7 @@ if (( $+commands[neovide] )); then
   export GUI_EDITOR="neovide"
 fi
 
-if (( $+commands[bat] )); then
-  export PAGER="bat --paging=always -p"
-else
-  export PAGER="less -R"
-fi
+export PAGER='less -R'
 
 LINUX_FILE_MANAGER="xdg-open"
 
