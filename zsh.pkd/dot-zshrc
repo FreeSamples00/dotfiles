@@ -41,11 +41,13 @@ config_source settings
 case "$OSTYPE" in
   linux*)
     OPERATING_SYSTEM="linux"
+    BREW_PATH="/home/linuxbrew/.linuxbrew"
     config_source linux
     HOSTNAME=$(hostname | \grep -E -o '^[^.]+')
     ;;
   darwin*)
     OPERATING_SYSTEM="macos"
+    BREW_PATH="/opt/homebrew"
     config_source macos
     HOSTNAME=$(scutil --get ComputerName)
     ;;
@@ -72,7 +74,6 @@ local ZSH_MODULES=(
   "functions"
   "grc"
   "aliases"
-  # "completions"
 )
 
 for module in $ZSH_MODULES[@]; do
