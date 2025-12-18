@@ -86,7 +86,7 @@ if (( $+commands[ttyc] )); then
   alias colors="echo -e '\033[93mUse ttyc\033[0m'; ttyc"
 fi
 
-if (( $+commands[copy] )); then
+if (( $+commands[pbcopy] )); then
   alias copylast='fc -ln -1 | tr -d "\n" | copy'
   alias cwd='pwd | copy'
 fi
