@@ -25,19 +25,11 @@
 
 ## Packages
 
-- [ ] add ssh.pkd?
-  - [ ] evaluate exposed data
-  - [ ] add local `.gitignore` with `./keys/*`
-
 ## Aesthetics
 
 - [ ] customize `grc`
 
 ## Misc
-
-- [ ] remove all of ghidraMCP
-
-- [ ] use noseyparker or other secret sniffer as precommit hook?
 
 - [ ] update readme
   - [ ] command changes
