@@ -29,3 +29,7 @@ All agents should:
 3. Suggest shell-based solutions by default
 4. Provide actionable, direct feedback
 5. Reference sources and documentation links in responses
+
+### Bash Commands
+
+- When running `ls` commands, do not use `||` operators
