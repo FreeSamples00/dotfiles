@@ -107,6 +107,7 @@ if (( $+commands[git] )); then
   alias ga='git add'
   alias grmc='git rm --cached'
   alias gb='git branch'
+  alias gco='git checkout'
   alias yubi-git='GIT_SSH_COMMAND="ssh -i $PWD/id_ed25519_sk_rk" git'
   function gcl() {
     if [[ "$1" == "-h" || "$1" == "--help" || $# -eq 0 ]]; then
