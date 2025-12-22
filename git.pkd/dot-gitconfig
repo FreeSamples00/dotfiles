@@ -3,12 +3,6 @@
 	name = Spencer Christensen
 	email = 134820811+FreeSamples00@users.noreply.github.com
 
-# Convert https to ssh
-[url "ssh://git@github.com/"]
-	insteadOf = https://github.com/
-[url "ssh://git@gist.github.com/"]
-	insteadOf = https://gist.github.com/
-
 # Settings
 [core]
 	excludesfile = /Users/sccmp/.globalgitignore
