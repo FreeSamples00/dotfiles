@@ -13,3 +13,6 @@
 
 ## secrets
 **.priv
+
+## lock files
+lazy-lock.json
