@@ -29,17 +29,19 @@ return {
         types = {},
       },
       color_overrides = {
-        -- NOTE: Change colors to match terminal theme
+        -- change colors to match terminal theme
         mocha = {
           base = "#1E1E1E",
           mantle = "#1E1E1E",
           crust = "#000000",
         },
       },
-      -- NOTE: Custom yellow highlighting for markup italics (also yellow color, not default that matched bold)
       custom_highlights = function(colors)
         return {
+          -- custom yellow highlighting for markup italics (also yellow color, not default that matched bold)
           ["@markup.italic"] = { fg = colors.yellow, style = { "italic" } },
+          -- Color active line, make bold
+          CursorLineNr = { fg = colors.peach, style = { "bold" } },
         }
       end,
       integrations = {
