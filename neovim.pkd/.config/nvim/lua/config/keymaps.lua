@@ -10,7 +10,6 @@ vim.keymap.set("n", "d", '"_d', {
   silent = true, -- Prevents messages like "Invalid key" if you type 'd' too fast alone
   desc = "Delete without yanking",
 })
-
 -- Visual mode
 vim.keymap.set("v", "d", '"_d', {
   remap = false, -- Equivalent to 'noremap'
@@ -59,6 +58,14 @@ vim.api.nvim_create_autocmd("TermOpen", {
   callback = function()
     vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true, buffer = 0 })
   end,
+})
+
+-- ==================== Toggle Word Wrap ====================
+
+vim.keymap.set("n", "<leader>W", ":set wrap!<CR>", {
+  remap = false,
+  silent = true,
+  desc = "Toggle Word Wrap",
 })
 
 -- ==================== Neovide ====================
