@@ -91,10 +91,6 @@ if (( $+commands[pbcopy] )); then
   alias cwd='pwd | copy'
 fi
 
-if (( $+commands[lazygit] )); then
-  alias lg='lazygit'
-fi
-
 if (( $+commands[git] )); then
   function gi() { curl -sLw "\n" https://www.toptal.com/developers/gitignore/api/$@ ;}
   alias gst='git status'
@@ -107,6 +103,7 @@ if (( $+commands[git] )); then
   alias ga='git add'
   alias grmc='git rm --cached'
   alias gb='git branch'
+  alias gbs='git switch'
   alias gco='git checkout'
   alias yubi-git='GIT_SSH_COMMAND="ssh -i $PWD/id_ed25519_sk_rk" git'
   function gcl() {
@@ -122,6 +119,9 @@ if (( $+commands[git] )); then
     shift
     git clone "$TARGET" "$@"
   }
+  if (( $+commands[lazygit] )); then
+    alias lg='lazygit'
+  fi
 fi
 
 if (( $+commands[tldr] )); then
