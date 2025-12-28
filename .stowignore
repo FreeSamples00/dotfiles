@@ -2,6 +2,8 @@
 .*\.zsh
 .*\.bak
 .*\.sh
+.*\.md
+.*\.txt
 no_link
 
 # System Files
