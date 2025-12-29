@@ -1,6 +1,9 @@
 # use `config nu --doc | nu-highlight` to retrieve documentation
 # https://www.nushell.sh/book/configuration.html
 
+$env.PROMPT_INDICATOR_VI_NORMAL = ""
+$env.PROMPT_INDICATOR_VI_INSERT = ""
+
 $env.config = {
   # ----- Misc Settings -----
   show_banner: false # disable default banner
@@ -11,7 +14,7 @@ $env.config = {
 
   # ----- Commandline Editor Settings -----
   buffer_editor: [ "nvim" ] # add arguments as other elements
-  edit_mode: "emacs" # emacs or vi
+  edit_mode: "vi" # emacs or vi
 
   # shape options:
   # - inherit
@@ -19,7 +22,7 @@ $env.config = {
   # - {blink_}underline
   # - {blink_}line
   cursor_shape: {
-    emacs: "inherit"
+    emacs: "block"
     vi_insert: "line"
     vi_normal: "block"
   }
@@ -72,6 +75,7 @@ $env.config = {
       truncating_suffix: "…" # use this to indicate truncation
     }
     header_on_separator: true # place column name in table border
+    abbreviated_row_count: 25
   }
 
   # ----- Datetime Settings -----
@@ -95,5 +99,30 @@ $env.config = {
   hooks: {
     display_output: "table" # call table for output rendering, this respects table settings defined above
   }
-
 }
+
+# ----- Starship Prompt -----
+use ~/.cache/starship/init.nu
+
+# ----- Zoxide Init -----
+source ~/.cache/zoxide.nu
+
+# ----- Menus -----
+
+$env.config.menus ++= [{
+    name: completion_menu
+    only_buffer_difference: false     # Search is done on the text written after activating the menu
+    marker: "| "                      # Indicator that appears with the menu is active
+    type: {
+        layout: columnar              # Type of menu
+        columns: 1                    # Number of columns where the options are displayed
+        # col_width: 20                 # Optional value. If missing all the screen width is used to calculate column width
+        col_padding: 2                # Padding between columns
+        tab_traversal: "vertical"   # Direction in which pressing <Tab> will cycle through options, "horizontal" or "vertical"
+    }
+    style: {
+        text: green                   # Text style
+        selected_text: green_reverse  # Text style for selected option
+        description_text: yellow      # Text style for description
+    }
+}]
