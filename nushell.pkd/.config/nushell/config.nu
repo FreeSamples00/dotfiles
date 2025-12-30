@@ -6,7 +6,7 @@ $env.PROMPT_INDICATOR_VI_INSERT = ""
 
 $env.config = {
   # ----- Misc Settings -----
-  show_banner: false # disable default banner
+  show_banner: 'short' # Display startup time
   rm: {
     always_trash: false # toggle rm sending to trash dir
   }
