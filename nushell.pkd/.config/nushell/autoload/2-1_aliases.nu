@@ -33,9 +33,8 @@ alias torrent = transmission-cli
 # ----- Pager -----
 alias less = less -R
 
-# ----- tree & ls -----
+# ----- tree -----
 alias tree = tree -aC -I .git -I .venv -I "._*"
-alias l = ls -a
 
 # ----- Opencode -----
 alias opencode = opencode --agent=plan

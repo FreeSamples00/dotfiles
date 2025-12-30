@@ -133,6 +133,21 @@ $env.config.menus ++= [{
     }
 }]
 
+$env.config.menus ++= [{
+    name: history_menu
+    marker: ""
+    only_buffer_difference: false
+    style: {
+        text: $theme.text
+        selected_text: { bg: $theme.surface1 fg: $theme.text }
+        description_text: $theme.subtext0
+    }
+    type: {
+        layout: list
+        page_size: 10
+    }
+}]
+
 # ----- Starship Prompt -----
 use ~/.cache/starship/init.nu
 
