@@ -31,6 +31,7 @@
       /// Command info
       "which": "allow",
       "brew list": "allow",
+      "* --version": "allow",
       // Denied by default
       "git *": "deny",
     },
