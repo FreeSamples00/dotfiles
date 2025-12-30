@@ -44,14 +44,14 @@ $env.config = {
     use_ls_colors: true
 
     external: {
-      enable: true
+      enable: false
 
-      max_results: 50
+      max_results: 10
 
       # uses carapace for external completions
-      completer: {|spans|
-        carapace $spans.0 nushell ...$spans | from json
-      }
+      # completer: {|spans|
+      #   carapace $spans.0 nushell ...$spans | from json
+      # }
     }
   }
 
@@ -75,7 +75,7 @@ $env.config = {
       truncating_suffix: "…" # use this to indicate truncation
     }
     header_on_separator: true # place column name in table border
-    abbreviated_row_count: 25
+    abbreviated_row_count: 15
   }
 
   # ----- Datetime Settings -----
@@ -107,22 +107,34 @@ use ~/.cache/starship/init.nu
 # ----- Zoxide Init -----
 source ~/.cache/zoxide.nu
 
+# ----- Theme -----
+source theme.nu
+
 # ----- Menus -----
 
 $env.config.menus ++= [{
     name: completion_menu
-    only_buffer_difference: false     # Search is done on the text written after activating the menu
-    marker: "| "                      # Indicator that appears with the menu is active
-    type: {
-        layout: columnar              # Type of menu
-        columns: 1                    # Number of columns where the options are displayed
-        # col_width: 20                 # Optional value. If missing all the screen width is used to calculate column width
-        col_padding: 2                # Padding between columns
-        tab_traversal: "vertical"   # Direction in which pressing <Tab> will cycle through options, "horizontal" or "vertical"
-    }
+    marker: ""
+    only_buffer_difference: false
     style: {
-        text: green                   # Text style
-        selected_text: green_reverse  # Text style for selected option
-        description_text: yellow      # Text style for description
+        text: green
+        selected_text: { attr: "r" }
+        description_text: yellow
+        match_text: { fg: "#FF453A" }
+        selected_match_text: { fg: "#FF453A", attr: "r" }
+    }
+    type: {
+        layout: ide
+        min_completion_width: 0
+        max_completion_width: 50
+        padding: 0
+        border: true
+        cursor_offset: 0
+        description_mode: "prefer_right"
+        min_description_width: 0
+        max_description_width: 50
+        max_description_height: 10
+        description_offset: 1
+        correct_cursor_pos: true
     }
 }]
