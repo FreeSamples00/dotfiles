@@ -65,6 +65,7 @@ START_TIME=$(gdate +%s%3N)
 # ==================== SOURCING ====================
 
 local ZSH_MODULES=(
+  "environment"
   "zinit"
   "zsh"
   "path"
