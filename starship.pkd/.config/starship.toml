@@ -57,6 +57,10 @@ symbol = "-"
 disabled = false
 success_symbol = ' [➔](bold green)'
 error_symbol   = ' [➔](bold red)'
+vimcmd_symbol = "[](bold green)"
+vimcmd_visual_symbol = "[](bold yellow)"
+vimcmd_replace_symbol = "[](bold purple)"
+vimcmd_replace_one_symbol = "[](bold purple)"
 
 # ========== Files and Directories ==========
 
@@ -138,10 +142,11 @@ format = '[SUDO]($style) [-](spacer_color) '
 symbol = ''
 style = 'bold red'
 
-[custom.tmux]
-command = 'tmux display-message -p "#{session_name}"'
-when = 'test -n "$TMUX"'
-format = '[ $output]($style) [-](spacer_color) '
+# Does not work in nushell
+# [custom.tmux]
+# command = 'tmux display-message -p "#{session_name}"'
+# when = 'test -n "$TMUX"'
+# format = '[ $output]($style) [-](spacer_color) '
 
 # ==================== Colors ====================
 
