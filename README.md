@@ -1,13 +1,13 @@
 # My Configuration
 
-## 1. Homebrew
+## Homebrew
 
 To install [Homebrew](https://brew.sh/) packages:
 
 1. Install brew (linux or macos): `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
 2. Install brew packages: `brew bundle --file=~/dotfiles/_dumps/Brewfile`
 
-## 2. Dotfiles
+## Dotfiles
 
 _**NOTE:** You can manually select packages to link, see `./dot stow -h`_
 
@@ -15,6 +15,16 @@ _**NOTE:** You can manually select packages to link, see `./dot stow -h`_
 2. run `./dot stow -t -a` (this will tell you if there are any conflicts)
 3. ensure all proposed links look good
 4. run `./dot stow -a`
+
+## Nushell
+
+To set nushell as a login shell a custom script is needed to properly set the `XDG_CONFIG_HOME` environment variable, allowing nushell to access configs in `~/.config/nushell`
+
+1. Create a symlink: `sudo ln -s /Users/scc/dotfiles/nushell.pkd/nushell-launcher.sh /usr/local/bin/nushell`
+2. Add this script to allowed shells:
+   a. `sudo vim /etc/shells`
+   b. add `/usr/local/bin/nushell` to the end of the list
+3. Change the shell: `chsh -s /usr/local/bin/nushell`
 
 ## Cronjobs
 
