@@ -1,15 +1,9 @@
 # ----- Shell -----
 alias reload = exec nu
 
-# ----- Editor -----
-alias e = nvim
-
 # ----- Clear -----
 alias c = clear
 alias cls = do { c; ls }
-
-# ----- Zoxide -----
-alias cd = z
 
 # ----- rm -----
 alias rm = rm -I
