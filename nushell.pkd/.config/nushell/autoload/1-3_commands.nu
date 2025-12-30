@@ -1,6 +1,13 @@
 # ----- Constants ----
 const GREP_IGNORE = [ **/.git/** **/.venv/** **/__pycache__/** **/.cache/** **/node_modules/** */]
 
+# ----- Env -----
+def env-search [
+  pattern: string # target
+] {
+  $env | transpose key value | find -ir $pattern
+}
+
 # ----- Files -----
 
 # TODO: add mime typing to ls -l or similar?
@@ -16,7 +23,7 @@ def mime [
     match $in {
       "application/octet-stream" => "binary"
       "text/plain" => "text"
-      "inode/x-empty" => "empty"
+      "inode/-empty" => "empty"
       "inode/directory" => "dir"
       $other => ($other | split row '/' | get 1 | str trim)
     }

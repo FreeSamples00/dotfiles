@@ -101,12 +101,6 @@ $env.config = {
   }
 }
 
-# ----- Starship Prompt -----
-use ~/.cache/starship/init.nu
-
-# ----- Zoxide Init -----
-source ~/.cache/zoxide.nu
-
 # ----- Theme -----
 source theme.nu
 
@@ -138,3 +132,9 @@ $env.config.menus ++= [{
         correct_cursor_pos: true
     }
 }]
+
+# ----- Starship Prompt -----
+use ~/.cache/starship/init.nu
+
+# ----- Zoxide Init -----
+source ~/.cache/zoxide.nu
