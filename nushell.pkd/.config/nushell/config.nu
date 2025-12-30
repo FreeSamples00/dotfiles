@@ -117,11 +117,11 @@ $env.config.menus ++= [{
     marker: ""
     only_buffer_difference: false
     style: {
-        text: green
-        selected_text: { attr: "r" }
-        description_text: yellow
-        match_text: { fg: "#FF453A" }
-        selected_match_text: { fg: "#FF453A", attr: "r" }
+        text: $theme.text
+        selected_text: { bg: $theme.surface1 fg: $theme.text }
+        description_text: $theme.subtext0
+        match_text: $theme.red
+        selected_match_text: { bg: $theme.surface1 fg: $theme.red }
     }
     type: {
         layout: ide
