@@ -5,4 +5,4 @@ mkdir ~/.cache/starship
 starship init nu | save -f ~/.cache/starship/init.nu
 
 # ----- Zoxide Init -----
-zoxide init nushell | save -f ~/.cache/zoxide.nu
+zoxide init nushell --cmd z | save -f ~/.cache/zoxide.nu
