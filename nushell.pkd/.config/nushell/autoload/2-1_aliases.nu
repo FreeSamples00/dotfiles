@@ -1,6 +1,9 @@
 # ----- Shell -----
 alias reload = exec nu
 
+# ----- Macos -----
+alias sys-open = ^open
+
 # ----- Clear -----
 alias c = clear
 alias cls = do { c; ls }
@@ -33,3 +36,7 @@ alias less = less -R
 # ----- tree & ls -----
 alias tree = tree -aC -I .git -I .venv -I "._*"
 alias l = ls -a
+
+# ----- Opencode -----
+alias opencode = opencode --agent=plan
+alias ai = opencode
