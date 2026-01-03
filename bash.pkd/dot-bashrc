@@ -54,9 +54,9 @@ prompt_fill_line() {
 
 # Prompt with color
 if [ "$color_prompt" = yes ]; then
-    PS1="${COLOR_USER}\u${COLOR_RESET} ${COLOR_HOST}\h${COLOR_RESET} ${COLOR_DIR}\w${COLOR_RESET} ${COLOR_DASH}\$(prompt_fill_line)${COLOR_RESET}\n\$(if [ \$? = 0 ]; then echo '${COLOR_ARROW_OK}'; else echo '${COLOR_ARROW_ERR}'; fi)->$COLOR_RESET "
+    PS1="${COLOR_USER}\u${COLOR_RESET} ${COLOR_HOST}\h${COLOR_RESET} ${COLOR_DIR}\w${COLOR_RESET} ${COLOR_DASH}\$(prompt_fill_line)${COLOR_RESET}\n\$(if [ \$? = 0 ]; then echo '${COLOR_ARROW_OK}'; else echo '${COLOR_ARROW_ERR}'; fi) ➔$COLOR_RESET "
 else
-    PS1='\u@\h \w\n-> '
+    PS1='\u@\h \w\n ➔ '
 fi
 unset color_prompt
 
