@@ -122,6 +122,7 @@ def grepd [
 
 # ----- git rev-parse -----
 
+# Open gitignore
 def ignore []: nothing -> nothing {
   let file = ".gitignore"
   if (git status | complete | get exit_code) == 0 {
@@ -131,6 +132,7 @@ def ignore []: nothing -> nothing {
   }
 }
 
+# Open Todo file
 def todo []: nothing -> nothing {
   let file = "TODO.md"
   if (git status | complete | get exit_code) == 0 {
@@ -140,6 +142,7 @@ def todo []: nothing -> nothing {
   }
 }
 
+# Open Readme file
 def readme []: nothing -> nothing {
   let file = "README.md"
   if (git status | complete | get exit_code) == 0 {
@@ -147,4 +150,20 @@ def readme []: nothing -> nothing {
   } else {
     nvim ./($file)
   }
+}
+
+# ----- Git -----
+
+# Get gitignore rules by language
+@complete ignore-completer
+def get-ignore [
+  project_type? # Project type to get completions for
+  --refresh (-r) # Refresh cache
+] {
+  let cache = "~/.cache/nushell/ignore-cache.json" | path expand
+  if $refresh {
+    rm -f $cache
+    return
+  }
+  http get $"https://www.toptal.com/developers/gitignore/api/($project_type)"
 }
