@@ -51,7 +51,7 @@ $character\
 [fill]
 disabled = false
 style = 'spacer_color'
-symbol = "-"
+symbol = "─"
 
 [character]
 disabled = false
@@ -78,7 +78,7 @@ format = "[ $path]($style) "
 disabled = false
 symbol = '󰊢'
 style = 'git_orange'
-format = "[-](spacer_color) [$symbol $branch]($style) "
+format = "[─](spacer_color) [$symbol $branch]($style) "
 
 # shows status of the repo (conflict, ahead, behind, etc)
 [git_status]
@@ -113,7 +113,7 @@ disabled = false
 [cmd_duration]
 disabled = false
 style = 'timer_color'
-format = "[󰔛 $duration]($style) [-](spacer_color) "
+format = "[󰔛 $duration]($style) [─](spacer_color) "
 
 [time]
 disabled = false
@@ -128,19 +128,19 @@ disabled = false
 style = 'red'
 symbol = ''
 recognize_signal_code = false
-format = "[$symbol $status]($style) [-](spacer_color) "
-# format = "[$symbol $common_meaning$signal_name$maybe_int]($style) [-](spacer_color) "
+format = "[$symbol $status]($style) [─](spacer_color) "
+# format = "[$symbol $common_meaning$signal_name$maybe_int]($style) [─](spacer_color) "
 
 [hostname]
 disabled = false
 ssh_only = true
 trim_at = '.'
 style = 'bold yellow'
-format = '[󰒋 $hostname]($style) [-](spacer_color) '
+format = '[󰒋 $hostname]($style) [─](spacer_color) '
 
 [sudo]
 disabled = false
-format = '[SUDO]($style) [-](spacer_color) '
+format = '[SUDO]($style) [─](spacer_color) '
 symbol = ''
 style = 'bold red'
 
@@ -148,7 +148,7 @@ style = 'bold red'
 # [custom.tmux]
 # command = 'tmux display-message -p "#{session_name}"'
 # when = 'test -n "$TMUX"'
-# format = '[ $output]($style) [-](spacer_color) '
+# format = '[ $output]($style) [─](spacer_color) '
 
 # ==================== Colors ====================
 
