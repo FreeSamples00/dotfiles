@@ -1,12 +1,9 @@
 # ----- Shell -----
 alias reload = exec nu
 
-# ----- Macos -----
-alias sys-open = ^open
-
 # ----- Clear -----
 alias c = clear
-alias cls = do { c; ls }
+alias cls = do { clear; print ""; ls }
 
 # ----- rm -----
 alias rm = rm -I
