@@ -10,8 +10,6 @@ def env-search [
 
 # ----- Files -----
 
-# TODO: add mime typing to ls -l or similar?
-
 # Mime the type of a file
 def mime [
   file: path # File to mime the type of
@@ -23,25 +21,24 @@ def mime [
     match $in {
       "application/octet-stream" => "binary"
       "text/plain" => "text"
-      "inode/-empty" => "empty"
+      "inode/x-empty" => "empty"
       "inode/directory" => "dir"
       $other => ($other | split row '/' | get 1 | str trim)
     }
   }
 }
 
-# TODO: create a tree command that nests filepaths
-
 # ----- Grepping -----
 
 # Recursively search text file contents
 def grepa [
-  pattern: string # Regex pattern
+  ...pattern: string # Regex pattern
   --no-color (-n) # Disable colored output
   --enumerate (-e)  # Enumerate output
   --depth (-d): int = 999 # Directory depth to descend (1 is current)
   --ignore (-i): list<string> # Patterns to ignore in paths (glob pattern, use `*text*` to match all paths containing `text`)
 ]: nothing -> table<index: int, file: string, lineno: int, match: string> {
+  let pattern = $pattern | str join " "
   let ignore_pattern = ( $ignore | each { $"**/($in)/**" } ) | append $GREP_IGNORE
   glob **/* --exclude $ignore_pattern --depth $depth --no-dir --follow-symlinks
   | path relative-to (pwd)
@@ -74,13 +71,13 @@ def grepa [
 
 # Recursively search filenames
 def grepf [
-  pattern: string # Regex pattern
+  ...pattern: string # Regex pattern
   --no-color (-n) # Disable colored output
   --enumerate (-e)  # Enumerate output
   --depth (-d): int = 999 # Directory depth to descend (1 is current)
   --ignore (-i): list<string> # Patterns to ignore in paths (glob pattern, use `*text*` to match all paths containing `text`)
-# ]: nothing -> table<index: int, name: string, type: string, size: filesize, modified: datetime> {
-] {
+]: nothing -> table<index: int, name: string, type: string, size: filesize, modified: datetime> {
+  let pattern = $pattern | str join " "
   let ignore_pattern = ( $ignore | each { $"**/($in)/**" } ) | append $GREP_IGNORE
   glob **/* --exclude $ignore_pattern --depth $depth --no-dir --follow-symlinks
   | path relative-to (pwd)
@@ -99,12 +96,13 @@ def grepf [
 
 # Recursively search directory names
 def grepd [
-  pattern: string # Regex pattern
+  ...pattern: string # Regex pattern
   --no-color (-n) # Disable colored output
   --enumerate (-e)  # Enumerate output
   --depth (-d): int = 999 # Directory depth to descend (1 is current)
   --ignore (-i): list<string> # Patterns to ignore in paths
 ]: nothing -> table<index: int, name: string, size: filesize, modified: datetime> {
+  let pattern = $pattern | str join " "
   let ignore_pattern = ( $ignore | each { $"**/($in)/**" } ) | append $GREP_IGNORE
   glob **/* --exclude $ignore_pattern --depth $depth --no-file --follow-symlinks
   | where $it != (pwd)
@@ -120,4 +118,33 @@ def grepd [
     }
   | select name size modified
   | if $enumerate { enumerate | flatten } else {$in}
+}
+
+# ----- git rev-parse -----
+
+def ignore []: nothing -> nothing {
+  let file = ".gitignore"
+  if (git status | complete | get exit_code) == 0 {
+    nvim $"(git rev-parse --show-toplevel)/($file)"
+  } else {
+    nvim ./($file)
+  }
+}
+
+def todo []: nothing -> nothing {
+  let file = "TODO.md"
+  if (git status | complete | get exit_code) == 0 {
+    nvim $"(git rev-parse --show-toplevel)/($file)"
+  } else {
+    nvim ./($file)
+  }
+}
+
+def readme []: nothing -> nothing {
+  let file = "README.md"
+  if (git status | complete | get exit_code) == 0 {
+    nvim $"(git rev-parse --show-toplevel)/($file)"
+  } else {
+    nvim ./($file)
+  }
 }
