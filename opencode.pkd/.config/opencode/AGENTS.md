@@ -13,12 +13,58 @@ description: Global agent preferences and environment configuration
 - Include source links for any solutions or answers
 - Do not use emojis contextually necessary
 
-## Environment Defaults
+## Environment Details
 
-- **Shell**: zsh
-- **Package Manager**: Homebrew
-- **Editor**: Neovim
-- **Machine**: MacBook Pro (M4 Pro)
+### Shell
+
+I am using `nushell` as my login shell. You have access to bash.
+
+**Autoload**: Autoloading is managed through nushell itself, and it works. DO NOT waste time trying to fix it, it is not broken.
+
+**Documentation**
+| Type | URL |
+| :--: | :--: |
+| Basics | https://www.nushell.sh/book/ |
+| Commands | https://www.nushell.sh/commands/ |
+| Language Reference | https://www.nushell.sh/lang-guide/ |
+
+**Shell Usage**
+| Info | Details |
+| :--: | :--: |
+| Config Location | `~/dotfiles/nushell.pkd/.config/nushell/` |
+| Command Information | `help <command>` |
+| Invoke nushell command | `nu -c "<command>"` |
+
+### Package Manager
+
+I am using homebrew for macos as my package manager.
+
+**Usage**
+| Purpose | Command |
+| :--: | :--: |
+| Search available packages | `brew search <package>` |
+| List installed packages | `brew list` |
+| Package Info | `brew info <package>` |
+
+### Editor
+
+I use neovim for editing files, built off lazyvim using the lazy package manager.
+
+**Info**
+| Info | Details |
+| :--: | :--: |
+| Config Location | `~/dotfiles/neovim.pkd/.config/nvim/` |
+| Alias | `e` |
+
+### Machine
+
+I have macbook pro for main use.
+
+**Stats**
+| Stat | Value |
+| :--: | :--: |
+| CPU & GPU | M4 Pro |
+| RAM | 48gb |
 
 ## Agent Behavior
 
