@@ -1,6 +1,9 @@
 # use `config nu --doc | nu-highlight` to retrieve documentation
 # https://www.nushell.sh/book/configuration.html
 
+# ----- Theme -----
+source theme.nu
+
 $env.PROMPT_INDICATOR_VI_NORMAL = ""
 $env.PROMPT_INDICATOR_VI_INSERT = ""
 
@@ -16,11 +19,6 @@ $env.config = {
   buffer_editor: [ "nvim" ] # add arguments as other elements
   edit_mode: "vi" # emacs or vi
 
-  # shape options:
-  # - inherit
-  # - {blink_}block
-  # - {blink_}underline
-  # - {blink_}line
   cursor_shape: {
     emacs: "block"
     vi_insert: "line"
@@ -42,17 +40,6 @@ $env.config = {
     quick: true
     partial: true
     use_ls_colors: true
-
-    external: {
-      enable: false
-
-      max_results: 10
-
-      # uses carapace for external completions
-      # completer: {|spans|
-      #   carapace $spans.0 nushell ...$spans | from json
-      # }
-    }
   }
 
   # ----- Terminal Integrations -----
@@ -76,6 +63,7 @@ $env.config = {
     }
     header_on_separator: true # place column name in table border
     abbreviated_row_count: 15
+    missing_value_symbol: "N/A"
   }
 
   # ----- Datetime Settings -----
@@ -95,29 +83,20 @@ $env.config = {
   float_precision: 2 # precision for all displayed floats
   ls: { use_ls_colors: true }
 
-  # ----- Hooks -----
-  hooks: {
-    display_output: "table" # call table for output rendering, this respects table settings defined above
-  }
-}
-
-# ----- Theme -----
-source theme.nu
-
-# ----- Menus -----
-
-$env.config.menus ++= [{
-    name: completion_menu
-    marker: ""
-    only_buffer_difference: false
-    style: {
+  # ----- Menus -----
+  menus: [
+    {
+      name: completion_menu
+      marker: ""
+      only_buffer_difference: false
+      style: {
         text: $theme.text
         selected_text: { bg: $theme.surface1 fg: $theme.text }
         description_text: $theme.subtext0
         match_text: $theme.red
         selected_match_text: { bg: $theme.surface1 fg: $theme.red }
-    }
-    type: {
+      }
+      type: {
         layout: ide
         min_completion_width: 0
         max_completion_width: 50
@@ -130,23 +109,29 @@ $env.config.menus ++= [{
         max_description_height: 10
         description_offset: 1
         correct_cursor_pos: true
+      }
     }
-}]
-
-$env.config.menus ++= [{
-    name: history_menu
-    marker: ""
-    only_buffer_difference: false
-    style: {
+    {
+      name: history_menu
+      marker: ""
+      only_buffer_difference: false
+      style: {
         text: $theme.text
         selected_text: { bg: $theme.surface1 fg: $theme.text }
         description_text: $theme.subtext0
-    }
-    type: {
+      }
+      type: {
         layout: list
         page_size: 10
+      }
     }
-}]
+  ]
+
+  # ----- Hooks -----
+  hooks: {
+    display_output: "table" # call table for output rendering, this respects table settings defined above
+  }
+}
 
 # ----- Starship Prompt -----
 use ~/.cache/starship/init.nu
