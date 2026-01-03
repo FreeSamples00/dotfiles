@@ -127,7 +127,9 @@ format = "[ $time]($style)"
 disabled = false
 style = 'red'
 symbol = ''
-format = "[$symbol $common_meaning$signal_name$maybe_int]($style) [-](spacer_color) "
+recognize_signal_code = false
+format = "[$symbol $status]($style) [-](spacer_color) "
+# format = "[$symbol $common_meaning$signal_name$maybe_int]($style) [-](spacer_color) "
 
 [hostname]
 disabled = false
