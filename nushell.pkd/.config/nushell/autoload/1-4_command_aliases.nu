@@ -1,12 +1,12 @@
 # Nvim wrapper
-def e [...args: path] { nvim ...$args }
+def e --env --wrapped [...args: path] { nvim ...$args }
 
 # __zoxide_z wrapper
 def cd --env --wrapped [...args: directory] { __zoxide_z ...$args }
 
-# macos copy wrapper
+# macos copy wrapper, with data conversion support
 def copy [
-  --format (-f): string@[csv html json md msgpack msgpackz nuon text toml tsv xml yaml yml] # Copy as format
+  --format (-f): string@[csv html json md msgpack msgpackz nuon text toml tsv xml yaml yml] # Convert to this format before copying
 ]: any -> nothing {
   if $format != null {
     try {
@@ -31,9 +31,9 @@ def copy [
   } else {$in | pbcopy}
 }
 
-# macos paste wrapper
+# macos paste wrapper, with data conversion support
 def paste [
-  --format (-f): string@[csv json msgpack msgpackz nuon ods ssv toml tsv url xlsx xml yaml yml] # Format of clipboard
+  --format (-f): string@[csv json msgpack msgpackz nuon ods ssv toml tsv url xlsx xml yaml yml] # Format of clipboard data
 ]: nothing -> any {
   if $format != null {
     try {
