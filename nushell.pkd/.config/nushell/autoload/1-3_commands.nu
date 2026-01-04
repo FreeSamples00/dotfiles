@@ -1,5 +1,28 @@
 # ----- Constants ----
-const GREP_IGNORE = [ **/.git/** **/.venv/** **/__pycache__/** **/.cache/** **/node_modules/** */]
+const GREP_IGNORE = [
+  # Version control
+  **/.git/** **/.svn/** **/.hg/**
+  # Python
+  **/.venv/** **/__pycache__/** **/*.pyc **/*.pyo **/.pytest_cache/** **/dist/** **/build/** **/*.egg-info/**
+  # JavaScript/Node
+  **/node_modules/** **/dist/** **/build/** **/.next/** **/.nuxt/**
+  # Rust
+  **/target/** **/*.rs.bk **/Cargo.lock
+  # Go
+  **/vendor/**
+  # Java/JVM
+  **/target/** **/*.class **/.gradle/** **/build/**
+  # .NET/C#
+  **/bin/** **/obj/** **/*.dll **/*.exe
+  # C/C++
+  **/*.o **/*.so **/*.a **/*.out
+  # Ruby
+  **/.bundle/** **/vendor/bundle/**
+  # PHP
+  **/vendor/**
+  # General
+  **/.cache/** **/.DS_Store **/Thumbs.db
+]
 
 # ----- Env -----
 def env-search [
@@ -81,9 +104,9 @@ def grepf [
   let ignore_pattern = ( $ignore | each { $"**/($in)/**" } ) | append $GREP_IGNORE
   glob **/* --exclude $ignore_pattern --depth $depth --no-dir --follow-symlinks
   | path relative-to (pwd)
-  | where ($it | path basename) =~ $pattern
+  | where { |in| ($in | path basename) =~ $pattern }
   | par-each { |file|
-    | ls --mime-type $file
+    ls --mime-type $file
     | update type {mime $file}
     | if $no_color {$in} else {
         update name {str replace -ra "(.*/)" $"(ansi grey46)$1(ansi reset)"}
@@ -105,8 +128,8 @@ def grepd [
   let pattern = $pattern | str join " "
   let ignore_pattern = ( $ignore | each { $"**/($in)/**" } ) | append $GREP_IGNORE
   glob **/* --exclude $ignore_pattern --depth $depth --no-file --follow-symlinks
-  | where $it != (pwd)
-  | where ($it | path basename) =~ $pattern
+  | where { |in| $in != (pwd) }
+  | where { |in| ($in | path basename) =~ $pattern }
   | path relative-to (pwd)
   | par-each { |file|
       ls -D $file
