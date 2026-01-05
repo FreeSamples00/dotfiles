@@ -4,6 +4,18 @@
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "Disable Cmd+H Hide",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "h",
+                                    "modifiers": { "mandatory": ["command"] }
+                                },
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Caps Lock -> \n\tHELD: Ctrl + Opt + Cmd \n\tTAP: Esc",
                         "manipulators": [
                             {
