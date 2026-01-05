@@ -134,3 +134,4 @@ fi
 if [[ -d "$HOME/dotfiles/scripts/in_path" ]]; then
   export PATH="$HOME/dotfiles/scripts/in_path:$PATH"
 fi
+export XDG_CONFIG_HOME="$HOME/.config"
