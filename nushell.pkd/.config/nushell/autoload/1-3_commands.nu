@@ -103,8 +103,9 @@ def grepf [
   let pattern = $pattern | str join " "
   let ignore_pattern = ( $ignore | each { $"**/($in)/**" } ) | append $GREP_IGNORE
   glob **/* --exclude $ignore_pattern --depth $depth --no-dir --follow-symlinks
+  | where { |path| ($path | path type) != symlink }
   | path relative-to (pwd)
-  | where { |in| ($in | path basename) =~ $pattern }
+  | where { |path| ($path | path basename) =~ $pattern }
   | par-each { |file|
     ls --mime-type $file
     | update type {mime $file}
@@ -128,12 +129,12 @@ def grepd [
   let pattern = $pattern | str join " "
   let ignore_pattern = ( $ignore | each { $"**/($in)/**" } ) | append $GREP_IGNORE
   glob **/* --exclude $ignore_pattern --depth $depth --no-file --follow-symlinks
-  | where { |in| $in != (pwd) }
-  | where { |in| ($in | path basename) =~ $pattern }
+  | where { |path| ($path | path type) != symlink and $path != (pwd)  }
+  | where { |path| ($path | path basename) =~ $pattern }
   | path relative-to (pwd)
-  | par-each { |file|
-      ls -D $file
-      | update size (du $file | get physical | first)
+  | par-each { |path|
+      ls -D $path
+      | update size (du $path | get physical | first)
     }
   | flatten
   | if $no_color {$in} else {
