@@ -9,7 +9,8 @@ $env.PROMPT_INDICATOR_VI_INSERT = ""
 
 $env.config = {
   # ----- Misc Settings -----
-  show_banner: 'short' # Display startup time
+
+  show_banner: false
   rm: {
     always_trash: false # toggle rm sending to trash dir
   }
@@ -44,7 +45,15 @@ $env.config = {
 
   # ----- Terminal Integrations -----
   # Controls escape codes for terminal integrations
-  use_kitty_protocol: true # use kitty protocol
+  use_kitty_protocol: true
+
+  shell_integration: {
+    osc2: true # dir/command in title
+    osc8: true # clickable filepaths
+    osc133: true # report prompt location and command status
+    osc633: true # VSC version of 133
+    reset_application_mode: true # syncs cursors, commonly over ssh
+  }
 
   # ----- Error Settings -----
   display_errors: {
@@ -53,7 +62,7 @@ $env.config = {
   }
 
   # ----- Table Settings -----
-  footer_mode: "auto" # display column names in footer if table larger than window
+  footer_mode: 20 # display column names in footer if table larger than window
   table: {
     mode: "default" # theme
     index_mode: auto # only show index numbers when part of data
@@ -63,7 +72,7 @@ $env.config = {
     }
     header_on_separator: true # place column name in table border
     abbreviated_row_count: 15
-    missing_value_symbol: "N/A"
+    missing_value_symbol: "——"
   }
 
   # ----- Datetime Settings -----

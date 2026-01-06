@@ -1,3 +1,6 @@
+# reload shell
+alias reload = exec nu
+
 # Nvim wrapper
 def e --env --wrapped [...args: path] { nvim ...$args }
 

@@ -1,12 +1,10 @@
-# ----- Shell -----
-alias reload = exec nu
-
 # ----- Clear -----
 alias c = clear
 alias cls = do { clear; print ""; ls }
 
-# ----- rm -----
+# ----- Built-ins -----
 alias rm = rm -I
+alias explore = explore -pi
 
 # ----- Git -----
 alias glt = git-log-table
