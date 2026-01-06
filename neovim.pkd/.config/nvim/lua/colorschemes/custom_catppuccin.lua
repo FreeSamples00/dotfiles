@@ -43,6 +43,11 @@ return {
           ["@markup.italic"] = { fg = colors.yellow, style = { "italic" } },
           -- Color active line, make bold
           CursorLineNr = { fg = colors.peach, style = { "bold" } },
+          -- Tabby/Tabline highlights for transparent background
+          TabLineSel = { fg = colors.text, bg = colors.surface0, style = { "bold" } },
+          TabLine = { fg = colors.overlay0, bg = colors.crust },
+          TabLineFill = { bg = "NONE" },
+          NormalFloat = { bg = "NONE" },
         }
       end,
       integrations = {

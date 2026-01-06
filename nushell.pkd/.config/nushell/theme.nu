@@ -1,33 +1,33 @@
-# Catpuccin mocha theme
-# https://github.com/catppuccin/nushell/blob/main/themes/catppuccin_mocha.nu
+# Custom theme matching OpenCode and Neovim color schemes
+# Based on Catppuccin structure with custom color palette
 
 let theme = {
-  rosewater: "#f5e0dc"
-  flamingo: "#f2cdcd"
-  pink: "#f5c2e7"
-  mauve: "#cba6f7"
-  red: "#f38ba8"
-  maroon: "#eba0ac"
-  peach: "#fab387"
-  yellow: "#f9e2af"
-  green: "#a6e3a1"
-  teal: "#94e2d5"
-  sky: "#89dceb"
-  sapphire: "#74c7ec"
-  blue: "#89b4fa"
-  lavender: "#b4befe"
-  text: "#cdd6f4"
-  subtext1: "#bac2de"
-  subtext0: "#a6adc8"
-  overlay2: "#9399b2"
-  overlay1: "#7f849c"
-  overlay0: "#6c7086"
-  surface2: "#585b70"
-  surface1: "#45475a"
-  surface0: "#313244"
-  base: "#1e1e2e"
-  mantle: "#181825"
-  crust: "#11111b"
+  rosewater: "#ffc09f"   # darkStep10
+  flamingo: "#fab283"    # darkStep9 (primary)
+  pink: "#f5c2e7"        # keeping catppuccin pink
+  mauve: "#9d7cd8"       # darkAccent (purple)
+  red: "#e06c75"         # darkRed
+  maroon: "#eba0ac"      # keeping catppuccin maroon
+  peach: "#fab283"       # darkStep9 (primary/functions)
+  yellow: "#e5c07b"      # darkYellow
+  green: "#7fd88f"       # darkGreen
+  teal: "#56b6c2"        # darkCyan (also used for sky)
+  sky: "#56b6c2"         # darkCyan (operators)
+  sapphire: "#5c9cf5"    # darkSecondary (blue)
+  blue: "#5c9cf5"        # darkSecondary
+  lavender: "#b4befe"    # keeping catppuccin lavender
+  text: "#eeeeee"        # darkStep12
+  subtext1: "#bac2de"    # keeping catppuccin subtext1
+  subtext0: "#a6adc8"    # keeping catppuccin subtext0
+  overlay2: "#808080"    # darkStep11 (muted text)
+  overlay1: "#606060"    # darkStep8
+  overlay0: "#606060"    # darkStep8
+  surface2: "#484848"    # darkStep7
+  surface1: "#3c3c3c"    # darkStep6
+  surface0: "#323232"    # darkStep5
+  base: "#1E1E1E"        # darkStep1 (matching OpenCode/Neovim)
+  mantle: "#141414"      # darkStep2
+  crust: "#0A0A0A"       # darkStep3
 }
 
 let scheme = {

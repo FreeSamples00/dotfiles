@@ -78,8 +78,8 @@
       "light": "lightStep11"
     },
     "background": {
-      "dark": "darkStep1",
-      "light": "lightStep1"
+      "dark": "transparent",
+      "light": "transparent"
     },
     "backgroundPanel": {
       "dark": "darkStep2",

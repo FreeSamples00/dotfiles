@@ -24,6 +24,8 @@ window-height = 36
 window-width = 100
 macos-titlebar-style = hidden
 macos-titlebar-proxy-icon = hidden
+background-opacity = 0.9
+background-blur = true
 
 # --- COLORS ---
 theme = Apple System Colors
