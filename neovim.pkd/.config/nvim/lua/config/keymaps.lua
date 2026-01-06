@@ -2,6 +2,33 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
+-- ==================== remove annoying keymaps ====================
+
+-- Disable Ex mode
+vim.keymap.set("n", "Q", "<Nop>")
+vim.keymap.set("n", "gQ", "<Nop>")
+
+-- remap command window
+vim.keymap.set("n", "q:", "<Nop>")
+vim.keymap.set("n", "q/", "<Nop>")
+vim.keymap.set("n", "q?", "<Nop>")
+vim.keymap.set("n", "<Leader>h:", "q:", { desc = "Command history" })
+vim.keymap.set("n", "<Leader>h/", "q/", { desc = "Search history" })
+vim.keymap.set("n", "<Leader>h?", "q?", { desc = "Search history" })
+
+-- ==================== emacs movements for commandline ====================
+
+-- cmd arrow
+vim.keymap.set("c", "<C-a>", "<Home>")
+vim.keymap.set("c", "<C-e>", "<End>")
+
+-- opt arrow
+vim.keymap.set("c", "<M-b>", "<S-Left>")
+vim.keymap.set("c", "<M-f>", "<S-Right>")
+
+-- opt delete
+vim.keymap.set("c", "<M-BS>", "<C-w>")
+
 -- ==================== 'd' without yanking ====================
 
 -- Normal mode
