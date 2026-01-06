@@ -22,15 +22,12 @@ font-thicken = true
 link-url = true
 
 # --- WINDOW ---
-# window-height = 36
-# window-width = 100
 macos-titlebar-style = hidden
 # macos-titlebar-style = tabs
 macos-titlebar-proxy-icon = hidden
 macos-window-buttons = hidden
 background-opacity = 0.9
 background-blur = true
-title = " "
 
 # --- COLORS ---
 theme = Apple System Colors

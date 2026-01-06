@@ -98,6 +98,7 @@ _Note: Other configs may follow this pattern. When encountering a `.pkd` directo
 | Basics | https://www.nushell.sh/book/ |
 | Commands | https://www.nushell.sh/commands/ |
 | Language Reference | https://www.nushell.sh/lang-guide/ |
+| Regex Info | https://github.com/rust-lang/regex |
 
 **Shell Operations**:
 | Operation | Command/Location |
