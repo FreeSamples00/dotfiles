@@ -9,6 +9,7 @@
       "*": "ask",
       // Allowed by default
       "make": "allow",
+      "sleep": "allow",
       /// File Exploration
       "pwd": "allow",
       "ls *": "allow",

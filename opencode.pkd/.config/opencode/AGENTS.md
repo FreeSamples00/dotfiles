@@ -8,6 +8,14 @@ description: Global agent preferences and environment configuration
 
 These rules prevent resource exhaustion and permission prompts. Violations cause performance issues or workflow interruption.
 
+## CRITICAL: Shell Commands
+
+**Nushell**: When running nushell commands, use `nu --config "~/.config/nushell/config.nu" --env-config "~/.config/nushell/env.nu"` to gain the same environment as the user
+
+**bash**: When executing bash commands, use `bash --init-file ~/.config/opencode/agent-bashrc` to gain environment variables intended for the agent.
+
+These can be overridden if debugging using a clean shell.
+
 ### Search and File Operations
 
 **Search Scope - NEVER search from home directory**
@@ -24,8 +32,8 @@ These rules prevent resource exhaustion and permission prompts. Violations cause
 
 **Bash Command Constraints**
 
-- **DO NOT use `||` operators with `ls` commands**
-  - _Rationale: `ls path || echo ...` bypasses OpenCode's allowlist filter for `ls` commands, triggering unwanted permission prompts for operations that should be auto-approved_
+- **DO NOT use `||` operators to supplement missing output**
+  - _Rationale: `ls path || echo "no files found"` bypasses OpenCode's allowlist filter for commands, triggering unwanted permission prompts for operations that should be auto-approved_
   - The agent can interpret empty output or error messages naturally without fallback operators
 
 - **ONLY USE WHEN NECESSARY commands that output large amounts of text**
@@ -58,6 +66,7 @@ These rules prevent resource exhaustion and permission prompts. Violations cause
 - Nushell: `~/dotfiles/nushell.pkd/.config/nushell/`
 - Neovim: `~/dotfiles/neovim.pkd/.config/nvim/`
 - OpenCode: `~/dotfiles/opencode.pkd/.config/opencode/`
+- For a comprehensive list of config packages run `ls ~/dotfiles/*.pkd`
 
 _Note: Other configs may follow this pattern. When encountering a `.pkd` directory, assume it follows the same symlinking structure._
 
