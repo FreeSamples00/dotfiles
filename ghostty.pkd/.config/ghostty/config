@@ -10,22 +10,27 @@
 
 # Documentation:  https://ghostty.org/docs/config
 
-shell-integration-features = ssh-env, no-cursor
+# --- SHELL ---
+shell-integration-features = ssh-env, no-cursor, sudo, ssh-terminfo
+command = "/usr/local/bin/nushell --login"
 
 # --- TEXT ---
 font-family = "JetBrainsMono Nerd Font Mono"
-font-size = 18
+font-size = 17
 font-feature = +liga
 font-thicken = true
 link-url = true
 
 # --- WINDOW ---
-window-height = 36
-window-width = 100
+# window-height = 36
+# window-width = 100
 macos-titlebar-style = hidden
+# macos-titlebar-style = tabs
 macos-titlebar-proxy-icon = hidden
+macos-window-buttons = hidden
 background-opacity = 0.9
 background-blur = true
+title = " "
 
 # --- COLORS ---
 theme = Apple System Colors
@@ -44,8 +49,9 @@ custom-shader = shaders/cursor_trail.glsl
 custom-shader-animation = always
 
 # --- BELL & NOTIFICATIONS ---
-bell-features = system, attention, title, no-border
+bell-features = system, border, attention, no-title
 desktop-notifications = true
+app-notifications = config-reload, clipboard-copy
 
 # --- QUIT BEHAVIOR ---
 confirm-close-surface = false
@@ -57,16 +63,34 @@ clipboard-write = allow
 keybind = shift+enter=text:\x1b\r
 clipboard-trim-trailing-spaces = true
 
-# --- App Icon ---
+# --- APP ICON ---
 macos-titlebar-proxy-icon = hidden
 macos-icon = custom-style
 macos-icon-frame = plastic
 macos-icon-ghost-color = FFFFFF
 macos-icon-screen-color = 000000
 
+# --- KEYBINDS ---
+keybind = super+shift+,=reload_config
+keybind = ctrl+shift+d=write_screen_file:copy
+keybind = ctrl+shift+r=reset
+
 # --- QUICK TERMINAL ---
-keybind = global:super+e=toggle_quick_terminal
-quick-terminal-position = bottom
-quick-terminal-size = 35%,80%
+keybind = super+e=toggle_quick_terminal
+quick-terminal-position = center
+quick-terminal-size = 45%,80%
 quick-terminal-autohide = true
 quick-terminal-animation-duration = 0.01
+
+
+# ----- Tiling -----
+keybind = ctrl+\=new_split:auto
+keybind = ctrl+h=goto_split:left
+keybind = ctrl+j=goto_split:down
+keybind = ctrl+k=goto_split:up
+keybind = ctrl+l=goto_split:right
+keybind = ctrl+arrow_up=resize_split:up,10
+keybind = ctrl+arrow_down=resize_split:down,10
+keybind = ctrl+arrow_left=resize_split:left,10
+keybind = ctrl+arrow_right=resize_split:right,10
+split-divider-color = #B1BBD7
