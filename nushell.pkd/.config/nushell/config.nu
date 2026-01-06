@@ -141,8 +141,5 @@ $env.config = {
   }
 }
 
-# ----- Starship Prompt -----
-use ~/.cache/starship/init.nu
-
-# ----- Zoxide Init -----
-source ~/.cache/zoxide.nu
+# ----- Source Rest of Config -----
+source aggregator.nu
