@@ -9,7 +9,6 @@ $env.PROMPT_INDICATOR_VI_INSERT = ""
 
 $env.config = {
   # ----- Misc Settings -----
-
   show_banner: false
   rm: {
     always_trash: false # toggle rm sending to trash dir
