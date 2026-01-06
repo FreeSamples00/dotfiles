@@ -72,6 +72,11 @@ _Note: Other configs may follow this pattern. When encountering a `.pkd` directo
 
 ## Environment Configuration
 
+### Terminal Emulator: Ghostty
+
+**Config:** `~/dotfiles/ghostty.pkd/.config/ghostty/`
+**Documentation:** [Ghostty Docs](https://ghostty.org/docs)
+
 ### Shell: Nushell
 
 **Primary shell**: `nushell` (you have access to bash for tool execution)
@@ -84,7 +89,7 @@ _Note: Other configs may follow this pattern. When encountering a `.pkd` directo
 - **DO NOT** waste time investigating how files in the `autoload` directory are loaded as it is within nushell itself, not the configuration
 - Other files autoloaded by nushell:
   - `config.nu`
-  - `login.nu` (only if session has been set as a login session)
+  - `login.nu` (only if session has been set as a login session, this is done by ghostty when a window opens)
   - `env.nu`
 
 **Documentation Resources**:
