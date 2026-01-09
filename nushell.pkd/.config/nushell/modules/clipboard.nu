@@ -1,12 +1,11 @@
 # Module for managing piping in and out of the system clipboard
-# USAGE: import with `use /path/to/clipboard.nu *` (asterisk imports full commands instead of `clipboard <subcommand>`)
+# USAGE: import with `use /path/to/clipboard.nu *`
 
+use std/clip
 
 # completer and type lister for copy
-def to-completer [
-  --list (-l) # return list of types (no description)
-] {
-  let types = [
+def to-completer [] {
+  [
     {value: "csv", description: "Comma-separated values"}
     {value: "html", description: "HTML table"}
     {value: "json", description: "JSON"}
@@ -20,18 +19,11 @@ def to-completer [
     {value: "yaml", description: "YAML"}
     {value: "yml", description: "YAML"}
   ]
-  if $list {
-    $types | get value
-  } else {
-    $types
-  }
 }
 
 # completer and type lister for paste
-def from-completer [
-  --list (-l) # return list of types (no description)
-] {
-  let types = [
+def from-completer [] {
+  [
     {value: "csv", description: "Comma-separated values"}
     {value: "json", description: "JSON"}
     {value: "msgpack", description: "MessagePack binary (base64 decoded first)"}
@@ -45,53 +37,6 @@ def from-completer [
     {value: "yaml", description: "YAML"}
     {value: "yml", description: "YAML"}
   ]
-  if $list {
-    $types | get value
-  } else {
-    $types
-  }
-}
-
-# Dynamically find system clipboard tool
-def copy-cmd [] {
-  match (sys host | get name) {
-    "Darwin" => {|| pbcopy}
-    "Windows" => {|| clip.exe}
-    _ => { # linux: detects common clipboards
-      if (which wl-copy | is-not-empty) {
-        {|| wl-copy}
-      } else if (which xclip | is-not-empty) {
-        {|| xclip -selection clipboard}
-      } else if (which xsel | is-not-empty) {
-        {|| xsel --clipboard --input}
-      } else { # lazy fail if clipboard tool not found
-        {|| error make {
-          msg: "No clipboard command found. Install wl-clipboard, xclip, or xsel."
-        }}
-      }
-    }
-  }
-}
-
-# Dynamically find system clipboard tool
-def paste-cmd [] {
-  match (sys host | get name) {
-    "Darwin" => {|| pbpaste}
-    "Windows" => {|| powershell.exe -command Get-Clipboard}
-    _ => { # linux: detects common clipboards
-      if (which wl-paste | is-not-empty) {
-        {|| wl-paste}
-      } else if (which xclip | is-not-empty) {
-        {|| xclip -selection clipboard -o}
-      } else if (which xsel | is-not-empty) {
-        {|| xsel --clipboard --output}
-      } else { # lazy fail if clipboard tool not found
-        {|| error make {
-          msg: "No clipboard command found. Install wl-clipboard, xclip, or xsel."
-        }}
-      }
-    }
-  }
 }
 
 # Pipe data into the system clipboard
@@ -130,18 +75,19 @@ export def copy [
       tsv => {|| to tsv}
       yaml|yml => {|| to yaml}
       _ => (error make {
-        msg: $"Format `($format)` not supported."
-        help: $"Use one of: (to-completer --list)."
-        label: {
-          text: "unknown format"
-          span: (metadata $format | get span)
+          msg: $"Format `($format)` not supported."
+          help: $"Use one of: (to-completer | get value)."
+          label: {
+            text: "unknown format"
+            span: (metadata $format | get span)
+          }
         }
-      })
+      )
     }
   } else {
     {|| $in}
   }
-  $data | do $converter | do (copy-cmd)
+  $data | do $converter | clip copy
 }
 
 # Pipe data out of the system clipboard
@@ -171,16 +117,17 @@ export def paste [
       xml => {|| from xml}
       yaml|yml => {|| from yaml}
       _ => (error make {
-              msg: $"Format `($format)` not supported."
-              help: $"Use one of: (from-completer --list)."
-              label: {
-                text: "unknown format"
-                span: (metadata $format | get span)
-              }
-            })
+            msg: $"Format `($format)` not supported."
+            help: $"Use one of: (from-completer | get value)."
+            label: {
+              text: "unknown format"
+              span: (metadata $format | get span)
+            }
+          }
+        )
       }
     } else {
       {|| $in}
     }
-  do (paste-cmd) | do $converter
+  clip paste | do $converter
 }
