@@ -1,6 +1,6 @@
 # ----- Shell Tools -----
-use ~/.cache/starship/init.nu
-source ~/.cache/zoxide.nu
+use ~/.cache/nushell/starship.nu
+source ~/.cache/nushell/zoxide.nu
 
 # ----- Configs -----
 
