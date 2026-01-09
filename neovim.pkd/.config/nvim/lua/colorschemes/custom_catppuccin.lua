@@ -39,15 +39,18 @@ return {
       },
       custom_highlights = function(colors)
         return {
-          -- custom yellow highlighting for markup italics (also yellow color, not default that matched bold)
+          -- Custom markdown italics color
           ["@markup.italic"] = { fg = colors.yellow, style = { "italic" } },
           -- Color active line, make bold
           CursorLineNr = { fg = colors.peach, style = { "bold" } },
-          -- Tabby/Tabline highlights for transparent background
+          -- Tabby transparent background
           TabLineSel = { fg = colors.text, bg = colors.surface0, style = { "bold" } },
           TabLine = { fg = colors.overlay0, bg = colors.crust },
           TabLineFill = { bg = "NONE" },
+          -- Snacks transparent background
           NormalFloat = { bg = "NONE" },
+          FloatBorder = { bg = "NONE" },
+          FloatTitle = { bg = "NONE" },
         }
       end,
       integrations = {
