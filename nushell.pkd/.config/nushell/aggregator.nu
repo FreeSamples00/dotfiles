@@ -19,3 +19,4 @@ source completions.nu
 use grep.nu
 use osc.nu
 use ghostty.nu
+use clipboard.nu *
