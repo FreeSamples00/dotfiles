@@ -97,9 +97,10 @@ export def all [
 export def file [
   ...pattern: string # Regex pattern
   --no-color (-n) # Disable colored output
-  --enumerate (-e)  # Enumerate output
+  --enumerate (-e) # Enumerate output
   --depth (-d): int = 999 # Directory depth to descend (1 is current)
   --ignore (-i): list<string> # Patterns to ignore in paths
+  --full (-f) # Search full filepath
 #     Glob pattern syntax:
 #     - `*text*` matches foo/aatextbb/bar
 #     - `text` matches foo/text/bar
@@ -109,7 +110,7 @@ export def file [
   glob **/* --exclude $ignore_pattern --depth $depth --no-dir --follow-symlinks
   | where { |path| ($path | path type) != symlink }
   | path relative-to (pwd)
-  | where { |path| ($path | path basename) =~ $pattern }
+  | where { |path| (if $full {$path} else {($path | path basename)}) =~ $pattern }
   | par-each { |file|
     ls --mime-type $file
     | update type {mime $file}
@@ -129,6 +130,7 @@ export def dir [
   --enumerate (-e)  # Enumerate output
   --depth (-d): int = 999 # Directory depth to descend (1 is current)
   --ignore (-i): list<string> # Patterns to ignore in paths
+  --full (-f) # Search full filepath
 #     Glob pattern syntax:
 #     - `*text*` matches foo/aatextbb/bar
 #     - `text` matches foo/text/bar
@@ -137,7 +139,7 @@ export def dir [
   let ignore_pattern = ( $ignore | each { $"**/($in)/**" } ) | append $GREP_IGNORE
   glob **/* --exclude $ignore_pattern --depth $depth --no-file --follow-symlinks
   | where { |path| ($path | path type) != symlink and $path != (pwd)  }
-  | where { |path| ($path | path basename) =~ $pattern }
+  | where { |path| (if $full {$path} else {($path | path basename)}) =~ $pattern }
   | path relative-to (pwd)
   | par-each { |path|
       ls -D $path
