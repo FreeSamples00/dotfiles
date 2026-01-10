@@ -42,7 +42,7 @@
   },
   "agent": {
     "plan": {
-      "model": "anthropic/claude-sonnet-4-5",
+      "model": "synthetic/hf:zai-org/GLM-4.7",
       "tools": {
         "read": true,
         "write": false,
@@ -51,7 +51,7 @@
       },
     },
     "build": {
-      "model": "anthropic/claude-sonnet-4-5",
+      "model": "synthetic/hf:zai-org/GLM-4.7",
       "tools": {
         "read": true,
         "write": true,
