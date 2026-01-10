@@ -18,3 +18,4 @@ source completions.nu
 # ---- Modules ----
 use grep.nu
 use clipboard.nu *
+use git.nu *
