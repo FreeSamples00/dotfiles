@@ -157,6 +157,37 @@ All agents MUST:
 4. Provide actionable, direct feedback without hedging
 5. Reference sources and documentation links in responses
 
+## User Clarification
+
+### When to Use the Question Tool
+
+Proactively ask questions when:
+
+- **Multiple valid approaches exist** - Before implementing, let users choose between options (e.g., testing frameworks, libraries, deployment targets)
+- **Gathering preferences** - Configuration choices, styling preferences, feature priorities
+- **Resolving ambiguity** - When requirements could be interpreted multiple ways
+- **User input improves outcomes** - Any choice where user preference leads to better alignment
+
+### Question Tool Usage Guidelines
+
+**Format:**
+- Use `multiple: false` for mutually exclusive choices
+- Use `multiple: true` for selecting multiple options from a list
+- Keep `label` concise (1-5 words)
+- Provide helpful `description` for each option
+- Set a short `header` (max 12 chars)
+
+**Best Practices:**
+- Mark the recommended/preferred option with `(Recommended)` in the label
+- Custom text input is automatically available via "Type your own answer" option - no need to manually add "Other"
+- Ask questions before implementation begins, not during
+- Use questions to make decisions that will persist across the codebase
+
+**Examples:**
+- "Which testing framework should we use?" (single select)
+- "Select features to implement:" (multi select)
+- "Which deployment targets do you need?" (multi select)
+
 ## Examples: Critical Rules in Practice
 
 ### Search Operations

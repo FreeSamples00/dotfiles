@@ -66,6 +66,14 @@ export const NotificationPlugin = async ({
             ],
           };
           break;
+        case "question.asked": // interactive option selection: "question tool"
+          notification = {
+            ...NotificationDefault,
+            enable: true,
+            subtitle: "Question Asked",
+            body: [`Question: '${event.properties.questions[0].question}`],
+          };
+          break;
         case "message.updated": // error message
           if (event.properties.info.error) {
             notification = {

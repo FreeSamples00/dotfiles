@@ -4,6 +4,7 @@
   "model": "anthropic/claude-sonnet-4-5",
   // Define permissions for model tooling
   "permission": {
+    "question": "allow",
     "edit": "ask",
     "bash": {
       "*": "ask",
@@ -13,7 +14,7 @@
       /// File Exploration
       "pwd": "allow",
       "ls *": "allow",
-      "find": "allow",
+      "find *": "allow",
       "cat": "allow",
       "tail": "allow",
       "head": "allow",
