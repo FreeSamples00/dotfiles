@@ -24,5 +24,14 @@ return {
     code = {
       border = "none",
     },
+
+    checkbox = {
+      unchecked = {
+        icon = "󰄱 ",
+      },
+      checked = {
+        icon = "󰄵 ",
+      },
+    },
   },
 }
