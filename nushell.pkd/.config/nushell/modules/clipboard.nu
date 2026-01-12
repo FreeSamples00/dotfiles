@@ -1,4 +1,5 @@
 # Module for managing piping in and out of the system clipboard
+
 # USAGE: import with `use /path/to/clipboard.nu *`
 
 use std/clip

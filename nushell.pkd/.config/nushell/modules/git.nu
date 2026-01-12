@@ -1,4 +1,5 @@
 # Module for git aliases and helpful scripts
+
 # USAGE: import with `use /path/to/git.nu *`
 
 export alias glt = git-log-table

@@ -1,3 +1,5 @@
+# Module that supplies nushell native grep replacements
+
 const GREP_IGNORE = [
   # Version control
   **/.git/** **/.svn/** **/.hg/**
