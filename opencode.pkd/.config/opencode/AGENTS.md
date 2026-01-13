@@ -12,8 +12,6 @@ These rules prevent resource exhaustion and permission prompts. Violations cause
 
 **Nushell**: When running nushell commands, use `nu --config "~/.config/nushell/config.nu" --env-config "~/.config/nushell/env.nu"` to gain the same environment as the user
 
-**bash**: When executing bash commands, use `bash --init-file ~/.config/opencode/agent-bashrc` to gain environment variables intended for the agent.
-
 These can be overridden if debugging using a clean shell.
 
 ### Search and File Operations
@@ -171,6 +169,7 @@ Proactively ask questions when:
 ### Question Tool Usage Guidelines
 
 **Format:**
+
 - Use `multiple: false` for mutually exclusive choices
 - Use `multiple: true` for selecting multiple options from a list
 - Keep `label` concise (1-5 words)
@@ -178,12 +177,14 @@ Proactively ask questions when:
 - Set a short `header` (max 12 chars)
 
 **Best Practices:**
+
 - Mark the recommended/preferred option with `(Recommended)` in the label
 - Custom text input is automatically available via "Type your own answer" option - no need to manually add "Other"
 - Ask questions before implementation begins, not during
 - Use questions to make decisions that will persist across the codebase
 
 **Examples:**
+
 - "Which testing framework should we use?" (single select)
 - "Select features to implement:" (multi select)
 - "Which deployment targets do you need?" (multi select)
