@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-sketchybar --add item front_app.icon center \
+sketchybar --add item front_app.icon left \
   --set front_app.icon \
   icon="" \
   icon.font="$SBAR_APP_ICON_FONT:Regular:$SBAR_APP_ICON_FONT_SIZE" \
@@ -8,7 +8,7 @@ sketchybar --add item front_app.icon center \
   icon.padding_left="$SBAR_ITEM_ICON_PADDING_LEFT" \
   icon.padding_right="$SBAR_ITEM_ICON_PADDING_RIGHT"
 
-sketchybar --add item front_app.name center \
+sketchybar --add item front_app.name left \
   --set front_app.name \
   label.color="$COLOR_BLACK" \
   label.padding_right="$SBAR_ITEM_LABEL_PADDING_RIGHT" \

@@ -5,6 +5,7 @@ if [ -n "$SBAR_WIDGETS_LEFT_ENABLED" ]; then
 else
   export SBAR_WIDGETS_LEFT=(
     "space"
+    "front_app"
   )
 fi
 
@@ -12,7 +13,6 @@ if [ -n "$SBAR_WIDGETS_CENTER_ENABLED" ]; then
   read -ra SBAR_WIDGETS_CENTER <<< "$SBAR_WIDGETS_CENTER_ENABLED"
 else
   export SBAR_WIDGETS_CENTER=(
-    "front_app"
   )
 fi
 
