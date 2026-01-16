@@ -1,98 +1,16 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# ==========================================================================================
-#
-#                      _        _       _           _
-#                  ___| | _____| |_ ___| |__  _   _| |__   __ _ _ __ _ __ ___
-#                 / __| |/ / _ \ __/ __| '_ \| | | | '_ \ / _` | '__| '__/ __|
-#                 \__ \   <  __/ || (__| | | | |_| | |_) | (_| | |  | | | (__
-#                 |___/_|\_\___|\__\___|_| |_|\__, |_.__/ \__,_|_|  |_|  \___|
-#                                             |___/
-#
-#                                 SketchyBar Configuration File
-#
-# ==========================================================================================
+export SBAR_PLUGIN_DIR="$CONFIG_DIR/plugins"
+export SBAR_ITEM_DIR="$CONFIG_DIR/items"
+export SBAR_EVENT_DIR="$CONFIG_DIR/events"
 
-
-# ==================== TODO ====================
-
-# TODO:
-# - clicking on a workspace reveals the windows in it (dropdown)
-#   - aerospace list-windows --workspace 2 --format "%{app-name} -> %{window-title}"
-#   - trim with trimmed_string="${my_string:0:$desired_length}"
-
-# ==================== Setup ====================
-
-source "$CONFIG_DIR/aesthetics.sh"
-export SCRIPT_DIR="$CONFIG_DIR/scripts"
-COMPONENT_DIR="$CONFIG_DIR/components"
-
-# ==================== Settings ====================
-# NOTE: order is out to in
-
-left_items=(
-  "aerospace"
-  "focus_app"
-)
-
-right_items=(
-  "clock"
-  "wifi"
-  "battery"
-  "volume"
-  "mail"
-  "packages"
-  "caffeinate"
-  # "focus"
-  "restart_notifier"
-)
-
-bar=(
-  height="$BAR_HEIGHT"
-  color="$BAR_COLOR"
-  shadow-"$SHADOW"
-  position="$BAR_POSITION"
-  sticky="$BAR_STICKY"
-  blur_radius="$BAR_BLUR_RADIUS"
-  corner_radius="$BAR_CORNER_RADIUS"
-)
-
-default=(
-  updates=when_shown
-  padding_left="$PADDING"
-  padding_right="$PADDING"
-  icon.font="$FONT:Bold:$ICON_SIZE"
-  label.font="$FONT:Bold:$FONT_SIZE"
-  icon.color="$ICON_COLOR"
-  label.color="$LABEL_COLOR"
-  icon.padding_left="$ICON_PADDING"
-  icon.padding_right="$ICON_PADDING"
-  label.padding_left="$ICON_PADDING"
-  label.padding_right="$ICON_PADDING"
-  popup.background.drawing=on
-  popup.background.color="$BACKGROUND_COLOR"
-  popup.background.corner_radius="$BACKGROUND_RADIUS"
-)
-
-# ==================== Setup ====================
-
-sketchybar --bar "${bar[@]}" --default "${default[@]}"
-
-for item in "${left_items[@]}"; do
-  source "$COMPONENT_DIR/$item.sh" left
-done
-
-for item in "${right_items[@]}"; do
-  source "$COMPONENT_DIR/$item.sh" right
-done
-
-source "$COMPONENT_DIR/left_bracket.sh"
-source "$COMPONENT_DIR/right_bracket.sh"
-
-# ==================== Run Scripts ====================
-# WARNING: never do this in a script
+source "$CONFIG_DIR/core/env.sh"
+source "$CONFIG_DIR/core/init_widgets.sh"
+source "$CONFIG_DIR/core/bar_defaults.sh"
+source "$CONFIG_DIR/core/loader.sh"
+source "$CONFIG_DIR/core/load_widgets.sh"
+source "$CONFIG_DIR/core/styles.sh"
 
 sketchybar --update
 
-# ensure a workspace is highlighted
-sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE="$(aerospace list-workspaces --focused)"
+source "$CONFIG_DIR/core/events.sh"
