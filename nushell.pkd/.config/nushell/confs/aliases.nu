@@ -1,31 +1,29 @@
-# ---- system ----
-
-# Open pwd in finder
+# open pwd in finder
 alias ofd = ^open -R (pwd)
 
-# ----- Clear -----
+# copy pwd
+alias cwd = do {use std/clip; pwd | clip copy}
 
+# shorter clear
 alias c = clear
+
+# clear + ls
 alias cls = do { clear; print ""; ls }
 
-# ----- Built-ins -----
-
+# rm w/ interactive protection
 alias rm = rm -I
+
+# explore with sane default flags
 alias explore = explore -pi
 
-# ----- Torrent -----
-
+# torrent client
 alias torrent = transmission-cli
 
-# ----- Pager -----
-
+# modify less args
 alias less = less -R
 
-# ----- tree -----
-
+# tree w/ args
 alias tree = tree -aC -I .git -I .venv -I "._*"
-
-# ----- Opencode -----
 
 # opencode in plan mode
 alias ai = opencode --agent=plan
