@@ -14,15 +14,24 @@ def api_key [] {
 # Get subscription usage and quota information
 export def usage [
   --raw (-r) # Return unmodified API response
+  --no-fmt (-n) # Disable pretty formatting
 ] {
   http get --headers {Authorization: $"Bearer (api_key)"} $"($url_base)($usage_route)"
   | if $raw {$in} else {
     get subscription
-    | insert reset_relative {|| $in.renewsAt | date humanize}
-    | insert reset_absolute {|| $in.renewsAt | date to-timezone US/Central }
-    | insert reset_timezone US/Central
-    | reject renewsAt
+    | insert usage {|| {
+        percent: ($in.requests / $in.limit * 100)
+        requests: ($in.requests)
+        limit: ($in.limit)
+      }}
+    | insert reset {|| {
+        relative: ($in.renewsAt | date humanize)
+        absolute: ($in.renewsAt | date to-timezone US/Central)
+        timezone: US/Central
+      }}
+    | reject renewsAt limit requests
   }
+  | if not $no_fmt {update usage.percent {|| $"($in | into string -d 2)%" } | table -e} else {$in}
 }
 
 # List available models
