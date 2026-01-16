@@ -61,10 +61,11 @@ export def all [
   ...pattern: string # Regex pattern
   --no-color (-n) # Disable colored output
   --enumerate (-e)  # Enumerate output
+  --case-sensitive (-c) # Make search case sensitive
   --depth (-d): int = 999 # Directory depth to descend (1 is current)
   --ignore (-i): list<string> # Glob patterns to ignore in paths, entries are wrapped with `**/.../**`
 ]: nothing -> table<index: int, file: string, lineno: int, match: string> {
-  let pattern = $pattern | str join " "
+  let pattern = $pattern | str join " " | if $case_sensitive {$in} else {["(?i)" $in] | str join}
   let ignore_pattern = ( $ignore | each { $"**/($in)/**" } ) | append $GREP_IGNORE
   glob **/* --exclude $ignore_pattern --depth $depth --no-dir --follow-symlinks
   | path relative-to (pwd)
@@ -73,7 +74,7 @@ export def all [
         open --raw $file
         | lines
         | enumerate
-        | where { $in.item =~ $pattern }
+        | where { $in.item =~ $pattern}
         | if $no_color {
             each {{
               file: $file,
@@ -100,6 +101,7 @@ export def file [
   ...pattern: string # Regex pattern
   --no-color (-n) # Disable colored output
   --enumerate (-e) # Enumerate output
+  --case-sensitive (-c) # Make search case sensitive
   --depth (-d): int = 999 # Directory depth to descend (1 is current)
   --ignore (-i): list<string> # Patterns to ignore in paths
   --full (-f) # Search full filepath
@@ -107,7 +109,7 @@ export def file [
 #     - `*text*` matches foo/aatextbb/bar
 #     - `text` matches foo/text/bar
 ]: nothing -> table<index: int, name: string, type: string, size: filesize, modified: datetime> {
-  let pattern = $pattern | str join " "
+  let pattern = $pattern | str join " " | if $case_sensitive {$in} else {["(?i)" $in] | str join}
   let ignore_pattern = ( $ignore | each { $"**/($in)/**" } ) | append $GREP_IGNORE
   glob **/* --exclude $ignore_pattern --depth $depth --no-dir --follow-symlinks
   | where { |path| ($path | path type) != symlink }
@@ -130,6 +132,7 @@ export def dir [
   ...pattern: string # Regex pattern
   --no-color (-n) # Disable colored output
   --enumerate (-e)  # Enumerate output
+  --case-sensitive (-c) # Make search case sensitive
   --depth (-d): int = 999 # Directory depth to descend (1 is current)
   --ignore (-i): list<string> # Patterns to ignore in paths
   --full (-f) # Search full filepath
@@ -137,7 +140,7 @@ export def dir [
 #     - `*text*` matches foo/aatextbb/bar
 #     - `text` matches foo/text/bar
 ]: nothing -> table<index: int, name: string, size: filesize, modified: datetime> {
-  let pattern = $pattern | str join " "
+  let pattern = $pattern | str join " " | if $case_sensitive {$in} else {["(?i)" $in] | str join}
   let ignore_pattern = ( $ignore | each { $"**/($in)/**" } ) | append $GREP_IGNORE
   glob **/* --exclude $ignore_pattern --depth $depth --no-file --follow-symlinks
   | where { |path| ($path | path type) != symlink and $path != (pwd)  }
