@@ -7,11 +7,7 @@ source ~/.cache/nushell/zoxide.nu
 source path.nu
 source completers.nu
 source commands.nu
-source command_aliases.nu
 source structure_wrappers.nu
-
-# TODO: modules go here?
-
 source aliases.nu
 source completions.nu
 

@@ -4,12 +4,6 @@ alias ofd = ^open -R (pwd)
 # copy pwd
 alias cwd = do {use std/clip; pwd | clip copy}
 
-# shorter clear
-alias c = clear
-
-# clear + ls
-alias cls = do { clear; print ""; ls }
-
 # rm w/ interactive protection
 alias rm = rm -I
 

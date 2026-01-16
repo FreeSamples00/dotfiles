@@ -1,12 +1,3 @@
-# ----- Env -----
-def env-search [
-  pattern: string # target
-] {
-  $env | transpose key value | find -ir $pattern
-}
-
-# ----- Files -----
-
 # Mime the type of a file
 def mime [
   file: path # File to mime the type of
@@ -25,40 +16,6 @@ def mime [
   }
 }
 
-# ----- git rev-parse -----
-
-# Open gitignore
-def gignore []: nothing -> nothing {
-  let file = ".gitignore"
-  if (git status | complete | get exit_code) == 0 {
-    nvim $"(git rev-parse --show-toplevel)/($file)"
-  } else {
-    nvim ./($file)
-  }
-}
-
-# Open Todo file
-def todo []: nothing -> nothing {
-  let file = "TODO.md"
-  if (git status | complete | get exit_code) == 0 {
-    nvim $"(git rev-parse --show-toplevel)/($file)"
-  } else {
-    nvim ./($file)
-  }
-}
-
-# Open Readme file
-def readme []: nothing -> nothing {
-  let file = "README.md"
-  if (git status | complete | get exit_code) == 0 {
-    nvim $"(git rev-parse --show-toplevel)/($file)"
-  } else {
-    nvim ./($file)
-  }
-}
-
-# ----- Git -----
-
 # Get gitignore rules by language
 @complete ignore-completer
 def get-ignore [
@@ -72,3 +29,6 @@ def get-ignore [
   }
   http get $"https://www.toptal.com/developers/gitignore/api/($project_type)"
 }
+
+# __zoxide_z wrapper
+def cd --env --wrapped [...args: directory] { __zoxide_z ...$args }
