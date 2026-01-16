@@ -2,15 +2,22 @@
 
 # From original
 
-export SBAR_THEME="onedark"
+export SBAR_THEME="catppuccin-mocha"
 export SBAR_BAR_STYLE="block"
 export SBAR_BAR_BACKGROUND="transparent"
 export SBAR_BAR_HEIGHT=56
 export SBAR_BAR_POSITION="top"
-export SBAR_LABEL_FONT_FAMILY="SpaceMono Nerd Font Mono"
+export SBAR_LABEL_FONT_FAMILY="JetBrainsMono Nerd Font Mono"
 export SBAR_ICON_FONT_FAMILY="SpaceMono Nerd Font Mono"
-export SBAR_ICON_FONT_SIZE=18
-export SBAR_LABEL_FONT_SIZE=15
+export SBAR_LABEL_FONT_STYLE="Bold"
+export SBAR_ICON_FONT_STYLE="Bold"
+export SBAR_ICON_FONT_SIZE=20
+export SBAR_LABEL_FONT_SIZE=17
+
+# Font styles (Common styles: Light, Regular, Medium, Semibold, Bold, Italic, Bold Italic)
+# Note: Available styles depend on your font family
+# Per-widget override: icon.font="$SBAR_ICON_FONT_FAMILY:Italic:$SBAR_ICON_FONT_SIZE"
+
 export SBAR_COLOR_CLOCK="$COLOR_YELLOW"
 export SBAR_COLOR_CALENDAR="$COLOR_TANGERINE"
 export SBAR_COLOR_WEATHER="$COLOR_CYAN"

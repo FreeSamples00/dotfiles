@@ -18,6 +18,11 @@ sketchybar --add item weather.icon right \
   --set weather.icon \
   icon="" \
   icon.color="$COLOR_BLACK" \
-  icon.font="$SBAR_ICON_FONT_FACE_BOLD:$(calc "$SBAR_ICON_FONT_SIZE + 12.5")" \
+  icon.font="$SBAR_ICON_FONT_FAMILY:Bold:$(calc "$SBAR_ICON_FONT_SIZE + 12.5")" \
   icon.padding_left="$(calc "$SBAR_ITEM_ICON_PADDING_LEFT - 4.0")" \
   icon.padding_right="$SBAR_ITEM_ICON_PADDING_RIGHT"
+
+# Font style usage examples (Available styles depend on your font):
+# Common styles: Light, Regular, Medium, Semibold, Bold, Italic, Bold Italic
+# Override default: icon.font="$SBAR_ICON_FONT_FAMILY:Bold:$SBAR_ICON_FONT_SIZE"
+# Override default: label.font="$SBAR_LABEL_FONT_FAMILY:Italic:$SBAR_LABEL_FONT_SIZE"

@@ -8,7 +8,7 @@ KAKAO_ICON=$(get_app_icon "KakaoTalk")
 sketchybar --add item kakaotalk.badge right \
   --set kakaotalk.badge \
   label.drawing=off \
-  label.font="$SBAR_LABEL_FONT_FACE_BOLD:7.0" \
+  label.font="$SBAR_LABEL_FONT_FAMILY:Bold:7.0" \
   label.color="0xFFFFFFFF" \
   label.padding_left=4 \
   label.padding_right=4 \

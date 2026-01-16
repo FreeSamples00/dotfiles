@@ -18,7 +18,7 @@ if [ "$SBAR_NETSTAT_SHOW_GRAPH" = true ]; then
     background.border_color=0x00000000 \
     background.drawing=on \
     label.color="$COLOR_BLACK" \
-    label.font="$SBAR_LABEL_FONT_FACE_REGULAR:8.5" \
+    label.font="$SBAR_LABEL_FONT_FAMILY:Regular:8.5" \
     label.padding_right=0 \
     label.y_offset=6 \
     label.padding_left=-24 \
@@ -40,7 +40,7 @@ fi
 sketchybar --add item netstat.down.icon right \
   --set netstat.down.icon \
   icon="$DOWN_ICON" \
-  icon.font="$SBAR_ICON_FONT_FACE_BOLD:$SBAR_ICON_FONT_SIZE" \
+  icon.font="$SBAR_ICON_FONT_FAMILY:Bold:$SBAR_ICON_FONT_SIZE" \
   icon.color="$COLOR_BLACK" \
   icon.padding_left="$SBAR_ITEM_ICON_PADDING_LEFT" \
   icon.padding_right="$SBAR_ITEM_ICON_PADDING_RIGHT"
@@ -57,7 +57,7 @@ if [ "$SBAR_NETSTAT_SHOW_GRAPH" = true ]; then
     background.border_color=0x00000000 \
     background.drawing=on \
     label.color="$COLOR_BLACK" \
-    label.font="$SBAR_LABEL_FONT_FACE_REGULAR:8.5" \
+    label.font="$SBAR_LABEL_FONT_FAMILY:Regular:8.5" \
     label.padding_right=0 \
     label.y_offset=6 \
     label.padding_left=-24 \
@@ -75,7 +75,7 @@ fi
 sketchybar --add item netstat.up.icon right \
   --set netstat.up.icon \
   icon="$UP_ICON" \
-  icon.font="$SBAR_ICON_FONT_FACE_BOLD:$SBAR_ICON_FONT_SIZE" \
+  icon.font="$SBAR_ICON_FONT_FAMILY:Bold:$SBAR_ICON_FONT_SIZE" \
   icon.color="$COLOR_BLACK" \
   icon.padding_left="$SBAR_ITEM_ICON_PADDING_LEFT" \
   icon.padding_right="$SBAR_ITEM_ICON_PADDING_RIGHT"

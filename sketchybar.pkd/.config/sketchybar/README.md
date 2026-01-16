@@ -176,9 +176,16 @@ export SBAR_BAR_STYLE="block"  # or "compact"
 
 # Font settings
 export SBAR_LABEL_FONT_FAMILY="SpaceMono Nerd Font Mono"
+export SBAR_ICON_FONT_FAMILY="SpaceMono Nerd Font Mono"
+export SBAR_LABEL_FONT_STYLE="Bold"
+export SBAR_ICON_FONT_STYLE="Bold"
 export SBAR_ICON_FONT_SIZE="18.0"
 export SBAR_LABEL_FONT_SIZE="12.0"
 export SBAR_APP_ICON_FONT_SIZE="13.5"
+
+# Font styles (Common styles: Light, Regular, Medium, Semibold, Bold, Italic, Bold Italic)
+# Note: Available styles depend on your font family
+# Per-widget override in widget files: icon.font="$SBAR_ICON_FONT_FAMILY:Italic:$SBAR_ICON_FONT_SIZE"
 
 # Bar settings
 export SBAR_BAR_HEIGHT=56

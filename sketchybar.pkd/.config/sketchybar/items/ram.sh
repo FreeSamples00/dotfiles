@@ -17,7 +17,7 @@ if [ "$SBAR_RAM_SHOW_GRAPH" = true ]; then
     background.border_color=0x00000000 \
     background.drawing=on \
     label.color="$COLOR_BLACK" \
-    label.font="$SBAR_LABEL_FONT_FACE_REGULAR:8.5" \
+    label.font="$SBAR_LABEL_FONT_FAMILY:Regular:8.5" \
     label.padding_right=0 \
     label.y_offset=6 \
     label.padding_left=-20 \
@@ -39,7 +39,7 @@ fi
 sketchybar --add item ram.icon right \
   --set ram.icon \
   icon="$RAM_ICON" \
-  icon.font="$SBAR_ICON_FONT_FACE_BOLD:$(calc "$SBAR_ICON_FONT_SIZE + 4")" \
+  icon.font="$SBAR_ICON_FONT_FAMILY:Bold:$(calc "$SBAR_ICON_FONT_SIZE + 4")" \
   icon.color="$COLOR_BLACK" \
   icon.padding_left="$SBAR_ITEM_ICON_PADDING_LEFT" \
   icon.padding_right="$SBAR_ITEM_ICON_PADDING_RIGHT"

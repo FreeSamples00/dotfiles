@@ -14,7 +14,7 @@ sketchybar --add item calendar.label right \
 sketchybar --add item calendar.icon right \
   --set calendar.icon \
   icon="$CALENDAR_ICON" \
-  icon.font="$SBAR_ICON_FONT_FACE_BOLD:$SBAR_ICON_FONT_SIZE" \
+  icon.font="$SBAR_ICON_FONT_FAMILY:Bold:$SBAR_ICON_FONT_SIZE" \
   icon.color="$COLOR_BLACK" \
   icon.padding_left="$SBAR_ITEM_ICON_PADDING_LEFT" \
   icon.padding_right="$SBAR_ITEM_ICON_PADDING_RIGHT"
