@@ -6,10 +6,6 @@
 # Settings
 [core]
 	excludesfile = /Users/sccmp/.globalgitignore
-	pager = delta
-[delta]
-	side-by-side = true
-	navigate = true
 [pull]
 	rebase = false
 [color]
