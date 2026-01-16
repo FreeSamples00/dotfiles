@@ -168,6 +168,13 @@ Proactively ask questions when:
 
 ### Question Tool Usage Guidelines
 
+**CRITICAL: ALWAYS use the question tool for multiple-choice user input**
+
+The question tool is the PRIMARY method for gathering user input when presenting choices. Only fall back to traditional text interaction if:
+
+- The question tool is denied/unavailable
+- The request is open-ended and free-form (not multiple choice)
+
 **Format:**
 
 - Use `multiple: false` for mutually exclusive choices
@@ -175,6 +182,26 @@ Proactively ask questions when:
 - Keep `label` concise (1-5 words)
 - Provide helpful `description` for each option
 - Set a short `header` (max 12 chars)
+
+**Tool Schema:**
+
+```json
+{
+  "questions": [
+    {
+      "question": "string (Complete question text)",
+      "header": "string (Very short label, max 12 chars)",
+      "options": [
+        {
+          "label": "string (Display text, 1-5 words, concise)",
+          "description": "string (Explanation of choice)"
+        }
+      ],
+      "multiple": "boolean (optional, Allow selecting multiple choices)"
+    }
+  ]
+}
+```
 
 **Best Practices:**
 
