@@ -33,6 +33,10 @@
 # export SBAR_NETSTAT_SHOW_GRAPH=true
 # export SBAR_NETSTAT_SHOW_SPEED=false
 
+# ========== Bar Position ==========
+# Vertical offset from default position (negative = up, positive = down)
+# export SBAR_BAR_Y_OFFSET=0
+
 # ========== Colors ==========
 # Override widget colors if needed
 # export SBAR_COLOR_CLOCK="$COLOR_YELLOW1"
