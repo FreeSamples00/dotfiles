@@ -2,6 +2,14 @@
   "$schema": "https://opencode.ai/config.json",
   "theme": "opencode-custom",
   "model": "synthetic/hf:zai-org/GLM-4.7",
+  "share": "disabled",
+  "tui": {
+    "scroll_acceleration": { "enabled": true },
+  },
+  "keybinds": {
+    "input_newline": "return",
+    "input_submit": "shift+return,ctrl+return,alt+return,ctrl+j",
+  },
   // Define permissions for model tooling
   "permission": {
     "question": "allow",
