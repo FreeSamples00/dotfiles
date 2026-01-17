@@ -16,3 +16,4 @@ use grep.nu
 use clipboard.nu *
 use git.nu *
 use synthetic.nu
+use APIs.nu *
