@@ -155,5 +155,3 @@ sketchybar --add bracket "aerospace" "/workspace_.*/" \
   background.drawing=on \
   background.padding_left="$SBAR_ITEM_ICON_PADDING_LEFT" \
   background.padding_right="16"
-
-sketchybar --set "/workspace_.*/" label.color="$COLOR_WHITE"

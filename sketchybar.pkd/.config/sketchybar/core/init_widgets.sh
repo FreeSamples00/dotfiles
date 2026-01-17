@@ -4,7 +4,7 @@ if [ -n "$SBAR_WIDGETS_LEFT_ENABLED" ]; then
   read -ra SBAR_WIDGETS_LEFT <<< "$SBAR_WIDGETS_LEFT_ENABLED"
 else
   export SBAR_WIDGETS_LEFT=(
-    "space"
+    "aerospace"
     "front_app"
   )
 fi
