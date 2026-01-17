@@ -145,3 +145,15 @@ sketchybar --add bracket "front_app" "/front_app\..*/" \
   background.drawing=on
 
 sketchybar --set "/front_app\..*/" icon.color="$COLOR_BLACK" label.color="$COLOR_BLACK"
+
+sketchybar --add bracket "aerospace" "/workspace_.*/" \
+  --set "aerospace" \
+  background.color="$SBAR_COLOR_AEROSPACE" \
+  background.corner_radius="$SBAR_ITEM_BG_CORNER_RADIUS" \
+  background.height="$SBAR_ITEM_BG_HEIGHT" \
+  background.border_width="$SBAR_ITEM_BG_BORDER_WIDTH" \
+  background.drawing=on \
+  background.padding_left="$SBAR_ITEM_ICON_PADDING_LEFT" \
+  background.padding_right="16"
+
+sketchybar --set "/workspace_.*/" label.color="$COLOR_WHITE"

@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
 SPACER_INDEX=1
+CURRENT_SIDE=""
 
 load_widgets() {
+  CURRENT_SIDE="$1"
+  shift
   local widget_array=("$@")
 
   if [ "$SBAR_AUTO_INSERT_SPACER" = true ]; then
@@ -14,7 +17,7 @@ load_widgets() {
       source "$SBAR_ITEM_DIR/${widget_name}.sh" "${widget_arg}"
 
       if [ $((i + 1)) -lt ${#widget_array[@]} ]; then
-        source "$SBAR_ITEM_DIR/spacer.sh" "$SPACER_INDEX"
+        source "$SBAR_ITEM_DIR/spacer.sh" "$SPACER_INDEX" "$CURRENT_SIDE"
         ((SPACER_INDEX++))
       fi
     done

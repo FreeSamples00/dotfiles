@@ -29,21 +29,21 @@ RIGHT_ITEMS=()
 for widget in "${SBAR_WIDGETS_LEFT[@]}"; do
   widget_name="${widget%% *}"
   [ "$widget_name" = "config" ] && [ "$SBAR_CONFIG_VISIBLE" = "false" ] && continue
-  [ "$widget_name" = "space" ] && LEFT_ITEMS+=("/space\\..*/") && continue
+  [ "$widget_name" = "aerospace" ] && LEFT_ITEMS+=("/workspace_.*/") && continue
   LEFT_ITEMS+=("/${widget_name}\\.icon/" "/${widget_name}\\.label/" "/${widget_name}\\.name/" "/${widget_name}\\.percent/" "/${widget_name}\\.graph/")
 done
 
 for widget in "${SBAR_WIDGETS_CENTER[@]}"; do
   widget_name="${widget%% *}"
   [ "$widget_name" = "config" ] && [ "$SBAR_CONFIG_VISIBLE" = "false" ] && continue
-  [ "$widget_name" = "space" ] && CENTER_ITEMS+=("/space\\..*/") && continue
+  [ "$widget_name" = "aerospace" ] && CENTER_ITEMS+=("/workspace_.*/") && continue
   CENTER_ITEMS+=("/${widget_name}\\.icon/" "/${widget_name}\\.label/" "/${widget_name}\\.name/" "/${widget_name}\\.percent/" "/${widget_name}\\.graph/")
 done
 
 for widget in "${SBAR_WIDGETS_RIGHT[@]}"; do
   widget_name="${widget%% *}"
   [ "$widget_name" = "config" ] && [ "$SBAR_CONFIG_VISIBLE" = "false" ] && continue
-  [ "$widget_name" = "space" ] && RIGHT_ITEMS+=("/space\\..*/") && continue
+  [ "$widget_name" = "aerospace" ] && RIGHT_ITEMS+=("/workspace_.*/") && continue
   RIGHT_ITEMS+=("/${widget_name}\\.icon/" "/${widget_name}\\.label/" "/${widget_name}\\.name/" "/${widget_name}\\.percent/" "/${widget_name}\\.graph/")
 done
 
