@@ -6,6 +6,7 @@ else
   export SBAR_WIDGETS_LEFT=(
     "aerospace"
     "front_app"
+    "restart_notifier"
   )
 fi
 

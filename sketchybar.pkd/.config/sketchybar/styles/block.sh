@@ -155,3 +155,13 @@ sketchybar --add bracket "aerospace" "/workspace_.*/" \
   background.drawing=on \
   background.padding_left="$SBAR_ITEM_ICON_PADDING_LEFT" \
   background.padding_right="16"
+
+sketchybar --add bracket "restart_notifier" "/restart_notifier\..*/" \
+  --set "restart_notifier" \
+  background.color="$SBAR_COLOR_RESTART" \
+  background.corner_radius="$SBAR_ITEM_BG_CORNER_RADIUS" \
+  background.height="$SBAR_ITEM_BG_HEIGHT" \
+  background.border_width="$SBAR_ITEM_BG_BORDER_WIDTH" \
+  background.drawing=on
+
+sketchybar --set "/restart_notifier\..*/" icon.color="$COLOR_BLACK" label.color="$COLOR_BLACK"

@@ -78,6 +78,9 @@ function __widget_icon_map() {
   "coffee_off")
     icon_result="󰶞"
     ;;
+  "restart")
+    icon_result=""
+    ;;
   "memory")
     icon_result=""
     ;;
