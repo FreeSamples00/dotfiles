@@ -68,6 +68,9 @@ xnoremap P "_dP
 " Custom sequence bindings: Yank line then delete it
 nnoremap xx yydd
 
+" rebind U to redo in normal mode
+nnoremap U <C-r>
+
 " ==================== Cursor Shape Configuration ====================
 
 " Set cursor shape sequences (faster \033 instead of \x1b)

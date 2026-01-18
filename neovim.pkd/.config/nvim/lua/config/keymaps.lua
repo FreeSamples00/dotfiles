@@ -2,6 +2,10 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
+-- ==================== rebind U to redo ====================
+
+vim.keymap.set("n", "U", "<C-r>", { desc = "Redo" })
+
 -- ==================== remove annoying keymaps ====================
 
 -- Disable Ex mode
