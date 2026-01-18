@@ -29,6 +29,24 @@ def get-ignore [
   }
   http get $"https://www.toptal.com/developers/gitignore/api/($project_type)"
 }
+alias gi = get-ignore
 
 # __zoxide_z wrapper
 def cd --env --wrapped [...args: directory] { __zoxide_z ...$args }
+
+# Rename a file or directory
+# Use the up arrow to edit the current filename
+def rnm [
+  path: path # Filepath to rename
+]: nothing -> nothing {
+  if ($path | path exists) {
+    let path = $path | path expand
+    let dir = $path | path dirname
+    let new_path = [($path | path basename)] | input $"(ansi attr_bold)Rename File: (ansi reset)" --reedline
+    if $new_path != "" {
+      mv ($path) $"($dir)/($new_path)"
+    }
+  } else {
+    print $"File `($path)` not found."
+  }
+}
