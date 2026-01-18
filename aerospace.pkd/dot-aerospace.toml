@@ -153,7 +153,7 @@ cmd-alt-ctrl-d = 'exec-and-forget open -a "Discord"'
 cmd-alt-ctrl-f = 'exec-and-forget open -a "Finder"'
 
 # btop
-cmd-alt-ctrl-t = 'exec-and-forget /Applications/Ghostty.app/Contents/MacOS/ghostty -e "btop"'
+cmd-alt-ctrl-t = 'exec-and-forget open -na ghostty.app --args -e btop'
 
 # ========================= TILING HOTKEYS =========================
 
