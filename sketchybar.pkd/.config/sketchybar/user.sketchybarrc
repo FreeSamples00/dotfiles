@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
 export SBAR_THEME="catppuccin-mocha"
-export SBAR_BAR_STYLE="block"
-export SBAR_BAR_BACKGROUND="transparent"
 export SBAR_BAR_HEIGHT=56
 export SBAR_BAR_POSITION="top"
 export SBAR_LABEL_FONT_FAMILY="JetBrainsMono Nerd Font Mono"
@@ -13,10 +11,6 @@ export SBAR_ICON_FONT_SIZE=20
 export SBAR_LABEL_FONT_SIZE=17
 export SBAR_BLOCK_BG_COLOR=$COLOR_BLACK_75
 export SBAR_ITEM_BG_HEIGHT=28
-
-# Font styles (Common styles: Light, Regular, Medium, Semibold, Bold, Italic, Bold Italic)
-# Note: Available styles depend on your font family
-# Per-widget override: icon.font="$SBAR_ICON_FONT_FAMILY:Italic:$SBAR_ICON_FONT_SIZE"
 
 export SBAR_COLOR_CLOCK="$COLOR_YELLOW"
 export SBAR_COLOR_CALENDAR="$COLOR_TANGERINE"
@@ -35,7 +29,6 @@ export SBAR_CPU_SHOW_GRAPH=true
 export SBAR_CPU_SHOW_PERCENT=true
 export SBAR_RAM_SHOW_GRAPH=true
 export SBAR_RAM_SHOW_PERCENT=true
-export SBAR_COLOR_CONFIG="$COLOR_BLUE"
 export SBAR_ITEM_UPDATE_FREQ_DEFAULT=10
 export SBAR_ITEM_UPDATE_FREQ_FAST=2
 export SBAR_ITEM_UPDATE_FREQ_SLOW=30

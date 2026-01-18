@@ -24,7 +24,6 @@ The easiest way to configure Sketchybar Gray is through the Settings App ([sketc
 The Settings App provides a GUI for:
 
 - Theme selection
-- Bar style (block/compact)
 - Widget visibility
 - Font settings
 - And more...
@@ -171,9 +170,6 @@ Edit `user.sketchybarrc` to customize settings:
 # Theme
 export SBAR_THEME="onedark"  # or "onelight"
 
-# Bar Style
-export SBAR_BAR_STYLE="block"  # or "compact"
-
 # Font settings
 export SBAR_LABEL_FONT_FAMILY="SpaceMono Nerd Font Mono"
 export SBAR_ICON_FONT_FAMILY="SpaceMono Nerd Font Mono"
@@ -190,7 +186,6 @@ export SBAR_APP_ICON_FONT_SIZE="13.5"
 # Bar settings
 export SBAR_BAR_HEIGHT=56
 export SBAR_BAR_POSITION="top"  # top or bottom
-export SBAR_BAR_BACKGROUND="transparent"  # or "bg1"
 
 # Update frequency
 export SBAR_ITEM_UPDATE_FREQ_FAST=2
@@ -237,23 +232,11 @@ export SBAR_WIDGETS_RIGHT=(
 
 Two style modes are available:
 
-**Block Style** (default):
+**Block Style**:
 
 - Each widget has its own colored background
 - Clear visual separation between widgets
 - Best for high-contrast display
-
-**Compact Style**:
-
-- Widgets are grouped in containers
-- Left, Center, Right sections with shared backgrounds
-- More compact appearance
-
-Switch styles via the config menu or by setting:
-
-```bash
-export SBAR_BAR_STYLE="compact"  # or "block"
-```
 
 ### Themes
 

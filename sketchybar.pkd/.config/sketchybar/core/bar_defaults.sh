@@ -9,5 +9,4 @@ sketchybar \
   --bar \
   position="$SBAR_BAR_POSITION" \
   height="$SBAR_BAR_HEIGHT" \
-  y_offset="$SBAR_BAR_Y_OFFSET" \
-  color="$SBAR_BAR_COLOR"
+  y_offset="$SBAR_BAR_Y_OFFSET"

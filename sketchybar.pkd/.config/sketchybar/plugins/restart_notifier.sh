@@ -7,7 +7,8 @@ if [[ "$1" == "-R" ]]; then
   exit 0
 fi
 
-THRESHOLD=604800
+# THRESHOLD=604800
+THRESHOLD=0
 
 CURR_TIME=$(date '+%s')
 BOOT_TIME=$(sysctl -n kern.boottime | awk -F '[ ,]' '{print $4}')

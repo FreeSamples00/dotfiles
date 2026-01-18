@@ -11,4 +11,4 @@ sketchybar --add item front_app.name left \
   --set front_app.name \
   label.padding_right="$SBAR_ITEM_LABEL_PADDING_RIGHT" \
   script="$SBAR_PLUGIN_DIR/front_app.sh" \
-  --subscribe front_app.name front_app_switched yabai_window_focus
+  --subscribe front_app.name front_app_switched

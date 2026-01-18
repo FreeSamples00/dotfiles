@@ -27,8 +27,4 @@ else
   ICON_COLOR="$SBAR_COLOR_CAFFEINATE_ON"
 fi
 
-if [ "$SBAR_BAR_STYLE" = "compact" ]; then
-  sketchybar --set caffeinate.icon icon="$ICON" icon.color="$ICON_COLOR"
-else
-  sketchybar --set caffeinate.icon icon="$ICON" icon.color="$ICON_COLOR"
-fi
+sketchybar --set caffeinate.icon icon="$ICON" icon.color="$ICON_COLOR"

@@ -17,11 +17,5 @@ else
   fi
 fi
 
-if [ "$SBAR_BAR_STYLE" = "compact" ]; then
-  sketchybar --set "$NAME" \
-    label.color="$LABEL_COLOR" \
-    background.drawing=off
-else
-  sketchybar --set "$NAME" \
-    label.color="$LABEL_COLOR"
-fi
+sketchybar --set "$NAME" \
+  label.color="$LABEL_COLOR"
