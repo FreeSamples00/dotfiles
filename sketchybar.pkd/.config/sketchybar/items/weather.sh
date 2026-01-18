@@ -11,7 +11,8 @@ sketchybar --add item weather.label right \
   label.padding_right="$SBAR_ITEM_LABEL_PADDING_RIGHT" \
   update_freq=600 \
   updates=on \
-  script="SBAR_WEATHER_LOCATION=$SBAR_WEATHER_LOCATION $SBAR_PLUGIN_DIR/weather.sh"
+  script="SBAR_WEATHER_LOCATION=$SBAR_WEATHER_LOCATION $SBAR_PLUGIN_DIR/weather.sh" \
+  click_script="open -a Weather"
 
 sketchybar --add item weather.icon right \
   --set weather.icon \
@@ -19,6 +20,7 @@ sketchybar --add item weather.icon right \
   icon.font="$SBAR_ICON_FONT_FAMILY:Bold:$(calc "$SBAR_ICON_FONT_SIZE + 12.5")" \
   icon.padding_left="$(calc "$SBAR_ITEM_ICON_PADDING_LEFT - 4.0")" \
   icon.padding_right="$SBAR_ITEM_ICON_PADDING_RIGHT"
+
 
 # Font style usage examples (Available styles depend on your font):
 # Common styles: Light, Regular, Medium, Semibold, Bold, Italic, Bold Italic
