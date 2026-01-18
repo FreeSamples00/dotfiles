@@ -5,7 +5,7 @@ source "$CONFIG_DIR/plugins/icon.sh"
 WEATHER_JSON=$(curl -s "wttr.in/$SBAR_WEATHER_LOCATION?format=j1" 2>/dev/null)
 
 if [ -z "$WEATHER_JSON" ]; then
-  TEMP="N/A"
+  TEMP="--"
   WEATHER_CODE="113"
   IS_DAY=1
 else
