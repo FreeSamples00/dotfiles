@@ -11,6 +11,8 @@ export SBAR_LABEL_FONT_STYLE="Bold"
 export SBAR_ICON_FONT_STYLE="Bold"
 export SBAR_ICON_FONT_SIZE=20
 export SBAR_LABEL_FONT_SIZE=17
+export SBAR_BLOCK_BG_COLOR=$COLOR_BLACK_75
+export SBAR_ITEM_BG_HEIGHT=28
 
 # Font styles (Common styles: Light, Regular, Medium, Semibold, Bold, Italic, Bold Italic)
 # Note: Available styles depend on your font family

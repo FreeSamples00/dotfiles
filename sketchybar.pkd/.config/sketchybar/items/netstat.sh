@@ -17,7 +17,6 @@ if [ "$SBAR_NETSTAT_SHOW_GRAPH" = true ]; then
     background.color=0x00000000 \
     background.border_color=0x00000000 \
     background.drawing=on \
-    label.color="$COLOR_BLACK" \
     label.font="$SBAR_LABEL_FONT_FAMILY:Regular:8.5" \
     label.padding_right=0 \
     label.y_offset=6 \
@@ -29,7 +28,6 @@ if [ "$SBAR_NETSTAT_SHOW_GRAPH" = true ]; then
 elif [ "$SBAR_NETSTAT_SHOW_SPEED" = true ]; then
   sketchybar --add item netstat.down.label right \
     --set netstat.down.label \
-    label.color="$COLOR_BLACK" \
     label.padding_right="$SBAR_ITEM_LABEL_PADDING_RIGHT" \
     label.padding_left=0 \
     update_freq="$SBAR_ITEM_UPDATE_FREQ_FAST" \
@@ -41,7 +39,6 @@ sketchybar --add item netstat.down.icon right \
   --set netstat.down.icon \
   icon="$DOWN_ICON" \
   icon.font="$SBAR_ICON_FONT_FAMILY:Bold:$SBAR_ICON_FONT_SIZE" \
-  icon.color="$COLOR_BLACK" \
   icon.padding_left="$SBAR_ITEM_ICON_PADDING_LEFT" \
   icon.padding_right="$SBAR_ITEM_ICON_PADDING_RIGHT"
 
@@ -56,7 +53,6 @@ if [ "$SBAR_NETSTAT_SHOW_GRAPH" = true ]; then
     background.color=0x00000000 \
     background.border_color=0x00000000 \
     background.drawing=on \
-    label.color="$COLOR_BLACK" \
     label.font="$SBAR_LABEL_FONT_FAMILY:Regular:8.5" \
     label.padding_right=0 \
     label.y_offset=6 \
@@ -66,7 +62,6 @@ if [ "$SBAR_NETSTAT_SHOW_GRAPH" = true ]; then
 elif [ "$SBAR_NETSTAT_SHOW_SPEED" = true ]; then
   sketchybar --add item netstat.up.label right \
     --set netstat.up.label \
-    label.color="$COLOR_BLACK" \
     label.padding_right="$SBAR_ITEM_LABEL_PADDING_RIGHT" \
     label.padding_left=0
   BRACKET_ITEMS+=("netstat.up.label")
@@ -76,7 +71,6 @@ sketchybar --add item netstat.up.icon right \
   --set netstat.up.icon \
   icon="$UP_ICON" \
   icon.font="$SBAR_ICON_FONT_FAMILY:Bold:$SBAR_ICON_FONT_SIZE" \
-  icon.color="$COLOR_BLACK" \
   icon.padding_left="$SBAR_ITEM_ICON_PADDING_LEFT" \
   icon.padding_right="$SBAR_ITEM_ICON_PADDING_RIGHT"
 

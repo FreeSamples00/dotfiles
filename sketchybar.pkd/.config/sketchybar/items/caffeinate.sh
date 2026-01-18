@@ -9,7 +9,6 @@ sketchybar --add item caffeinate.icon right \
   --set caffeinate.icon \
   icon="$CAFFEINATE_ICON" \
   icon.font="$SBAR_ICON_FONT_FAMILY:Bold:$(calc "$SBAR_ICON_FONT_SIZE + 3")" \
-  icon.color="$COLOR_BLACK" \
   icon.padding_left="$SBAR_ITEM_ICON_PADDING_LEFT" \
   icon.padding_right="$(calc "$SBAR_ITEM_LABEL_PADDING_RIGHT - 2")" \
   script="$SBAR_PLUGIN_DIR/caffeinate.sh" \

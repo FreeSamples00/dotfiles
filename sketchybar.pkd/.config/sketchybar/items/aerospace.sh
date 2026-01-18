@@ -16,7 +16,6 @@ focused_workspace=$(get_aerospace_focused_workspace)
 sketchybar --add item "workspace_bracket_left" "$SIDE" \
   --set workspace_bracket_left \
   label="" \
-  label.color="$COLOR_BLACK" \
   label.font="$SBAR_LABEL_FONT_FAMILY:$SBAR_LABEL_FONT_STYLE:$SBAR_LABEL_FONT_SIZE" \
   label.padding_right="$SBAR_ITEM_LABEL_PADDING_RIGHT" \
 
@@ -27,7 +26,6 @@ for sid in $workspaces; do
   sketchybar --add item "workspace_$sid" "$SIDE" \
     --set "workspace_$sid" \
     label="$sid" \
-    label.color="$COLOR_BLACK" \
     label.font="$SBAR_LABEL_FONT_FAMILY:$SBAR_LABEL_FONT_STYLE:$SBAR_LABEL_FONT_SIZE" \
     label.padding_left="$SBAR_ITEM_LABEL_PADDING_LEFT" \
     label.padding_right="$SBAR_ITEM_LABEL_PADDING_RIGHT" \
@@ -40,7 +38,6 @@ done
 sketchybar --add item "workspace_bracket_right" "$SIDE" \
   --set workspace_bracket_right \
   label="" \
-  label.color="$COLOR_BLACK" \
   label.font="$SBAR_LABEL_FONT_FAMILY:$SBAR_LABEL_FONT_STYLE:$SBAR_LABEL_FONT_SIZE" \
   label.padding_left=-2 \
   label.padding_right=5 \

@@ -22,7 +22,6 @@ sketchybar --add item kakaotalk.icon right \
   --set kakaotalk.icon \
   icon="$KAKAO_ICON" \
   icon.font="$SBAR_APP_ICON_FONT:Regular:$SBAR_APP_ICON_FONT_SIZE" \
-  icon.color="$COLOR_BLACK" \
   icon.padding_left="$SBAR_ITEM_ICON_PADDING_LEFT" \
   icon.padding_right="$SBAR_ITEM_ICON_PADDING_RIGHT" \
   update_freq=10 \

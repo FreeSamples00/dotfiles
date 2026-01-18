@@ -7,15 +7,13 @@ DISK_ICON=$(get_widget_icon "disk")
 
 sketchybar --add item disk.percent right \
   --set disk.percent \
-  label.color="$COLOR_BLACK" \
   label.padding_right="$SBAR_ITEM_LABEL_PADDING_RIGHT" \
   update_freq="$SBAR_ITEM_UPDATE_FREQ_DEFAULT" \
   script="$SBAR_PLUGIN_DIR/disk.sh" \
   \
 --add item disk.icon right \
-  --set disk.icon \
-  icon="$DISK_ICON" \
-  icon.font="$SBAR_ICON_FONT_FAMILY:Bold:$SBAR_ICON_FONT_SIZE" \
-  icon.color="$COLOR_BLACK" \
-  icon.padding_left="$SBAR_ITEM_ICON_PADDING_LEFT" \
-  icon.padding_right="$SBAR_ITEM_ICON_PADDING_RIGHT"
+--set disk.icon \
+icon="$DISK_ICON" \
+icon.font="$SBAR_ICON_FONT_FAMILY:Bold:$SBAR_ICON_FONT_SIZE" \
+icon.padding_left="$SBAR_ITEM_ICON_PADDING_LEFT" \
+icon.padding_right="$SBAR_ITEM_ICON_PADDING_RIGHT"

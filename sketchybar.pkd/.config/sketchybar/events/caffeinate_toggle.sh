@@ -12,39 +12,23 @@ if [ -f "$PID_FILE" ]; then
     kill "$PID"
     rm "$PID_FILE"
     ICON=$(get_widget_icon "coffee_on")
-    if [ "$SBAR_BAR_STYLE" = "compact" ]; then
-      ICON_COLOR="$SBAR_COLOR_CAFFEINATE"
-    else
-      ICON_COLOR="$COLOR_BLACK"
-      BG_COLOR="$COLOR_GREEN_75"
-    fi
+    ICON_COLOR="$SBAR_COLOR_CAFFEINATE"
   else
     rm "$PID_FILE"
     caffeinate -d &
     echo $! >"$PID_FILE"
     ICON=$(get_widget_icon "coffee_off")
-    if [ "$SBAR_BAR_STYLE" = "compact" ]; then
-      ICON_COLOR="$SBAR_COLOR_CAFFEINATE_ON"
-    else
-      ICON_COLOR="$COLOR_WHITE"
-      BG_COLOR="$COLOR_RED_75"
-    fi
+    ICON_COLOR="$SBAR_COLOR_CAFFEINATE_ON"
   fi
 else
   caffeinate -d &
   echo $! >"$PID_FILE"
   ICON=$(get_widget_icon "coffee_off")
-  if [ "$SBAR_BAR_STYLE" = "compact" ]; then
-    ICON_COLOR="$SBAR_COLOR_CAFFEINATE_ON"
-  else
-    ICON_COLOR="$COLOR_WHITE"
-    BG_COLOR="$COLOR_RED_75"
-  fi
+  ICON_COLOR="$SBAR_COLOR_CAFFEINATE_ON"
 fi
 
 if [ "$SBAR_BAR_STYLE" = "compact" ]; then
   sketchybar --set caffeinate.icon icon="$ICON" icon.color="$ICON_COLOR"
 else
-  sketchybar --set caffeinate.icon icon="$ICON" icon.color="$ICON_COLOR" \
-    --set caffeinate background.color="$BG_COLOR"
+  sketchybar --set caffeinate.icon icon="$ICON" icon.color="$ICON_COLOR"
 fi

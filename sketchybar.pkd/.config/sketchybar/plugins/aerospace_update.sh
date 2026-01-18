@@ -11,9 +11,9 @@ if [ "$WS_ID" = "$FOCUSED_WORKSPACE" ]; then
   LABEL_COLOR="$COLOR_ORANGE"
 else
   if [ "$WORKSPACE_STATUS" = "empty" ]; then
-    LABEL_COLOR="$COLOR_BLACK"
-  else
     LABEL_COLOR="$COLOR_LIGHT_GRAY"
+  else
+    LABEL_COLOR="$COLOR_MAGENTA"
   fi
 fi
 
