@@ -27,3 +27,6 @@ alias 2pdf = mdpdf --ghstyle=true --border 0.5in
 
 # unfreeze job 1
 alias fg = job unfreeze (job list | reverse | where type == frozen | first | (if $in == null {null} else {$in.id}))
+
+# customized tty-clock
+alias clock = tty-clock -Bbsctn -C 5 -f "%A %m/%d %Y"
