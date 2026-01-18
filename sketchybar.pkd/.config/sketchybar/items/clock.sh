@@ -9,7 +9,7 @@ sketchybar --add item clock.label right \
   label.padding_right="$SBAR_ITEM_LABEL_PADDING_RIGHT" \
   update_freq=1 \
   script="$SBAR_PLUGIN_DIR/clock.sh" \
-  click_script="/Applications/Ghostty.app/Contents/MacOS/ghostty -e '$HOME/.config/sketchybar/executables/clock_window.sh'"
+  click_script='open -na ghostty.app --args -e tty-clock -Bbsctn -C 5 -f "%A %m/%d %Y"'
 
 sketchybar --add item clock.icon right \
   --set clock.icon \
