@@ -12,7 +12,7 @@ sketchybar --add item volume.label "$SIDE" \
   label.padding_right="$SBAR_ITEM_LABEL_PADDING_RIGHT" \
   update_freq=1 \
   script="$SBAR_PLUGIN_DIR/volume.sh" \
-  click_script="$SBAR_SCRIPT_DIR/toggle_mute.sh" \
+  click_script="$SBAR_EVENT_DIR/volume_toggle.sh" \
   --subscribe volume.label volume_change \
   \
   --add item volume.icon "$SIDE" \
