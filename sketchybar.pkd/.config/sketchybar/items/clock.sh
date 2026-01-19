@@ -18,4 +18,5 @@ sketchybar --add item clock.icon "$SIDE" \
   icon="$CLOCK_ICON" \
   icon.font="$SBAR_ICON_FONT_FAMILY:Bold:$SBAR_ICON_FONT_SIZE" \
   icon.padding_left="$SBAR_ITEM_ICON_PADDING_LEFT" \
-  icon.padding_right="$SBAR_ITEM_ICON_PADDING_RIGHT"
+  icon.padding_right="$SBAR_ITEM_ICON_PADDING_RIGHT" \
+  click_script='open -na ghostty.app --args -e tty-clock -Bbsctn -C 5 -f "%A %m/%d %Y"'
