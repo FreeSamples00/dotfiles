@@ -14,5 +14,5 @@ sketchybar --add item restart_notifier.icon "$SIDE" \
   icon.padding_left="$SBAR_ITEM_ICON_PADDING_LEFT" \
   icon.padding_right="$(calc "$SBAR_ITEM_LABEL_PADDING_RIGHT - 2")" \
   script="$SBAR_PLUGIN_DIR/restart_notifier.sh" \
-  click_script="$SBAR_PLUGIN_DIR/restart_notifier.sh -R" \
+  click_script="$CONFIG_DIR/scripts/restart_prompt.sh" \
   update_freq=3600

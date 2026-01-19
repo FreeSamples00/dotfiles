@@ -2,11 +2,6 @@
 
 source "$CONFIG_DIR/core/env.sh"
 
-if [[ "$1" == "-R" ]]; then
-  osascript -e 'tell application "loginwindow" to «event aevtrrst»'
-  exit 0
-fi
-
 THRESHOLD=604800
 
 CURR_TIME=$(date '+%s')
