@@ -33,3 +33,4 @@ export SBAR_ITEM_UPDATE_FREQ_DEFAULT=10
 export SBAR_ITEM_UPDATE_FREQ_FAST=2
 export SBAR_ITEM_UPDATE_FREQ_SLOW=30
 export SBAR_WIDGETS_RIGHT_ENABLED="clock volume battery weather caffeinate"
+export SBAR_WIDGETS_LEFT_ENABLED="apple aerospace front_app restart_notifier"
