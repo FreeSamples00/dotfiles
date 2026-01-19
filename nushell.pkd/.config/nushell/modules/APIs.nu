@@ -19,7 +19,7 @@ export def ip [] {
 #   `weather --forecast today Seattle`     # Today's forecast for Seattle
 #   `weather -f tomorrow -d detailed NYC`  # Detailed tomorrow forecast for NYC
 export def weather [
-  location: string = here # Location: city, airport code, area code, GPS coord, domain name
+  location: string # Location: city, airport code, area code, GPS coord, domain name
   --output (-o): string@[ascii json] = ascii # Output format
   --temp (-t): string@[f c] = f # Temperature unit
   --detail (-d): string@[simple detailed] = simple # Weather report detail
