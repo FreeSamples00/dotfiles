@@ -24,5 +24,5 @@ else
   PADDING="$SBAR_ITEM_LABEL_PADDING_RIGHT"
 fi
 
-sketchybar --set volume.icon icon="$ICON"
-sketchybar --set volume.label label="$LABEL" label.padding_right="$PADDING"
+sketchybar "${ANIMATION[@]}" --set volume.icon icon="$ICON"
+sketchybar "${ANIMATION[@]}" --set volume.label label="$LABEL" label.padding_right="$PADDING"

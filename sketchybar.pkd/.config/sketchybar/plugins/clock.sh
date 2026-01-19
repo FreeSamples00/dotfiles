@@ -27,4 +27,4 @@ format="${format//__m__/%M}"
 format="${format//__s__/%S}"
 format="${format//__AP__/%p}"
 
-sketchybar --set clock.label label="$(date +"$format")"
+sketchybar "${ANIMATION[@]}" --set clock.label label="$(date +"$format")"

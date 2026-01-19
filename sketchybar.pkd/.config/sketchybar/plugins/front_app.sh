@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source "$CONFIG_DIR/user.sketchybarrc"
+
 # Sketchybar environment variables
 : "${INFO:=}"
 
@@ -10,6 +12,6 @@ if [ -n "$INFO" ]; then
   APP_NAME="$INFO"
   ICON=$(get_app_icon "$APP_NAME")
 
-  sketchybar --set front_app.icon icon="$ICON"
-  sketchybar --set front_app.name label="$APP_NAME"
+  sketchybar "${ANIMATION[@]}" --set front_app.icon icon="$ICON"
+  sketchybar "${ANIMATION[@]}" --set front_app.name label="$APP_NAME"
 fi

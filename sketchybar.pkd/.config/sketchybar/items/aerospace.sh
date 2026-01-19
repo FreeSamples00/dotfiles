@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
-CONFIG_DIR="${CONFIG_DIR:-$HOME/.config/sketchybar}"
-SBAR_PLUGIN_DIR="$CONFIG_DIR/plugins"
-
 source "$CONFIG_DIR/core/env.sh"
 source "$SBAR_PLUGIN_DIR/aerospace.sh"
+source "$CONFIG_DIR/user.sketchybarrc"
 
 sketchybar --add event aerospace_workspace_change
 

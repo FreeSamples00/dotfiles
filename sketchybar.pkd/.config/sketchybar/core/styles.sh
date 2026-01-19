@@ -128,7 +128,7 @@ sketchybar --add bracket "front_app" "/front_app\..*/" \
 sketchybar --set "/front_app\..*/" icon.color="$SBAR_COLOR_FRONT_APP" label.color="$SBAR_COLOR_FRONT_APP"
 
 sketchybar --add bracket "aerospace" "/workspace_.*/" \
-  --set "aerospace" \
+  "${ANIMATION[@]}" --set "aerospace" \
   background.color="$SBAR_BLOCK_BG_COLOR" \
   background.corner_radius="$SBAR_ITEM_BG_CORNER_RADIUS" \
   background.height="$SBAR_ITEM_BG_HEIGHT" \
@@ -148,3 +148,14 @@ sketchybar --add bracket "restart_notifier" "/restart_notifier\..*/" \
   background.drawing=on
 
 sketchybar --set "/restart_notifier\..*/" icon.color="$SBAR_COLOR_RESTART" label.color="$SBAR_COLOR_RESTART"
+
+
+sketchybar --add bracket "apple" "/apple\..*/" \
+  --set "apple" \
+  background.color="$SBAR_BLOCK_BG_COLOR" \
+  background.corner_radius="$SBAR_ITEM_BG_CORNER_RADIUS" \
+  background.height="$SBAR_ITEM_BG_HEIGHT" \
+  background.border_width="$SBAR_ITEM_BG_BORDER_WIDTH" \
+  background.drawing=on
+
+sketchybar --set "/apple\..*/" icon.color="$SBAR_COLOR_APPLE" label.color="$SBAR_COLOR_APPLE"

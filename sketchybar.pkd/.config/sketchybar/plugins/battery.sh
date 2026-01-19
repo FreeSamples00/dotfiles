@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 source "$CONFIG_DIR/plugins/icon.sh"
+source "$CONFIG_DIR/user.sketchybarrc"
 
 PERCENTAGE="$(pmset -g batt | grep -Eo '[0-9]+%' | tr -d '%')"
 CHARGING="$(pmset -g batt | grep 'AC Power')"
@@ -23,5 +24,5 @@ else
   fi
 fi
 
-sketchybar --set battery.icon icon="$ICON"
-sketchybar --set battery.percent label="${PERCENTAGE}%"
+sketchybar "${ANIMATION[@]}" --set battery.icon icon="$ICON"
+sketchybar "${ANIMATION[@]}" --set battery.percent label="${PERCENTAGE}%"

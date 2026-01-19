@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 source "$CONFIG_DIR/plugins/icon.sh"
+source "$CONFIG_DIR/user.sketchybarrc"
 
 WEATHER_JSON=$(curl -s "wttr.in/$SBAR_WEATHER_LOCATION?format=j1" 2>/dev/null)
 
@@ -44,5 +45,5 @@ fi
 
 ICON=$(get_weather_icon "$WEATHER_CODE" "$IS_DAY")
 
-sketchybar --set weather.icon icon="$ICON"
-sketchybar --set weather.label label="${TEMP}°F"
+sketchybar "${ANIMATION[@]}" --set weather.icon icon="$ICON"
+sketchybar "${ANIMATION[@]}" --set weather.label label="${TEMP}°F"

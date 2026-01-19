@@ -3,6 +3,7 @@
 export SBAR_PLUGIN_DIR="$CONFIG_DIR/plugins"
 export SBAR_ITEM_DIR="$CONFIG_DIR/items"
 export SBAR_EVENT_DIR="$CONFIG_DIR/events"
+export SBAR_SCRIPT_DIR="$CONFIG_DIR/scripts"
 
 source "$CONFIG_DIR/core/env.sh"
 source "$CONFIG_DIR/core/init_widgets.sh"

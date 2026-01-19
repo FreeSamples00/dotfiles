@@ -12,7 +12,10 @@ export SBAR_LABEL_FONT_SIZE=17
 export SBAR_BLOCK_BG_COLOR=$COLOR_BLACK_75
 export SBAR_ITEM_BG_HEIGHT=28
 
+export SBAR_DEFAULT_ICON_COLOR="transparent"
+export SBAR_DEFAULT_LABEL_COLOR="transparent"
 export SBAR_COLOR_CLOCK="$COLOR_YELLOW"
+export SBAR_COLOR_APPLE="$COLOR_RED"
 export SBAR_COLOR_CALENDAR="$COLOR_TANGERINE"
 export SBAR_COLOR_WEATHER="$COLOR_CYAN"
 export SBAR_COLOR_CAFFEINATE="$COLOR_GREEN"
@@ -34,3 +37,14 @@ export SBAR_ITEM_UPDATE_FREQ_FAST=2
 export SBAR_ITEM_UPDATE_FREQ_SLOW=30
 export SBAR_WIDGETS_RIGHT_ENABLED="clock volume battery weather caffeinate"
 export SBAR_WIDGETS_LEFT_ENABLED="apple aerospace front_app restart_notifier"
+
+
+export SBAR_ANIMATION_TOGGLE="true"
+export SBAR_ANIMATION_SPEED=15
+export SBAR_ANIMATION_TYPE="exp"
+
+if [[ "$SBAR_ANIMATION_TOGGLE" == "true" ]]; then
+  export ANIMATION=("--animate" "$SBAR_ANIMATION_TYPE" "$SBAR_ANIMATION_SPEED")
+else
+  export ANIMATION=()
+fi
