@@ -13,16 +13,6 @@ sketchybar --add bracket "clock" "/clock\..*/" \
 
 sketchybar --set "/clock\..*/" icon.color="$SBAR_COLOR_CLOCK" label.color="$SBAR_COLOR_CLOCK"
 
-sketchybar --add bracket "calendar" "/calendar\..*/" \
-  --set "calendar" \
-  background.color="$SBAR_BLOCK_BG_COLOR" \
-  background.corner_radius="$SBAR_ITEM_BG_CORNER_RADIUS" \
-  background.height="$SBAR_ITEM_BG_HEIGHT" \
-  background.border_width="$SBAR_ITEM_BG_BORDER_WIDTH" \
-  background.drawing=on
-
-sketchybar --set "/calendar\..*/" icon.color="$SBAR_COLOR_CALENDAR" label.color="$SBAR_COLOR_CALENDAR"
-
 sketchybar --add bracket "weather" "/weather\..*/" \
   --set "weather" \
   background.color="$SBAR_BLOCK_BG_COLOR" \
@@ -62,60 +52,6 @@ sketchybar --add bracket "battery" "/battery\..*/" \
   background.drawing=on
 
 sketchybar --set "/battery\..*/" icon.color="$SBAR_COLOR_BATTERY" label.color="$SBAR_COLOR_BATTERY"
-
-sketchybar --add bracket "disk" "/disk\..*/" \
-  --set "disk" \
-  background.color="$SBAR_BLOCK_BG_COLOR" \
-  background.corner_radius="$SBAR_ITEM_BG_CORNER_RADIUS" \
-  background.height="$SBAR_ITEM_BG_HEIGHT" \
-  background.border_width="$SBAR_ITEM_BG_BORDER_WIDTH" \
-  background.drawing=on
-
-sketchybar --set "/disk\..*/" icon.color="$SBAR_COLOR_DISK" label.color="$SBAR_COLOR_DISK"
-
-sketchybar --add bracket "ram" "/ram\..*/" \
-  --set "ram" \
-  background.color="$SBAR_BLOCK_BG_COLOR" \
-  background.corner_radius="$SBAR_ITEM_BG_CORNER_RADIUS" \
-  background.height="$SBAR_ITEM_BG_HEIGHT" \
-  background.border_width="$SBAR_ITEM_BG_BORDER_WIDTH" \
-  background.drawing=on
-
-sketchybar --set "/ram\..*/" icon.color="$SBAR_COLOR_RAM" label.color="$SBAR_COLOR_RAM"
-
-sketchybar --add bracket "cpu" "/cpu\..*/" \
-  --set "cpu" \
-  background.color="$SBAR_BLOCK_BG_COLOR" \
-  background.corner_radius="$SBAR_ITEM_BG_CORNER_RADIUS" \
-  background.height="$SBAR_ITEM_BG_HEIGHT" \
-  background.border_width="$SBAR_ITEM_BG_BORDER_WIDTH" \
-  background.drawing=on
-
-sketchybar --set "/cpu\..*/" icon.color="$SBAR_COLOR_CPU" label.color="$SBAR_COLOR_CPU"
-
-sketchybar --add bracket "netstat" "/netstat\..*/" \
-  --set "netstat" \
-  background.color="$SBAR_BLOCK_BG_COLOR" \
-  background.corner_radius="$SBAR_ITEM_BG_CORNER_RADIUS" \
-  background.height="$SBAR_ITEM_BG_HEIGHT" \
-  background.border_width="$SBAR_ITEM_BG_BORDER_WIDTH" \
-  background.drawing=on
-
-sketchybar --set "/netstat\..*/" icon.color="$SBAR_COLOR_NETSTAT" label.color="$SBAR_COLOR_NETSTAT"
-
-sketchybar --add bracket "kakaotalk" "/kakaotalk\.icon/" \
-  --set "kakaotalk" \
-  background.color="$SBAR_BLOCK_BG_COLOR" \
-  background.corner_radius="$SBAR_ITEM_BG_CORNER_RADIUS" \
-  background.height="$SBAR_ITEM_BG_HEIGHT" \
-  background.border_width="$SBAR_ITEM_BG_BORDER_WIDTH" \
-  background.drawing=on
-
-sketchybar --set "/kakaotalk\.icon/" icon.color="$SBAR_COLOR_KAKAOTALK"
-
-source "$CONFIG_DIR/tokens/helpers.sh"
-BADGE_COLOR=$(get_badge_label_color)
-sketchybar --set kakaotalk.badge label.color="$BADGE_COLOR"
 
 sketchybar --add bracket "front_app" "/front_app\..*/" \
   --set "front_app" \
