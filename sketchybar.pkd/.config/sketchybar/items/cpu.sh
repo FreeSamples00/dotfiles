@@ -5,10 +5,12 @@ source "$CONFIG_DIR/plugins/helpers.sh"
 
 CPU_ICON=$(get_widget_icon "cpu")
 
+SIDE="${1:-right}"
+
 BRACKET_ITEMS=()
 
 if [ "$SBAR_CPU_SHOW_GRAPH" = true ]; then
-  sketchybar --add graph cpu.graph right 42 \
+  sketchybar --add graph cpu.graph "$SIDE" 42 \
     --set cpu.graph \
     graph.color="$COLOR_BLUE_75" \
     graph.fill_color="$COLOR_BLACK_25" \
@@ -25,7 +27,7 @@ if [ "$SBAR_CPU_SHOW_GRAPH" = true ]; then
     width=42
   BRACKET_ITEMS+=("cpu.graph")
 elif [ "$SBAR_CPU_SHOW_PERCENT" = true ]; then
-  sketchybar --add item cpu.percent right \
+  sketchybar --add item cpu.percent "$SIDE" \
     --set cpu.percent \
     label.padding_right="$SBAR_ITEM_LABEL_PADDING_RIGHT" \
     label.padding_left=0 \

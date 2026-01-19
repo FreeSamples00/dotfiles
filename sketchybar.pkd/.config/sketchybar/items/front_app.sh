@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 
-sketchybar --add item front_app.icon left \
+SIDE="${1:-left}"
+
+sketchybar --add item front_app.icon "$SIDE" \
   --set front_app.icon \
   icon="" \
   icon.font="$SBAR_APP_ICON_FONT:Regular:$SBAR_APP_ICON_FONT_SIZE" \
   icon.padding_left="$SBAR_ITEM_ICON_PADDING_LEFT" \
   icon.padding_right="$SBAR_ITEM_ICON_PADDING_RIGHT"
 
-sketchybar --add item front_app.name left \
+sketchybar --add item front_app.name "$SIDE" \
   --set front_app.name \
   label.padding_right="$SBAR_ITEM_LABEL_PADDING_RIGHT" \
   script="$SBAR_PLUGIN_DIR/front_app.sh" \

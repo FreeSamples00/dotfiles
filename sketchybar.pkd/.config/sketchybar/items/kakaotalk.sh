@@ -5,7 +5,9 @@ source "$CONFIG_DIR/plugins/helpers.sh"
 
 KAKAO_ICON=$(get_app_icon "KakaoTalk")
 
-sketchybar --add item kakaotalk.badge right \
+SIDE="${1:-right}"
+
+sketchybar --add item kakaotalk.badge "$SIDE" \
   --set kakaotalk.badge \
   label.drawing=off \
   label.font="$SBAR_LABEL_FONT_FAMILY:Bold:7.0" \
@@ -18,7 +20,7 @@ sketchybar --add item kakaotalk.badge right \
   background.drawing=off \
   y_offset=-10
 
-sketchybar --add item kakaotalk.icon right \
+sketchybar --add item kakaotalk.icon "$SIDE" \
   --set kakaotalk.icon \
   icon="$KAKAO_ICON" \
   icon.font="$SBAR_APP_ICON_FONT:Regular:$SBAR_APP_ICON_FONT_SIZE" \

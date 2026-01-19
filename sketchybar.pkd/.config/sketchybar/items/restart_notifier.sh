@@ -5,7 +5,9 @@ source "$CONFIG_DIR/plugins/helpers.sh"
 
 RESTART_ICON=$(get_widget_icon "restart")
 
-sketchybar --add item restart_notifier.icon left \
+SIDE="${1:-left}"
+
+sketchybar --add item restart_notifier.icon "$SIDE" \
   --set restart_notifier.icon \
   icon="$RESTART_ICON" \
   icon.font="$SBAR_ICON_FONT_FAMILY:Bold:$(calc "$SBAR_ICON_FONT_SIZE + 3")" \

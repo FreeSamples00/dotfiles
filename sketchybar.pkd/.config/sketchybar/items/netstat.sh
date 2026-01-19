@@ -6,10 +6,12 @@ source "$CONFIG_DIR/plugins/helpers.sh"
 DOWN_ICON=$(get_widget_icon "network_upload")
 UP_ICON=$(get_widget_icon "network_download")
 
+SIDE="${1:-right}"
+
 BRACKET_ITEMS=()
 
 if [ "$SBAR_NETSTAT_SHOW_GRAPH" = true ]; then
-  sketchybar --add graph netstat.down.graph right 42 \
+  sketchybar --add graph netstat.down.graph "$SIDE" 42 \
     --set netstat.down.graph \
     graph.color="$COLOR_BLACK_25" \
     graph.fill_color="$COLOR_BLACK_25" \
@@ -26,7 +28,7 @@ if [ "$SBAR_NETSTAT_SHOW_GRAPH" = true ]; then
     width=42
   BRACKET_ITEMS+=("netstat.down.graph")
 elif [ "$SBAR_NETSTAT_SHOW_SPEED" = true ]; then
-  sketchybar --add item netstat.down.label right \
+  sketchybar --add item netstat.down.label "$SIDE" \
     --set netstat.down.label \
     label.padding_right="$SBAR_ITEM_LABEL_PADDING_RIGHT" \
     label.padding_left=0 \

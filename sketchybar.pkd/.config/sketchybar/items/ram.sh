@@ -5,10 +5,12 @@ source "$CONFIG_DIR/plugins/helpers.sh"
 
 RAM_ICON=$(get_widget_icon "memory")
 
+SIDE="${1:-right}"
+
 BRACKET_ITEMS=()
 
 if [ "$SBAR_RAM_SHOW_GRAPH" = true ]; then
-  sketchybar --add graph ram.graph right 42 \
+  sketchybar --add graph ram.graph "$SIDE" 42 \
     --set ram.graph \
     graph.color="$COLOR_RED" \
     graph.fill_color="$COLOR_MAGENTA_75" \
@@ -25,7 +27,7 @@ if [ "$SBAR_RAM_SHOW_GRAPH" = true ]; then
     width=42
   BRACKET_ITEMS+=("ram.graph")
 elif [ "$SBAR_RAM_SHOW_PERCENT" = true ]; then
-  sketchybar --add item ram.percent right \
+  sketchybar --add item ram.percent "$SIDE" \
     --set ram.percent \
     label.padding_right="$SBAR_ITEM_LABEL_PADDING_RIGHT" \
     label.padding_left=0 \

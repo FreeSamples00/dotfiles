@@ -4,14 +4,16 @@ source "$CONFIG_DIR/plugins/icon.sh"
 
 CLOCK_ICON=$(get_widget_icon "clock")
 
-sketchybar --add item clock.label right \
+SIDE="${1:-right}"
+
+sketchybar --add item clock.label "$SIDE" \
   --set clock.label \
   label.padding_right="$SBAR_ITEM_LABEL_PADDING_RIGHT" \
   update_freq=1 \
   script="$SBAR_PLUGIN_DIR/clock.sh" \
   click_script='open -na ghostty.app --args -e tty-clock -Bbsctn -C 5 -f "%A %m/%d %Y"'
 
-sketchybar --add item clock.icon right \
+sketchybar --add item clock.icon "$SIDE" \
   --set clock.icon \
   icon="$CLOCK_ICON" \
   icon.font="$SBAR_ICON_FONT_FAMILY:Bold:$SBAR_ICON_FONT_SIZE" \

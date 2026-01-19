@@ -5,7 +5,9 @@ source "$CONFIG_DIR/plugins/helpers.sh"
 
 CAFFEINATE_ICON=$(get_widget_icon "coffee_on")
 
-sketchybar --add item caffeinate.icon right \
+SIDE="${1:-right}"
+
+sketchybar --add item caffeinate.icon "$SIDE" \
   --set caffeinate.icon \
   icon="$CAFFEINATE_ICON" \
   icon.font="$SBAR_ICON_FONT_FAMILY:Bold:$(calc "$SBAR_ICON_FONT_SIZE + 3")" \

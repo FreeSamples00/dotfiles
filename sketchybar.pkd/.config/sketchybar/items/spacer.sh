@@ -4,8 +4,8 @@
 : "${NAME:=}"
 : "${SIDE:=right}"
 
-NAME=$1
-SIDE="${2:-right}"
+NAME=$2
+SIDE="${1:-right}"
 
 if [ -z "$NAME" ]; then
   return 1
