@@ -50,3 +50,10 @@ def rnm [
     print $"File `($path)` not found."
   }
 }
+
+# Use apple shortcut to open share options
+def share [
+  file?: path # path to share target
+] {
+  shortcuts run share-menu -i $file
+}
