@@ -21,6 +21,7 @@ def gcl-con-completer [] {
   [
     { value: "ssh", description: "Clone via SSH (requires SSH key)" }
     { value: "https", description: "Clone via HTTPS (public only)" }
+    { value: "http", description: "Clone via HTTPS (public only)" }
   ]
 }
 
@@ -33,21 +34,31 @@ export def gcl [
   target: string # username/repository
   ...args: string # git clone args
   --con-type (-t): string@gcl-con-completer = "ssh" # Connection type
+  --branch (-b): string # Branch name
+  --depth (-d): int # Depth to clone history at
 ] {
-  if $con_type == ssh {
-    git clone $"git@github.com:($target)" ...$args
-  } else if $con_type == https {
-    with-env { GIT_TERMINAL_PROMPT: "0" } {
-      git clone $"https://github.com/($target)" ...$args
-    }
-  } else {
-    error make {
-      msg: $"Connection type `($con_type)` not supported."
-      help: $"Use one of: (gcl-con-completer | get value)"
-      label: {
-        text: "unknown type"
-        span: (metadata $con_type | get span)
+
+  let URL = match $con_type {
+    "ssh" => "git@github.com:"
+    "http" => "https://github.com/"
+    "https" => "https://github.com/"
+    _ => (error make {
+        msg: $"Connection type `($con_type)` not supported."
+        help: $"Use one of: (gcl-con-completer | get value)"
+        label: {
+          text: "unknown type"
+          span: (metadata $con_type | get span)
+        }
       }
-    }
+    )
+  }
+
+  let args = if $branch != null { ($args | append $"--branch=($branch)") } else {$args}
+  let args = if $depth != null { ($args | append $"--depth=($depth)") } else {$args}
+
+  let env_vars = if $con_type == https { { GIT_TERMINAL_PROMPT: "0" } } else { {} }
+
+  with-env $env_vars {
+    git clone $"($URL)($target)" ...$args
   }
 }
