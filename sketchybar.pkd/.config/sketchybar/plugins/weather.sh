@@ -7,10 +7,12 @@ WEATHER_JSON=$(curl -s "wttr.in/$SBAR_WEATHER_LOCATION?format=j1" 2>/dev/null)
 
 if [ -z "$WEATHER_JSON" ]; then
   TEMP="--"
+  FEELS_TEMP="--"
   WEATHER_CODE="113"
   IS_DAY=1
 else
   TEMP=$(echo "$WEATHER_JSON" | jq -r '.current_condition[0].temp_F')
+  FEELS_TEMP=$(echo "$WEATHER_JSON" | jq -r '.current_condition[0].FeelsLikeF')
   WEATHER_CODE=$(echo "$WEATHER_JSON" | jq -r '.current_condition[0].weatherCode')
 
   SUNRISE=$(echo "$WEATHER_JSON" | jq -r '.weather[0].astronomy[0].sunrise')
@@ -46,4 +48,4 @@ fi
 ICON=$(get_weather_icon "$WEATHER_CODE" "$IS_DAY")
 
 sketchybar "${ANIMATION[@]}" --set weather.icon icon="$ICON"
-sketchybar "${ANIMATION[@]}" --set weather.label label="${TEMP}°F"
+sketchybar "${ANIMATION[@]}" --set weather.label label="${TEMP}/${FEELS_TEMP}°F"
