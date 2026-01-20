@@ -20,7 +20,7 @@ export def ip [] {
 #   `weather -f tomorrow -d detailed NYC`  # Detailed tomorrow forecast for NYC
 export def weather [
   location: string # Location: city, airport code, area code, GPS coord, domain name
-  --output (-o): string@[ascii json] = ascii # Output format
+  --json (-j) # Output json
   --temp (-t): string@[f c] = f # Temperature unit
   --detail (-d): string@[simple detailed] = simple # Weather report detail
   --forecast (-f): string@[current today tomorrow] = current # Forecast depth
@@ -38,9 +38,10 @@ export def weather [
     today => "1",
     tomorrow => "2"
   }
-  let output = match $output {
-    ascii => "",
-    json => "&format=j1"
+  let output = if $json {
+    "&format=j1"
+  } else {
+    ""
   }
   http get $"wttr.in/($location)?uF($temp)($forecast)($detail)($output)"
 }
