@@ -52,8 +52,12 @@ def rnm [
 }
 
 # Use apple shortcut to open share options
-def share [
+def airdrop [
   file?: path # path to share target
 ] {
-  shortcuts run share-menu -i $file
+  if $file != null {
+    shortcuts run airdrop-file -i $file
+  } else {
+    shortcuts run airdrop-file
+  }
 }
