@@ -7,7 +7,6 @@
 #            Bash Configuration File              #
 # =============================================== #
 
-
 # quit on non-interactive
 case $- in
     *i*) ;;
@@ -19,47 +18,7 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 HISTSIZE=1000
 HISTFILESIZE=2000
-
-# ==== shell settings ====
-shopt -s checkwinsize
-
-# ==== prompt ====
-case "$TERM" in
-    xterm-color|*-256color|xterm-ghostty) color_prompt=yes;;
-esac
-
-# Color definitions
-COLOR_RESET='\[\e[0m\]'
-COLOR_USER='\[\e[1;36m\]'      # bold cyan
-COLOR_HOST='\[\e[1;33m\]'      # bold yellow
-COLOR_DIR='\[\e[1;34m\]'       # bold blue
-COLOR_ARROW_OK='\[\e[1;32m\]'  # bold green
-COLOR_ARROW_ERR='\[\e[1;31m\]' # bold red
-COLOR_DASH='\[\e[2;37m\]'      # dim white/gray
-
-# Function to generate dashes to fill terminal width
-prompt_fill_line() {
-    local user=$(whoami)
-    local host=$(hostname -s)
-    local dir="${PWD/#$HOME/\~}"
-    # Calculate visible length: user + space + host + space + dir
-    local visible_len=$((${#user} + 1 + ${#host} + 1 + ${#dir}))
-    local fill_len=$((COLUMNS - visible_len))
-
-    # Only add dashes if there's space
-    if [ $fill_len -gt 0 ]; then
-        printf '%*s' "$fill_len" '' | tr ' ' '-'
-    fi
-}
-
-# Prompt with color
-if [ "$color_prompt" = yes ]; then
-    PS1="${COLOR_USER}\u${COLOR_RESET} ${COLOR_HOST}\h${COLOR_RESET} ${COLOR_DIR}\w${COLOR_RESET} ${COLOR_DASH}\$(prompt_fill_line)${COLOR_RESET}\n\$(if [ \$? = 0 ]; then echo '${COLOR_ARROW_OK}'; else echo '${COLOR_ARROW_ERR}'; fi) ➔$COLOR_RESET "
-else
-    PS1='\u@\h \w\n ➔ '
-fi
-unset color_prompt
-
+#
 # ==== aliases ====
 alias config='vim ~/.bashrc'
 alias reload='clear && . ~/.bashrc'
@@ -78,9 +37,6 @@ alias grepa='grep -Rni --exclude-dir={.bzr,cvs,.git,.hg,.svn,.idea,.tox,.venv,ve
 alias grepf='find . | \grep -i --color=always'
 alias grepd='find . -type d | rg -iu'
 
-alias yubi-git='GIT_SSH_COMMAND="ssh -i $PWD/id_ed25519_sk_rk" git'
-alias yub-sshkey='ssh-keygen -K'
-
 # ==== git aliases ====
 alias gst='git status'
 alias gl='git pull'
@@ -93,24 +49,17 @@ alias ga='git add'
 alias grmc='git rm --cached'
 
 # ==== colorize man pages ====
-export LESS_TERMCAP_mb=$'\e[1;36m' # start blinking (bold cyan)
-export LESS_TERMCAP_md=$'\e[1;33m' # start bold (bold yellow)
-export LESS_TERMCAP_me=$'\e[0m'    # end attributes
-export LESS_TERMCAP_so=$'\e[1;44;33m' # start standout (bold yellow on blue) - for headings/sections
-export LESS_TERMCAP_se=$'\e[0m'    # end standout
-export LESS_TERMCAP_us=$'\e[1;32m' # start underline (bold green) - for paths/filenames
-export LESS_TERMCAP_ue=$'\e[0m'    # end underline
-export LESS_TERMCAP_mh=$'\e[0m'    # disable half-bright
-export LESS_TERMCAP_mr=$'\e[7m'    # enter reverse mode
-export LESS_TERMCAP_ZJ=$'\e[1;35m' # bold magenta for comments (this one is less common, customize as needed)
-export LESS_TERMCAP_ZN=$'\e[0m'    # end ZJ
-
-# ==== output colorization functions ====
-success() { echo -e "\e[1;32m$*\e[0m"; }
-error() { echo -e "\e[1;31m$*\e[0m"; }
-warn() { echo -e "\e[1;33m$*\e[0m"; }
-info() { echo -e "\e[1;34m$*\e[0m"; }
-highlight() { echo -e "\e[1m$*\e[0m"; }
+export LESS_TERMCAP_mb=$'\e[1;36m'
+export LESS_TERMCAP_md=$'\e[1;33m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[1;44;33m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[1;32m'
+export LESS_TERMCAP_ue=$'\e[0m'
+export LESS_TERMCAP_mh=$'\e[0m'
+export LESS_TERMCAP_mr=$'\e[7m'
+export LESS_TERMCAP_ZJ=$'\e[1;35m'
+export LESS_TERMCAP_ZN=$'\e[0m'
 
 # ==== git and diff colors ====
 export CLICOLOR=1
@@ -120,18 +69,3 @@ if command -v git &> /dev/null; then
     git config --global color.diff auto
     git config --global color.branch auto
 fi
-
-# ==== completions ====
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
-fi
-
-# ==== path stuff ====
-if [[ -d "$HOME/dotfiles/scripts/in_path" ]]; then
-  export PATH="$HOME/dotfiles/scripts/in_path:$PATH"
-fi
-export XDG_CONFIG_HOME="$HOME/.config"
