@@ -95,3 +95,14 @@ sketchybar --add bracket "apple" "/apple\..*/" \
   background.drawing=on
 
 sketchybar --set "/apple\..*/" icon.color="$SBAR_COLOR_APPLE" label.color="$SBAR_COLOR_APPLE"
+
+
+sketchybar --add bracket "mail" "/mail\..*/" \
+  --set "mail" \
+  background.color="$SBAR_BLOCK_BG_COLOR" \
+  background.corner_radius="$SBAR_ITEM_BG_CORNER_RADIUS" \
+  background.height="$SBAR_ITEM_BG_HEIGHT" \
+  background.border_width="$SBAR_ITEM_BG_BORDER_WIDTH" \
+  background.drawing=on
+
+sketchybar --set "/mail\..*/" icon.color="$SBAR_COLOR_MAIL" label.color="$SBAR_COLOR_MAIL"

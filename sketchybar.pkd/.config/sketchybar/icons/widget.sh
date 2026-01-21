@@ -159,6 +159,8 @@ function __widget_icon_map() {
   "weather_default") icon_result="" ;;
 
   "apple_logo") icon_result="󰀵";;
+
+  "mail") icon_result="󰶈";;
   *)
     icon_result=""
     ;;
