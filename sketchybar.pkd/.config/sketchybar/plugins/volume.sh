@@ -6,6 +6,7 @@ source "$CONFIG_DIR/core/env.sh"
 VOLUME=$(osascript -e "output volume of (get volume settings)")
 MUTED=$(osascript -e "output muted of (get volume settings)")
 
+
 if [ "$MUTED" = "true" ]; then
   ICON=$(get_widget_icon "volume_mute")
   LABEL=""
@@ -20,7 +21,11 @@ else
   else
     ICON=$(get_widget_icon "volume_mute")
   fi
-  LABEL="${VOLUME}%"
+  if [[ $VOLUME == "missing value" ]]; then
+    LABEL="--"
+  else
+    LABEL="${VOLUME}%"
+  fi
   PADDING="$SBAR_ITEM_LABEL_PADDING_RIGHT"
 fi
 
