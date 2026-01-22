@@ -13,6 +13,10 @@ case $- in
       *) return;;
 esac
 
+# ==== prompt theme ====
+PROMPT_DIRTRIM=1
+PROMPT_COMMAND='if [ $? -eq 0 ]; then PS1="\r[\e[93m\h\e[0m:\e[94m\w\e[0m]\e[37m\e[92m $ \e[0m"; else PS1="\r[\e[93m\h\e[0m:\e[94m\w\e[0m]\e[31m $ \[\e[0m"; fi'
+
 # ==== history ====
 HISTCONTROL=ignoreboth
 shopt -s histappend
