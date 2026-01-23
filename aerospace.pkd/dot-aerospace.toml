@@ -133,7 +133,7 @@ cmd-alt-ctrl-c = 'exec-and-forget open -a calculator'
 cmd-alt-ctrl-m = 'exec-and-forget open -a messages'
 
 # ZEN
-cmd-alt-ctrl-w = 'exec-and-forget ~/dotfiles/aerospace.pkd/zen_helper.sh'
+cmd-alt-ctrl-w = 'exec-and-forget open -na helium'
 
 # MAIL
 cmd-alt-ctrl-shift-m = '''exec-and-forget osascript -e 'tell application "Mail"
