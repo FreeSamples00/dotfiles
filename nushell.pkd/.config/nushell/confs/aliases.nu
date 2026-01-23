@@ -30,3 +30,12 @@ alias fg = job unfreeze (job list | reverse | where type == frozen | first | (if
 
 # customized tty-clock
 alias clock = tty-clock -Bbsctn -C 5 -f "%A %m/%d %Y"
+
+# Usage:
+#   `rsync <SRC> <DEST>`
+#
+# Flags:
+#   `-a` archive: recursive, preserves file attributes
+#   `-z` compression
+#   `--stats` post transfer summary
+alias rsync = rsync -az --stats
