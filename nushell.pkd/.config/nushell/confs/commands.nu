@@ -61,3 +61,12 @@ def airdrop [
     shortcuts run airdrop-file
   }
 }
+
+# Usage:
+#   `rsync <SRC> <DEST>`
+#
+# Flags:
+#   `-a` archive: recursive, preserves file attributes
+#   `-z` compression
+#   `--stats` post transfer summary
+alias rsync = rsync -az --stats
