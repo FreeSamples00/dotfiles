@@ -61,3 +61,11 @@ def airdrop [
     shortcuts run airdrop-file
   }
 }
+
+# Symlink Wrapper
+def symlink [
+  link: path # Location to create symlink
+  file: path # Real file
+] {
+  ^ln -s ($file | path expand) $link
+}
