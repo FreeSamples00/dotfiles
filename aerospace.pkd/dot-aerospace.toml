@@ -22,7 +22,6 @@
 after-startup-command = [
 'exec-and-forget borders', # for focused windows highligtinh
 'exec-and-forget sketchybar', # for custom menubar
-# 'exec-and-forget open -a alcove' # for macbook notch app
 ]
 
 # ========== auto-start ==========
