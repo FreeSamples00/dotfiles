@@ -145,12 +145,6 @@ format = '[SUDO]($style) [─](spacer_color) '
 symbol = ''
 style = 'bold red'
 
-# Does not work in nushell
-# [custom.tmux]
-# command = 'tmux display-message -p "#{session_name}"'
-# when = 'test -n "$TMUX"'
-# format = '[ $output]($style) [─](spacer_color) '
-
 # ==================== Colors ====================
 
 [palettes.default_colors]
