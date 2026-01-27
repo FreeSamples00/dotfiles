@@ -21,15 +21,6 @@ return {
       return vim.g.cached_repo_name
     end
 
-    -- indicator for tmux session
-    local function tmux_indicator()
-      if os.getenv("TMUX") then
-        return ""
-      else
-        return ""
-      end
-    end
-
     -- indicator for macro being recorded
     local function macro_indicator()
       local reg = vim.fn.reg_recording()
@@ -89,14 +80,6 @@ return {
             macro_indicator,
             color = {
               fg = "#cb2000",
-              bg = nil,
-              gui = "bold",
-            },
-          },
-          {
-            tmux_indicator,
-            color = {
-              fg = "#7AA87F",
               bg = nil,
               gui = "bold",
             },
