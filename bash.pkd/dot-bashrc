@@ -14,8 +14,16 @@ case $- in
 esac
 
 # ==== prompt theme ====
+function prompt() {
+  if [ $? -eq 0 ]; then
+    PS1="\r\[\e[37m\][\[\e[93m\]\h\[\e[0m\]\[\e[37m\]:\[\e[94m\]\w\[\e[0m\]\[\e[37m\]] \[\e[92m\]$\[\e[0m\] "
+  else
+    PS1="\r\[\e[37m\][\[\e[93m\]\h\[\e[0m\]\[\e[37m\]:\[\e[94m\]\w\[\e[0m\]\[\e[37m\]] \[\e[31m\]$\[\e[0m\] "
+  fi
+}
+
 PROMPT_DIRTRIM=1
-PROMPT_COMMAND='if [ $? -eq 0 ]; then PS1="\r[\e[93m\h\e[0m:\e[94m\w\e[0m]\e[37m\e[92m $ \e[0m"; else PS1="\r[\e[93m\h\e[0m:\e[94m\w\e[0m]\e[31m $ \[\e[0m"; fi'
+PROMPT_COMMAND=prompt
 
 # ==== history ====
 HISTCONTROL=ignoreboth
@@ -73,3 +81,5 @@ if command -v git &> /dev/null; then
     git config --global color.diff auto
     git config --global color.branch auto
 fi
+
+bind 'set bell-style none'
