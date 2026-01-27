@@ -17,3 +17,4 @@ use clipboard.nu *
 use git.nu *
 use synthetic.nu
 use APIs.nu *
+use tmx.nu
