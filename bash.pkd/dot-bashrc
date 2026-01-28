@@ -30,7 +30,23 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 HISTSIZE=1000
 HISTFILESIZE=2000
-#
+
+# ==== completions ====
+if ! shopt -oq posix; then # Enable bash completion if available
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+bind "set completion-ignore-case on" # case insensitive
+bind "set completion-map-case on" # hyphen == underscore
+bind "set show-all-if-ambiguous on" # show completions immediately
+bind "set mark-directories on" # add trailing / to dirs
+bind "set mark-symlinked-directories on" # add trailing / to dirs
+bind "set colored-stats on" # colorize
+
 # ==== aliases ====
 alias config='vim ~/.bashrc'
 alias reload='clear && . ~/.bashrc'
