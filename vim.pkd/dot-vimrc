@@ -46,6 +46,8 @@ set clipboard=unnamedplus
 
 set ttimeoutlen=10
 
+set belloff=all
+
 " ==================== Mappings ====================
 
 " set leader key
