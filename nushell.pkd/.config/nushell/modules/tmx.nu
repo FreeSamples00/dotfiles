@@ -1,4 +1,3 @@
-
 def session-completer [
 ] {
   tmux list-sessions
@@ -17,8 +16,13 @@ export def attach [
 
 export def list [] {
   tmux list-sessions
-  | parse "{name}: {windows} windows (created {time})"
+  | parse "{name}: {windows} windows (created {time}){attached}"
   | update time {|| $in | into datetime | date humanize}
+  | update attached {||
+      $in | str trim
+      | str replace --all --regex '[()]' ""
+      | if $in == attached {true} else {false}
+    }
   | if ($in | length) == 0 {$in | ignore} else {$in}
 }
 
@@ -29,7 +33,7 @@ export def new [
   mut args = []
   if $name != null { $args = $args | append [-s $name] } else {[]}
   if $background { $args = $args | append [-d] } else {[]}
-  tmux new-session ...$args
+  tmux new-session ...$args nu
 }
 
 export def kill [
