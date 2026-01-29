@@ -69,3 +69,9 @@ def symlink [
 ] {
   ^ln -s ($file | path expand) $link
 }
+
+def ghostty-xterm [
+  server: string # ssh config or user@server
+] {
+  infocmp -x xterm-ghostty | ssh $server -- tic -x -
+}
