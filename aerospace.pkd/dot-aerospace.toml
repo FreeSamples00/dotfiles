@@ -191,16 +191,35 @@ cmd-alt-ctrl-4 = 'workspace 4'
 cmd-alt-ctrl-5 = 'workspace 5'
 cmd-alt-ctrl-6 = 'workspace 6'
 
-cmd-alt-ctrl-shift-1 = 'move-node-to-workspace 1'
-cmd-alt-ctrl-shift-2 = 'move-node-to-workspace 2'
-cmd-alt-ctrl-shift-3 = 'move-node-to-workspace 3'
-cmd-alt-ctrl-shift-4 = 'move-node-to-workspace 4'
-cmd-alt-ctrl-shift-5 = 'move-node-to-workspace 5'
-cmd-alt-ctrl-shift-6 = 'move-node-to-workspace 6'
+cmd-alt-ctrl-shift-1 = [
+  'move-node-to-workspace 1',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change',
+]
+cmd-alt-ctrl-shift-2 = [
+  'move-node-to-workspace 2',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change',
+]
+cmd-alt-ctrl-shift-3 = [
+  'move-node-to-workspace 3',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change',
+]
+cmd-alt-ctrl-shift-4 = [
+  'move-node-to-workspace 4',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change',
+]
+cmd-alt-ctrl-shift-5 = [
+  'move-node-to-workspace 5',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change',
+]
+cmd-alt-ctrl-shift-6 = [
+  'move-node-to-workspace 6',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change',
+]
 
 # ========== monitors ==========
 cmd-alt-ctrl-tab = 'focus-monitor --wrap-around next'
 cmd-alt-ctrl-shift-tab = [
   'move-node-to-monitor --wrap-around next',
   'focus-monitor --wrap-around next',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change',
 ]
