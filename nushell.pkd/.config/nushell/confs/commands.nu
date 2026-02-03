@@ -70,8 +70,24 @@ def symlink [
   ^ln -s ($file | path expand) $link
 }
 
+# Send xterm-ghostty to remote machine
 def ghostty-xterm [
   server: string # ssh config or user@server
 ] {
   infocmp -x xterm-ghostty | ssh $server -- tic -x -
+}
+
+# Use macos notification system
+def notify [
+  --title (-t): string = "Ghostty" # Title for notification
+  --subtitle (-s): string = "default" # Subtitle for notification
+  message?: string # Notification Body
+] {
+  if (sys host | get long_os_version) =~ macOS {
+    let subtitle = if $subtitle == default {(pwd)} else {$subtitle}
+    mut command = $'display notification ($message) with title ($title) with subtitle ($subtitle)'
+    osascript -e ($command)
+  } else {
+  print "Not on macos"
+  }
 }
