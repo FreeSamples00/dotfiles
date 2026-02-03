@@ -5,6 +5,15 @@ def workspaces [] {
 }
 
 def main [] {
+  sketchybar ...[
+    --add item aerospace_left $env.side
+    --set aerospace_left
+    label.padding_right=($env.outer_pad)
+    label.padding_left=0
+    icon.padding_left=0
+    icon.padding_right=0
+  ]
+
   workspaces | each {|workspace|
     let name = $"aerospace_($workspace)"
     let script = [
@@ -31,4 +40,13 @@ def main [] {
     ]
   }
   | ignore
+
+  sketchybar ...[
+    --add item aerospace_right $env.side
+    --set aerospace_right
+    label.padding_left=0
+    label.padding_right=($env.outer_pad)
+    icon.padding_left=0
+    icon.padding_right=0
+  ]
 }

@@ -103,6 +103,7 @@ export const skenv =  {
       color_full: $"($theme.colors.magenta)"
       color_empty: $"($theme.colors.light_gray)"
       label_pad: 4
+      outer_pad: 4
       update_freq: 5
       side: left
     }
@@ -131,6 +132,7 @@ export const skenv =  {
       name: volume
       color: $"($theme.colors.blue)"
       icon_font: $"($fonts.icon.family):($fonts.icon.style):($fonts.icon.size + 4)"
+      right_pad: $defaults.label.padding.right
       side: right
     }
     battery: {
@@ -140,19 +142,19 @@ export const skenv =  {
       icon_font: $"($fonts.icon.family):($fonts.icon.style):($fonts.icon.size + 4)"
       update_freq: 5
     }
-    weather: {
+    weather: { # TODO:
       name: weather
       color: $"($theme.colors.cyan)"
       location: Milwaukee
       temp_unit: F
       side: right
     }
-    mail: {
+    mail: { # TODO:
       name: mail
       color: $"($theme.colors.blue)"
       side: right
     }
-    caffeinate: {
+    caffeinate: { # TODO:
       name: caffeinate
       color: $"($theme.colors.green)"
       side: right

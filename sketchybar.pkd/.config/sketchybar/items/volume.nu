@@ -5,6 +5,7 @@ def main [] {
     ($env.CONFIG_DIR)/plugins/volume.nu
     $env.animation_type
     $env.animation_speed
+    $env.right_pad
   ] | str join " "
   sketchybar ...[
     --add item $env.name $env.side

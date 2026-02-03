@@ -3,6 +3,7 @@
 def main [
   animation_type: string
   animation_speed: string
+  right_pad: string
 ] {
   use ../core/icons.nu *
   let volume = (osascript -e "output volume of (get volume settings)")
@@ -23,7 +24,7 @@ def main [
   } else {
     if ($volume | into int) > 0 {($"($volume)%")} else {("")}
   }
-  let padding = if $icon == (icons widget volume_mute) {0} else {12}
+  let padding = if $icon == (icons widget volume_mute) {0} else {$right_pad}
   sketchybar ...[
     --animate $animation_type $animation_speed
     --set $env.name
