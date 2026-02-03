@@ -1,17 +1,9 @@
-#!/usr/bin/env bash
+#!/usr/bin/env nu -n
 
-export SBAR_PLUGIN_DIR="$CONFIG_DIR/plugins"
-export SBAR_ITEM_DIR="$CONFIG_DIR/items"
-export SBAR_EVENT_DIR="$CONFIG_DIR/events"
-export SBAR_SCRIPT_DIR="$CONFIG_DIR/scripts"
+use config.nu *
+use ./core/loader.nu *
+source ./core/defaults.nu
 
-source "$CONFIG_DIR/core/env.sh"
-source "$CONFIG_DIR/core/init_widgets.sh"
-source "$CONFIG_DIR/core/bar_defaults.sh"
-source "$CONFIG_DIR/core/loader.sh"
-source "$CONFIG_DIR/core/load_widgets.sh"
-source "$CONFIG_DIR/core/styles.sh"
+load_widgets $skenv.widgets
 
 sketchybar --update
-
-source "$CONFIG_DIR/core/events.sh"

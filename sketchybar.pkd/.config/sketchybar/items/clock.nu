@@ -1,0 +1,23 @@
+#!/usr/bin/env nu -n
+
+def main [] {
+  use ../core/icons.nu *
+  let icon = icons widget clock
+  let script = [
+    ($env.CONFIG_DIR)/plugins/clock.nu
+    $env.animation_type
+    $env.animation_speed
+    $"\"($env.format)\""
+  ] | str join " "
+  sketchybar ...[
+    --add item $env.name $env.side
+    --animate $env.animation_type $env.animation_speed
+    --set $env.name
+    icon.color=($env.color)
+    label.color=($env.color)
+    icon=($icon)
+    script=($script)
+    update_freq=($env.update_freq)
+    click_script=('open -na ghostty.app --args -e tty-clock -Bbsctn -C 5 -f "%A %m/%d %Y"')
+  ]
+}

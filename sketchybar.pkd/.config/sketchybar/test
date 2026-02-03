@@ -1,0 +1,11 @@
+#!/bin/bash
+
+pgrep -i "sketchybar" | xargs kill
+
+if [[ "$1" == "orig" ]]; then
+  nohup sketchybar -c "$HOME/dotfiles/sketchybar-orig.pkd/.config/sketchybar/sketchybarrc" &>/dev/null &
+elif [[ "$1" == "gray" ]]; then
+  nohup sketchybar -c "$HOME/dotfiles/sketchybar-gray.pkd/.config/sketchybar/sketchybarrc" &>/dev/null &
+else
+  sketchybar -c sketchybarrc
+fi
