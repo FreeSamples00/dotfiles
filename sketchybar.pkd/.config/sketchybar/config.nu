@@ -93,11 +93,13 @@ export const skenv =  {
   widgets: {
     # NOTE: ===== left side items, ordered out to in =====
     apple: {
+      enable: true
       name: apple
       color: $"($theme.colors.red)"
       side: left
     }
     aerospace: {
+      enable: true
       name: aerospace
       color_focused: $"($theme.colors.orange)"
       color_full: $"($theme.colors.magenta)"
@@ -108,12 +110,14 @@ export const skenv =  {
       side: left
     }
     focused_app: {
+      enable: true
       name: focused_app
       color: $"($theme.colors.green)"
       side: left
       icon_font: $"($fonts.ske_app.family):($fonts.ske_app.style):($fonts.ske_app.size)"
     }
     restart_notifier: {
+      enable: true
       name: restart_notifier
       color: $"($theme.colors.red)"
       threshold: "7day" # needs to be string for env passing
@@ -122,6 +126,7 @@ export const skenv =  {
     }
     # NOTE: ===== right side items, ordered out to in =====
     clock: {
+      enable: true
       name: clock
       format: "%-m/%d %-l:%M" # reference with `format date -l`
       color: $"($theme.colors.yellow)"
@@ -129,6 +134,7 @@ export const skenv =  {
       side: right
     }
     volume: {
+      enable: true
       name: volume
       color: $"($theme.colors.blue)"
       icon_font: $"($fonts.icon.family):($fonts.icon.style):($fonts.icon.size + 4)"
@@ -136,6 +142,7 @@ export const skenv =  {
       side: right
     }
     battery: {
+      enable: true
       name: battery
       color: $"($theme.colors.orange)"
       side: right
@@ -143,6 +150,7 @@ export const skenv =  {
       update_freq: 5
     }
     weather: { # TODO:
+      enable: false
       name: weather
       color: $"($theme.colors.cyan)"
       location: Milwaukee
@@ -150,11 +158,13 @@ export const skenv =  {
       side: right
     }
     mail: { # TODO:
+      enable: false
       name: mail
       color: $"($theme.colors.blue)"
       side: right
     }
     caffeinate: { # TODO:
+      enable: false
       name: caffeinate
       color: $"($theme.colors.green)"
       side: right

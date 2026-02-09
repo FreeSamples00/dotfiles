@@ -38,11 +38,12 @@ export def load_widgets [
 ] {
   $widgets | values
   | each {|widget|
-      # with-env ($widget | merge $skenv.animation) {
+      if $widget.enable {
       with-env ($widget | merge { animation_speed: $skenv.animation.speed animation_type: $skenv.animation.type}) {
         ./items/($widget.name).nu
       }
       add_bracket $widget.name
       add_spacer $widget.name $widget.side
+    }
   }
 }
