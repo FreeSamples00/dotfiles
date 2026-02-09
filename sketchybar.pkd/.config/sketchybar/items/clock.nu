@@ -5,6 +5,7 @@ def main [] {
   let icon = icons widget clock
   let script = [
     ($env.CONFIG_DIR)/plugins/clock.nu
+    $env.name
     $env.animation_type
     $env.animation_speed
     $"\"($env.format)\""

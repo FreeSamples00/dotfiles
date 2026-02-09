@@ -14,6 +14,7 @@ sketchybar ...[
   label.color=($label_defaults.color)
   label.padding_left=($label_defaults.padding.left)
   label.padding_right=($label_defaults.padding.right)
+  updates=when_shown
   --bar
   position=($bar_defaults.position)
   height=($bar_defaults.height)

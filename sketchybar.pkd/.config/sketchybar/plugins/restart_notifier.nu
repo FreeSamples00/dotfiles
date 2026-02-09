@@ -1,6 +1,7 @@
 #!/usr/bin/env nu -n
 
 def main [
+  name: string
   animation_type: string
   animation_speed: string
   threshold: string
@@ -10,7 +11,7 @@ def main [
   let toggle = if ($time_since_boot >= $threshold) {"on"} else {"off"}
   sketchybar ...[
     --animate $animation_type $animation_speed
-    --set $env.name
+    --set $name
     drawing=($toggle)
   ]
 }

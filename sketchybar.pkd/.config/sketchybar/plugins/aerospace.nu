@@ -15,6 +15,7 @@ def workspace_status [
 }
 
 def main [
+  name: string
   workspace: string
   active_color: string
   full_color: string
@@ -27,7 +28,7 @@ def main [
     _ => "#000000"
   }
   sketchybar ...[
-    --set $env.name
+    --set $name
     label.color=($color)
   ]
 }

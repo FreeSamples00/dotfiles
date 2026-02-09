@@ -18,6 +18,7 @@ def main [] {
     let name = $"aerospace_($workspace)"
     let script = [
       ($env.CONFIG_DIR)/plugins/aerospace.nu
+      ($name)
       $workspace
       $env.color_focused
       $env.color_full

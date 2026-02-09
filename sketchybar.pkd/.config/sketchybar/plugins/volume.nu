@@ -1,6 +1,7 @@
 #!/usr/bin/env nu -n
 
 def main [
+  name: string
   animation_type: string
   animation_speed: string
   right_pad: string
@@ -27,7 +28,7 @@ def main [
   let padding = if $icon == (icons widget volume_mute) {0} else {$right_pad}
   sketchybar ...[
     --animate $animation_type $animation_speed
-    --set $env.name
+    --set $name
     icon=($icon)
     label=($label)
     label.padding_right=($padding)

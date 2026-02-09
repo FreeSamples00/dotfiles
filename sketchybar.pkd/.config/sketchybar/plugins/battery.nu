@@ -1,6 +1,7 @@
 #!/usr/bin/env nu -n
 
 def main [
+  name: string
   animation_type: string
   animation_speed: string
 ] {
@@ -21,7 +22,7 @@ def main [
   }
   sketchybar ...[
     --animate $animation_type $animation_speed
-    --set $env.name
+    --set $name
     icon=($icon)
     label=($"($percentage)%")
   ]

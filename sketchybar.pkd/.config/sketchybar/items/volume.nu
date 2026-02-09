@@ -3,6 +3,7 @@
 def main [] {
   let script = [
     ($env.CONFIG_DIR)/plugins/volume.nu
+    $env.name
     $env.animation_type
     $env.animation_speed
     $env.right_pad
