@@ -4,6 +4,9 @@ def mime [
   --full (-f) # Show full mimed type (**/** vs **)
 ]: nothing -> string {
   ^file --mime-type -b $file | str trim
+  | if $in =~ "cannot open" {
+    return "ERR"
+  } else {$in}
   | if $full { $in
   } else {$in
     match $in {
@@ -11,7 +14,11 @@ def mime [
       "text/plain" => "text"
       "inode/x-empty" => "empty"
       "inode/directory" => "dir"
-      $other => ($other | split row '/' | get 1 | str trim)
+      $other => (
+        try {
+          ($other | split row '/' | get 1 | str trim)
+        } catch {$other}
+      )
     }
   }
 }
