@@ -1,4 +1,4 @@
-vim.api.nvim_set_hl(0, 'RenderMarkdownCheckedStrike', {
+vim.api.nvim_set_hl(0, "RenderMarkdownCheckedStrike", {
   strikethrough = true,
   default = true,
 })
@@ -12,7 +12,7 @@ return {
   opts = {
 
     latex = {
-      enabled = true,
+      enabled = false,
       render_modes = false,
       converter = { "utftex", "latex2text" },
       highlight = "RenderMarkdownMath",
@@ -36,7 +36,7 @@ return {
       },
       checked = {
         icon = "󰄵 ",
-        scope_highlight = 'RenderMarkdownCheckedStrike',
+        scope_highlight = "RenderMarkdownCheckedStrike",
       },
     },
   },
