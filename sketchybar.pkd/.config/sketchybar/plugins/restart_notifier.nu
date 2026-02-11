@@ -6,7 +6,7 @@ def main [
   animation_speed: string
   threshold: string
 ] {
-  let time_since_boot = ((date now) - (sysctl -n kern.boottime | split words | get 1 | into datetime -f "%s"))
+  let time_since_boot = sys host | get uptime
   let threshold = $threshold | into duration
   let toggle = if ($time_since_boot >= $threshold) {"on"} else {"off"}
   sketchybar ...[
