@@ -6,7 +6,7 @@ def add_spacer [
   name: string # Name of spacer
   side: string@[left center right] # Side of spacer
 ] {
-  let name = $"spacer_($name)"
+  let name = $"spacer.($name)"
   sketchybar ...[
     --add item $name $side
     --set $name width=($skenv.spacer.width) background.color=($skenv.spacer.color)
@@ -20,7 +20,7 @@ def add_spacer [
 def add_bracket [
   name: string # name of widget to wrap w/ bracket
 ] {
-  let bname = $"($name)_bracket"
+  let bname = $"bracket.($name)"
   sketchybar ...[
     --animate ($skenv.animation.type) ($skenv.animation.speed)
     --add bracket $bname $"/($name).*/"
