@@ -1,159 +1,95 @@
-# Module that supplies nushell native grep replacements
+const highlight_color = "light_red_bold"
 
-const GREP_IGNORE = [
-  # Version control
-  **/.git/** **/.svn/** **/.hg/**
-  # Python
-  **/.venv/** **/__pycache__/** **/*.pyc **/*.pyo **/.pytest_cache/** **/dist/** **/build/** **/*.egg-info/**
-  # JavaScript/Node
-  **/node_modules/** **/dist/** **/build/** **/.next/** **/.nuxt/**
-  # Rust
-  **/target/** **/*.rs.bk **/Cargo.lock
-  # Go
-  **/vendor/**
-  # Java/JVM
-  **/target/** **/*.class **/.gradle/** **/build/**
-  # .NET/C#
-  **/bin/** **/obj/** **/*.dll **/*.exe
-  # C/C++
-  **/*.o **/*.so **/*.a **/*.out
-  # Ruby
-  **/.bundle/** **/vendor/bundle/**
-  # PHP
-  **/vendor/**
-  # General
-  **/.cache/** **/.DS_Store **/Thumbs.db
+const fd_defaults = [
+  --no-ignore-vcs
+  --color always
+  --hidden
+  --ignore-case
+  --follow
 ]
 
-# Grep utilities for recursive searching
-#
-# Available commands:
-#   grep all    - Search within file contents
-#   grep file   - Search filenames
-#   grep dir    - Search directory names
-#
-# Ignore Pattern:
-#   Uses glob matching, entried are wrapped with `**/.../**`
-#   Ex: [ foo *bar* ]
-#     - `foo` matches `**/foo/**` for exact files/dirs
-#     - `*bar*` matches `**/*bar*/**` for substring match of files/dirs
-#
-# Use 'help grep <command>' for detailed help on each command
-export def main [] {
-  print "Grep utilities for recursive searching"
-  print ""
-  print "Available commands:"
-  print "  grep all    - Search within file contents"
-  print "  grep file   - Search filenames"
-  print "  grep dir    - Search directory names"
-  print ""
-  print "Ignore Pattern:"
-  print "  Uses glob matching, entried are wrapped with `**/.../**`"
-  print "  Ex: [ foo *bar* ]"
-  print "    - `foo` matches `**/foo/**` for exact files/dirs"
-  print "    - `*bar*` matches `**/*bar*/**` for substring match of files/dirs"
-  print ""
-  print "Use 'help grep <command>' for detailed help on each command"
+const rg_defaults = [
+  --crlf
+  --smart-case
+  --hidden
+  --no-ignore-vcs
+  --color=always
+  --json
+]
+
+const rg_types = [
+  --type-add 'nu:*.nu'
+]
+
+def rg_type_completer [] {
+  rg ...$rg_types --type-list | parse "{value}: {description}"
 }
 
-# Recursively search text file contents
+def fd_type_completer [] {
+  [
+    {value: "file", description: "regular files"}
+    {value: "dir", description: "directories"}
+    {value: "symlink", description: "symbolic links"}
+    {value: "socket", description: "sockets"}
+    {value: "pipe", description: "named pipes (FIFOs)"}
+    {value: "block-device", description: "block devices"}
+    {value: "char-device", description: "character devices"}
+    {value: "executable", description: "executables"}
+    {value: "empty", description: "empty files or directories"}
+  ]
+}
+
 export def all [
-  ...pattern: string # Regex pattern
-  --no-color (-n) # Disable colored output
-  --enumerate (-e)  # Enumerate output
-  --case-sensitive (-c) # Make search case sensitive
-  --depth (-d): int = 999 # Directory depth to descend (1 is current)
-  --ignore (-i): list<string> # Glob patterns to ignore in paths, entries are wrapped with `**/.../**`
-]: nothing -> table<index: int, file: string, lineno: int, match: string> {
-  let pattern = $pattern | str join " " | if $case_sensitive {$in} else {["(?i)" $in] | str join}
-  let ignore_pattern = ( $ignore | each { $"**/($in)/**" } ) | append $GREP_IGNORE
-  glob **/* --exclude $ignore_pattern --depth $depth --no-dir --follow-symlinks
-  | path relative-to (pwd)
-  | par-each { |file|
-      try {
-        open --raw $file
-        | lines
-        | enumerate
-        | where { $in.item =~ $pattern}
-        | if $no_color {
-            each {{
-              file: $file,
-              line: ( $in.index + 1 ),
-              match: $in.item
-            }}
-          } else {
-            each {{
-              file: ($file | str replace -ra "(.*/)" $"(ansi grey46)$1(ansi reset)"),
-              line: ($in.index + 1),
-              match: ($in.item | str replace -ra $"\(($pattern)\)" $"(ansi red_bold)$1(ansi reset)")
-            }}
-          }
-      } catch {[]}
-    }
-  | flatten
-  | sort-by -n file line
-  | if $enumerate { enumerate | flatten } else {$in}
-}
+  pattern: string # pattern to search for
+  --type (-t): string@rg_type_completer # filetype to search in
+  --depth (-d): int = 999 # max depth to search
+  --raw (-r) # no ansi colors
+] {
+  let color = {|text: string, start: int, end: int|
+    let prefix = if (($start - 1) < 0) {""} else {$text | str substring 0..($start - 1)}
+    let match_text = $text | str substring $start..($end - 1)
+    let suffix = $text | str substring $end..
+    $"($prefix)(ansi $highlight_color)($match_text)(ansi reset)($suffix)"
+  }
 
+  let rg_defaults = if ($type != null) {$rg_defaults | append $"--type=($type)"} else {$rg_defaults}
 
-# Recursively search filenames
-export def file [
-  ...pattern: string # Regex pattern
-  --no-color (-n) # Disable colored output
-  --enumerate (-e) # Enumerate output
-  --case-sensitive (-c) # Make search case sensitive
-  --depth (-d): int = 999 # Directory depth to descend (1 is current)
-  --ignore (-i): list<string> # Patterns to ignore in paths
-  --full (-f) # Search full filepath
-#     Glob pattern syntax:
-#     - `*text*` matches foo/aatextbb/bar
-#     - `text` matches foo/text/bar
-]: nothing -> table<index: int, name: string, type: string, size: filesize, modified: datetime> {
-  let pattern = $pattern | str join " " | if $case_sensitive {$in} else {["(?i)" $in] | str join}
-  let ignore_pattern = ( $ignore | each { $"**/($in)/**" } ) | append $GREP_IGNORE
-  glob **/* --exclude $ignore_pattern --depth $depth --no-dir --follow-symlinks
-  | where { |path| ($path | path type) != symlink }
-  | path relative-to (pwd)
-  | where { |path| (if $full {$path} else {($path | path basename)}) =~ $pattern }
-  | par-each { |file|
-    ls --mime-type $file
-    | update type {mime $file}
-    | if $no_color {$in} else {
-        update name {str replace -ra "(.*/)" $"(ansi grey46)$1(ansi reset)"}
+  rg $pattern ...$rg_defaults ...$rg_types --max-depth=($depth)
+  | from json -o
+  | where type == "match"
+  | get data
+  | each {|match|
+    mut line = $match.lines.text
+    if (not $raw) {
+      for span in ($match.submatches | sort-by start -r) {
+        $line = do $color $line $span.start $span."end"
       }
+      $line = $"(ansi reset)($line)" # possibly fucks with spacing
     }
-  | flatten
-  | if $enumerate { enumerate | flatten } else {$in}
+    {
+      file: ($match.path.text | str trim)
+      line: ($match.line_number)
+      match: ($line | str trim)
+    }
+  }
 }
 
-
-# Recursively search directory names
-export def dir [
-  ...pattern: string # Regex pattern
-  --no-color (-n) # Disable colored output
-  --enumerate (-e)  # Enumerate output
-  --case-sensitive (-c) # Make search case sensitive
-  --depth (-d): int = 999 # Directory depth to descend (1 is current)
-  --ignore (-i): list<string> # Patterns to ignore in paths
-  --full (-f) # Search full filepath
-#     Glob pattern syntax:
-#     - `*text*` matches foo/aatextbb/bar
-#     - `text` matches foo/text/bar
-]: nothing -> table<index: int, name: string, size: filesize, modified: datetime> {
-  let pattern = $pattern | str join " " | if $case_sensitive {$in} else {["(?i)" $in] | str join}
-  let ignore_pattern = ( $ignore | each { $"**/($in)/**" } ) | append $GREP_IGNORE
-  glob **/* --exclude $ignore_pattern --depth $depth --no-file --follow-symlinks
-  | where { |path| ($path | path type) != symlink and $path != (pwd)  }
-  | where { |path| (if $full {$path} else {($path | path basename)}) =~ $pattern }
-  | path relative-to (pwd)
-  | par-each { |path|
-      ls -D $path
-      | update size (du $path | get physical | first)
+export def file [
+  --depth (-d): int = 999 # max depth to search
+  --long (-l) # show detailed file info
+  --type (-t): string@fd_type_completer # file types to search for
+  pattern?: string # pattern to search for
+] {
+  let fd_defaults = if ($type != null) {$fd_defaults | append $"--type=($type)"} else {$fd_defaults}
+  let pattern = $pattern | default ""
+  fd ...$fd_defaults --max-depth $depth $pattern
+  | lines
+  | par-each {|file|
+    if ($long) {
+      ls $file --directory --du --long
+    } else {
+      ls $file --directory --du
     }
-  | flatten
-  | if $no_color {$in} else {
-      update name {str replace -ra "(.*/)" $"(ansi grey46)$1(ansi reset)"}
-    }
-  | select name size modified
-  | if $enumerate { enumerate | flatten } else {$in}
+    | update type {|| mime ($file | ansi strip) }
+  } | flatten
 }
