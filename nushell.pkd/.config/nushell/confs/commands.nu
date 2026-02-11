@@ -23,6 +23,20 @@ def mime [
   }
 }
 
+def application_completer [] {
+  mdfind "kMDItemKind == 'Application'"
+  | lines
+  | path basename
+  | str replace ".app" ""
+}
+
+def launch [
+  ...application: string@application_completer
+] {
+  let application = $application | str join " "
+  ^open -a $application
+}
+
 # Get gitignore rules by language
 @complete ignore-completer
 def get-ignore [
