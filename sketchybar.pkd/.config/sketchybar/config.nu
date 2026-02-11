@@ -87,7 +87,6 @@ export const skenv =  {
   defaults: $defaults
   spacer: {
     width: 8
-    # color: $"($theme.colors.red)" # TODO:
     color: "transparent"
   }
   widgets: {
