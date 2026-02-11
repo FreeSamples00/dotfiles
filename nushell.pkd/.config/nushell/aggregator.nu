@@ -1,7 +1,7 @@
 # ----- Shell Tools -----
-if not (which starship | is-empty) {use ~/.cache/nushell/starship.nu}
-if not (which zoxide | is-empty) {source ~/.cache/nushell/zoxide.nu}
-if not (which carapace | is-empty) {source ~/.cache/nushell/carapace.nu}
+use ~/.cache/nushell/starship.nu
+source ~/.cache/nushell/zoxide.nu
+source ~/.cache/nushell/carapace.nu
 
 # ----- Configs -----
 
