@@ -1,3 +1,14 @@
+# Reload shell configuration
+def reload [
+  --login (-l) # Reload as login shell
+]: nothing -> nothing {
+  if $login {
+    clear; exec nu -l
+  } else {
+    exec nu
+  }
+}
+
 # Mime the type of a file
 def mime [
   file: path # File to mime the type of

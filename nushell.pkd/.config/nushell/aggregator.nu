@@ -1,14 +1,14 @@
 # ----- Shell Tools -----
-use ~/.cache/nushell/starship.nu
-source ~/.cache/nushell/zoxide.nu
+if not (which starship | is-empty) {use ~/.cache/nushell/starship.nu}
+if not (which zoxide | is-empty) {source ~/.cache/nushell/zoxide.nu}
+if not (which carapace | is-empty) {source ~/.cache/nushell/carapace.nu}
 
 # ----- Configs -----
 
 source path.nu
 source completers.nu
-source commands.nu
-source structure_wrappers.nu
-source aliases.nu
+source functions.nu
+source shorthands.nu
 source completions.nu
 
 # ---- Modules ----

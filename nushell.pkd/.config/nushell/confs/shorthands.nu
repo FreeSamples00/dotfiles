@@ -31,6 +31,25 @@ alias fg = job unfreeze (job list | reverse | where type == frozen | first | (if
 # customized tty-clock
 alias clock = tty-clock -Bbsctn -C 5 -f "%A %m/%d %Y"
 
+# shorter clear
+alias c = clear
+
+# Nvim wrapper
+def e --env --wrapped [...args: path] {
+  if (which nvim | is-empty) {
+    vim ...$args
+  } else {
+    nvim ...$args
+  }
+}
+
+# Wrapper for clear + ls
+def cls [
+  --long (-l) # detailed ls
+] {
+  clear; print ""; if $long {ls -l} else {ls}
+}
+
 # Usage:
 #   `rsync <SRC> <DEST>`
 #

@@ -1,8 +1,6 @@
+# NOTE:
 # use `config nu --doc | nu-highlight` to retrieve documentation
 # https://www.nushell.sh/book/configuration.html
-
-# ----- Source Critical Definitions -----
-source critical_definitions.nu
 
 # ----- Theme -----
 source theme.nu
