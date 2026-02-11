@@ -45,6 +45,12 @@ export def all [
   --depth (-d): int = 999 # max depth to search
   --raw (-r) # no ansi colors
 ] {
+
+  if (which rg | length) == 0 {
+    print $"(ansi red)ERR: ripgrep \(rg\) not found."
+    return
+  }
+
   let color = {|text: string, start: int, end: int|
     let prefix = if (($start - 1) < 0) {""} else {$text | str substring 0..($start - 1)}
     let match_text = $text | str substring $start..($end - 1)
@@ -80,8 +86,15 @@ export def file [
   --type (-t): string@fd_type_completer # file types to search for
   pattern?: string # pattern to search for
 ] {
+
+  if (which fd | length) == 0 {
+    print $"(ansi red)ERR: fd not found."
+    return
+  }
+
   let fd_defaults = if ($type != null) {$fd_defaults | append $"--type=($type)"} else {$fd_defaults}
   let pattern = $pattern | default ""
+
   fd ...$fd_defaults --max-depth $depth $pattern
   | lines
   | par-each {|file|
