@@ -138,7 +138,7 @@ $env.config = {
 
   # ----- Hooks -----
   hooks: {
-    display_output: "table" # call table for output rendering, this respects table settings defined above
+    display_output: "table --icons" # call table for output rendering, this respects table settings defined above
   }
 }
 
