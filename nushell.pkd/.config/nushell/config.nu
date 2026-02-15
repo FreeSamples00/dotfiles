@@ -9,6 +9,10 @@ $env.PROMPT_INDICATOR_VI_NORMAL = ""
 $env.PROMPT_INDICATOR_VI_INSERT = ""
 
 $env.config = {
+
+  error_style: 'short' # shorter shell errors
+  error_lines: 3 # print n lines of context in errors
+
   # ----- Misc Settings -----
   show_banner: false
   rm: {
