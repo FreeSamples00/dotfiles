@@ -2,7 +2,6 @@
 
 # USAGE: import with `use /path/to/git.nu *`
 
-export alias glt = git-log-table
 export alias gst = git status
 export alias gl = git pull
 export alias gp = git push
