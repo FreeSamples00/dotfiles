@@ -1,6 +1,7 @@
 # ----- Env Variables -----
 
 $env.config.buffer_editor = "nvim"
+$env.EDITOR = "nvim"
 $env.nu_config_dir = $"($env.XDG_CONFIG_HOME)"
 $env.nu_module_dir = $"($env.nu_config_dir)/nushell/modules"
 $env.nu_confs_dir  = $"($env.nu_config_dir)/nushell/confs"
