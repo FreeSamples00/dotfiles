@@ -7,6 +7,12 @@ $env.nu_confs_dir  = $"($env.nu_config_dir)/nushell/confs"
 $env.NU_LIB_DIRS ++= [ $env.nu_module_dir $env.nu_confs_dir ]
 
 # ----- External Configs -----
+$env.dependencies = [
+  starship
+  zoxide
+  carapace
+]
+
 mkdir ~/.cache/nushell
 
 if not (which starship | is-empty) {starship init nu | save -f ~/.cache/nushell/starship.nu}
