@@ -141,7 +141,7 @@ export def all [
       $line = $"(ansi reset)($line)" # possibly fucks with spacing
     }
     {
-      file: ($match.path.text | str trim)
+      name: ($match.path.text | str trim)
       line: ($match.line_number)
       match: ($line | str trim)
     }
@@ -149,7 +149,7 @@ export def all [
   | if $json {
     to json
   } else {
-    $in
+    $in | metadata set --datasource-ls
   }
 }
 
