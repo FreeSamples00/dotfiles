@@ -183,7 +183,7 @@ export def file [
 
   fd ...$fd_defaults --max-depth $depth $pattern
   | lines
-  | par-each {|file|
+  | par-each --keep-order {|file|
     if ($long) {
       ls $file --directory --du --long
     } else {
@@ -194,6 +194,6 @@ export def file [
   | if $json {
     to json
   } else {
-    $in
+    $in | metadata set --datasource-ls
   }
 }
