@@ -4,7 +4,7 @@ const fd_defaults = [
   --no-ignore-vcs
   --color always
   --hidden
-  --ignore-case
+  # --ignore-case # default is smart case
   --follow
 ]
 
