@@ -16,6 +16,6 @@ def main [] {
     icon.color=($env.color)
     icon.font=($env.icon_font)
     script=($script)
-    --subscribe $env.name volume_change
+    --subscribe $env.name volume_change system_woke
   ]
 }

@@ -20,5 +20,6 @@ def main [] {
     click_script=`osascript -e 'tell application "loginwindow" to «event aevtrrst»'`
     update_freq=($env.update_freq)
     drawing=off
+    --subscribe $env.name system_woke
   ]
 }

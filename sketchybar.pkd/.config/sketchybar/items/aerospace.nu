@@ -37,7 +37,7 @@ def main [] {
       update_freq=($env.update_freq)
       script=($script)
       click_script=([aerospace workspace ($workspace)] | str join " ")
-      --subscribe $name aerospace_workspace_change front_app_switched
+      --subscribe $name aerospace_workspace_change system_woke # front_app_switched
     ]
   }
   | ignore

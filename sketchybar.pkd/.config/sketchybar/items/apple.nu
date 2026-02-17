@@ -9,5 +9,6 @@ def main [] {
     icon=󰀵
     label.padding_right=0
     label.padding_left=0
+    --subscribe $env.name system_woke
   ]
 }

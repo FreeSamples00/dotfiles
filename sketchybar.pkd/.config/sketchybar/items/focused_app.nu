@@ -15,6 +15,6 @@ def main [] {
     icon.color=($env.color)
     icon.font=($env.icon_font)
     label.color=($env.color)
-    --subscribe ($env.name) front_app_switched
+    --subscribe $env.name front_app_switched system_woke
   ]
 }
