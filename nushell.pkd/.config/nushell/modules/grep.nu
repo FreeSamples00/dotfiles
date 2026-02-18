@@ -4,8 +4,7 @@ const fd_defaults = [
   --no-ignore-vcs
   --color always
   --hidden
-  # --ignore-case # default is smart case
-  --follow
+  --absolute-path
 ]
 
 const rg_defaults = [
@@ -190,6 +189,7 @@ export def file [
       ls $file --directory --du
     }
     | update type {|| mime ($file | ansi strip) }
+    | update name {|row| $row.name | path relative-to (pwd -P) }
   } | flatten
   | if $json {
     to json
