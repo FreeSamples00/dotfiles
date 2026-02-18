@@ -148,6 +148,13 @@ export const skenv =  {
       icon_font: $"($fonts.icon.family):($fonts.icon.style):($fonts.icon.size + 4)"
       update_freq: 5
     }
+    mail: { # TODO:
+      enable: true
+      name: mail
+      color: $"($theme.colors.blue)"
+      update_freq: 600
+      side: right
+    }
     weather: { # TODO:
       enable: false
       name: weather
@@ -155,12 +162,7 @@ export const skenv =  {
       location: Milwaukee
       temp_unit: F
       side: right
-    }
-    mail: { # TODO:
-      enable: false
-      name: mail
-      color: $"($theme.colors.blue)"
-      side: right
+      stale_threshold: "30min"
     }
     caffeinate: { # TODO:
       enable: false
