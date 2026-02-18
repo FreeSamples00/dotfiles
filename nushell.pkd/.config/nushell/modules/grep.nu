@@ -7,6 +7,10 @@ const fd_defaults = [
   --absolute-path
 ]
 
+const fd_ignore = [
+  .git
+]
+
 const rg_defaults = [
   --crlf
   --smart-case
@@ -177,7 +181,11 @@ export def file [
     return
   }
 
-  let fd_defaults = if ($type != null) {$fd_defaults | append $"--type=($type)"} else {$fd_defaults}
+  let fd_defaults = if ($type != null) {
+      $fd_defaults | append $"--type=($type)"
+    } else {$fd_defaults}
+    | append ($fd_ignore | each {|| $"--exclude=($in)"} | flatten)
+
   let pattern = $pattern | default ""
 
   fd ...$fd_defaults --max-depth $depth $pattern
