@@ -71,15 +71,47 @@ def cd --env --wrapped [...args: directory] { __zoxide_z ...$args }
 def rnm [
   path: path # Filepath to rename
 ]: nothing -> nothing {
-  if ($path | path exists) {
-    let path = $path | path expand
-    let dir = $path | path dirname
-    let new_path = [($path | path basename)] | input $"(ansi attr_bold)Rename File: (ansi reset)" --reedline
-    if $new_path != "" {
-      mv ($path) $"($dir)/($new_path)"
+  if not ($path | path exists) {
+    return (error make {msg: $"Path ($path) does not exist"})
+  }
+  let path = $path | path expand
+  let dir = $path | path dirname
+  let new_path = [($path | path basename)] | input $"(ansi attr_bold)Rename File: (ansi reset)" --reedline
+  if $new_path != "" {
+    mv ($path) $"($dir)/($new_path)"
+  }
+}
+
+# Manage file backups (.bak)
+def bak [
+  file: path      # File to modify
+  --reverse (-r)  # remove .bak from file
+  --force (-f)    # overwrite if new path exists
+  --keep (-k)     # copy instead of move
+]: nothing -> nothing {
+  if not ($file | path exists) {
+    return (error make $"Path ($file) does not exist")
+  }
+
+  let target = if $reverse {
+    if not ($file | str contains ".bak") {
+      return (error make $"File '($file)' not a backup")
     }
+    $file | str replace -r "\\.bak$" ""
   } else {
-    print $"File `($path)` not found."
+    $"($file).bak"
+  }
+
+  if ($target | path exists) and (not $force) {
+    return (error make $"New path '($target)' already exists, Use -f")
+  }
+
+  if $keep {
+    cp -r $file $target
+    print $"($file) => ($target)"
+  } else {
+    mv $file $target
+    print $"($file) -> ($target)"
   }
 }
 
