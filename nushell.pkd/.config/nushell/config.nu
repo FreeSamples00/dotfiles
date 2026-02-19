@@ -112,7 +112,7 @@ $env.config = {
       type: {
         layout: ide
         min_completion_width: 0
-        max_completion_width: 50
+        max_completion_width: 100
         padding: 0
         border: true
         cursor_offset: 0
