@@ -6,12 +6,6 @@
 # 50%: 0x80
 # 25%: 0x40
 
-def to_sec [
-  time: duration
-] {
-  ($time | into int) / 1_000_000_000 | into int
-}
-
 const theme = {
   name: "catppuccin-mocha"
   colors: {
@@ -135,7 +129,7 @@ export const skenv =  {
     volume: {
       enable: true
       name: volume
-      color: $"($theme.colors.blue)"
+      color: $"($theme.colors.cyan)"
       icon_font: $"($fonts.icon.family):($fonts.icon.style):($fonts.icon.size + 4)"
       right_pad: $defaults.label.padding.right
       side: right
@@ -148,7 +142,7 @@ export const skenv =  {
       icon_font: $"($fonts.icon.family):($fonts.icon.style):($fonts.icon.size + 4)"
       update_freq: 5
     }
-    mail: { # TODO:
+    mail: {
       enable: true
       name: mail
       color: $"($theme.colors.blue)"
