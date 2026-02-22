@@ -17,7 +17,7 @@ alias torrent = transmission-cli
 alias less = less -R
 
 # tree w/ args
-alias tree = tree -aC -I .git -I .venv -I "._*"
+alias tree = tree -aC -I .git -I .venv -I target -I "*.rs.bk" -I .direnv -I .idea -I .vscode -I "._*"
 
 # opencode in plan mode
 alias ai = opencode --agent=plan
