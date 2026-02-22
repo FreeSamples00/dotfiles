@@ -9,6 +9,7 @@ const fd_defaults = [
 
 const fd_ignore = [
   .git
+  target
 ]
 
 const rg_defaults = [
@@ -22,6 +23,11 @@ const rg_defaults = [
 
 const rg_types = [
   --type-add 'nu:*.nu'
+]
+
+const rg_ignore = [
+  .git
+  target
 ]
 
 def colorize [
@@ -130,6 +136,7 @@ export def all [
   }
 
   let rg_defaults = if ($type != null) {$rg_defaults | append $"--type=($type)"} else {$rg_defaults}
+                    | append ($rg_ignore | each {|| $"--glob=!($in)"} | flatten)
 
   rg $pattern ...$rg_defaults ...$rg_types --max-depth=($depth)
   | from json -o
