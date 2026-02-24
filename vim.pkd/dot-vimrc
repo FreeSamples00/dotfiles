@@ -76,6 +76,7 @@ nnoremap U <C-r>
 " ==================== Cursor Shape Configuration ====================
 
 " Set cursor shape sequences (faster \033 instead of \x1b)
+autocmd VimEnter * silent !printf '\033[2 q'
 let &t_SI = "\033[5 q"   " Blinking bar in insert mode
 let &t_EI = "\033[2 q"   " Steady block in normal mode
 let &t_SR = "\033[3 q"   " Blinking underline in replace mode
