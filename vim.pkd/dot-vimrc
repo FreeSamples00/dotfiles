@@ -73,6 +73,10 @@ nnoremap xx yydd
 " rebind U to redo in normal mode
 nnoremap U <C-r>
 
+" reselect visual range after shifting
+xnoremap < <gv
+xnoremap > >gv
+
 " ==================== Cursor Shape Configuration ====================
 
 " Set cursor shape sequences (faster \033 instead of \x1b)
