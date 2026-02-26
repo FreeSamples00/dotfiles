@@ -58,6 +58,7 @@ alias e="vim"
 alias '?'='echo $?'
 alias less='less -R'
 alias rm='rm -I'
+alias diff='diff -u'
 
 # ==== grep aliases ====
 alias grep='grep -ni --color=auto --exclude-dir={.bzr,cvs,.git,.hg,.svn,.idea,.tox,.venv,venv}'
@@ -75,6 +76,7 @@ alias gcm='git commit -m'
 alias gca='git commit --verbose --all'
 alias ga='git add'
 alias grmc='git rm --cached'
+alias gbs='git switch'
 
 # ==== colorize man pages ====
 export LESS_TERMCAP_mb=$'\e[1;36m'
