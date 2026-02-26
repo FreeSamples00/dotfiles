@@ -13,3 +13,13 @@
 	status = auto
 	diff = auto
 	branch = auto
+
+[merge]
+  conflictStyle=zdiff3
+
+[delta]
+  side-by-side=false
+  line-numbers=true
+  navigate=true
+  syntax-theme="Nord"
+  hyperlinks=true
