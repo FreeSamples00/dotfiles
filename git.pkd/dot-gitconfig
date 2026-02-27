@@ -6,6 +6,7 @@
 # Settings
 [core]
 	excludesfile = /Users/sccmp/.globalgitignore
+  pager = delta
 [pull]
 	rebase = false
 [color]
@@ -21,5 +22,21 @@
   side-by-side=false
   line-numbers=true
   navigate=true
-  syntax-theme="Nord"
   hyperlinks=true
+  paging=never
+  dark=true
+  true-color=always
+  width=variable
+  syntax-theme=Dracula
+  minus-style="syntax #2a2a2a"
+  plus-style="syntax #0e2e1e"
+  zero-style="syntax"
+  file-style="#cba6f7"
+  file-decoration-style=""
+  hunk-header-style="#cba6f7 bold"
+  hunk-header-decoration-style=""
+  inline-hint-style="#cba6f7"
+  blame-palette="#6e5d80 #5e4e73 #504267 #43365c #382b52"
+  blame-code-style="syntax"
+  blame-separator-style="#cba6f7"
+  blame-separator-format="{n:^4} │"
