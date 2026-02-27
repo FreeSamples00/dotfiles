@@ -35,6 +35,8 @@ alias clock = tty-clock -Bbsctn -C 5 -f "%A %m/%d %Y"
 # shorter clear
 alias c = clear
 
+alias diff = diff -u
+
 # Nvim wrapper
 def e --env --wrapped [...args: path] {
   if (which nvim | is-empty) {
