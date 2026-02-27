@@ -23,7 +23,7 @@
   line-numbers=true
   navigate=true
   hyperlinks=true
-  paging=never
+  paging=auto
   dark=true
   word-diff=true
   true-color=always
