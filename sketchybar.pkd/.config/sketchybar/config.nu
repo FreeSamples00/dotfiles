@@ -86,9 +86,18 @@ export const skenv =  {
   widgets: {
     # NOTE: ===== left side items, ordered out to in =====
     apple: {
-      enable: true
+      enable: false
       name: apple
       color: $"($theme.colors.red)"
+      side: left
+    }
+    aero_mode: {
+      enable: true
+      name: aero_mode
+      # color: $"($theme.colors.orange)"
+      color: $"($theme.colors.red)"
+      icon_font: $"($fonts.icon.family):($fonts.icon.style):($fonts.icon.size + 4)"
+      update_freq: 5
       side: left
     }
     aerospace: {

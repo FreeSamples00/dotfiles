@@ -383,7 +383,7 @@ def app_icon [
         "Perplexity" | "Perplexity AI" => ":perplexity:",
         "Photos" | "Fotos" => ":photos:",
         "Preview" | "预览" | "Skim" | "zathura" | "Aperçu" | "プレビュー" | "Vorschau" => ":preview:",
-        "Proton Mail" | "Proton Mail Bridge" => ":proton_mail:",
+        "Proton Mail" | "Proton Mail Bridge" | "Proton Pass" => ":proton_mail:",
         "Proton VPN" | "ProtonVPN" => ":proton_vpn:",
         "PrusaSlicer" | "SuperSlicer" => ":prusaslicer:",
         "QQ音乐" | "QQMusic" => ":qqmusic:",
@@ -423,6 +423,9 @@ def widget_icon [
   name: string # icon name
 ]: nothing -> string {
   match $name {
+    "wm_accordion" => "󰕬"
+    "wm_tiling" => "󰙀"
+    "wm_floating" => "󱟱"
     "block-1" => "▁"
     "block-2" => "▂"
     "block-3" => "▃"
