@@ -51,12 +51,12 @@
       "wc *": "allow",
       "tree *": "allow",
       // Git
-      "git status": "allow",
-      "git diff": "allow",
-      "git log": "allow",
-      "git show": "allow",
-      "git rev-parse": "allow",
       "git *": "deny",
+      "git status": "allow",
+      "git diff *": "allow",
+      "git log *": "allow",
+      "git show *": "allow",
+      "git rev-parse *": "allow",
       // hard nos
       "pass-cli *": "deny",
       // info
