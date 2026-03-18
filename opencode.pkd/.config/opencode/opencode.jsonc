@@ -59,6 +59,7 @@
       "git rev-parse *": "allow",
       // hard nos
       "pass-cli *": "deny",
+      "rm -rf *": "deny",
       // info
       "which *": "allow",
       "brew list": "allow",
