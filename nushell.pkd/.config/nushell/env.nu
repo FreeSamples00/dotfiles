@@ -1,5 +1,8 @@
 # ----- Env Variables -----
 
+$env.XDG_CONFIG_HOME = $"($env.home)/.config"
+$env.XDG_CACHE_HOME = $"($env.home)/.cache"
+
 $env.config.buffer_editor = "nvim"
 $env.EDITOR = "nvim"
 $env.nu_config_dir = $"($env.XDG_CONFIG_HOME)"
