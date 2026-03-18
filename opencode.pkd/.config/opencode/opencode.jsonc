@@ -1,71 +1,83 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "theme": "opencode-custom",
   "model": "synthetic/hf:zai-org/GLM-4.7",
   "share": "disabled",
-  "tui": {
-    "scroll_acceleration": { "enabled": true },
-  },
-  "keybinds": {
-    "input_newline": "return",
-    "input_submit": "shift+return,ctrl+return,alt+return,ctrl+j",
-  },
   // Define permissions for model tooling
   "permission": {
-    "question": "allow",
-    "edit": "ask",
-    "bash": {
+    "*": "ask",
+    // read operations
+    "read": {
+      "*": "allow",
+      "*.priv": "deny",
+    },
+    "grep": "allow",
+    "glob": "allow",
+    "list": "allow",
+    "lsp": "allow",
+    "skill": "allow",
+    "external_directory": {
       "*": "ask",
-      // Allowed by default
-      "make": "allow",
-      "sleep": "allow",
-      /// File Exploration
-      "pwd": "allow",
+      "~/dotfiles": "ask",
+    },
+    // edit operations
+    "write": "deny",
+    "edit": "deny",
+    "patch": "deny",
+    // todolists
+    "todoread": "allow",
+    "todowrite": "allow",
+    // internet
+    "websearch": "allow",
+    "webfetch": "allow",
+    "codesearch": "allow",
+    // interaction
+    "question": "allow",
+    "doom_loop": "ask",
+    // commands
+    "bash": {
+      "*": "ask", // MUST BE FIRST
+      "make *": "allow",
+      // File Exploration
+      "pwd *": "allow",
       "ls *": "allow",
       "find *": "allow",
-      "cat": "allow",
-      "tail": "allow",
-      "head": "allow",
+      "cat *": "allow",
+      "tail *": "allow",
+      "head *": "allow",
       "grep *": "allow",
       "rg *": "allow",
-      "file": "allow",
-      "stat": "allow",
-      "wc": "allow",
-      "tree": "allow",
-      /// Git info commands
+      "file *": "allow",
+      "stat *": "allow",
+      "wc *": "allow",
+      "tree *": "allow",
+      // Git
       "git status": "allow",
       "git diff": "allow",
       "git log": "allow",
       "git show": "allow",
       "git rev-parse": "allow",
-      /// Command info
-      "which": "allow",
+      "git *": "deny",
+      // hard nos
+      "pass-cli *": "deny",
+      // info
+      "which *": "allow",
       "brew list": "allow",
       "* --version": "allow",
-      // Denied by default
-      "git *": "deny",
+      "* --help": "allow",
     },
-    "webfetch": "allow",
-    "doom_loop": "ask",
-    "external_directory": "ask",
   },
   "agent": {
     "plan": {
       "model": "synthetic/hf:zai-org/GLM-4.7",
-      "tools": {
-        "read": true,
-        "write": false,
-        "edit": false,
-        "bash": true,
-      },
+      "mode": "primary",
+      "permission": {},
     },
     "build": {
       "model": "synthetic/hf:zai-org/GLM-4.7",
-      "tools": {
-        "read": true,
-        "write": true,
-        "edit": true,
-        "bash": true,
+      "permission": {
+        "edit": "allow",
+        "write": "allow",
+        "patch": "ask",
       },
     },
   },
