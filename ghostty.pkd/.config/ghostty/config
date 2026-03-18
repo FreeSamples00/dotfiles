@@ -25,7 +25,7 @@ link-url = true
 macos-titlebar-style = hidden
 macos-titlebar-proxy-icon = hidden
 macos-window-buttons = hidden
-background-opacity = 0.8
+background-opacity = 0.85
 background-blur = true
 
 # --- COLORS ---
