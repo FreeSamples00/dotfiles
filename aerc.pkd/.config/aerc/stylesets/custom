@@ -1,0 +1,95 @@
+# Base Reset
+*.default=true
+*.normal=true
+
+# Default Colors
+default.fg=#cdd6f4
+
+# Notification/Status Colors
+error.fg=#f38ba8
+warning.fg=#f9e2af
+success.fg=#a6e3a1
+
+# Tabs
+tab.fg=#a6adc8
+tab.bg=#1e1e2e
+tab.selected.fg=#cdd6f4
+tab.selected.bg=#181825
+tab.selected.bold=true
+
+# Borders
+border.fg=#cdd6f4
+
+# Message List - Unread (blue)
+msglist_unread.fg=#89b4fa
+msglist_unread.bold=true
+
+# Message List - Flagged (orange)
+msglist_flagged.fg=#fab387
+msglist_flagged.bold=true
+
+# Message List - Answered (green)
+msglist_answered.fg=#a6e3a1
+msglist_answered.dim=true
+
+# Message List - Forwarded (magenta)
+msglist_forwarded.fg=#f5c2e7
+msglist_forwarded.italic=true
+
+# Message List - Marked (orange bg)
+msglist_marked.fg=#171723
+msglist_marked.bg=#fab387
+
+# Message List - Deleted (gray)
+msglist_deleted.fg=#a6adc8
+msglist_deleted.dim=true
+
+# Message List - Search Results
+msglist_result.fg=#89b4fa
+msglist_result.bold=true
+
+# Selected Item States
+msglist_*.selected.bold=true
+msglist_*.selected.bg=#313244
+
+# Threads
+msglist_thread_context.dim=true
+# msglist_thread_orphan.fg=#f38ba8
+
+# Directory List
+dirlist_*.selected.bold=true
+dirlist_*.selected.bg=#313244
+
+# Statusline
+statusline_default.fg=#a6adc8
+statusline_default.bg=#313244
+statusline_error.bold=true
+statusline_success.bold=true
+
+# Completion/Selector
+selector_focused.bg=#313244
+completion_default.selected.bg=#313244
+
+# Part Picker
+part_filename.selected.fg=#fab387
+part_filename.selected.bg=true
+
+part_mimetype.selected.fg=#fab387
+part_mimetype.selected.bg=true
+part_mimetype.italic=true
+part_mimetype.dim=true
+
+# Viewer Section
+[viewer]
+url.fg=#89b4fa
+url.underline=true
+header.fg=#cdd6f4
+header.bold=true
+signature.fg=#a6adc8
+signature.dim=true
+diff_meta.bold=true
+diff_meta.fg=#89b4fa
+diff_chunk.fg=#89b4fa
+diff_add.fg=#a6e3a1
+diff_del.fg=#f38ba8
+quote_*.fg=#a6adc8
