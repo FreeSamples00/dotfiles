@@ -86,12 +86,12 @@ outer.top = [
 
 # macOS native
 [[on-window-detected]]
-if.app-name-regex-substring = 'messages|finder|find my|maps|reminders|calendar|music|weather|activity monitor|photos|mail|passwords|clock'
+if.app-name-regex-substring = 'messages|finder|find my|maps|reminders|calendar|music|weather|activity monitor|photos|mail|passwords|clock|contacts'
 run = 'layout floating'
 
 # non-native
 [[on-window-detected]]
-if.app-name-regex-substring = 'crossover|steam'
+if.app-name-regex-substring = 'crossover|steam|proton pass|proton mail|outlook'
 run = 'layout floating'
 
 # ========================= MAIN BINDINGS =========================
@@ -135,12 +135,11 @@ cmd-alt-ctrl-m = 'exec-and-forget open -a messages'
 cmd-alt-ctrl-w = 'exec-and-forget open -na helium'
 
 # MAIL
-cmd-alt-ctrl-shift-m = '''exec-and-forget osascript -e 'tell application "Mail"
-    check for new mail
-end tell'; open -a Mail'''
+
+cmd-alt-ctrl-shift-m = 'exec-and-forget open -na ghostty.app --args -e env XDG_CONFIG_HOME=~/.config aerc -C ~/.config/aerc/aerc.conf -A ~/.config/aerc/accounts.conf -B ~/.config/aerc/binds.conf'
 
 # PASSWORDS
-cmd-alt-ctrl-p = 'exec-and-forget open -a "Passwords"'
+cmd-alt-ctrl-p = 'exec-and-forget open -a "proton pass"'
 
 # VMWARE FUSION
 cmd-alt-ctrl-v = 'exec-and-forget open -a "VMWare Fusion"'
@@ -157,9 +156,9 @@ cmd-alt-ctrl-t = 'exec-and-forget open -na ghostty.app --args -e btop'
 # ========================= TILING HOTKEYS =========================
 
 # ========== layout ==========
-cmd-alt-ctrl-shift-enter = 'layout h_tiles h_accordion'
-cmd-alt-ctrl-enter = 'layout floating tiling'
-cmd-alt-ctrl-r = 'flatten-workspace-tree'
+cmd-alt-ctrl-shift-enter = [ 'layout h_tiles h_accordion', 'exec-and-forget sketchybar --trigger aerospace_workspace_change', ]
+cmd-alt-ctrl-enter = [ 'layout floating tiling', 'exec-and-forget sketchybar --trigger aerospace_workspace_change', ]
+cmd-alt-ctrl-r = [ 'flatten-workspace-tree', 'exec-and-forget sketchybar --trigger aerospace_workspace_change', ]
 cmd-alt-ctrl-shift-r = [ 'reload-config', 'exec-and-forget sketchybar --reload' ]
 
 # ========== focus ==========
