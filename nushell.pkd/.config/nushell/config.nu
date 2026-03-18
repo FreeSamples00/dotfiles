@@ -81,8 +81,8 @@ $env.config = {
 
   # ----- Datetime Settings -----
   datetime_format: {
-    table: "%R %D" # HH:MM MM/DD/YY
-    normal: "%R %D"
+    table: "%H:%M %-m/%-d/%y"
+    normal: "%H:%M %-m/%-d/%y"
   }
 
   # ----- Filesize Units -----

@@ -159,7 +159,7 @@ export def all [
   | if $json {
     to json
   } else {
-    $in | metadata set --datasource-ls
+    $in | metadata set --path-columns [name]
   }
 }
 
@@ -209,6 +209,6 @@ export def file [
   | if $json {
     to json
   } else {
-    $in | metadata set --datasource-ls # adds ls metadata for table --icons
+    $in | metadata set --path-columns [name]
   }
 }
