@@ -128,10 +128,13 @@ def airdrop [
 
 # Symlink Wrapper
 def symlink [
-  link: path # Location to create symlink
-  file: path # Real file
+  link: path  # Location to create symlink
+  file: path  # Real file
+  --full (-f) # link to path from root
 ] {
-  ^ln -s ($file | path expand) $link
+  let link = $link | str replace --regex "/$" ""
+  let file = $file | str replace --regex "/$" "" | if ($full) {$in | path expand} else {$in}
+  ^ln -s $file $link
 }
 
 # Send xterm-ghostty to remote machine
