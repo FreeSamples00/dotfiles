@@ -152,9 +152,17 @@ export const skenv =  {
       update_freq: 5
     }
     mail: {
-      enable: true
+      enable: false
       name: mail
       color: $"($theme.colors.blue)"
+      update_freq: 600
+      side: right
+    }
+    ai-usage: {
+      enable: true
+      name: "ai-usage"
+      color: $"($theme.colors.green)"
+      icon_font: $"($fonts.icon.family):($fonts.icon.style):($fonts.icon.size + 4)"
       update_freq: 600
       side: right
     }
@@ -180,5 +188,6 @@ export const skenv =  {
   }
   custom_events: [
     aerospace_workspace_change
+    opencode-completion
   ]
 }

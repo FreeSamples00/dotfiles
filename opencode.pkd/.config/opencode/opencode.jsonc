@@ -15,6 +15,7 @@
     "list": "allow",
     "lsp": "allow",
     "skill": "allow",
+    "pdf_reader": "allow",
     "external_directory": {
       "*": "ask",
       "~/dotfiles": "ask",

@@ -477,6 +477,7 @@ def widget_icon [
     "weather_default" => ""
     "apple_logo" => "󰀵"
     "mail" => "󰶈"
+    "ai" => ""
     _ => ""
   }
 }
