@@ -7,24 +7,24 @@
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
--- Enable spell checking
+----- special rules for text heavy filetypes -----
+local text_pattern = { "text", "markdown", "tex", "quarto", "mail" }
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "text", "markdown", "tex", "quarto" },
+  pattern = text_pattern,
   callback = function()
-    vim.opt_local.spell = true
-    vim.opt_local.spelllang = "en"
+    vim.opt_local.spell = true -- enable spelling
+    vim.opt_local.spelllang = "en" -- spelling language
+    vim.opt_local.wrap = true -- enable word wrap
+    vim.opt_local.textwidth = 0 -- disable textwidth
+    vim.opt_local.linebreak = true
+    vim.opt_local.breakindent = true
+    vim.opt_local.showbreak = "↳ "
+    vim.opt_local.formatoptions:remove("t") -- disable text hard-wrapping
+    vim.opt_local.formatoptions:remove("c") -- disable coment hard-wrapping
   end,
 })
 
--- Enable word wrapping
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "text", "markdown", "tex", "quarto" },
-  callback = function()
-    vim.opt_local.wrap = true
-  end,
-})
-
--- Auto generate spell files as needed
+----- Auto generate spell files as needed -----
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
     local config_path = vim.fn.stdpath("config")
