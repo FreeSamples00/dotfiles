@@ -1,5 +1,10 @@
+notARepository: "quit"
+git:
+  autoFetch: false
+  disableForcePushing: true
 os:
-  editPreset: nvim
+  editPreset: "nvim"
+  editAtLine: "nvim {{filename}} +{{line}}"
 gui:
   theme:
     activeBorderColor:
