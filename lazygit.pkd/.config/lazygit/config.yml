@@ -1,3 +1,4 @@
+# https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md
 notARepository: "quit"
 git:
   autoFetch: false
@@ -6,6 +7,19 @@ os:
   editPreset: "nvim"
   editAtLine: "nvim {{filename}} +{{line}}"
 gui:
+  spinner:
+    rate: 100
+    frames:
+      - ⠋
+      - ⠙
+      - ⠹
+      - ⠸
+      - ⠼
+      - ⠴
+      - ⠦
+      - ⠧
+      - ⠇
+      - ⠏
   theme:
     activeBorderColor:
       - "#fab387"

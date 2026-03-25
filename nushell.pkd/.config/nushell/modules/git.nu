@@ -36,7 +36,6 @@ export def gcl [
   --branch (-b): string # Branch name
   --depth (-d): int # Depth to clone history at
 ] {
-
   let URL = match $con_type {
     "ssh" => "git@github.com:"
     "http" => "https://github.com/"
@@ -58,6 +57,6 @@ export def gcl [
   let env_vars = if $con_type == https { { GIT_TERMINAL_PROMPT: "0" } } else { {} }
 
   with-env $env_vars {
-    git clone $"($URL)($target)" ...$args
+    git clone $"($URL)($target | str replace --regex "^https://github.com/" "")" ...$args
   }
 }
