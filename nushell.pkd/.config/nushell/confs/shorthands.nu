@@ -57,29 +57,6 @@ def cls [
   clear; print ""; if $long {ls -l} else {ls}
 }
 
-# Wrapper for ghgrab
-def ghet [
-  url?: string
-] {
-  print "Getting github token..."
-  let args =  [
-    --cwd
-    --no-folder
-    --token (pass-cli item view --item-title GitHub --field "Read-Only PAT")
-  ] | (if (($url | describe) != 'nothing') {
-          $in | append (if ($url | str starts-with "https://github.com/") {
-              $url
-            } else {
-              $"https://github.com/($url)"
-            }
-          )
-        } else {
-          $in
-        }
-      )
-  ghgrab ...$args
-}
-
 # Usage:
 #   `rsync <SRC> <DEST>`
 #

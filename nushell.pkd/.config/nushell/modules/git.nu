@@ -2,6 +2,40 @@
 
 # USAGE: import with `use /path/to/git.nu *`
 
+# ---------- INTERNAL HELPERS ----------
+
+# completer for connections types of git clone wrapper
+def gcl-con-completer [] {
+  [
+    { value: "ssh", description: "Clone via SSH (requires SSH key)" }
+    { value: "https", description: "Clone via HTTPS (public only)" }
+    { value: "http", description: "Clone via HTTPS (public only)" }
+  ]
+}
+
+# Completer for gitignore generator, supplies project types
+def ignore-completer [
+  spans: list<string>
+]: nothing -> table<value: string> {
+  let cache = "~/.cache/nushell/ignore-cache.json" | path expand
+  let list = if ($cache | path type) == file {
+    open $cache
+  } else {
+    let data = (
+      http get https://www.toptal.com/developers/gitignore/api/list
+      | split words
+      | wrap value
+      | uniq
+    )
+    $data | save -f $cache
+    $data
+  }
+  $list
+  | where $it.value =~ ($spans | last)
+}
+
+# ---------- ALIASES ----------
+
 export alias gst = git status
 export alias gl = git pull
 export alias gp = git push
@@ -16,13 +50,9 @@ export alias gbs = git switch
 export alias gco = git checkout
 export alias lg = lazygit
 
-def gcl-con-completer [] {
-  [
-    { value: "ssh", description: "Clone via SSH (requires SSH key)" }
-    { value: "https", description: "Clone via HTTPS (public only)" }
-    { value: "http", description: "Clone via HTTPS (public only)" }
-  ]
-}
+alias gi = get-ignore
+
+# ---------- FUNCTIONS ----------
 
 # Clone from github
 #
@@ -59,4 +89,41 @@ export def gcl [
   with-env $env_vars {
     git clone $"($URL)($target | str replace --regex "^https://github.com/" "")" ...$args
   }
+}
+
+# gitignore generator
+@complete ignore-completer
+export def get-ignore [
+  project_type? # Project type to get completions for
+  --refresh (-r) # Refresh cache
+] {
+  let cache = "~/.cache/nushell/ignore-cache.json" | path expand
+  if $refresh {
+    rm -f $cache
+    return
+  }
+  http get $"https://www.toptal.com/developers/gitignore/api/($project_type)"
+}
+
+# Wrapper for ghgrab
+export def ghet [
+  url?: string
+] {
+  print "Getting github token..."
+  let args =  [
+    --cwd
+    --no-folder
+    --token (pass-cli item view --item-title GitHub --field "Read-Only PAT")
+  ] | (if (($url | describe) != 'nothing') {
+          $in | append (if ($url | str starts-with "https://github.com/") {
+              $url
+            } else {
+              $"https://github.com/($url)"
+            }
+          )
+        } else {
+          $in
+        }
+      )
+  ghgrab ...$args
 }
