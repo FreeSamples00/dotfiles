@@ -9,8 +9,6 @@ source path.nu
 source completers.nu
 source functions.nu
 source shorthands.nu
-source completions.nu
-source cybertooling.nu
 
 # ---- Modules ----
 use grep.nu

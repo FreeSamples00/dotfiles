@@ -1,4 +1,4 @@
-# Commands to activate OSC (shell integration) features
+# Commands to activate terminal OSC (shell integration) features
 
 # Tool for activating OSC features
 #
@@ -8,7 +8,7 @@
 #   change-icon: change terminal title icon
 #   change-title: change terminal window title
 export def main [] {
-  print "Use `--help` or `help osc`"
+  print "Use `--help` or `help terminal`"
 }
 
 def progress-completer [] {
