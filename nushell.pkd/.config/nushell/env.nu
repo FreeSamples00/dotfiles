@@ -24,3 +24,5 @@ mkdir ~/.cache/nushell
 if not (which starship | is-empty) {starship init nu | save -f ~/.cache/nushell/starship.nu}
 if not (which zoxide | is-empty) {zoxide init nushell --cmd z | save -f ~/.cache/nushell/zoxide.nu}
 if not (which carapace | is-empty) {carapace _carapace nushell | save -f ~/.cache/nushell/carapace.nu}
+
+$env.SHELL = "/bin/bash" # set shell to bash for tools that need it
