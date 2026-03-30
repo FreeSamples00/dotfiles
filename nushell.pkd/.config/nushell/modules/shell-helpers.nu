@@ -1,5 +1,51 @@
+# shell interaction / navigation helpers
+
+# ---------- INTERNAL HELPERS ----------
+
+# ---------- ALIASES ----------
+
+export alias rm = rm -I
+export def cd --env --wrapped [...args: directory] { __zoxide_z ...$args }
+export alias rm = rm -I
+
+# clear shorthands
+export alias c = clear
+export def cls [
+  --long (-l) # detailed ls
+] {
+  clear; print ""; if $long {ls -l} else {ls}
+}
+
+# unfreeze first job
+export alias fg = job unfreeze (job list | reverse | where type == frozen | first | (if $in == null {null} else {$in.id}))
+
+# ----- EXTERNAL COMMANDS -----
+export alias tree = tree -aC -I .git -I .venv -I target -I "*.rs.bk" -I .direnv -I .idea -I .vscode -I "._*"
+export alias ai = opencode --agent=plan
+export alias diff = diff -u
+
+# neovim shorthand
+export def e --env --wrapped [...args: path] {
+  if (which nvim | is-empty) {
+    vim ...$args
+  } else {
+    nvim ...$args
+  }
+}
+
+# Usage:
+#   `rsync <SRC> <DEST>`
+#
+# Flags:
+#   `-a` archive: recursive, preserves file attributes
+#   `-z` compression
+#   `--stats` post transfer summary
+export alias rsync = rsync -az --stats
+
+# ---------- FUNCTIONS ----------
+
 # Reload shell configuration
-def reload [
+export def reload [
   --login (-l) # Reload as login shell
 ]: nothing -> nothing {
   if $login {
@@ -10,7 +56,7 @@ def reload [
 }
 
 # Mime the type of a file
-def mime [
+export def mime [
   file: path # File to mime the type of
   --full (-f) # Show full mimed type (**/** vs **)
 ]: nothing -> string {
@@ -34,12 +80,9 @@ def mime [
   }
 }
 
-# __zoxide_z wrapper
-def cd --env --wrapped [...args: directory] { __zoxide_z ...$args }
-
 # Rename a file or directory
 # Use the up arrow to edit the current filename
-def rnm [
+export def rnm [
   path: path # Filepath to rename
 ]: nothing -> nothing {
   if not ($path | path exists) {
@@ -54,7 +97,7 @@ def rnm [
 }
 
 # Manage file backups (.bak)
-def bak [
+export def bak [
   file: path      # File to modify
   --reverse (-r)  # remove .bak from file
   --force (-f)    # overwrite if new path exists
@@ -87,7 +130,7 @@ def bak [
 }
 
 # Symlink Wrapper
-def symlink [
+export def symlink [
   link: path  # Location to create symlink
   file: path  # Real file
   --full (-f) # link to path from root
@@ -98,8 +141,9 @@ def symlink [
   ^ln -s $file $link
 }
 
+
 # Send xterm-ghostty to remote machine
-def ghostty-xterm [
+export def ghostty-xterm [
   server: string # ssh config or user@server
 ] {
   infocmp -x xterm-ghostty | ssh $server -- tic -x -

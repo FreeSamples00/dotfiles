@@ -7,10 +7,10 @@ source ~/.cache/nushell/carapace.nu
 
 source path.nu
 source completers.nu
-source functions.nu
-source shorthands.nu
+source misc.nu
 
 # ---- Modules ----
+use shell-helpers.nu *
 use grep.nu
 use clipboard.nu *
 use git.nu *
