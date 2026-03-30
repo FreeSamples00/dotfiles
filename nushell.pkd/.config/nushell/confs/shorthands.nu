@@ -1,9 +1,3 @@
-# open pwd in finder
-alias ofd = ^open -R (pwd)
-
-# copy pwd
-alias cwd = do {use std/clip; pwd | clip copy}
-
 # rm w/ interactive protection
 alias rm = rm -I
 

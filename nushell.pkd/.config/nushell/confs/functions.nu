@@ -34,35 +34,6 @@ def mime [
   }
 }
 
-def application_completer [] {
-  mdfind "kMDItemKind == 'Application'"
-  | lines
-  | path basename
-  | str replace ".app" ""
-}
-
-def launch [
-  ...application: string@application_completer
-] {
-  let application = $application | str join " "
-  ^open -a $application
-}
-
-# Get gitignore rules by language
-@complete ignore-completer
-def get-ignore [
-  project_type? # Project type to get completions for
-  --refresh (-r) # Refresh cache
-] {
-  let cache = "~/.cache/nushell/ignore-cache.json" | path expand
-  if $refresh {
-    rm -f $cache
-    return
-  }
-  http get $"https://www.toptal.com/developers/gitignore/api/($project_type)"
-}
-alias gi = get-ignore
-
 # __zoxide_z wrapper
 def cd --env --wrapped [...args: directory] { __zoxide_z ...$args }
 
@@ -115,23 +86,13 @@ def bak [
   }
 }
 
-# Use apple shortcut to open share options
-def airdrop [
-  file?: path # path to share target
-] {
-  if $file != null {
-    shortcuts run airdrop-file -i $file
-  } else {
-    shortcuts run airdrop-file
-  }
-}
-
 # Symlink Wrapper
 def symlink [
   link: path  # Location to create symlink
   file: path  # Real file
   --full (-f) # link to path from root
 ] {
+  # force relative links
   let link = $link | str replace --regex "/$" ""
   let file = $file | str replace --regex "/$" "" | if ($full) {$in | path expand} else {$in}
   ^ln -s $file $link
@@ -142,19 +103,4 @@ def ghostty-xterm [
   server: string # ssh config or user@server
 ] {
   infocmp -x xterm-ghostty | ssh $server -- tic -x -
-}
-
-# Use macos notification system
-def notify [
-  --title (-t): string = "Ghostty" # Title for notification
-  --subtitle (-s): string = "default" # Subtitle for notification
-  message?: string # Notification Body
-] {
-  if (sys host | get long_os_version) =~ macOS {
-    let subtitle = if $subtitle == default {(pwd)} else {$subtitle}
-    mut command = $'display notification ($message) with title ($title) with subtitle ($subtitle)'
-    osascript -e ($command)
-  } else {
-  print "Not on macos"
-  }
 }

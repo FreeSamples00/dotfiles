@@ -19,3 +19,5 @@ use git.nu *
 use synthetic.nu
 use APIs.nu *
 use tmx.nu
+
+use (if $nu.os-info.name == 'macos' { 'macos.nu' }) *
