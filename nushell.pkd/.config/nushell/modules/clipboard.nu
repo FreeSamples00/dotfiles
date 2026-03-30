@@ -2,7 +2,11 @@
 
 # USAGE: import with `use /path/to/clipboard.nu *`
 
+# ---------- IMPORTS ----------
+
 use std/clip
+
+# ---------- INTERNAL HELPERS ----------
 
 # completer and type lister for copy
 def to-completer [] {
@@ -39,6 +43,13 @@ def from-completer [] {
     {value: "yml", description: "YAML"}
   ]
 }
+
+# ---------- ALIASES ----------
+
+# copy pwd
+export alias cwd = do {pwd | clip copy}
+
+# ---------- FUNCTIONS ----------
 
 # Pipe data into the system clipboard
 #
