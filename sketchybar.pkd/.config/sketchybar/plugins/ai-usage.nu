@@ -14,8 +14,8 @@ def get-usage [
 ] {
   http get --headers {Authorization: $"Bearer (api_key)"} $"($url_base)($usage_route)"
   | match $mode {
-    "percentage" => {$"($in.subscription | ($in.requests / $in.limit) | math round -p 1 | into string)%"}
-    "ratio" => {$"($in.subscription.requests)/($in.subscription.limit)"}
+    "percentage" => {$"($in.subscription | ($in.limit / $in.requests) | math round -p 1 | into string)%"}
+    "ratio" => {$"($in.subscription.limit)/($in.subscription.requests)"}
     "time-remaining" => {$in.subscription | get renewsAt | date humanize}
     "time-standard" => {$in.subscription | get renewsAt | format date "%I:%M"}
   }
