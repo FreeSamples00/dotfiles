@@ -9,7 +9,7 @@ return {
 			"nvim-treesitter/nvim-treesitter-textobjects",
 		},
 		config = function()
-			require("nvim-treesitter.configs").setup({
+			require("nvim-treesitter.config").setup({
 				-- Add languages to be installed here that you want installed for treesitter
 				ensure_installed = { "c", "cpp", "go", "lua", "python", "rust", "vimdoc", "vim" },
 
