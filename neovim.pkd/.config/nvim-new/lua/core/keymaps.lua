@@ -35,49 +35,49 @@ vim.keymap.set("c", "<M-BS>", "<C-w>")
 
 -- Normal mode
 vim.keymap.set("n", "d", '"_d', {
-	remap = false, -- Equivalent to 'noremap'
-	silent = true, -- Prevents messages like "Invalid key" if you type 'd' too fast alone
-	desc = "Delete without yanking",
+  remap = false, -- Equivalent to 'noremap'
+  silent = true, -- Prevents messages like "Invalid key" if you type 'd' too fast alone
+  desc = "Delete without yanking",
 })
 -- Visual mode
 vim.keymap.set("v", "d", '"_d', {
-	remap = false, -- Equivalent to 'noremap'
-	silent = true,
-	desc = "Delete visual selection without yanking",
+  remap = false, -- Equivalent to 'noremap'
+  silent = true,
+  desc = "Delete visual selection without yanking",
 })
 
 ---- 'c' without yanking ----
 
 -- Normal mode
 vim.keymap.set("n", "c", '"_c', {
-	remap = false, -- Equivalent to 'noremap'
-	silent = true, -- Prevents messages like "Invalid key" if you type 'd' too fast alone
-	desc = "Delete without yanking",
+  remap = false, -- Equivalent to 'noremap'
+  silent = true, -- Prevents messages like "Invalid key" if you type 'd' too fast alone
+  desc = "Delete without yanking",
 })
 
 -- Visual mode
 vim.keymap.set("v", "c", '"_c', {
-	remap = false, -- Equivalent to 'noremap'
-	silent = true,
-	desc = "Delete visual selection without yanking",
+  remap = false, -- Equivalent to 'noremap'
+  silent = true,
+  desc = "Delete visual selection without yanking",
 })
 
 ---- 'p' without yanking ----
 
 -- Visual mode
 vim.keymap.set("x", "p", [["_dP]], {
-	desc = "Paste without copying overwritten text",
+  desc = "Paste without copying overwritten text",
 })
 vim.keymap.set("x", "P", [["_dP]], {
-	desc = "Paste without copying overwritten text",
+  desc = "Paste without copying overwritten text",
 })
 
 ---- `xx` to cut line ----
 
 vim.keymap.set("n", "xx", "yydd", {
-	remap = false,
-	silent = true,
-	desc = "Yank line then delete it",
+  remap = false,
+  silent = true,
+  desc = "Yank line then delete it",
 })
 
 -- Blazingly fast way out of insert mode
@@ -122,8 +122,8 @@ map("n", "<leader>do", buffers.delete_others, "Other buffers")
 map("n", "<leader>da", buffers.delete_all, "All buffers")
 
 -- Navigate buffers
-map("n", "<S-l>", ":bnext<CR>")
-map("n", "<S-h>", ":bprevious<CR>")
+-- map("n", "<S-l>", ":bnext<CR>")
+-- map("n", "<S-h>", ":bprevious<CR>")
 
 -- Stay in indent mode
 map("v", "<", "<gv")
@@ -131,11 +131,11 @@ map("v", ">", ">gv")
 
 -- Switch between light and dark modes
 map("n", "<leader>ut", function()
-	if vim.o.background == "dark" then
-		vim.o.background = "light"
-	else
-		vim.o.background = "dark"
-	end
+  if vim.o.background == "dark" then
+    vim.o.background = "light"
+  else
+    vim.o.background = "dark"
+  end
 end, "Toggle between light and dark themes")
 
 -- Clear after search

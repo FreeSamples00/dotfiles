@@ -1,17 +1,17 @@
 local opts = {
-	shiftwidth = 4,
-	tabstop = 4,
-	expandtab = true,
-	wrap = false,
-	termguicolors = true,
-	number = true,
-	relativenumber = true,
-	clipboard = "unnamedplus", -- use system clipboard
+  shiftwidth = 4,
+  tabstop = 4,
+  expandtab = true,
+  wrap = false,
+  termguicolors = true,
+  number = true,
+  relativenumber = true,
+  clipboard = "unnamedplus", -- use system clipboard
 }
 
 -- Set options from table
 for opt, val in pairs(opts) do
-	vim.o[opt] = val
+  vim.o[opt] = val
 end
 
 -- Set other options
