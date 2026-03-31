@@ -92,7 +92,7 @@ return {
 			capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 			-- Lua
-			require("lspconfig")["lua_ls"].setup({
+			vim.lsp.config("lua_ls", {
 				on_attach = on_attach,
 				capabilities = capabilities,
 				settings = {
@@ -112,9 +112,10 @@ return {
 					},
 				},
 			})
+			vim.lsp.enable("lua_ls")
 
 			-- Python
-			require("lspconfig")["pylsp"].setup({
+			vim.lsp.config("pylsp", {
 				on_attach = on_attach,
 				capabilities = capabilities,
 				settings = {
@@ -142,6 +143,7 @@ return {
 					},
 				},
 			})
+			vim.lsp.enable("pylsp")
 		end,
 	},
 }
