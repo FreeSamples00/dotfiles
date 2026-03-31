@@ -14,14 +14,10 @@ for opt, val in pairs(opts) do
   vim.o[opt] = val
 end
 
--- Highlight on yank
-vim.api.nvim_create_autocmd("TextYankPost", {
-  desc = "Highlight when yanking text",
-  callback = function()
-    (vim.hl or vim.highlight).on_yank({ higroup = "Visual", timeout = 200 })
-  end,
-})
-
--- Set other options
-local colorscheme = require("helpers.colorscheme")
-vim.cmd.colorscheme(colorscheme)
+  -- Highlight on yank
+  vim.api.nvim_create_autocmd("TextYankPost", {
+    desc = "Highlight when yanking text",
+    callback = function()
+      (vim.hl or vim.highlight).on_yank({ higroup = "Visual", timeout = 200 })
+    end,
+  })
