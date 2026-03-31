@@ -1,5 +1,85 @@
 local map = require("helpers.keys").map
 
+-- rebind U to redo
+
+vim.keymap.set("n", "U", "<C-r>", { desc = "Redo" })
+
+---- remove annoying keymaps ----
+
+-- Disable Ex mode
+vim.keymap.set("n", "Q", "<Nop>")
+vim.keymap.set("n", "gQ", "<Nop>")
+
+-- remap command window
+vim.keymap.set("n", "q:", "<Nop>")
+vim.keymap.set("n", "q/", "<Nop>")
+vim.keymap.set("n", "q?", "<Nop>")
+vim.keymap.set("n", "<Leader>h:", "q:", { desc = "Command history" })
+vim.keymap.set("n", "<Leader>h/", "q/", { desc = "Search history" })
+vim.keymap.set("n", "<Leader>h?", "q?", { desc = "Search history" })
+
+---- emacs movements for commandline ----
+
+-- cmd arrow
+vim.keymap.set("c", "<C-a>", "<Home>")
+vim.keymap.set("c", "<C-e>", "<End>")
+
+-- opt arrow
+vim.keymap.set("c", "<M-b>", "<S-Left>")
+vim.keymap.set("c", "<M-f>", "<S-Right>")
+
+-- opt delete
+vim.keymap.set("c", "<M-BS>", "<C-w>")
+
+---- 'd' without yanking ----
+
+-- Normal mode
+vim.keymap.set("n", "d", '"_d', {
+	remap = false, -- Equivalent to 'noremap'
+	silent = true, -- Prevents messages like "Invalid key" if you type 'd' too fast alone
+	desc = "Delete without yanking",
+})
+-- Visual mode
+vim.keymap.set("v", "d", '"_d', {
+	remap = false, -- Equivalent to 'noremap'
+	silent = true,
+	desc = "Delete visual selection without yanking",
+})
+
+---- 'c' without yanking ----
+
+-- Normal mode
+vim.keymap.set("n", "c", '"_c', {
+	remap = false, -- Equivalent to 'noremap'
+	silent = true, -- Prevents messages like "Invalid key" if you type 'd' too fast alone
+	desc = "Delete without yanking",
+})
+
+-- Visual mode
+vim.keymap.set("v", "c", '"_c', {
+	remap = false, -- Equivalent to 'noremap'
+	silent = true,
+	desc = "Delete visual selection without yanking",
+})
+
+---- 'p' without yanking ----
+
+-- Visual mode
+vim.keymap.set("x", "p", [["_dP]], {
+	desc = "Paste without copying overwritten text",
+})
+vim.keymap.set("x", "P", [["_dP]], {
+	desc = "Paste without copying overwritten text",
+})
+
+---- `xx` to cut line ----
+
+vim.keymap.set("n", "xx", "yydd", {
+	remap = false,
+	silent = true,
+	desc = "Yank line then delete it",
+})
+
 -- Blazingly fast way out of insert mode
 map("i", "jk", "<esc>")
 
@@ -11,7 +91,7 @@ map("n", "<leader>qa", "<cmd>qa!<cr>", "Quit all")
 map("n", "<leader>dw", "<cmd>close<cr>", "Window")
 
 -- Diagnostic keymaps
-map('n', 'gx', vim.diagnostic.open_float, "Show diagnostics under cursor")
+map("n", "gx", vim.diagnostic.open_float, "Show diagnostics under cursor")
 
 -- Easier access to beginning and end of lines
 map("n", "<M-h>", "^", "Go to beginning of line")
