@@ -1,7 +1,14 @@
 local map = require("helpers.keys").map
+-- Clear search and stop snippet on escape
+
+-- Clear highlights when pressing Escape in Normal mode
+vim.api.nvim_create_autocmd("BufReadPost", {
+  callback = function()
+    vim.keymap.set("n", "<esc>", "<cmd>nohlsearch<cr><esc>", { buffer = 0 })
+  end,
+})
 
 -- rebind U to redo
-
 vim.keymap.set("n", "U", "<C-r>", { desc = "Redo" })
 
 ---- remove annoying keymaps ----
