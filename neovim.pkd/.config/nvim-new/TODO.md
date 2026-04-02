@@ -1,11 +1,35 @@
 # New Neovim Config TODOs
 
+## Nvim
+
+- [ ] Update to 0.12
+  - [ ] Undo tree
+
+- [ ] Tar editor
+- [ ] Zip editor
+- [ ] enable undo file
+
+## Lazy
+
+- [ ] Make more things load lazy
+
 ## Aesthetics
 
-- [ ] highlight line number
-- [ ] current row background
+- [ ] colorscheme modifications aren't applying
+  - [ ] highlight line number
+  - [ ] current row background
 - [ ] make hex color values that color
 - [ ] bottom right LSP loading things have wrong background color
+- [ ] boundary for page scrolling
+
+### render-markdown
+
+**Only Render**
+
+- [ ] checkboxes
+- [ ] tables
+- [ ] hiding italics/bold/backticks
+- [ ] codeblocks
 
 ## Plugins
 
