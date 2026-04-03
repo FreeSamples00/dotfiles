@@ -21,6 +21,7 @@ return {
         ensure_installed = {
           "lua_ls",
           "pylsp",
+          "marksman",
         },
         automatic_installation = true,
       })
@@ -147,6 +148,13 @@ return {
         capabilities = capabilities,
       })
       vim.lsp.enable("nushell")
+
+      -- Marksman (Markdown LSP server)
+      vim.lsp.config("marksman", {
+        on_attach = on_attach,
+        capabilities = capabilities,
+      })
+      vim.lsp.enable("marksman")
     end,
   },
 }
