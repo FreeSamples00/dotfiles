@@ -7,7 +7,7 @@
 
 - [ ] Tar editor
 - [ ] Zip editor
-- [ ] enable undo file
+- [x] enable undo file
 
 ## Lazy
 
