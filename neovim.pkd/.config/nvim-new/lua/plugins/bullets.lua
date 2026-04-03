@@ -10,8 +10,8 @@ return {
     vim.g.bullets_renumber_on_change = 0
 
     -- Keybinds
-    vim.keymap.set({ "i", "n" }, "<C-[>", "<cmd>BulletPromote<cr>", { desc = "Promote bullet" })
-    vim.keymap.set({ "i", "n" }, "<C-]>", "<cmd>BulletDemote<cr>", { desc = "Demote Bullet" })
+    vim.keymap.set({ "i", "n" }, "<C-,>", "<cmd>BulletPromote<cr>", { desc = "Promote bullet" })
+    vim.keymap.set({ "i", "n" }, "<C-.>", "<cmd>BulletDemote<cr>", { desc = "Demote Bullet" })
     vim.keymap.set({ "i", "n" }, "<C-x>", "<cmd>ToggleCheckbox<cr>", { desc = "Toggle Checkbox" })
   end,
 }
