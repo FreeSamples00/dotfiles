@@ -140,6 +140,13 @@ return {
         },
       })
       vim.lsp.enable("pylsp")
+
+      -- Nushell (official LSP server built into nushell v0.111.0+)
+      vim.lsp.config("nushell", {
+        on_attach = on_attach,
+        capabilities = capabilities,
+      })
+      vim.lsp.enable("nushell")
     end,
   },
 }
