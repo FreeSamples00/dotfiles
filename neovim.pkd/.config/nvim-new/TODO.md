@@ -26,18 +26,17 @@
 
 **Only Render**
 
-- [ ] checkboxes
-- [ ] tables
-- [ ] hiding italics/bold/backticks
-- [ ] codeblocks
+- [x] checkboxes
+- [x] tables
+- [x] hiding italics/bold/backticks
+- [x] codeblocks
 
 ## Plugins
 
-- [ ] setup render-markdown?
-- [ ] whatever markdown formatting completer there was
-- [ ] work on noice notifications or switch back to snacks
+- [x] whatever markdown formatting completer there was
+- [x] work on noice notifications or switch back to snacks
 - [ ] redo completion bindings in `cmp` to match `blink`
 
 ## Languages
 
-- [ ] nushell treesitter and LSP support
+- [x] nushell treesitter and LSP support
