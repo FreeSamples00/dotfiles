@@ -3,6 +3,9 @@ local augroup = vim.api.nvim_create_augroup
 
 local general = augroup("General", { clear = true })
 
+-- Initialize auto-format setting
+vim.g.autoformat_enabled = true
+
 ----- special rules for text heavy filetypes -----
 local text_pattern = { "text", "markdown", "tex", "quarto", "mail" }
 autocmd("FileType", {
@@ -50,5 +53,16 @@ autocmd("TextYankPost", {
   desc = "Highlight when yanking text",
   callback = function()
     (vim.hl or vim.highlight).on_yank({ higroup = "Visual", timeout = 200 })
+  end,
+})
+
+----- Auto-format on save -----
+autocmd("BufWritePre", {
+  group = general,
+  desc = "Auto-format on save",
+  callback = function()
+    if vim.g.autoformat_enabled ~= false then
+      vim.lsp.buf.format({ timeout_ms = 1000 })
+    end
   end,
 })

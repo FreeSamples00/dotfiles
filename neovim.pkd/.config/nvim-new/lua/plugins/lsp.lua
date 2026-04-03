@@ -155,6 +155,15 @@ return {
         capabilities = capabilities,
       })
       vim.lsp.enable("marksman")
+
+      -- Auto-format toggle command
+      vim.api.nvim_create_user_command("AutoFormatToggle", function()
+        vim.g.autoformat_enabled = not vim.g.autoformat_enabled
+        vim.notify(
+          string.format("Auto-formatting %s", vim.g.autoformat_enabled and "enabled" or "disabled"),
+          vim.log.levels.INFO
+        )
+      end, { desc = "Toggle auto-formatting on save" })
     end,
   },
 }

@@ -145,5 +145,8 @@ map("n", "<leader>ut", function()
   end
 end, "Toggle between light and dark themes")
 
+-- Toggle auto-format on save
+map("n", "<leader>uf", "<cmd>AutoFormatToggle<cr>", "Toggle auto-format")
+
 -- Clear after search
 map("n", "<leader>ur", "<cmd>nohl<cr>", "Clear highlights")
