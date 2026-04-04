@@ -6,13 +6,15 @@ return {
 
   {
     "catppuccin/nvim",
-    name = "catppuccin",
+    name = "catppuccin-custom",
     priority = 1000,
+    auto_integrations = true,
     config = function(_, opts)
       require("catppuccin").setup(opts)
-      vim.cmd.colorscheme("catppuccin")
+      vim.cmd.colorscheme("catppuccin-mocha")
     end,
     opts = {
+      flavour = "mocha",
       no_italic = false,
       term_colors = true,
       transparent_background = true,
@@ -36,21 +38,37 @@ return {
           crust = "#000000",
         },
       },
-      custom_highlights = function(colors)
-        return {
-          ["@markup.italic"] = { fg = colors.yellow, style = { "italic" } },
-          CursorLineNr = { fg = colors.peach, style = { "bold" } },
-          CursorLine = { bg = colors.surface0 },
-          NormalFloat = { bg = "NONE" },
-          FloatBorder = { bg = "NONE" },
-          FloatTitle = { bg = "NONE" },
-        }
-      end,
+      highlight_overrides = {
+        mocha = function(colors)
+          return {
+            ["@markup.italic"] = { fg = colors.yellow, style = { "italic" } },
+            CursorLineNr = { fg = colors.peach, style = { "bold" } },
+            CursorLine = { bg = colors.surface0 },
+            NormalFloat = { bg = "NONE" },
+            FloatBorder = { bg = "NONE" },
+            FloatTitle = { bg = "NONE" },
+          }
+        end,
+      },
       integrations = {
         dropbar = {
           enabled = true,
           color_mode = true,
         },
+        blink_cmp = {
+          enabled = true,
+          style = 'bordered'
+        },
+        gitsigns = true,
+        mason = true,
+        noice = true,
+        render_markdown = true,
+        which_key = true,
+        snacks = {
+          enabled = true,
+        },
+        harpoon = true,
+        --TODO: lualine integration
       },
     },
   },
