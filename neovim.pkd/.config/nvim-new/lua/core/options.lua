@@ -17,3 +17,5 @@ local opts = {
 for opt, val in pairs(opts) do
   vim.o[opt] = val
 end
+
+vim.opt.fillchars = { eob = " " }
