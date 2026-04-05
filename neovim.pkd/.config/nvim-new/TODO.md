@@ -1,13 +1,8 @@
 # New Neovim Config TODOs
 
-## Nvim
-
-- [ ] Update to 0.12
-  - [ ] Undo tree
-
-- [ ] Tar editor
-- [ ] Zip editor
-- [x] enable undo file
+- [ ] make `:w` and `:x` save all buffers
+- [ ] use AI to diff features between this and lazyvim, ensure nothing important is missed
+- [ ] look into deprecation warnings: `:checkhealth vim.deprecated`
 
 ## Lazy
 
@@ -18,28 +13,11 @@
 - [ ] colorscheme modifications aren't applying
   - [ ] highlight line number
   - [ ] current row background
-- [ ] make hex color values that color
 - [ ] bottom right LSP loading things have wrong background color
 - [ ] boundary for page scrolling
 - [ ] lualine indicator for buffers?
-- [ ] get TODO comment highlighting working
-- [ ] look into softwrapping lines in `text` type files
-
-### render-markdown
-
-**Only Render**
-
-- [x] checkboxes
-- [x] tables
-- [x] hiding italics/bold/backticks
-- [x] codeblocks
 
 ## Plugins
 
-- [x] whatever markdown formatting completer there was
-- [x] work on noice notifications or switch back to snacks
 - [ ] redo completion bindings in `cmp` to match `blink`
-
-## Languages
-
-- [x] nushell treesitter and LSP support
+- [ ] move keybinds that are per plugin to the config, see lazy.nvim docs
