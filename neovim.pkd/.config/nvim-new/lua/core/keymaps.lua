@@ -90,3 +90,14 @@ map("n", "<leader>uf", "<cmd>AutoFormatToggle<cr>", "Toggle auto-format")
 
 -- Clear after search
 map("n", "<leader>ur", "<cmd>nohl<cr>", "Clear highlights")
+
+-- LSP commands
+local noice = require("noice.lsp")
+map("n", "J", vim.diagnostic.open_float, "LSP Diagnostics")
+map("n", "<leader>lk", noice.signature, "Help")
+map("n", "<leader>ld", vim.lsp.buf.definition, "Goto definition")
+map("n", "<leader>lD", vim.lsp.buf.declaration, "Goto declaration")
+map("n", "<leader>lr", vim.lsp.buf.references, "Goto references")
+map("n", "<leader>lR", vim.lsp.buf.rename, "Rename Symbol")
+map("n", "<leader>lD", vim.diagnostic.open_float, "Diagnostics")
+map("n", "<leader>lt", vim.lsp.buf.type_definition, "Goto type definition")
