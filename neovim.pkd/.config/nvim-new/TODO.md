@@ -21,6 +21,9 @@
 - [ ] make hex color values that color
 - [ ] bottom right LSP loading things have wrong background color
 - [ ] boundary for page scrolling
+- [ ] lualine indicator for buffers?
+- [ ] get TODO comment highlighting working
+- [ ] look into softwrapping lines in `text` type files
 
 ### render-markdown
 
