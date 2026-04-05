@@ -1,15 +1,8 @@
 local map = require("helpers.keys").map
--- Clear search and stop snippet on escape
 
--- Clear highlights when pressing Escape in Normal mode
-vim.api.nvim_create_autocmd("BufReadPost", {
-  callback = function()
-    vim.keymap.set("n", "<esc>", "<cmd>nohlsearch<cr><esc>", { buffer = 0 })
-  end,
-})
+map("n", "<esc>", "<cmd>nohlsearch<cr><esc>", "Esc + clear hl")
 
--- rebind U to redo
-vim.keymap.set("n", "U", "<C-r>", { desc = "Redo" })
+map("n", "U", "<C-r>", "Redo")
 
 ---- remove annoying keymaps ----
 
@@ -21,9 +14,9 @@ vim.keymap.set("n", "gQ", "<Nop>")
 vim.keymap.set("n", "q:", "<Nop>")
 vim.keymap.set("n", "q/", "<Nop>")
 vim.keymap.set("n", "q?", "<Nop>")
-vim.keymap.set("n", "<Leader>h:", "q:", { desc = "Command history" })
-vim.keymap.set("n", "<Leader>h/", "q/", { desc = "Search history" })
-vim.keymap.set("n", "<Leader>h?", "q?", { desc = "Search history" })
+
+-- remove join line
+vim.keymap.set("n", "J", "<Nop>")
 
 ---- emacs movements for commandline ----
 
@@ -42,13 +35,13 @@ vim.keymap.set("c", "<M-BS>", "<C-w>")
 
 -- Normal mode
 vim.keymap.set("n", "d", '"_d', {
-  remap = false, -- Equivalent to 'noremap'
-  silent = true, -- Prevents messages like "Invalid key" if you type 'd' too fast alone
+  remap = false,
+  silent = true,
   desc = "Delete without yanking",
 })
 -- Visual mode
 vim.keymap.set("v", "d", '"_d', {
-  remap = false, -- Equivalent to 'noremap'
+  remap = false,
   silent = true,
   desc = "Delete visual selection without yanking",
 })
@@ -57,27 +50,22 @@ vim.keymap.set("v", "d", '"_d', {
 
 -- Normal mode
 vim.keymap.set("n", "c", '"_c', {
-  remap = false, -- Equivalent to 'noremap'
-  silent = true, -- Prevents messages like "Invalid key" if you type 'd' too fast alone
+  remap = false,
+  silent = true,
   desc = "Delete without yanking",
 })
 
 -- Visual mode
 vim.keymap.set("v", "c", '"_c', {
-  remap = false, -- Equivalent to 'noremap'
+  remap = false,
   silent = true,
   desc = "Delete visual selection without yanking",
 })
 
 ---- 'p' without yanking ----
 
--- Visual mode
-vim.keymap.set("x", "p", [["_dP]], {
-  desc = "Paste without copying overwritten text",
-})
-vim.keymap.set("x", "P", [["_dP]], {
-  desc = "Paste without copying overwritten text",
-})
+map("x", "p", [["_dp]], "Paste without copying")
+map("x", "P", [["_dp]], "Paste without copying")
 
 ---- `xx` to cut line ----
 
@@ -87,63 +75,15 @@ vim.keymap.set("n", "xx", "yydd", {
   desc = "Yank line then delete it",
 })
 
--- Blazingly fast way out of insert mode
-map("i", "jk", "<esc>")
-
--- Quick access to some common actions
-map("n", "<leader>fw", "<cmd>w<cr>", "Write")
-map("n", "<leader>fa", "<cmd>wa<cr>", "Write all")
-map("n", "<leader>qq", "<cmd>q<cr>", "Quit")
-map("n", "<leader>qa", "<cmd>qa!<cr>", "Quit all")
-map("n", "<leader>dw", "<cmd>close<cr>", "Window")
-
--- Diagnostic keymaps
-map("n", "gx", vim.diagnostic.open_float, "Show diagnostics under cursor")
-
--- Easier access to beginning and end of lines
-map("n", "<M-h>", "^", "Go to beginning of line")
-map("n", "<M-l>", "$", "Go to end of line")
-
--- Better window navigation
-map("n", "<C-h>", "<C-w><C-h>", "Navigate windows to the left")
-map("n", "<C-j>", "<C-w><C-j>", "Navigate windows down")
-map("n", "<C-k>", "<C-w><C-k>", "Navigate windows up")
-map("n", "<C-l>", "<C-w><C-l>", "Navigate windows to the right")
-
--- Move with shift-arrows
-map("n", "<S-Left>", "<C-w><S-h>", "Move window to the left")
-map("n", "<S-Down>", "<C-w><S-j>", "Move window down")
-map("n", "<S-Up>", "<C-w><S-k>", "Move window up")
-map("n", "<S-Right>", "<C-w><S-l>", "Move window to the right")
-
--- Resize with arrows
-map("n", "<C-Up>", ":resize +2<CR>")
-map("n", "<C-Down>", ":resize -2<CR>")
-map("n", "<C-Left>", ":vertical resize +2<CR>")
-map("n", "<C-Right>", ":vertical resize -2<CR>")
-
 -- Deleting buffers
 local buffers = require("helpers.buffers")
-map("n", "<leader>db", buffers.delete_this, "Current buffer")
-map("n", "<leader>do", buffers.delete_others, "Other buffers")
-map("n", "<leader>da", buffers.delete_all, "All buffers")
-
--- Navigate buffers
--- map("n", "<S-l>", ":bnext<CR>")
--- map("n", "<S-h>", ":bprevious<CR>")
+map("n", "<leader>bd", buffers.delete_this, "Close Buffer")
+map("n", "<leader>bo", buffers.delete_others, "Close Other Buffers")
+map("n", "<leader>bD", buffers.delete_all, "Close All Buffers")
 
 -- Stay in indent mode
 map("v", "<", "<gv")
 map("v", ">", ">gv")
-
--- Switch between light and dark modes
-map("n", "<leader>ut", function()
-  if vim.o.background == "dark" then
-    vim.o.background = "light"
-  else
-    vim.o.background = "dark"
-  end
-end, "Toggle between light and dark themes")
 
 -- Toggle auto-format on save
 map("n", "<leader>uf", "<cmd>AutoFormatToggle<cr>", "Toggle auto-format")
