@@ -5,20 +5,21 @@ return {
     event = "BufReadPost",
     opts = {},
   },
-  {
-    "akinsho/git-conflict.nvim",
-    event = "BufReadPost",
-    config = function()
-      require("git-conflict").setup({
-        default_mappings = {
-          ours = "co",
-          theirs = "ct",
-          none = "c0",
-          both = "cb",
-          next = "cn",
-          prev = "cp",
-        },
-      })
-    end,
-  },
+  --NOTE: this is not maintined and has deprecation warnings...
+  -- {
+  --   "akinsho/git-conflict.nvim",
+  --   event = "BufReadPost",
+  --   config = function()
+  --     require("git-conflict").setup({
+  --       default_mappings = {
+  --         ours = "co",
+  --         theirs = "ct",
+  --         none = "c0",
+  --         both = "cb",
+  --         next = "cn",
+  --         prev = "cp",
+  --       },
+  --     })
+  --   end,
+  -- },
 }
