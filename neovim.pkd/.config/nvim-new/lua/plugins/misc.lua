@@ -1,24 +1,30 @@
 -- Miscelaneous fun stuff
 return {
-  -- Comment with haste
   {
     "numToStr/Comment.nvim",
+    event = "VeryLazy",
     opts = {},
   },
-  -- Move stuff with <M-j> and <M-k> in both normal and visual mode
   {
     "echasnovski/mini.move",
+    event = "VeryLazy",
     config = function()
       require("mini.move").setup()
     end,
   },
-  -- Better buffer closing actions. Available via the buffers helper.
   {
     "kazhala/close-buffers.nvim",
+    cmd = { "Bdelete", "Bwipeout" },
     opts = {
       preserve_window_layout = { "this", "nameless" },
     },
   },
-  "tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
-  "tpope/vim-surround", -- Surround stuff with the ys-, cs-, ds- commands
+  {
+    "tpope/vim-sleuth",
+    event = "BufReadPost",
+  },
+  {
+    "tpope/vim-surround",
+    event = "VeryLazy",
+  },
 }

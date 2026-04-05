@@ -7,6 +7,7 @@ return {
   {
     "catppuccin/nvim",
     name = "catppuccin-custom",
+    lazy = false,
     priority = 1000,
     auto_integrations = true,
     config = function(_, opts)
