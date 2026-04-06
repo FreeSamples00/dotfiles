@@ -14,7 +14,8 @@ local opts = {
   undofile = true,           -- enable undofile to track changes across sessions
   confirm = true,            -- enable confirm menu on things like saving before quiting
   scrolloff = 5,             -- keep n lines on screen above and below cursor at all times
-  fillchars = { eob = " " }  -- remove `~` from end of buffer
+  fillchars = { eob = " " }, -- remove `~` from end of buffer
+  wildmode = "list:full",    -- command-line completions don't autofill
 }
 
 -- Set options from table
