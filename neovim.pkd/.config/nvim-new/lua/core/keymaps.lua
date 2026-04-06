@@ -101,3 +101,7 @@ map("n", "<leader>lr", vim.lsp.buf.references, "Goto references")
 map("n", "<leader>lR", vim.lsp.buf.rename, "Rename Symbol")
 map("n", "<leader>lD", vim.diagnostic.open_float, "Diagnostics")
 map("n", "<leader>lt", vim.lsp.buf.type_definition, "Goto type definition")
+
+-- Better navigation in wrapped lines
+vim.keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
+vim.keymap.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
