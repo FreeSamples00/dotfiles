@@ -6,6 +6,9 @@ return {
   config = function()
     require("harpoon"):setup()
   end,
+  opts = {
+    sync_on_ui_close = true,
+  },
   keys = {
     {
       "<leader>a",
