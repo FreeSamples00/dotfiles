@@ -1,9 +1,10 @@
+local globals = require("helpers.globals")
+
 return {
   "nvim-lualine/lualine.nvim",
   event = "VeryLazy",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   opts = function()
-    -- get formatted time
     local function get_time()
       return os.date("%-I:%M %p")
     end
@@ -40,20 +41,7 @@ return {
           left = "",
           right = "",
         },
-        disabled_filetypes = {
-          "NvimTree",
-          "packer",
-          "atone",
-          "Outline",
-          "lazy",
-          "mason",
-          "help",
-          "Trouble",
-          "toggleterm",
-          "oil",
-          "spectre_panel",
-          "undotree",
-        },
+        disabled_filetypes = globals.ignored_filetypes,
         always_last_session = true,
         lsp_progress = { enabled = true },
       },
