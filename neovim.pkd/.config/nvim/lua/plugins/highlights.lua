@@ -4,6 +4,10 @@ return {
     "folke/todo-comments.nvim",
     event = "BufReadPost",
     dependencies = { "nvim-lua/plenary.nvim" },
+    keys = {
+      { "<leader>sc", function() Snacks.picker.todo_comments() end,                                                 desc = "Comments: tagged" },
+      { "<leader>sC", function() Snacks.picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME", "XXX" } }) end, desc = "Comments: Todo/Fix" },
+    },
     opts = {}
   },
   {

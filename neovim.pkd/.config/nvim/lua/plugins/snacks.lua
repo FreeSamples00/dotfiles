@@ -61,6 +61,9 @@ return {
         notifications = {
           layout = { hidden = { "input" } },
         },
+        todo_comments = {
+          layout = { hidden = { "input" } },
+        },
         lsp_definitions = lsp_picker_conf,
         lsp_declarations = lsp_picker_conf,
         lsp_references = lsp_picker_conf,
