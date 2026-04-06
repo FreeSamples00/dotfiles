@@ -45,13 +45,6 @@ export def e --env --wrapped [
   }
 }
 
-# neovim shorthand
-export def E --env --wrapped [...args: path] {
-  with-env { NVIM_APPNAME: "nvim-new" } {
-    nvim ...$args
-  }
-}
-
 # Usage:
 #   `rsync <SRC> <DEST>`
 #

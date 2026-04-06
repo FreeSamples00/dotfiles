@@ -5,7 +5,8 @@ vim.api.nvim_set_hl(0, "RenderMarkdownCheckedStrike", {
 
 return {
   "MeanderingProgrammer/render-markdown.nvim",
-  dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-mini/mini.nvim" }, -- if you use the mini.nvim suite
+  ft = "markdown",
+  dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-mini/mini.nvim" },
   ---@module 'render-markdown'
   ---@type render.md.UserConfig
 
@@ -22,8 +23,16 @@ return {
     },
 
     heading = {
+      -- background coloring
+      width = "block",
+      right_pad = 2,
+      left_pad = 1,
+
+      -- symbols
       position = "inline",
       icons = { "# ", "## ", "### ", "#### ", "##### ", "###### " },
+
+      border = true,
     },
 
     code = {

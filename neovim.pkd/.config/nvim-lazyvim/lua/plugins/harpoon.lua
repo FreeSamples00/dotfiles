@@ -1,4 +1,7 @@
--- https://github.com/ThePrimeagen/harpoon/tree/harpoon2
+local wk = require("which-key")
+wk.add({
+  { "<leader>h", group = "Harpoon" },
+})
 return {
   "ThePrimeagen/harpoon",
   branch = "harpoon2",
@@ -15,7 +18,7 @@ return {
       desc = "Harpoon: Add mark",
     },
     {
-      "H",
+      "<C-e>",
       function()
         require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
       end,
@@ -56,6 +59,42 @@ return {
       end,
       mode = { "n", "x" },
       desc = "Harpoon: Mark file",
+    },
+    {
+      "<leader>hl",
+      function()
+        require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
+      end,
+      mode = { "n", "x" },
+      desc = "Harpoon: Toggle list",
+    },
+    {
+      "<leader>h1",
+      function()
+        require("harpoon"):list():select(1)
+      end,
+      desc = "Harpoon: Go to 1",
+    },
+    {
+      "<leader>h2",
+      function()
+        require("harpoon"):list():select(2)
+      end,
+      desc = "Harpoon: Go to 2",
+    },
+    {
+      "<leader>h3",
+      function()
+        require("harpoon"):list():select(3)
+      end,
+      desc = "Harpoon: Go to 3",
+    },
+    {
+      "<leader>h4",
+      function()
+        require("harpoon"):list():select(4)
+      end,
+      desc = "Harpoon: Go to 4",
     },
     {
       "[h",

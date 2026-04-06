@@ -1,12 +1,25 @@
 return {
   "nvim-lualine/lualine.nvim",
-  event = "VeryLazy",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   opts = function()
     -- get formatted time
     local function get_time()
       return os.date("%-I:%M %p")
     end
+
+    -- get dirname or root folder of git (cached to avoid flickering cursor)
+    -- local function get_repo_or_dir_name()
+    --   if not vim.g.cached_repo_name or vim.fn.getcwd() ~= vim.g.cached_cwd then
+    --     local git_toplevel = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null"):match("(.*)\n")
+    --     if git_toplevel and git_toplevel ~= "" then
+    --       vim.g.cached_repo_name = "󰊢 " .. vim.fn.fnamemodify(git_toplevel, ":t")
+    --     else
+    --       vim.g.cached_repo_name = " " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+    --     end
+    --     vim.g.cached_cwd = vim.fn.getcwd()
+    --   end
+    --   return vim.g.cached_repo_name
+    -- end
 
     -- indicator for macro being recorded
     local function macro_indicator()
@@ -43,15 +56,6 @@ return {
         disabled_filetypes = {
           "NvimTree",
           "packer",
-          "atone",
-          "Outline",
-          "lazy",
-          "mason",
-          "help",
-          "Trouble",
-          "toggleterm",
-          "oil",
-          "spectre_panel",
         },
         always_last_session = true,
         lsp_progress = { enabled = true },
