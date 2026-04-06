@@ -1,4 +1,10 @@
 -- https://github.com/folke/snacks.nvim
+
+local lsp_picker_conf = {
+  layout = { hidden = { "input" } },
+  auto_confirm = false,
+}
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
@@ -48,11 +54,25 @@ return {
             list = {
               keys = {
                 ["l"] = "confirm",
-              }
-            }
-          }
-        }
-      }
+              },
+            },
+          },
+        },
+        notifications = {
+          layout = { hidden = { "input" } },
+        },
+        lsp_definitions = lsp_picker_conf,
+        lsp_declarations = lsp_picker_conf,
+        lsp_references = lsp_picker_conf,
+        lsp_implementations = lsp_picker_conf,
+        lsp_type_definitions = lsp_picker_conf,
+        lsp_incoming_calls = lsp_picker_conf,
+        lsp_outgoing_calls = lsp_picker_conf,
+        lsp_symbols = lsp_picker_conf,
+        lsp_workspaces_symbols = lsp_picker_conf,
+        diagnostics_buffer = lsp_picker_conf,
+        diagnostics = lsp_picker_conf,
+      },
     },
     quickfile = { enabled = true },
     scope = { enabled = true },
