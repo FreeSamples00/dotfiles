@@ -5,6 +5,7 @@ return {
   lazy = false,
   ---@type snacks.Config
   opts = {
+    animate = { enable = true },
     bigfile = { enabled = true },
     dashboard = { enabled = true },
     explorer = { enabled = true },
