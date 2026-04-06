@@ -6,11 +6,6 @@ return {
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
-      {
-        "j-hui/fidget.nvim",
-        tag = "legacy",
-        event = "LspAttach",
-      },
       "folke/neodev.nvim",
       "RRethy/vim-illuminate",
       "hrsh7th/cmp-nvim-lsp",
@@ -32,9 +27,6 @@ return {
 
       -- Neodev setup before LSP config
       require("neodev").setup()
-
-      -- Turn on LSP status information
-      require("fidget").setup()
 
       -- Diagnostic config
       local config = {
