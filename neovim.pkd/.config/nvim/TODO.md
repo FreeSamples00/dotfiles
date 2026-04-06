@@ -1,10 +1,12 @@
 # New Neovim Config TODOs
 
-- [ ] make `:w` and `:x` save all buffers
+- [ ] bottom right notifications
+  - [ ] doubled in the foremost display
+  - [ ] also displayed by something else in background
+
 - [ ] use AI to diff features between this and lazyvim, ensure nothing important is missed
 - [x] look into deprecation warnings: `:checkhealth vim.deprecated`
 - [ ] Configure inline hints?
-- [ ] bottom right LSP loading things have wrong background color
 - [ ] boundary for page scrolling
 - [ ] lualine indicator for buffers?
 - [ ] open help windows in some kind of styled pop-up/split buffer
@@ -18,6 +20,7 @@
 - [ ] add `shift + enter` in insert mode to newline without adding new comment prefix
 - [x] force text files to have `scrolloff=1` and shift down on opening
 - [x] change wrap icon to something less rigid looking
+- [ ] add non-saved scratch buffers
 
 ## Colorscheme issues
 
