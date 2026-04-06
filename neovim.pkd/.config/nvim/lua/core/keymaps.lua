@@ -85,22 +85,8 @@ map("n", "<leader>bD", buffers.delete_all, "Close All Buffers")
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
--- Toggle auto-format on save
-map("n", "<leader>uf", "<cmd>AutoFormatToggle<cr>", "Toggle auto-format")
-
 -- Clear after search
 map("n", "<leader>ur", "<cmd>nohl<cr>", "Clear highlights")
-
--- LSP commands
-local noice = require("noice.lsp")
-map("n", "J", vim.diagnostic.open_float, "LSP Diagnostics")
-map("n", "<leader>lk", noice.signature, "Help")
-map("n", "<leader>ld", vim.lsp.buf.definition, "Goto definition")
-map("n", "<leader>lD", vim.lsp.buf.declaration, "Goto declaration")
-map("n", "<leader>lr", vim.lsp.buf.references, "Goto references")
-map("n", "<leader>lR", vim.lsp.buf.rename, "Rename Symbol")
-map("n", "<leader>lD", vim.diagnostic.open_float, "Diagnostics")
-map("n", "<leader>lt", vim.lsp.buf.type_definition, "Goto type definition")
 
 -- Better navigation in wrapped lines
 vim.keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })

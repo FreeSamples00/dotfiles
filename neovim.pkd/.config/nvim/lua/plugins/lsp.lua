@@ -57,20 +57,23 @@ return {
       local on_attach = function(client, bufnr)
         local lsp_map = require("helpers.keys").lsp_map
 
-        lsp_map("<leader>lr", vim.lsp.buf.rename, bufnr, "Rename symbol")
-        lsp_map("<leader>la", vim.lsp.buf.code_action, bufnr, "Code action")
-        lsp_map("<leader>ld", vim.lsp.buf.type_definition, bufnr, "Type definition")
+        lsp_map("J", vim.diagnostic.open_float, bufnr, "LSP Diagnostics")
+        lsp_map("K", vim.lsp.buf.hover, bufnr, "LSP Hover")
 
-        -- lsp_map("gd", vim.lsp.buf.definition, bufnr, "Goto Definition")
-        -- lsp_map("gD", vim.lsp.buf.declaration, bufnr, "Goto Declaration")
-        -- lsp_map("gI", vim.lsp.buf.implementation, bufnr, "Goto Implementation")
-        lsp_map("K", vim.lsp.buf.hover, bufnr, "Hover Documentation")
+        lsp_map("<leader>la", vim.lsp.buf.code_action, bufnr, "Code Action")
+        lsp_map("<leader>lh", vim.diagnostic.open_float, bufnr, "Diagnostics")
+        lsp_map("<leader>lt", vim.lsp.buf.type_definition, bufnr, "Goto Type Definition")
+        lsp_map("<leader>lr", vim.lsp.buf.references, bufnr, "Goto References")
+        lsp_map("<leader>lR", vim.lsp.buf.rename, bufnr, "Rename Symbol")
+        lsp_map("<leader>ld", vim.lsp.buf.definition, bufnr, "Goto Definition")
+        lsp_map("<leader>lD", vim.lsp.buf.declaration, bufnr, "Goto Declaration")
 
         -- Create a command `:Format` local to the LSP buffer
         vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
           vim.lsp.buf.format()
         end, { desc = "Format current buffer with LSP" })
 
+        lsp_map("<leader>uf", "<cmd>AutoFormatToggle<cr>", bufnr, "Toggle auto-format")
         lsp_map("<leader>ff", "<cmd>Format<cr>", bufnr, "Format")
 
         -- Attach and configure vim-illuminate
