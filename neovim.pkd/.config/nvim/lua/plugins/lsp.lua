@@ -14,17 +14,6 @@ return {
       "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
-      -- Set up Mason before anything else
-      require("mason").setup()
-      require("mason-lspconfig").setup({
-        ensure_installed = {
-          "lua_ls",
-          "pylsp",
-          "marksman",
-        },
-        automatic_installation = true,
-      })
-
       -- Quick access via keymap
       require("helpers.keys").map("n", "<leader>M", "<cmd>Mason<cr>", "Show Mason")
 
@@ -94,7 +83,7 @@ return {
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-      -- Lua
+      -- Custom configs for servers needing extra settings
       vim.lsp.config("lua_ls", {
         on_attach = on_attach,
         capabilities = capabilities,
@@ -115,9 +104,7 @@ return {
           },
         },
       })
-      vim.lsp.enable("lua_ls")
 
-      -- Python
       vim.lsp.config("pylsp", {
         on_attach = on_attach,
         capabilities = capabilities,
@@ -126,9 +113,8 @@ return {
             plugins = {
               flake8 = {
                 enabled = true,
-                maxLineLength = 88, -- Black's line length
+                maxLineLength = 88,
               },
-              -- Disable plugins overlapping with flake8
               pycodestyle = {
                 enabled = false,
               },
@@ -138,7 +124,6 @@ return {
               pyflakes = {
                 enabled = false,
               },
-              -- Use Black as the formatter
               autopep8 = {
                 enabled = false,
               },
@@ -146,21 +131,33 @@ return {
           },
         },
       })
-      vim.lsp.enable("pylsp")
+
+      -- Set up Mason
+      require("mason").setup()
+      require("mason-lspconfig").setup({
+        ensure_installed = globals.lsp_ensure_installed,
+        automatic_installation = true,
+        automatic_enable = true,
+      })
+
+      -- Apply default config to remaining installed Mason servers
+      local custom_servers = { lua_ls = true, pylsp = true }
+      for _, server in ipairs(require("mason-lspconfig").get_installed_servers()) do
+        if not custom_servers[server] then
+          vim.lsp.config(server, {
+            on_attach = on_attach,
+            capabilities = capabilities,
+          })
+        end
+      end
 
       -- Nushell (official LSP server built into nushell v0.111.0+)
+      -- Not managed by Mason, needs manual enable
       vim.lsp.config("nushell", {
         on_attach = on_attach,
         capabilities = capabilities,
       })
       vim.lsp.enable("nushell")
-
-      -- Marksman (Markdown LSP server)
-      vim.lsp.config("marksman", {
-        on_attach = on_attach,
-        capabilities = capabilities,
-      })
-      vim.lsp.enable("marksman")
 
       -- Auto-format toggle command
       vim.api.nvim_create_user_command("AutoFormatToggle", function()
