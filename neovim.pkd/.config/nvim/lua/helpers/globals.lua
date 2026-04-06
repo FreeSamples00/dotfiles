@@ -13,6 +13,8 @@ M.ignored_filetypes = {
   "oil",
   "spectre_panel",
   "undotree",
+  "snacks_picker_list",
+  "snacks_picker_input"
 }
 
 M.lsp_icons = {

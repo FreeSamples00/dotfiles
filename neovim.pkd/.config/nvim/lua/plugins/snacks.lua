@@ -64,6 +64,33 @@ return {
         todo_comments = {
           layout = { hidden = { "input" } },
         },
+        marks = {
+          layout = { hidden = { "input" } },
+        },
+        undo = {
+          layout = {
+            hidden = { "input" },
+            layout = {
+              width = 0.9,
+              height = 0.9,
+              min_width = 100,
+              min_height = 30,
+              box = "horizontal",
+              {
+                box = "vertical",
+                width = 42,
+                { win = "input", height = 0 },
+                { win = "list",  height = 0 },
+              },
+              { win = "preview", width = 0 }
+            },
+          },
+          win = {
+            input = { border = "rounded" },
+            list = { border = "rounded" },
+            preview = { border = "rounded" }
+          }
+        },
         lsp_definitions = lsp_picker_conf,
         lsp_declarations = lsp_picker_conf,
         lsp_references = lsp_picker_conf,
@@ -253,6 +280,13 @@ return {
         Snacks.picker.marks()
       end,
       desc = "Marks",
+    },
+    {
+      "<leader>U",
+      function()
+        Snacks.picker.undo()
+      end,
+      desc = "Undo History",
     },
     {
       "<leader>su",
