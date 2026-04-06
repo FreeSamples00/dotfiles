@@ -39,7 +39,21 @@ return {
     indent = { enabled = true },
     input = { enabled = true },
     notifier = { enabled = true },
-    picker = { enabled = true },
+    picker = {
+      enabled = true,
+      sources = {
+        buffers = {
+          layout = { hidden = { "input" } },
+          win = {
+            list = {
+              keys = {
+                ["l"] = "confirm",
+              }
+            }
+          }
+        }
+      }
+    },
     quickfile = { enabled = true },
     scope = { enabled = true },
     scroll = { enabled = true },
@@ -62,6 +76,13 @@ return {
     },
     {
       "<leader>,",
+      function()
+        Snacks.picker.buffers()
+      end,
+      desc = "Buffers",
+    },
+    {
+      "L",
       function()
         Snacks.picker.buffers()
       end,
