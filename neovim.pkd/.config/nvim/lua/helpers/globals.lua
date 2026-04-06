@@ -24,4 +24,11 @@ M.lsp_icons = {
   hint = " ",
 }
 
+M.lsp_ensure_installed = {
+  "lua_ls",
+  "pylsp",
+  "marksman",
+  "texlab",
+}
+
 return M
