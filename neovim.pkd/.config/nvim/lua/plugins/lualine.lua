@@ -87,12 +87,12 @@ return {
           },
           {
             "diagnostics",
-            sources = { "nvim_lsp" },
+            sources = { "nvim_diagnostic" },
             symbols = {
-              error = " ",
-              warn = " ",
-              info = " ",
-              hint = " ",
+              error = globals.lsp_icons.error,
+              warn = globals.lsp_icons.warn,
+              hint = globals.lsp_icons.hint,
+              info = globals.lsp_icons.info,
             },
             colored = true,
             always_visible = false,

@@ -1,4 +1,7 @@
 -- LSP Configuration & Plugins
+
+local globals = require("helpers.globals")
+
 return {
   {
     "neovim/nvim-lspconfig",
@@ -33,10 +36,10 @@ return {
         virtual_text = false,
         signs = {
           text = {
-            [vim.diagnostic.severity.ERROR] = " ",
-            [vim.diagnostic.severity.WARN] = " ",
-            [vim.diagnostic.severity.INFO] = " ",
-            [vim.diagnostic.severity.HINT] = " ",
+            [vim.diagnostic.severity.ERROR] = globals.lsp_icons.error,
+            [vim.diagnostic.severity.WARN] = globals.lsp_icons.warn,
+            [vim.diagnostic.severity.INFO] = globals.lsp_icons.info,
+            [vim.diagnostic.severity.HINT] = globals.lsp_icons.hint,
           },
         },
         update_in_insert = true,
@@ -61,12 +64,19 @@ return {
         lsp_map("K", vim.lsp.buf.hover, bufnr, "LSP Hover")
 
         lsp_map("<leader>la", vim.lsp.buf.code_action, bufnr, "Code Action")
-        lsp_map("<leader>lh", vim.diagnostic.open_float, bufnr, "Diagnostics")
-        lsp_map("<leader>lt", vim.lsp.buf.type_definition, bufnr, "Goto Type Definition")
-        lsp_map("<leader>lr", vim.lsp.buf.references, bufnr, "Goto References")
+        lsp_map("<leader>lh", Snacks.picker.diagnostics_buffer, bufnr, "Buffer Diagnostics")
+        lsp_map("<leader>lH", Snacks.picker.diagnostics, bufnr, "All Diagnostics")
+        lsp_map("<leader>lk", "<cmd>Noice signature<cr>", bufnr, "Show Signature")
+        lsp_map("<leader>lt", Snacks.picker.lsp_type_definitions, bufnr, "Type Definition")
+        lsp_map("<leader>lr", Snacks.picker.lsp_references, bufnr, "References")
         lsp_map("<leader>lR", vim.lsp.buf.rename, bufnr, "Rename Symbol")
-        lsp_map("<leader>ld", vim.lsp.buf.definition, bufnr, "Goto Definition")
-        lsp_map("<leader>lD", vim.lsp.buf.declaration, bufnr, "Goto Declaration")
+        lsp_map("<leader>ld", Snacks.picker.lsp_definitions, bufnr, "Definition")
+        lsp_map("<leader>lD", Snacks.picker.lsp_declarations, bufnr, "Declaration")
+        lsp_map("<leader>li", Snacks.picker.lsp_implementations, bufnr, "Implementation")
+        lsp_map("<leader>lc", Snacks.picker.lsp_incoming_calls, bufnr, "Incoming Calls")
+        lsp_map("<leader>lC", Snacks.picker.lsp_outgoing_calls, bufnr, "Outgoing Calls")
+        lsp_map("<leader>ls", Snacks.picker.lsp_symbols, bufnr, "Buffer Symbols")
+        lsp_map("<leader>lS", Snacks.picker.lsp_workspace_symbols, bufnr, "All Symbols")
 
         -- Create a command `:Format` local to the LSP buffer
         vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)

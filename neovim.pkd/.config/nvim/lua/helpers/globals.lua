@@ -15,4 +15,11 @@ M.ignored_filetypes = {
   "undotree",
 }
 
+M.lsp_icons = {
+  error = " ",
+  warn = " ",
+  info = " ",
+  hint = " ",
+}
+
 return M

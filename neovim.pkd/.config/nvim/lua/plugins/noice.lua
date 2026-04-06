@@ -2,9 +2,6 @@
 return {
   "folke/noice.nvim",
   event = "VeryLazy",
-  keys = {
-    { "<leader>lk", "<cmd>Noice signature<cr>", desc = "Help" },
-  },
   opts = {
     -- you can enable a preset for easier configuration
     presets = {
