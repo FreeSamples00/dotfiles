@@ -15,6 +15,9 @@
   - [ ] replaced with `atone`
   - [ ] configure atone, possible live render on main buffer?
 - [ ] difftool (native)
+- [ ] add `shift + enter` in insert mode to newline without adding new comment prefix
+- [x] force text files to have `scrolloff=1` and shift down on opening
+- [x] change wrap icon to something less rigid looking
 
 ## Colorscheme issues
 
