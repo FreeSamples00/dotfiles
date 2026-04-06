@@ -52,6 +52,7 @@ return {
           "toggleterm",
           "oil",
           "spectre_panel",
+          "undotree",
         },
         always_last_session = true,
         lsp_progress = { enabled = true },
