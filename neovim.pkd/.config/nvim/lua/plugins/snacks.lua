@@ -7,7 +7,34 @@ return {
   opts = {
     animate = { enable = true },
     bigfile = { enabled = true },
-    dashboard = { enabled = true },
+    dashboard = {
+      enabled = true,
+      preset = {
+        keys = {
+          { key = "q", action = ":qa", hidden = true },
+        },
+      },
+      sections = {
+        { section = "header", padding = 1 },
+        function()
+          local stats = require("lazy.stats").stats()
+          local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
+          return {
+            align = "center",
+            text = {
+              { "💤 ", hl = "" },
+              { "Loaded ", hl = "keyword" },
+              { stats.loaded .. "/" .. stats.count, hl = "special" },
+              { " plugins in ", hl = "keyword" },
+              { ms .. "ms", hl = "special" },
+            },
+            padding = 1,
+          }
+        end,
+        { title = "  " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":~"), padding = 1, align = "center" },
+        { section = "keys", gap = 1, padding = 0 },
+      },
+    },
     explorer = { enabled = true },
     indent = { enabled = true },
     input = { enabled = true },
