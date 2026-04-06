@@ -2,6 +2,12 @@
 
 # ---------- INTERNAL HELPERS ----------
 
+def nvim-completer [] {
+  ls ~/.config/nvim*
+  | get name
+  | path basename
+}
+
 # ---------- ALIASES ----------
 
 export alias rm = rm -I
@@ -25,11 +31,17 @@ export alias ai = opencode --agent=plan
 export alias diff = diff -u
 
 # neovim shorthand
-export def e --env --wrapped [...args: path] {
-  if (which nvim | is-empty) {
-    vim ...$args
+export def e --env --wrapped [
+  ...args: path
+  --config (-c): string@nvim-completer # config choice
+  --clean # no config
+] {
+  if $clean {
+    nvim --clean ...$args
   } else {
-    nvim ...$args
+    with-env { NVIM_APPNAME: ($config | default "") } {
+      nvim ...$args
+    }
   }
 }
 
