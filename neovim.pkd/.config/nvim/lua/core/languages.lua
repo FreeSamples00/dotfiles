@@ -1,6 +1,12 @@
 local M = {}
 
 -------------------------------------------------------------------------------
+-- List of languages installed by default
+-------------------------------------------------------------------------------
+
+M.ensure_installed = { "lua", "markdown", "vim" }
+
+-------------------------------------------------------------------------------
 -- LSP config name -> Mason package name mapping
 -------------------------------------------------------------------------------
 
@@ -9,6 +15,7 @@ M.lsp_to_mason = {
   pylsp = "python-lsp-server",
   marksman = "marksman",
   texlab = "texlab",
+  ts_ls = "typescript-language-server",
 }
 
 -------------------------------------------------------------------------------
@@ -89,6 +96,27 @@ M.languages = {
       name = "debugpy",
       enabled = false,
     },
+  },
+
+  typescript = {
+    filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "tsx", "jsx" },
+    treesitter = { "typescript", "tsx", "javascript", "jsdoc" },
+    lsp = {
+      name = "ts_ls",
+      enabled = true,
+    },
+    formatter = {
+      name = "prettier",
+      enabled = true,
+      config = {
+        filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "tsx", "jsx", "json" },
+      },
+    },
+    linter = {
+      name = "eslint_d",
+      enabled = true,
+    },
+    dap = nil,
   },
 
   markdown = {
@@ -189,8 +217,6 @@ M.languages = {
   },
 }
 
-M.ensure_installed = { "lua", "markdown" }
-
 -------------------------------------------------------------------------------
 -- State Checking Functions
 -------------------------------------------------------------------------------
@@ -230,7 +256,7 @@ function M.is_installed(lang_name)
 
   if lang.treesitter then
     local parsers = type(lang.treesitter) == "table" and lang.treesitter or { lang.treesitter }
-    for _, parser in parsers do
+    for _, parser in ipairs(parsers) do
       if not is_treesitter_installed(parser) then
         status.treesitter = false
         status.complete = false
