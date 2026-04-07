@@ -114,12 +114,19 @@ return {
       local on_attach = function(client, bufnr)
         local lsp_map = require("helpers.keys").lsp_map
 
+        local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
+        local lang_name, lang = languages.get_language_for_filetype(ft)
+        if lang and lang.formatter and lang.formatter.enabled then
+          client.server_capabilities.documentFormattingProvider = false
+          client.server_capabilities.documentRangeFormattingProvider = false
+        end
+
         lsp_map("J", vim.diagnostic.open_float, bufnr, "LSP Diagnostics")
         lsp_map("K", vim.lsp.buf.hover, bufnr, "LSP Hover")
         lsp_map("<leader>la", vim.lsp.buf.code_action, bufnr, "Code Action")
         lsp_map("<leader>lh", Snacks.picker.diagnostics_buffer, bufnr, "Buffer Diagnostics")
         lsp_map("<leader>lH", Snacks.picker.diagnostics, bufnr, "All Diagnostics")
-        lsp_map("<leader>lk", "<cmd>Noice signature<cr>", bufnr, "Show Signature")
+        lsp_map("<leader>lk", "<cmd>lua vim.lsp.buf.signature_help()<cr>", bufnr, "Show Signature")
         lsp_map("<leader>lt", Snacks.picker.lsp_type_definitions, bufnr, "Type Definition")
         lsp_map("<leader>lr", Snacks.picker.lsp_references, bufnr, "References")
         lsp_map("<leader>lR", vim.lsp.buf.rename, bufnr, "Rename Symbol")
@@ -251,12 +258,29 @@ return {
     config = function()
       local null_ls = require("null-ls")
       local sources = {}
+      local formatters_by_name = {}
 
       for lang_name, formatter in pairs(languages.get_all_formatters()) do
-        local builtin = null_ls.builtins.formatting[formatter.name]
+        local name = formatter.name
+        if not formatters_by_name[name] then
+          formatters_by_name[name] = { config = formatter.config }
+        elseif formatter.config and formatter.config.filetypes then
+          local existing = formatters_by_name[name]
+          if existing.config and existing.config.filetypes then
+            for _, ft in ipairs(formatter.config.filetypes) do
+              if not vim.tbl_contains(existing.config.filetypes, ft) then
+                table.insert(existing.config.filetypes, ft)
+              end
+            end
+          end
+        end
+      end
+
+      for name, formatter_data in pairs(formatters_by_name) do
+        local builtin = null_ls.builtins.formatting[name]
         if builtin then
-          if formatter.config then
-            builtin = builtin.with(formatter.config)
+          if formatter_data.config then
+            builtin = builtin.with(formatter_data.config)
           end
           table.insert(sources, builtin)
         end
