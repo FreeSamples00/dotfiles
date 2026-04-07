@@ -4,6 +4,35 @@
 
 `core/languages.lua` defines mappings of languages to tools:
 
+```lua
+M.languages = {
+  python = {
+    filetypes = { "python", "py" },
+    treesitter = { "python", ... }, -- allow multiple grammars (e.g. ts & tsx)
+    lsp = {
+      name = "pylsp",
+      enabled = true,
+      config = { ... }
+    },
+    formatter = {
+      name = "black",
+      enabled = true,
+      config = { .. }
+    },
+    linter = {
+      name = "flake8",
+      enabled = true,
+      config = { ... }
+    },
+    dap = {
+      name = "debugpy",
+      enabled = false,
+      config = { ... }
+    }
+  }
+}
+```
+
 - Treesitter
 - LSP
 - Formatter
@@ -23,6 +52,11 @@ all instances should get the ensure_installed languages, list of additionally in
 ## language install
 
 command that installs all required tools defined for a language
+
+- `LanguageInstall <language>` install language
+- `LanguageInstall` use picker
+- `LanguageList` list all defined languages
+- `LanguageStatus` installation/configuration status
 
 Runs:
 
@@ -55,3 +89,11 @@ one tool per category per language, if a tool supports multiple languages ignore
 install and configure formatters as needed
 
 define formatter keybinds and auto-format hook if formatter is available
+
+### Linter
+
+use null-ls to configure
+
+### DAP
+
+skip config for now, will set up later
