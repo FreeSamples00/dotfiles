@@ -112,10 +112,7 @@ M.languages = {
         filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "tsx", "jsx", "json" },
       },
     },
-    linter = {
-      name = "eslint_d",
-      enabled = true,
-    },
+    linter = nil,
     dap = nil,
   },
 
@@ -427,7 +424,36 @@ end
 
 function M.install_ensure_installed()
   for _, lang_name in ipairs(M.ensure_installed) do
-    M.install_language(lang_name)
+    local lang = M.languages[lang_name]
+    if not lang then
+      return
+    end
+
+    if lang.lsp and lang.lsp.enabled and lang.lsp.mason ~= false then
+      local mason_name = M.lsp_to_mason[lang.lsp.name] or lang.lsp.name
+      mason_install(mason_name)
+    end
+
+    if lang.formatter and lang.formatter.enabled and lang.formatter.mason ~= false then
+      mason_install(lang.formatter.name)
+    end
+
+    if lang.linter and lang.linter.enabled and lang.linter.mason ~= false then
+      mason_install(lang.linter.name)
+    end
+
+    if lang.dap and lang.dap.enabled and lang.dap.mason ~= false then
+      mason_install(lang.dap.name)
+    end
+
+    if lang.treesitter then
+      local parsers = type(lang.treesitter) == "table" and lang.treesitter or { lang.treesitter }
+      for _, parser in ipairs(parsers) do
+        if not is_treesitter_installed(parser) then
+          vim.cmd("TSInstall! " .. parser)
+        end
+      end
+    end
   end
 end
 

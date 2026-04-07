@@ -246,6 +246,40 @@ return {
         end
         vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO)
       end, { desc = "Show language installation status" })
+
+      local notified_languages = {}
+
+      vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+        group = vim.api.nvim_create_augroup("LanguageNotification", { clear = true }),
+        callback = function()
+          local ft = vim.api.nvim_buf_get_option(0, "filetype")
+          if ft == "" or ft == nil then
+            return
+          end
+
+          local lang_name, lang = languages.get_language_for_filetype(ft)
+          if not lang_name then
+            return
+          end
+
+          if notified_languages[lang_name] then
+            return
+          end
+
+          local status = languages.is_installed(lang_name)
+          if not status then
+            return
+          end
+
+          if not status.complete then
+            notified_languages[lang_name] = true
+            vim.notify(
+              string.format("Language '%s' config available. Run :LanguageInstall %s to install", lang_name, lang_name),
+              vim.log.levels.INFO
+            )
+          end
+        end,
+      })
     end,
   },
 
