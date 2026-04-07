@@ -176,7 +176,7 @@ return {
         )
       end, { desc = "Toggle auto-formatting on save" })
 
-      require("helpers.keys").map("n", "<leader>M", "<cmd>Mason<cr>", "Show Mason")
+      require("helpers.keys").map("n", "<leader>M", "<cmd>Mason<cr>", "Mason.nvim")
 
       vim.api.nvim_create_user_command("LanguageInstall", function(opts)
         local lang_name = opts.args
