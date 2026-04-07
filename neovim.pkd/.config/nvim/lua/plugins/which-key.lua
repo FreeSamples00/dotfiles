@@ -21,7 +21,7 @@ return {
         { "<leader>q",  group = "Quit" },
         { "<leader>s",  group = "Search" },
         { "<leader>u",  group = "UI" },
-        { "<leader>b>", group = "buffer" },
+        { "<leader>b", group = "Buffers" },
       })
     end,
   },
