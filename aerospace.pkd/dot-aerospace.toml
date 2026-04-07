@@ -153,6 +153,9 @@ cmd-alt-ctrl-f = 'exec-and-forget open -a "Finder"'
 # btop
 cmd-alt-ctrl-t = 'exec-and-forget open -na ghostty.app --args -e btop'
 
+# activity monitor
+cmd-alt-ctrl-shift-t = 'exec-and-forget open -a "activity monitor"'
+
 # ========================= TILING HOTKEYS =========================
 
 # ========== layout ==========
