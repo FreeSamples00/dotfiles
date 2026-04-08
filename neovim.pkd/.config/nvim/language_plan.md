@@ -1,5 +1,16 @@
 # Plan for language tool management
 
+## TODOS
+
+- [ ] make status command show in a snacks float window
+- [ ] use snacks for a management UI:
+  - [ ] left pane: language list (w/ status)
+  - [ ] right pane: language config location in languages.lua
+  - [ ] style: same as rest of snacks pickers, disable search
+  - [ ] binds:
+    - [ ] i: install selected language
+    - [ ] X: uninstall selected language
+
 ## Global Config
 
 `core/languages.lua` defines mappings of languages to tools:
