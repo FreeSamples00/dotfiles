@@ -9,19 +9,17 @@
 #                                 Aerospace Configuration File                              #
 # ========================================================================================= #
 
-
 # ========================= DOCUMENTATION =========================
 # GUIDE: https://nikitabobko.github.io/AeroSpace/guide
 # COMMANDS: https://nikitabobko.github.io/AeroSpace/commands#
 # GOODIES: https://nikitabobko.github.io/AeroSpace/goodies
 # GITHUB: https://github.com/nikitabobko/AeroSpace
 
-
 # ========================= GLOBAL SETTINGS =========================
 
 after-startup-command = [
-'exec-and-forget borders', # for focused windows highligtinh
-'exec-and-forget sketchybar', # for custom menubar
+  "exec-and-forget borders",  # for focused windows highligtinh
+  "exec-and-forget sketchybar",  # for custom menubar
 ]
 
 # ========== auto-start ==========
@@ -36,38 +34,39 @@ accordion-padding = 30
 
 # ========== layout defaults ==========
 # tiles|accordion
-default-root-container-layout = 'tiles'
+default-root-container-layout = "tiles"
 
 # horizontal|vertical|auto
-default-root-container-orientation = 'auto'
+default-root-container-orientation = "auto"
 
 # ========== disable macos hide behavior ==========
 automatically-unhide-macos-hidden-apps = true
 
 # ========== events ==========
-exec-on-workspace-change = ['/bin/bash', '-c',
-  'sketchybar --trigger aerospace_workspace_change'
+exec-on-workspace-change = [
+  "/bin/bash",
+  "-c",
+  "sketchybar --trigger aerospace_workspace_change"
 ]
 
-on-focused-monitor-changed = 'move-mouse monitor-lazy-center'
+on-focused-monitor-changed = "move-mouse monitor-lazy-center"
 
 # ========== monitor settings ==========
 [workspace-to-monitor-force-assignment]
-1 = 'main'
-2 = 'main'
-3 = 'main'
+1 = "main"
+2 = "main"
+3 = "main"
 
-4 = 'secondary'
-5 = 'secondary'
-6 = 'secondary'
+4 = "secondary"
+5 = "secondary"
+6 = "secondary"
 
 # ========== keyboard layout ==========
 [key-mapping]
-preset = 'qwerty'
+preset = "qwerty"
 
 # ========== window spacing ==========
 [gaps]
-
 # between windows
 inner.horizontal = 8
 inner.vertical = 8
@@ -76,27 +75,22 @@ inner.vertical = 8
 outer.left = 8
 outer.bottom = 8
 outer.right = 8
-outer.top = [
-  { monitor."built-in" = 8 },
-  { monitor."main" = 40 },
-  40
-]
+outer.top = [{ monitor."built-in" = 8 }, { monitor."main" = 40 }, 40]
 
 # ========================= APP SPECIFIC SETTINGS =========================
 
 # macOS native
 [[on-window-detected]]
-if.app-name-regex-substring = 'messages|finder|find my|maps|reminders|calendar|music|weather|activity monitor|photos|mail|passwords|clock|contacts'
-run = 'layout floating'
+if.app-name-regex-substring = "messages|finder|find my|maps|reminders|calendar|music|weather|activity monitor|photos|mail|passwords|clock|contacts"
+run = "layout floating"
 
 # non-native
 [[on-window-detected]]
-if.app-name-regex-substring = 'crossover|steam|proton pass|proton mail|outlook'
-run = 'layout floating'
+if.app-name-regex-substring = "crossover|steam|proton pass|proton mail|outlook"
+run = "layout floating"
 
 # ========================= MAIN BINDINGS =========================
 [mode.main.binding]
-
 # All possible keys:
 # - Letters.        a, b, c, ..., z
 # - Numbers.        0, 1, 2, ..., 9
@@ -123,16 +117,16 @@ cmd-alt-ctrl-shift-s = 'exec-and-forget screencapture -diu -J "window" -f /tmp/'
 # ========================= APPLICATION HOTKEYS =========================
 
 # GHOSTTY
-cmd-alt-ctrl-space = 'exec-and-forget open -na ghostty'
+cmd-alt-ctrl-space = "exec-and-forget open -na ghostty"
 
 # CALCULATOR
-cmd-alt-ctrl-c = 'exec-and-forget open -a calculator'
+cmd-alt-ctrl-c = "exec-and-forget open -a calculator"
 
 # MESSAGES
-cmd-alt-ctrl-s = 'exec-and-forget open -a messages'
+cmd-alt-ctrl-s = "exec-and-forget open -a messages"
 
 # ZEN
-cmd-alt-ctrl-w = 'exec-and-forget open -na helium'
+cmd-alt-ctrl-w = "exec-and-forget open -na helium"
 
 # MAIL
 cmd-alt-ctrl-m = 'exec-and-forget open -a "proton mail"'
@@ -151,7 +145,7 @@ cmd-alt-ctrl-d = 'exec-and-forget open -a "Discord"'
 cmd-alt-ctrl-f = 'exec-and-forget open -a "Finder"'
 
 # btop
-cmd-alt-ctrl-t = 'exec-and-forget open -na ghostty.app --args -e btop'
+cmd-alt-ctrl-t = "exec-and-forget open -na ghostty.app --args -e btop"
 
 # activity monitor
 cmd-alt-ctrl-shift-t = 'exec-and-forget open -a "activity monitor"'
@@ -159,69 +153,78 @@ cmd-alt-ctrl-shift-t = 'exec-and-forget open -a "activity monitor"'
 # ========================= TILING HOTKEYS =========================
 
 # ========== layout ==========
-cmd-alt-ctrl-enter = [ 'layout h_tiles h_accordion', 'exec-and-forget sketchybar --trigger aerospace_workspace_change', ]
-cmd-alt-ctrl-shift-enter = [ 'layout floating tiling', 'exec-and-forget sketchybar --trigger aerospace_workspace_change', ]
-cmd-alt-ctrl-r = [ 'flatten-workspace-tree', 'exec-and-forget sketchybar --trigger aerospace_workspace_change', ]
-cmd-alt-ctrl-shift-r = [ 'reload-config', 'exec-and-forget sketchybar --reload' ]
+cmd-alt-ctrl-enter = [
+  "layout h_tiles h_accordion",
+  "exec-and-forget sketchybar --trigger aerospace_workspace_change",
+]
+cmd-alt-ctrl-shift-enter = [
+  "layout floating tiling",
+  "exec-and-forget sketchybar --trigger aerospace_workspace_change",
+]
+cmd-alt-ctrl-r = [
+  "flatten-workspace-tree",
+  "exec-and-forget sketchybar --trigger aerospace_workspace_change",
+]
+cmd-alt-ctrl-shift-r = ["reload-config", "exec-and-forget sketchybar --reload"]
 
 # ========== focus ==========
-cmd-alt-ctrl-h = 'focus left'
-cmd-alt-ctrl-j = 'focus down'
-cmd-alt-ctrl-k = 'focus up'
-cmd-alt-ctrl-l = 'focus right'
+cmd-alt-ctrl-h = "focus left"
+cmd-alt-ctrl-j = "focus down"
+cmd-alt-ctrl-k = "focus up"
+cmd-alt-ctrl-l = "focus right"
 
 # ========== move windows ==========
-cmd-alt-ctrl-shift-h = 'move left'
-cmd-alt-ctrl-shift-j = 'move down'
-cmd-alt-ctrl-shift-k = 'move up'
-cmd-alt-ctrl-shift-l = 'move right'
+cmd-alt-ctrl-shift-h = "move left"
+cmd-alt-ctrl-shift-j = "move down"
+cmd-alt-ctrl-shift-k = "move up"
+cmd-alt-ctrl-shift-l = "move right"
 
-cmd-alt-ctrl-left = 'join-with left'
-cmd-alt-ctrl-down = 'join-with down'
-cmd-alt-ctrl-up = 'join-with up'
-cmd-alt-ctrl-right = 'join-with right'
+cmd-alt-ctrl-left = "join-with left"
+cmd-alt-ctrl-down = "join-with down"
+cmd-alt-ctrl-up = "join-with up"
+cmd-alt-ctrl-right = "join-with right"
 
 # ========== resize windows ==========
-cmd-alt-ctrl-minus = 'resize smart -50'
-cmd-alt-ctrl-equal = 'resize smart +50'
+cmd-alt-ctrl-minus = "resize smart -50"
+cmd-alt-ctrl-equal = "resize smart +50"
 
 # ========== workspaces ==========
-cmd-alt-ctrl-1 = 'workspace 1'
-cmd-alt-ctrl-2 = 'workspace 2'
-cmd-alt-ctrl-3 = 'workspace 3'
-cmd-alt-ctrl-4 = 'workspace 4'
-cmd-alt-ctrl-5 = 'workspace 5'
-cmd-alt-ctrl-6 = 'workspace 6'
+cmd-alt-ctrl-1 = "workspace 1"
+cmd-alt-ctrl-2 = "workspace 2"
+cmd-alt-ctrl-3 = "workspace 3"
+cmd-alt-ctrl-4 = "workspace 4"
+cmd-alt-ctrl-5 = "workspace 5"
+cmd-alt-ctrl-6 = "workspace 6"
 
 cmd-alt-ctrl-shift-1 = [
-  'move-node-to-workspace 1',
-  'exec-and-forget sketchybar --trigger aerospace_workspace_change',
+  "move-node-to-workspace 1",
+  "exec-and-forget sketchybar --trigger aerospace_workspace_change",
 ]
 cmd-alt-ctrl-shift-2 = [
-  'move-node-to-workspace 2',
-  'exec-and-forget sketchybar --trigger aerospace_workspace_change',
+  "move-node-to-workspace 2",
+  "exec-and-forget sketchybar --trigger aerospace_workspace_change",
 ]
 cmd-alt-ctrl-shift-3 = [
-  'move-node-to-workspace 3',
-  'exec-and-forget sketchybar --trigger aerospace_workspace_change',
+  "move-node-to-workspace 3",
+  "exec-and-forget sketchybar --trigger aerospace_workspace_change",
 ]
 cmd-alt-ctrl-shift-4 = [
-  'move-node-to-workspace 4',
-  'exec-and-forget sketchybar --trigger aerospace_workspace_change',
+  "move-node-to-workspace 4",
+  "exec-and-forget sketchybar --trigger aerospace_workspace_change",
 ]
 cmd-alt-ctrl-shift-5 = [
-  'move-node-to-workspace 5',
-  'exec-and-forget sketchybar --trigger aerospace_workspace_change',
+  "move-node-to-workspace 5",
+  "exec-and-forget sketchybar --trigger aerospace_workspace_change",
 ]
 cmd-alt-ctrl-shift-6 = [
-  'move-node-to-workspace 6',
-  'exec-and-forget sketchybar --trigger aerospace_workspace_change',
+  "move-node-to-workspace 6",
+  "exec-and-forget sketchybar --trigger aerospace_workspace_change",
 ]
 
 # ========== monitors ==========
-cmd-alt-ctrl-tab = 'focus-monitor --wrap-around next'
+cmd-alt-ctrl-tab = "focus-monitor --wrap-around next"
 cmd-alt-ctrl-shift-tab = [
-  'move-node-to-monitor --wrap-around next',
-  'focus-monitor --wrap-around next',
-  'exec-and-forget sketchybar --trigger aerospace_workspace_change',
+  "move-node-to-monitor --wrap-around next",
+  "focus-monitor --wrap-around next",
+  "exec-and-forget sketchybar --trigger aerospace_workspace_change",
 ]
