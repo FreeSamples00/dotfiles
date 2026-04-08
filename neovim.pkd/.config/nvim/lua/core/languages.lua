@@ -4,7 +4,7 @@ local M = {}
 -- List of languages installed by default
 -------------------------------------------------------------------------------
 
-M.ensure_installed = { "lua", "markdown", "vim" }
+M.ensure_installed = { "lua", "markdown", "vim", "json", "toml", "yaml" }
 
 -------------------------------------------------------------------------------
 -- LSP config name -> Mason package name mapping
@@ -16,6 +16,8 @@ M.lsp_to_mason = {
   marksman = "marksman",
   texlab = "texlab",
   ts_ls = "typescript-language-server",
+  jsonls = "json-lsp",
+  yamlls = "yaml-language-server",
 }
 
 -------------------------------------------------------------------------------
@@ -207,6 +209,48 @@ M.languages = {
       name = "nushell",
       enabled = true,
       mason = false,
+    },
+    formatter = nil,
+    linter = nil,
+    dap = nil,
+  },
+
+  json = {
+    filetypes = { "json", "jsonc" },
+    treesitter = "json",
+    lsp = {
+      name = "jsonls",
+      enabled = true,
+    },
+    formatter = {
+      name = "prettier",
+      enabled = true,
+    },
+    linter = nil,
+    dap = nil,
+  },
+
+  yaml = {
+    filetypes = { "yml", "yaml" },
+    treesitter = "yaml",
+    lsp = {
+      name = "yamlls",
+      enabled = true,
+    },
+    formatter = {
+      name = "prettier",
+      enabled = true,
+    },
+    linter = nil,
+    dap = nil,
+  },
+
+  toml = {
+    filetypes = { "toml", "tml" },
+    treesitter = "toml",
+    lsp = {
+      name = "tombi",
+      enabled = true,
     },
     formatter = nil,
     linter = nil,
