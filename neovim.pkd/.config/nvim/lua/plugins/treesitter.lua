@@ -1,4 +1,7 @@
 -- Highlight, edit, and navigate code
+
+local globals = require("helpers.globals")
+
 return {
   {
     "nvim-treesitter/nvim-treesitter",
@@ -12,7 +15,7 @@ return {
     config = function()
       require("nvim-treesitter.config").setup({
         -- Add languages to be installed here that you want installed for treesitter
-        ensure_installed = { "c", "cpp", "go", "lua", "python", "rust", "vimdoc", "vim", "nu" },
+        ensure_installed = globals.treesitter_ensure_installed,
 
         highlight = { enable = true },
         indent = { enable = true, disable = { "python" } },
