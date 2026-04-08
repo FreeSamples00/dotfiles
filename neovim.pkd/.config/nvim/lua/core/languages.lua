@@ -18,6 +18,7 @@ M.lsp_to_mason = {
   ts_ls = "typescript-language-server",
   jsonls = "json-lsp",
   yamlls = "yaml-language-server",
+  jdtls = "jdtls",
 }
 
 -------------------------------------------------------------------------------
@@ -113,6 +114,21 @@ M.languages = {
       config = {
         filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "tsx", "jsx", "json" },
       },
+    },
+    linter = nil,
+    dap = nil,
+  },
+
+  java = {
+    filetypes = { "java" },
+    treesitter = "java",
+    lsp = {
+      name = "jdtls",
+      enabled = true,
+    },
+    formatter = {
+      name = "google-java-format",
+      enabled = true,
     },
     linter = nil,
     dap = nil,
