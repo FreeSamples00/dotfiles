@@ -2,15 +2,15 @@ local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup
 
 local general = augroup("General", { clear = true })
+local globals = require("helpers.globals")
 
 -- Initialize auto-format setting
 vim.g.autoformat_enabled = true
 
 ----- special rules for text heavy filetypes -----
-local text_pattern = { "text", "markdown", "tex", "quarto", "mail" }
 autocmd("FileType", {
   group = general,
-  pattern = text_pattern,
+  pattern = globals.text_filetypes,
   callback = function()
     vim.opt_local.spell = true
     vim.opt_local.spelllang = "en"
@@ -18,7 +18,7 @@ autocmd("FileType", {
     vim.opt_local.textwidth = 0
     vim.opt_local.linebreak = true
     vim.opt_local.breakindent = true
-    vim.opt_local.showbreak = "↳ "
+    vim.opt_local.showbreak = "󱞩 "
     vim.opt_local.formatoptions:remove("t")
     vim.opt_local.formatoptions:remove("c")
   end,

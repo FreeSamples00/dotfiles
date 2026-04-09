@@ -1,5 +1,13 @@
 local M = {}
 
+M.text_filetypes = {
+  "text",
+  "markdown",
+  "tex",
+  "quarto",
+  "mail",
+}
+
 M.ignored_filetypes = {
   "NvimTree",
   "packer",
@@ -14,7 +22,7 @@ M.ignored_filetypes = {
   "spectre_panel",
   "undotree",
   "snacks_picker_list",
-  "snacks_picker_input"
+  "snacks_picker_input",
 }
 
 M.lsp_icons = {
