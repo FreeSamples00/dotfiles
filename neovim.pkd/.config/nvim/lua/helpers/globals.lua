@@ -1,5 +1,13 @@
 local M = {}
 
+M.text_filetypes = {
+  "text",
+  "markdown",
+  "tex",
+  "quarto",
+  "mail",
+}
+
 M.ignored_filetypes = {
   "NvimTree",
   "packer",
