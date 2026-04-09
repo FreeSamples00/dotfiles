@@ -127,7 +127,7 @@ M.languages = {
       enabled = true,
     },
     formatter = {
-      name = "google-java-format",
+      name = "google_java_format",
       enabled = true,
     },
     linter = nil,
@@ -185,8 +185,14 @@ M.languages = {
   go = {
     filetypes = { "go" },
     treesitter = "go",
-    lsp = nil,
-    formatter = nil,
+    lsp = {
+      name = "gopls",
+      enabled = true,
+    },
+    formatter = {
+      name = "gofumpt",
+      enabled = true,
+    },
     linter = nil,
     dap = nil,
   },
