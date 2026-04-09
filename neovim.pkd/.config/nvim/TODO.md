@@ -8,6 +8,7 @@
 - [ ] Configure inline hints?
 - [ ] figure out how to get inline lsp hints
 - [ ] make sure all keybinds are wanted, have proper descriptions, and are in the right place
+- [ ] highlight the external parens for block cursor is in
 
 ## LSP
 
