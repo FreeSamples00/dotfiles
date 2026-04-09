@@ -44,6 +44,7 @@ return {
           return {
             ["@markup.italic"] = { fg = colors.yellow, style = { "italic" } },
             CursorLineNr = { fg = colors.peach, style = { "bold" } },
+            PmenuSel = { bg = colors.surface0, fg = colors.peach, style = { "bold" } },
             CursorLine = { bg = colors.surface0 },
             NormalFloat = { bg = "NONE" },
             FloatBorder = { bg = "NONE" },
@@ -58,7 +59,7 @@ return {
         },
         blink_cmp = {
           enabled = true,
-          style = 'bordered'
+          style = "bordered",
         },
         gitsigns = true,
         mason = true,

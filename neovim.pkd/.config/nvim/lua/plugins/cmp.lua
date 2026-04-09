@@ -19,31 +19,31 @@ return {
       require("luasnip/loaders/from_vscode").lazy_load()
 
       local kind_icons = {
-        Text = "",
-        Method = "m",
-        Function = "",
-        Constructor = "",
-        Field = "",
-        Variable = "",
-        Class = "",
-        Interface = "",
-        Module = "",
-        Property = "",
-        Unit = "",
-        Value = "",
-        Enum = "",
-        Keyword = "",
-        Snippet = "",
-        Color = "",
-        File = "",
-        Reference = "",
-        Folder = "",
-        EnumMember = "",
-        Constant = "",
-        Struct = "",
-        Event = "",
-        Operator = "",
-        TypeParameter = "",
+        Text = "󰉿",
+        Method = "󰆧",
+        Function = "󰊕",
+        Constructor = "",
+        Field = "󰜢",
+        Variable = "󰀫",
+        Class = "󰠲",
+        Interface = "󰰃",
+        Module = "󰏓",
+        Property = "󰜷",
+        Unit = "󰑭",
+        Value = "󰎠",
+        Enum = "󰉻",
+        Keyword = "󰌋",
+        Snippet = "󰘍",
+        Color = "󰏘",
+        File = "󰈔",
+        Reference = "󰈇",
+        Folder = "󰉋",
+        EnumMember = "",
+        Constant = "󰏿",
+        Struct = "󰙅",
+        Event = "󱐋",
+        Operator = "󰆕",
+        TypeParameter = "󰊄",
       }
 
       cmp.setup({
@@ -91,16 +91,9 @@ return {
           end, { "i", "s" }),
         }),
         formatting = {
-          fields = { "kind", "abbr", "menu" },
+          fields = { "icon", "abbr" },
           format = function(entry, vim_item)
-            -- Kind icons
-            vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
-            vim_item.menu = ({
-              nvim_lsp = "[LSP]",
-              luasnip = "[Snippet]",
-              buffer = "[Buffer]",
-              path = "[Path]",
-            })[entry.source.name]
+            vim_item.icon = kind_icons[vim_item.kind]
             return vim_item
           end,
         },
