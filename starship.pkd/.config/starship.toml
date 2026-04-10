@@ -15,7 +15,7 @@
 # ==================== Settings ====================
 
 # Get editor completions
-"$schema" = 'https://starship.rs/config-schema.json'
+"$schema" = "https://starship.rs/config-schema.json"
 
 # newline between prompts
 add_newline = true
@@ -23,7 +23,7 @@ add_newline = true
 # Wait 10 milliseconds for starship to check files under the current directory.
 scan_timeout = 10
 
-palette = 'default_colors'
+palette = "default_colors"
 
 # ==================== Prompt ====================
 
@@ -51,13 +51,13 @@ $character\
 
 [fill]
 disabled = false
-style = 'spacer_color'
+style = "spacer_color"
 symbol = "─"
 
 [character]
 disabled = false
-success_symbol = ' [➔](bold green)'
-error_symbol   = ' [➔](bold red)'
+success_symbol = " [➔](bold green)"
+error_symbol = " [➔](bold red)"
 vimcmd_symbol = "[](bold green)"
 vimcmd_visual_symbol = "[](bold yellow)"
 vimcmd_replace_symbol = "[](bold purple)"
@@ -68,8 +68,8 @@ vimcmd_replace_one_symbol = "[](bold purple)"
 [directory]
 disabled = false
 truncation_length = 1
-truncation_symbol = '../'
-style = 'dir_color'
+truncation_symbol = "../"
+style = "dir_color"
 format = "[ $path]($style) "
 
 # ========== Git ==========
@@ -77,23 +77,23 @@ format = "[ $path]($style) "
 # shows branch name
 [git_branch]
 disabled = false
-symbol = '󰊢'
-style = 'git_orange'
+symbol = "󰊢"
+style = "git_orange"
 format = "[─](spacer_color) [$symbol $branch]($style) "
 
 # shows status of the repo (conflict, ahead, behind, etc)
 [git_status]
 disabled = false
 
-ahead = '⇡${count} '
-behind = '⇣${count} '
-diverged = '⇣${ahead_count}⇡${behind_count} '
-modified = '!${count} '
-untracked = '?${count} '
-stashed = '*${count} '
-conflicted = '~${count} '
-staged = '+${count} '
-deleted = '-${count} '
+ahead = "↑${count} "
+behind = "↓${count} "
+diverged = "↓${ahead_count}↑${behind_count} "
+modified = "!${count} "
+untracked = "?${count} "
+stashed = "*${count} "
+conflicted = "~${count} "
+staged = "+${count} "
+deleted = "-${count} "
 
 format = """
 [$ahead_behind](git_ahead_behind)\
@@ -113,12 +113,12 @@ disabled = false
 
 [cmd_duration]
 disabled = false
-style = 'timer_color'
+style = "timer_color"
 format = "[󰔛 $duration]($style) [─](spacer_color) "
 
 [time]
 disabled = false
-style = 'clock_color'
+style = "clock_color"
 time_format = "%I:%M:%S"
 format = "[ $time]($style)"
 
@@ -126,8 +126,8 @@ format = "[ $time]($style)"
 
 [status]
 disabled = false
-style = 'red'
-symbol = ''
+style = "red"
+symbol = ""
 recognize_signal_code = false
 format = "[$symbol $status]($style) [─](spacer_color) "
 # format = "[$symbol $common_meaning$signal_name$maybe_int]($style) [─](spacer_color) "
@@ -135,31 +135,31 @@ format = "[$symbol $status]($style) [─](spacer_color) "
 [hostname]
 disabled = false
 ssh_only = true
-trim_at = '.'
-style = 'bold yellow'
-format = '[󰒋 $hostname]($style) [─](spacer_color) '
+trim_at = "."
+style = "bold yellow"
+format = "[󰒋 $hostname]($style) [─](spacer_color) "
 
 [sudo]
 disabled = false
-format = '[SUDO]($style) [─](spacer_color) '
-symbol = ''
-style = 'bold red'
+format = "[SUDO]($style) [─](spacer_color) "
+symbol = ""
+style = "bold red"
 
 # ==================== Colors ====================
 
 [palettes.default_colors]
-spacer_color = '#464646'
-timer_color = '#ADA81D'
-dir_color = '#099EF4'
-clock_color = '#1A6DBF'
-tmux_color = '#32D74B'
+spacer_color = "#464646"
+timer_color = "#ADA81D"
+dir_color = "#099EF4"
+clock_color = "#1A6DBF"
+tmux_color = "#32D74B"
 
-git_orange = '#F05233'
-git_modified = 'yellow'
-git_untracked = 'blue'
-git_ahead_behind = 'green'
-git_staged = 'green'
-git_unstaged = 'blue'
-git_stashed = 'purple'
-git_conflicted = 'red'
-git_deleted = 'red'
+git_orange = "#F05233"
+git_modified = "yellow"
+git_untracked = "blue"
+git_ahead_behind = "green"
+git_staged = "green"
+git_unstaged = "blue"
+git_stashed = "purple"
+git_conflicted = "red"
+git_deleted = "red"
