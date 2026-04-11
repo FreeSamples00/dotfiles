@@ -18,6 +18,7 @@ return {
         position = "inline",
         icons = { "# ", "## ", "### ", "#### ", "##### ", "###### " },
         border = true,
+        signs = {},
       },
       code = {
         border = "none",
@@ -38,8 +39,8 @@ return {
     lazy = true,
     ft = "markdown",
     keys = {
-      { "<C-,>", "<cmd>BulletPromote<cr>",  mode = { "i", "n" }, desc = "Promote bullet" },
-      { "<C-.>", "<cmd>BulletDemote<cr>",   mode = { "i", "n" }, desc = "Demote bullet" },
+      { "<C-,>", "<cmd>BulletPromote<cr>", mode = { "i", "n" }, desc = "Promote bullet" },
+      { "<C-.>", "<cmd>BulletDemote<cr>", mode = { "i", "n" }, desc = "Demote bullet" },
       { "<C-x>", "<cmd>ToggleCheckbox<cr>", mode = { "i", "n" }, desc = "Toggle checkbox" },
     },
     init = function()
