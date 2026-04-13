@@ -21,18 +21,19 @@ export def usage [
   http get --headers {Authorization: $"Bearer (api_key)"} $"($url_base)($usage_route)"
   | if $raw {$in} else { $in
     | if $type == "inference" {
-      get subscription
+      get rollingFiveHourLimit
       | insert usage {|| {
-          percent: ($in.requests / $in.limit * 100)
-          requests: ($in.requests)
-          limit: ($in.limit)
+          percent: (($in.max - $in.remaining) / $in.max * 100)
+          used: ($in.max - $in.remaining)
+          remaining: ($in.remaining)
+          limit: ($in.max)
         }}
       | insert reset {|| {
-          relative: ($in.renewsAt | date humanize)
-          absolute: ($in.renewsAt | date to-timezone US/Central)
-          timezone: US/Central
+          next_tick: ($in.nextTickAt | date humanize)
+          tick_percent: ($in.tickPercent * 100 | into string -d 2 | $in + "%")
+          limited: ($in.limited)
         }}
-      | reject renewsAt limit requests
+      | reject nextTickAt tickPercent remaining max limited
       | update usage.percent {|| $"($in | into string -d 2)%" }
       | table -e
     } else if $type == "search" {
