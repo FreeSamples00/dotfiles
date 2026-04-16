@@ -3,6 +3,7 @@
 ## `dot`
 
 - [ ] add ykey subcommand
+
   - [ ] --ssh-install
     - extract keys `ssh-keygen -K`
     - move keys to .ssh/keys/yubico{.pub} (mkdir -p)
@@ -14,6 +15,7 @@
     - allow input for setting shortpress?
 
 - [ ] add brew subcommand
+
   - [ ] --dump (same as current dump scheme)
   - [ ] --install (use curl to install)
   - [ ] --bundle (install brew packages from brewfile)

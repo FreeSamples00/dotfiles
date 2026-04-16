@@ -42,7 +42,12 @@ return {
       },
     },
     explorer = { enabled = true },
-    indent = { enabled = true },
+    indent = {
+      enabled = true,
+      chunk = {
+        enabled = true,
+      },
+    },
     input = { enabled = true },
     notifier = { enabled = true },
     picker = {
@@ -80,16 +85,16 @@ return {
                 box = "vertical",
                 width = 42,
                 { win = "input", height = 0 },
-                { win = "list",  height = 0 },
+                { win = "list", height = 0 },
               },
-              { win = "preview", width = 0 }
+              { win = "preview", width = 0 },
             },
           },
           win = {
             input = { border = "rounded" },
             list = { border = "rounded" },
-            preview = { border = "rounded" }
-          }
+            preview = { border = "rounded" },
+          },
         },
         lsp_definitions = lsp_picker_conf,
         lsp_declarations = lsp_picker_conf,
@@ -387,8 +392,8 @@ return {
         Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
         Snacks.toggle.diagnostics():map("<leader>ud")
         Snacks.toggle
-            .option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 })
-            :map("<leader>uc")
+          .option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 })
+          :map("<leader>uc")
         Snacks.toggle.treesitter():map("<leader>uT")
         Snacks.toggle.inlay_hints():map("<leader>uh")
         Snacks.toggle.indent():map("<leader>ug")

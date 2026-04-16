@@ -32,12 +32,6 @@ Continue to explore this plugin, seems to have lots
   - [ ] in explorer too?
 - [ ] bind `d` to delete buffer in buffer picker
 
-## merge conflicts
-
-setup something to help resolve merge conflicts
-
-- plugin?
-
 ## Colorscheme issues
 
 Currently overrides (highlights specifically) to the catppuccin config do not stick to file buffers. They do however work in temp buffers like `Mason`.

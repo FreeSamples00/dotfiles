@@ -32,28 +32,4 @@ M.lsp_icons = {
   hint = " ",
 }
 
-M.lsp_ensure_installed = {
-  "lua_ls",
-  "pylsp",
-  "marksman",
-  "texlab",
-}
-
-M.treesitter_ensure_installed = {
-  "c",
-  "cpp",
-  "go",
-  "lua",
-  "python",
-  "rust",
-  "vimdoc",
-  "vim",
-  "nu",
-  "markdown",
-  "markdown_inline",
-  "json",
-  "yaml",
-  "toml",
-}
-
 return M

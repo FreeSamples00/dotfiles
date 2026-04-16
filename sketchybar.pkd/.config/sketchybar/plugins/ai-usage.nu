@@ -13,7 +13,8 @@ def get-usage [] {
   http get --headers {Authorization: $"Bearer (api_key)"} $"($url_base)($usage_route)"
   | get rollingFiveHourLimit
   | (($in.max - $in.remaining) / $in.max * 100)
-  | into string -d 1
+  | math round -p 1
+  | into string
   | $in + "%"
 }
 
