@@ -21,8 +21,8 @@
 # ========================= GLOBAL SETTINGS =========================
 
 after-startup-command = [
-  "exec-and-forget borders",  # for focused windows highligtinh
-  "exec-and-forget sketchybar",  # for custom menubar
+  "exec-and-forget borders",    # for focused windows highligtinh
+  "exec-and-forget sketchybar", # for custom menubar
 ]
 
 # ========== auto-start ==========
@@ -49,7 +49,7 @@ automatically-unhide-macos-hidden-apps = true
 exec-on-workspace-change = [
   "/bin/bash",
   "-c",
-  "sketchybar --trigger aerospace_workspace_change"
+  "sketchybar --trigger aerospace_workspace_change",
 ]
 
 on-focused-monitor-changed = "move-mouse monitor-lazy-center"
