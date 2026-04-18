@@ -287,6 +287,13 @@ return {
       desc = "Marks",
     },
     {
+      "<leader>m",
+      function()
+        Snacks.picker.marks()
+      end,
+      desc = "Marks",
+    },
+    {
       "<leader>U",
       function()
         Snacks.picker.undo()
