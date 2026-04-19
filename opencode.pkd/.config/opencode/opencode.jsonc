@@ -18,6 +18,13 @@
             "output": 65536,
           },
         },
+        "hf:zai-org/GLM-4.7-Flash": {
+          "name": "GLM-4.7-Flash",
+          "limit": {
+            "context": 131072,
+            "output": 65536,
+          },
+        },
       },
     },
   },
@@ -53,6 +60,11 @@
     // interaction
     "question": "allow",
     "doom_loop": "ask",
+    // sub-agents
+    "task": {
+      "*": "allow",
+      "proofread": "allow",
+    },
     // commands
     "bash": {
       "*": "ask", // MUST BE FIRST

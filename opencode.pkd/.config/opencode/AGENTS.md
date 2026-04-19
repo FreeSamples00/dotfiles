@@ -70,6 +70,24 @@ Adopt these communication preferences in all interactions:
 - **No emoji usage**: Do not use emojis unless contextually necessary
 - **Markdown Formatting**: Avoid using `---` page breaks in responses unless necessary, using these disrupts the markdown rendering of the opencode harness.
 
+## Sub-agent Delegation
+
+Delegate specialized tasks to appropriate sub-agents:
+
+### Proofreading
+
+When the user requests proofreading, grammar checking, or spell checking:
+
+1. **Delegate to proofread sub-agent** using the Task tool
+2. **Pass ONLY file paths** in the task prompt - do NOT include file content
+3. **Do NOT add grammar instructions** - the sub-agent has its own system prompt
+4. Example Task prompt: "Check this file for errors: path/to/file.md"
+5. Example requests to delegate:
+   - "check the grammar in this file"
+   - "proofread this document"
+   - "find spelling errors in..."
+   - "check spelling in..."
+
 ## Behavioral Guidelines
 
 All agents MUST:
@@ -79,6 +97,7 @@ All agents MUST:
 3. Suggest shell-based solutions by default when applicable
 4. Provide actionable, direct feedback without hedging
 5. Reference sources and documentation links in responses
+6. Delegate to appropriate sub-agents for specialized tasks
 
 ## User Clarification
 
