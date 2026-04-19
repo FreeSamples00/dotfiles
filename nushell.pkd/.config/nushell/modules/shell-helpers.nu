@@ -27,7 +27,7 @@ export alias fg = job unfreeze (job list | reverse | where type == frozen | firs
 
 # ----- EXTERNAL COMMANDS -----
 export alias tree = tree -aC -I .git -I .venv -I target -I "*.rs.bk" -I .direnv -I .idea -I .vscode -I "._*"
-export alias ai = opencode --agent=plan
+export alias ai = opencode
 export alias diff = diff -u
 
 # neovim shorthand

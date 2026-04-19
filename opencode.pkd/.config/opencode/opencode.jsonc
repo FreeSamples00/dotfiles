@@ -1,24 +1,25 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "model": "synthetic/hf:zai-org/GLM-5",
+  "default_agent": "plan",
   "share": "disabled",
   "provider": {
-      "synthetic": {
-        "npm": "@ai-sdk/openai-compatible",
-        "name": "synthetic",
-        "options": {
-          "baseURL": "https://api.synthetic.new/openai/v1"
+    "synthetic": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "synthetic",
+      "options": {
+        "baseURL": "https://api.synthetic.new/openai/v1",
+      },
+      "models": {
+        "hf:zai-org/GLM-5": {
+          "name": "GLM-5",
+          "limit": {
+            "context": 196608,
+            "output": 65536,
+          },
         },
-        "models": {
-          "hf:zai-org/GLM-5": {
-            "name": "GLM-5",
-            "limit": {
-              "context": 196608,
-              "output": 65536
-            }
-          }
-        }
-    }
+      },
+    },
   },
   // Define permissions for model tooling
   "permission": {
@@ -90,10 +91,13 @@
     "plan": {
       "model": "synthetic/hf:zai-org/GLM-5",
       "mode": "primary",
+      "color": "primary",
       "permission": {},
     },
     "build": {
       "model": "synthetic/hf:zai-org/GLM-5",
+      "mode": "primary",
+      "color": "secondary",
       "permission": {
         "edit": "allow",
         "write": "allow",
