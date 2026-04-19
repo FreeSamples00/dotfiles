@@ -30,7 +30,8 @@ Continue to explore this plugin, seems to have lots
 - [ ] make undotree cumulative?
 - [ ] show hidden files in smart search
   - [ ] in explorer too?
-- [ ] bind `d` to delete buffer in buffer picker
+
+- [ ] there is a preview panel option for the file explorer, look into setting this up
 
 ## Colorscheme issues
 
