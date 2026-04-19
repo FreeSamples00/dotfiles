@@ -10,7 +10,10 @@ These rules prevent resource exhaustion and permission prompts. Violations cause
 
 ## CRITICAL: Shell Commands
 
-**Nushell**: When running nushell commands, use `nu --config "~/.config/nushell/config.nu" --env-config "~/.config/nushell/env.nu"` to gain the same environment as the user
+**Nushell**: When running nushell commands, use `nu --config "~/.config/nushell/config.nu" --env-config "~/.config/nushell/env.nu"` to gain the same environment as the user.
+
+- The user uses nushell by default, falling back to bash when required for a task.
+- **ALWAYS** prefer bash commands over nushell for your operations, unless nushell is required for the task (debugging, config development, etc).
 
 These can be overridden if debugging using a clean shell.
 
@@ -41,102 +44,19 @@ These can be overridden if debugging using a clean shell.
     - `strings`
     - `latexmk` and other latex build commands
 
-### File Access Pattern - Dotfiles Structure
+### Internet Access
 
-**Configuration files use a symlinked dotfiles pattern. Read from source to avoid session boundary prompts.**
+When trying to access webpages and internet resources **ALWAYS** use the `webfetch` tool first, only fall back to `curl` when precision is needed.
 
-**Structure**: All config directories in `~/dotfiles/` with `.pkd` extension are symlinked to their standard locations using a custom GNU stow wrapper.
+## Gathering Context
 
-**Pattern**:
+When in plan mode or gathering context for a task:
 
-- Source: `~/dotfiles/<name>.pkd/`
-- Symlinked to: Standard locations (`~/.config/<name>/`, `~/.<name>/`, etc.)
-
-**File Operations Rule**:
-
-- **PREFER reading from** `~/dotfiles/*.pkd/*` over standard locations (`~/.config/`, `~/`, etc.)
-  - _Rationale: Configs exist in `~/dotfiles/_.pkd/` and are symlinked to standard locations. Reading from source avoids session boundary prompts\*
-- **Apply same pattern for writes**: Write to `~/dotfiles/*.pkd/*` rather than symlinked locations
-- Standard locations are accessible if needed, but source paths avoid extra confirmation
-
-**Known configs following this pattern**:
-
-- Nushell: `~/dotfiles/nushell.pkd/.config/nushell/`
-- Neovim: `~/dotfiles/neovim.pkd/.config/nvim/`
-- OpenCode: `~/dotfiles/opencode.pkd/.config/opencode/`
-- For a comprehensive list of config packages run `ls ~/dotfiles/*.pkd`
-
-_Note: Other configs may follow this pattern. When encountering a `.pkd` directory, assume it follows the same symlinking structure._
-
-## Environment Configuration
-
-### Terminal Emulator: Ghostty
-
-**Config:** `~/dotfiles/ghostty.pkd/.config/ghostty/`
-**Documentation:** [Ghostty Docs](https://ghostty.org/docs)
-
-### Shell: Nushell
-
-**Primary shell**: `nushell` (you have access to bash for tool execution)
-
-**IMPORTANT - Autoloading**:
-
-- Autoloading is managed through nushell itself and is **working correctly**
-- Nushell autoloads all `$XDG_CONFIG_HOME/autoload/*.nu` files during its boot process
-- **DO NOT** attempt to "fix" autoloading
-- **DO NOT** waste time investigating how files in the `autoload` directory are loaded as it is within nushell itself, not the configuration
-- Other files autoloaded by nushell:
-  - `config.nu`
-  - `login.nu` (only if session has been set as a login session, this is done by ghostty when a window opens)
-  - `env.nu`
-
-**Documentation Resources**:
-| Type | URL |
-|------|-----|
-| Basics | https://www.nushell.sh/book/ |
-| Commands | https://www.nushell.sh/commands/ |
-| Language Reference | https://www.nushell.sh/lang-guide/ |
-| Regex Info | https://github.com/rust-lang/regex |
-
-**Shell Operations**:
-| Operation | Command/Location |
-|-----------|------------------|
-| Config Location | `~/dotfiles/nushell.pkd/.config/nushell/` |
-| Get command help | `help <command>` |
-| Invoke nushell | `nu -c "<command>"` |
-
-### Package Manager: Homebrew
-
-**System**: macOS package manager
-
-**Common Operations**:
-| Purpose | Command |
-|---------|---------|
-| Search packages | `brew search <package>` |
-| List installed | `brew list` |
-| Package information | `brew info <package>` |
-
-### Editor: Neovim
-
-**Configuration**: Custom neovim config
-
-- Designed to be minimal, both in UI and plugin usage
-- uses `lazy.nvim` for plugin management, aiming for blazing fast boot times via lazy loading
-- Custom language tool management, where language tools are declared in a config and installed manually as needed.
-
-| Property        | Value                                 |
-| --------------- | ------------------------------------- |
-| Config Location | `~/dotfiles/neovim.pkd/.config/nvim/` |
-| Alias           | `e`                                   |
-
-### Hardware Specifications
-
-**Machine**: MacBook Pro M4 Pro
-
-| Component | Specification |
-| --------- | ------------- |
-| CPU & GPU | M4 Pro        |
-| RAM       | 48GB          |
+- **ALWAYS**: Use `pwd` to understand current location and how it pertains to skills and the task.
+- Use `tree` and `ls` to gather initial information about the filesystem.
+- Use the `webfetch` tool to access documentation and resources about the current task
+  - **DO NOT** fall into research rabbit holes that require many web requests unless deep research is required.
+  - **ALWAYS** ask the user via the user clarification tool before going on extensive research endeavors, unless this has been implicitly or explicitly allowed for the current task.
 
 ## Communication Style
 
@@ -148,6 +68,7 @@ Adopt these communication preferences in all interactions:
 - **Provide critical feedback**: Give objective criticism to reach the most effective conclusions
 - **Include source attribution**: Always include source links for solutions and answers
 - **No emoji usage**: Do not use emojis unless contextually necessary
+- **Markdown Formatting**: Avoid using `---` page breaks in responses unless necessary, using these disrupts the markdown rendering of the opencode harness.
 
 ## Behavioral Guidelines
 
@@ -219,74 +140,3 @@ The question tool is the PRIMARY method for gathering user input when presenting
 - "Which testing framework should we use?" (single select)
 - "Select features to implement:" (multi select)
 - "Which deployment targets do you need?" (multi select)
-
-## Examples: Critical Rules in Practice
-
-### Search Operations
-
-**❌ INCORRECT - Searching from home directory:**
-
-```bash
-# Current directory: /Users/scc
-rg "import" --type ts
-```
-
-_Violation: Will index entire home directory, burning CPU and battery_
-
-**✅ CORRECT - Navigate to project first:**
-
-```bash
-cd ~/projects/my-app
-rg "import" --type ts
-```
-
-**✅ CORRECT - Explicit scope with depth limit:**
-
-```bash
-rg "import" --type ts --max-depth 3 ~/projects/specific-dir
-```
-
-### Bash Command Patterns
-
-**❌ INCORRECT - Using || with ls:**
-
-```bash
-ls /some/path || echo "Directory not found"
-```
-
-_Violation: Bypasses OpenCode's ls allowlist, triggers permission prompt_
-
-**✅ CORRECT - Direct ls command:**
-
-```bash
-ls /some/path
-```
-
-_Agent can interpret empty output or error messages naturally_
-
-### File Access Patterns
-
-**❌ SUBOPTIMAL - Reading from standard locations:**
-
-```bash
-cat ~/.config/nvim/init.lua
-```
-
-_Works but triggers session boundary prompt for confirmation_
-
-**✅ PREFERRED - Read from dotfiles source:**
-
-```bash
-cat ~/dotfiles/neovim.pkd/.config/nvim/init.lua
-```
-
-_Direct access to source, avoids extra confirmation prompt_
-
-**✅ PREFERRED - Write to dotfiles source:**
-
-```bash
-# Writing a new config file
-echo "config content" > ~/dotfiles/opencode.pkd/.config/opencode/custom.json
-```
-
-_Write to source; symlink ensures it appears in standard location_
