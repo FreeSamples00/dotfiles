@@ -116,9 +116,13 @@ _Note: Other configs may follow this pattern. When encountering a `.pkd` directo
 | List installed | `brew list` |
 | Package information | `brew info <package>` |
 
-### Editor: Neovim (LazyVim)
+### Editor: Neovim
 
-**Configuration**: Heavily customized LazyVim distribution with Lazy package manager (no longer synced to lazyvim distribution source)
+**Configuration**: Custom neovim config
+
+- Designed to be minimal, both in UI and plugin usage
+- uses `lazy.nvim` for plugin management, aiming for blazing fast boot times via lazy loading
+- Custom language tool management, where language tools are declared in a config and installed manually as needed.
 
 | Property        | Value                                 |
 | --------------- | ------------------------------------- |
