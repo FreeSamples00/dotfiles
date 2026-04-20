@@ -115,7 +115,8 @@ run = "layout floating"
 # - hold ctrl while taking to save directly to clipboard
 # - otherwise saves to /tmp from GUI
 # - space cycles between area and window selection mode
-cmd-alt-ctrl-shift-s = 'exec-and-forget screencapture -diu -J "window" -f /tmp/'
+# NOTE: abt once a year will need to remove and re-add aerospace to screen capture perms
+cmd-alt-ctrl-shift-s = 'exec-and-forget screencapture -diu -J "window" "/tmp/"'
 
 # ========================= APPLICATION HOTKEYS =========================
 
