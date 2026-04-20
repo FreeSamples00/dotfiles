@@ -2,6 +2,7 @@
 use ~/.cache/nushell/starship.nu
 source ~/.cache/nushell/zoxide.nu
 source ~/.cache/nushell/carapace.nu
+source ~/.cache/nushell/just.nu
 
 # ----- Configs -----
 

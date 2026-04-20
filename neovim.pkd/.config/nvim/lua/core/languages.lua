@@ -278,6 +278,18 @@ M.languages = {
     linter = nil,
     dap = nil,
   },
+
+  just = {
+    filetypes = { "just" },
+    treesitter = "just",
+    lsp = {
+      name = "just-lsp",
+      enabled = true,
+    },
+    formatter = nil,
+    linter = nil,
+    dap = nil,
+  },
 }
 
 -------------------------------------------------------------------------------
