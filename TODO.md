@@ -1,5 +1,13 @@
 # Dotfile TODOs
 
+## Documentation
+
+Create better documentation system than just readmes
+
+## Hooks
+
+Create dynamic formatting hook to ensure all included filetypes get formatted before commits?
+
 ## `dot`
 
 - [ ] add ykey subcommand
