@@ -1,5 +1,7 @@
 # New Neovim Config TODOs
 
+- [ ] add docs in README
+
 - [ ] bottom right notifications
   - [ ] LSP notifications are doubled
   - [ ] this seems to work in lazyvim
@@ -9,15 +11,6 @@
 - [ ] figure out how to get inline lsp hints
 - [ ] make sure all keybinds are wanted, have proper descriptions, and are in the right place
 - [ ] highlight the external parens for block cursor is in
-
-## LSP
-
-- [ ] polish LSP system, currently autoenables and sets default config with overrides
-- [x] look into an LSP config that doesn't require changing `lsp.lua` for every new LSP
-- [x] make a global LSP list, use it in `lsp.lua` for:
-  - [x] ensure installed
-  - [x] enable & conf
-- [ ] Look into ensuring formatters always work, is going thru LSP problematic?
 
 ## Snacks
 
