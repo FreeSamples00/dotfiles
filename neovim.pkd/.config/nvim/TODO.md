@@ -50,3 +50,11 @@ This is likely due to treesitter overriding things when a buffer is detected?
 - [ ] add shorter documentation in README.md
 
 - [ ] consider moving this to a plugin format that could be lazy loaded
+
+### Bug log
+
+#### TOML issues
+
+```
+ 15:06          Notify          [LSP] Format request failed, no matching language servers.
+```
