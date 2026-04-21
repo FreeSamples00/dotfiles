@@ -9,22 +9,22 @@
 
 # quit on non-interactive
 case $- in
-    *i*) ;;
-      *) return;;
+*i*) ;;
+*) return ;;
 esac
 
 # ==== prompt theme ====
 
 # this is required because lower versions of bash (e.g. 3.2 on macos) don't support `\w`
-function prompt_path() {
+unction prompt_path() {
   local dir="$PWD"
   if [[ "$dir" == "$HOME"* ]]; then
     dir="~${dir#$HOME}"
   fi
   local parts=(${dir//\// })
   local count=${#parts[@]}
-  if (( count > 2 )); then
-    echo "~/.../${parts[${#parts[@]}-1]}"
+  if ((count > 2)); then
+    echo "~/.../${parts[${#parts[@]} - 1]}"
   else
     echo "$dir"
   fi
@@ -56,12 +56,12 @@ if ! shopt -oq posix; then # Enable bash completion if available
   fi
 fi
 
-bind "set completion-ignore-case on" # case insensitive
-bind "set completion-map-case on" # hyphen == underscore
-bind "set show-all-if-ambiguous on" # show completions immediately
-bind "set mark-directories on" # add trailing / to dirs
+bind "set completion-ignore-case on"     # case insensitive
+bind "set completion-map-case on"        # hyphen == underscore
+bind "set show-all-if-ambiguous on"      # show completions immediately
+bind "set mark-directories on"           # add trailing / to dirs
 bind "set mark-symlinked-directories on" # add trailing / to dirs
-bind "set colored-stats on" # colorize
+bind "set colored-stats on"              # colorize
 
 # ==== aliases ====
 alias config='vim ~/.bashrc'
@@ -110,11 +110,11 @@ export LESS_TERMCAP_ZN=$'\e[0m'
 
 # ==== git and diff colors ====
 export CLICOLOR=1
-if command -v git &> /dev/null; then
-    git config --global color.ui auto
-    git config --global color.status auto
-    git config --global color.diff auto
-    git config --global color.branch auto
+if command -v git &>/dev/null; then
+  git config --global color.ui auto
+  git config --global color.status auto
+  git config --global color.diff auto
+  git config --global color.branch auto
 fi
 
 # ==== env variables ====
