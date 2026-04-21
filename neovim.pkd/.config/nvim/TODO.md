@@ -44,3 +44,16 @@ This is likely due to treesitter overriding things when a buffer is detected?
 - [ ] current line background
 - [ ] highlight current line number
 - [ ] ...
+
+## Language System
+
+- [ ] Look into enabling formatters even if there is no LSP
+- [ ] implement regression and unit testing?
+  - [ ] LLM accessible scripts:
+    - [ ] linting, formatting, etc
+    - [ ] unit and regression testing
+
+- [ ] add in code documentation
+- [ ] add shorter documentation in README.md
+
+- [ ] consider moving this to a plugin format that could be lazy loaded
