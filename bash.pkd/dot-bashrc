@@ -14,11 +14,27 @@ case $- in
 esac
 
 # ==== prompt theme ====
+
+# this is required because lower versions of bash (e.g. 3.2 on macos) don't support `\w`
+function prompt_path() {
+  local dir="$PWD"
+  if [[ "$dir" == "$HOME"* ]]; then
+    dir="~${dir#$HOME}"
+  fi
+  local parts=(${dir//\// })
+  local count=${#parts[@]}
+  if (( count > 2 )); then
+    echo "~/.../${parts[${#parts[@]}-1]}"
+  else
+    echo "$dir"
+  fi
+}
+
 function prompt() {
   if [ $? -eq 0 ]; then
-    PS1="\r\[\e[37m\][\[\e[93m\]\h\[\e[0m\]\[\e[37m\]:\[\e[94m\]\w\[\e[0m\]\[\e[37m\]] \[\e[92m\]$\[\e[0m\] "
+    PS1="\r\[\e[37m\][\[\e[93m\]\h\[\e[0m\]\[\e[37m\]:\[\e[94m\]\$(prompt_path)\[\e[0m\]\[\e[37m\]] \[\e[92m\]$\[\e[0m\] "
   else
-    PS1="\r\[\e[37m\][\[\e[93m\]\h\[\e[0m\]\[\e[37m\]:\[\e[94m\]\w\[\e[0m\]\[\e[37m\]] \[\e[31m\]$\[\e[0m\] "
+    PS1="\r\[\e[37m\][\[\e[93m\]\h\[\e[0m\]\[\e[37m\]:\[\e[94m\]\$(prompt_path)\[\e[0m\]\[\e[37m\]] \[\e[31m\]$\[\e[0m\] "
   fi
 }
 
