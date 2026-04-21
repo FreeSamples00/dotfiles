@@ -1,3 +1,5 @@
+local lsp_mason = require("core.lsp_mason_mappings")
+
 local M = {}
 
 -------------------------------------------------------------------------------
@@ -10,17 +12,7 @@ M.ensure_installed = { "lua", "markdown", "vim", "json", "toml", "yaml", "bash" 
 -- LSP config name -> Mason package name mapping
 -------------------------------------------------------------------------------
 
-M.lsp_to_mason = {
-  lua_ls = "lua-language-server",
-  pylsp = "python-lsp-server",
-  marksman = "marksman",
-  texlab = "texlab",
-  ts_ls = "typescript-language-server",
-  jsonls = "json-lsp",
-  yamlls = "yaml-language-server",
-  jdtls = "jdtls",
-  bashls = "bash-language-server",
-}
+M.lsp_to_mason = lsp_mason.lsp_to_mason
 
 -------------------------------------------------------------------------------
 -- Language Definitions
@@ -363,7 +355,7 @@ function M.is_installed(lang_name)
     if lsp.mason == false then
       status.lsp = vim.fn.executable(lsp.name) == 1
     else
-      local mason_name = M.lsp_to_mason[lsp.name] or lsp.name
+      local mason_name = lsp_mason.lsp_to_mason[lsp.name] or lsp.name
       status.lsp = is_mason_installed(mason_name)
     end
     if not status.lsp then
@@ -538,7 +530,7 @@ function M.install_ensure_installed()
 
     local lsp = apply_tool_defaults(lang.lsp)
     if lsp and lsp.install and lsp.mason ~= false then
-      local mason_name = M.lsp_to_mason[lsp.name] or lsp.name
+      local mason_name = lsp_mason.lsp_to_mason[lsp.name] or lsp.name
       mason_install(mason_name)
     end
 
@@ -581,7 +573,7 @@ function M.install_language(lang_name)
   local lsp = apply_tool_defaults(lang.lsp)
   if lsp and lsp.install then
     if lsp.mason ~= false then
-      local mason_name = M.lsp_to_mason[lsp.name] or lsp.name
+      local mason_name = lsp_mason.lsp_to_mason[lsp.name] or lsp.name
       if mason_install(mason_name) then
         table.insert(installed, lsp.name .. " (LSP)")
       end
@@ -659,7 +651,7 @@ function M.uninstall_language(lang_name)
 
   if lang.lsp then
     if lang.lsp.mason ~= false then
-      local mason_name = M.lsp_to_mason[lang.lsp.name] or lang.lsp.name
+      local mason_name = lsp_mason.lsp_to_mason[lang.lsp.name] or lang.lsp.name
       if mason_uninstall(mason_name) then
         table.insert(uninstalled, lang.lsp.name)
       end
