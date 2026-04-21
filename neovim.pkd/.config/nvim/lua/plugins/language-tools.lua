@@ -116,7 +116,8 @@ return {
 
         local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
         local lang_name, lang = languages.get_language_for_filetype(ft)
-        if lang and lang.formatter and lang.formatter.enabled then
+        local formatter = languages.apply_tool_defaults(lang and lang.formatter)
+        if formatter and formatter.enable then
           client.server_capabilities.documentFormattingProvider = false
           client.server_capabilities.documentRangeFormattingProvider = false
         end
@@ -151,15 +152,13 @@ return {
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-      for lang_name, lang in pairs(languages.languages) do
-        if lang.lsp and lang.lsp.enabled then
-          local config = vim.tbl_deep_extend("force", {
-            on_attach = on_attach,
-            capabilities = capabilities,
-          }, lang.lsp.config or {})
+      for lang_name, lsp in pairs(languages.get_all_lsp_configs()) do
+        local config = vim.tbl_deep_extend("force", {
+          on_attach = on_attach,
+          capabilities = capabilities,
+        }, lsp.config or {})
 
-          vim.lsp.config(lang.lsp.name, config)
-        end
+        vim.lsp.config(lsp.name, config)
       end
 
       require("mason-lspconfig").setup({
@@ -297,7 +296,7 @@ return {
       for lang_name, formatter in pairs(languages.get_all_formatters()) do
         local name = formatter.name
         if not formatters_by_name[name] then
-          formatters_by_name[name] = { config = formatter.config }
+          formatters_by_name[name] = { config = formatter.config, mason = formatter.mason }
         elseif formatter.config and formatter.config.filetypes then
           local existing = formatters_by_name[name]
           if existing.config and existing.config.filetypes then
@@ -313,9 +312,19 @@ return {
       for name, formatter_data in pairs(formatters_by_name) do
         local builtin = null_ls.builtins.formatting[name]
         if builtin then
+          local opts = {
+            condition = function()
+              if formatter_data.mason == false then
+                return vim.fn.executable(name) == 1
+              else
+                return languages.is_mason_installed(name)
+              end
+            end,
+          }
           if formatter_data.config then
-            builtin = builtin.with(formatter_data.config)
+            opts = vim.tbl_extend("force", opts, formatter_data.config)
           end
+          builtin = builtin.with(opts)
           table.insert(sources, builtin)
         end
       end
@@ -323,9 +332,19 @@ return {
       for lang_name, linter in pairs(languages.get_all_linters()) do
         local builtin = null_ls.builtins.diagnostics[linter.name]
         if builtin then
+          local opts = {
+            condition = function()
+              if linter.mason == false then
+                return vim.fn.executable(linter.name) == 1
+              else
+                return languages.is_mason_installed(linter.name)
+              end
+            end,
+          }
           if linter.config then
-            builtin = builtin.with(linter.config)
+            opts = vim.tbl_extend("force", opts, linter.config)
           end
+          builtin = builtin.with(opts)
           table.insert(sources, builtin)
         end
       end

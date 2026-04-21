@@ -4,7 +4,7 @@ local M = {}
 -- List of languages installed by default
 -------------------------------------------------------------------------------
 
-M.ensure_installed = { "lua", "markdown", "vim", "json", "toml", "yaml" }
+M.ensure_installed = { "lua", "markdown", "vim", "json", "toml", "yaml", "bash" }
 
 -------------------------------------------------------------------------------
 -- LSP config name -> Mason package name mapping
@@ -19,6 +19,7 @@ M.lsp_to_mason = {
   jsonls = "json-lsp",
   yamlls = "yaml-language-server",
   jdtls = "jdtls",
+  bashls = "bash-language-server",
 }
 
 -------------------------------------------------------------------------------
@@ -31,7 +32,6 @@ M.languages = {
     treesitter = "lua",
     lsp = {
       name = "lua_ls",
-      enabled = true,
       config = {
         settings = {
           Lua = {
@@ -53,7 +53,6 @@ M.languages = {
     },
     formatter = {
       name = "stylua",
-      enabled = true,
     },
     linter = nil,
     dap = nil,
@@ -64,7 +63,6 @@ M.languages = {
     treesitter = "python",
     lsp = {
       name = "pylsp",
-      enabled = true,
       config = {
         settings = {
           pylsp = {
@@ -92,12 +90,12 @@ M.languages = {
     },
     formatter = {
       name = "black",
-      enabled = true,
     },
     linter = nil,
     dap = {
       name = "debugpy",
-      enabled = false,
+      enable = false,
+      install = false,
     },
   },
 
@@ -106,11 +104,9 @@ M.languages = {
     treesitter = { "typescript", "tsx", "javascript", "jsdoc" },
     lsp = {
       name = "ts_ls",
-      enabled = true,
     },
     formatter = {
       name = "prettier",
-      enabled = true,
       config = {
         filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "tsx", "jsx", "json" },
       },
@@ -124,11 +120,9 @@ M.languages = {
     treesitter = "java",
     lsp = {
       name = "jdtls",
-      enabled = true,
     },
     formatter = {
       name = "google_java_format",
-      enabled = true,
     },
     linter = nil,
     dap = nil,
@@ -139,11 +133,9 @@ M.languages = {
     treesitter = { "markdown", "markdown_inline" },
     lsp = {
       name = "marksman",
-      enabled = true,
     },
     formatter = {
       name = "prettier",
-      enabled = true,
       config = {
         filetypes = { "markdown", "markdown.mdx" },
       },
@@ -157,7 +149,6 @@ M.languages = {
     treesitter = "latex",
     lsp = {
       name = "texlab",
-      enabled = true,
     },
     formatter = nil,
     linter = nil,
@@ -187,11 +178,9 @@ M.languages = {
     treesitter = "go",
     lsp = {
       name = "gopls",
-      enabled = true,
     },
     formatter = {
       name = "gofumpt",
-      enabled = true,
     },
     linter = nil,
     dap = nil,
@@ -224,12 +213,28 @@ M.languages = {
     dap = nil,
   },
 
+  bash = {
+    filetypes = { "sh", "bash", "zsh" },
+    treesitter = "bash",
+    lsp = {
+      name = "bashls",
+    },
+    formatter = {
+      name = "shfmt",
+    },
+    linter = {
+      name = "shellcheck",
+      enable = false,
+      install = true,
+    },
+    dap = nil,
+  },
+
   nu = {
     filetypes = { "nu" },
     treesitter = "nu",
     lsp = {
       name = "nushell",
-      enabled = true,
       mason = false,
     },
     formatter = nil,
@@ -242,11 +247,9 @@ M.languages = {
     treesitter = "json",
     lsp = {
       name = "jsonls",
-      enabled = true,
     },
     formatter = {
       name = "prettier",
-      enabled = true,
     },
     linter = nil,
     dap = nil,
@@ -257,11 +260,9 @@ M.languages = {
     treesitter = "yaml",
     lsp = {
       name = "yamlls",
-      enabled = true,
     },
     formatter = {
       name = "prettier",
-      enabled = true,
     },
     linter = nil,
     dap = nil,
@@ -272,7 +273,6 @@ M.languages = {
     treesitter = "toml",
     lsp = {
       name = "tombi",
-      enabled = true,
     },
     formatter = nil,
     linter = nil,
@@ -284,7 +284,6 @@ M.languages = {
     treesitter = "just",
     lsp = {
       name = "just-lsp",
-      enabled = true,
     },
     formatter = nil,
     linter = nil,
@@ -296,7 +295,7 @@ M.languages = {
 -- State Checking Functions
 -------------------------------------------------------------------------------
 
-local function is_mason_installed(pkg_name)
+function M.is_mason_installed(pkg_name)
   if not pkg_name then
     return false
   end
@@ -304,6 +303,25 @@ local function is_mason_installed(pkg_name)
   local ok, pkg = pcall(registry.get_package, pkg_name)
   return ok and pkg:is_installed()
 end
+
+local function is_mason_installed(pkg_name)
+  return M.is_mason_installed(pkg_name)
+end
+
+local function apply_tool_defaults(tool)
+  if not tool then
+    return nil
+  end
+  if tool.enable == nil then
+    tool.enable = true
+  end
+  if tool.install == nil then
+    tool.install = true
+  end
+  return tool
+end
+
+M.apply_tool_defaults = apply_tool_defaults
 
 local function is_treesitter_installed(parser_name)
   if not parser_name then
@@ -340,11 +358,12 @@ function M.is_installed(lang_name)
     end
   end
 
-  if lang.lsp and lang.lsp.enabled then
-    if lang.lsp.mason == false then
-      status.lsp = vim.fn.executable(lang.lsp.name) == 1
+  local lsp = apply_tool_defaults(lang.lsp)
+  if lsp and lsp.enable then
+    if lsp.mason == false then
+      status.lsp = vim.fn.executable(lsp.name) == 1
     else
-      local mason_name = M.lsp_to_mason[lang.lsp.name] or lang.lsp.name
+      local mason_name = M.lsp_to_mason[lsp.name] or lsp.name
       status.lsp = is_mason_installed(mason_name)
     end
     if not status.lsp then
@@ -352,33 +371,36 @@ function M.is_installed(lang_name)
     end
   end
 
-  if lang.formatter and lang.formatter.enabled then
-    if lang.formatter.mason == false then
-      status.formatter = vim.fn.executable(lang.formatter.name) == 1
+  local formatter = apply_tool_defaults(lang.formatter)
+  if formatter and formatter.enable then
+    if formatter.mason == false then
+      status.formatter = vim.fn.executable(formatter.name) == 1
     else
-      status.formatter = is_mason_installed(lang.formatter.name)
+      status.formatter = is_mason_installed(formatter.name)
     end
     if not status.formatter then
       status.complete = false
     end
   end
 
-  if lang.linter and lang.linter.enabled then
-    if lang.linter.mason == false then
-      status.linter = vim.fn.executable(lang.linter.name) == 1
+  local linter = apply_tool_defaults(lang.linter)
+  if linter and linter.enable then
+    if linter.mason == false then
+      status.linter = vim.fn.executable(linter.name) == 1
     else
-      status.linter = is_mason_installed(lang.linter.name)
+      status.linter = is_mason_installed(linter.name)
     end
     if not status.linter then
       status.complete = false
     end
   end
 
-  if lang.dap and lang.dap.enabled then
-    if lang.dap.mason == false then
-      status.dap = vim.fn.executable(lang.dap.name) == 1
+  local dap = apply_tool_defaults(lang.dap)
+  if dap and dap.enable then
+    if dap.mason == false then
+      status.dap = vim.fn.executable(dap.name) == 1
     else
-      status.dap = is_mason_installed(lang.dap.name)
+      status.dap = is_mason_installed(dap.name)
     end
     if not status.dap then
       status.complete = false
@@ -411,8 +433,9 @@ function M.get_ensure_installed_lsp_servers()
   local servers = {}
   for _, lang_name in ipairs(M.ensure_installed) do
     local lang = M.languages[lang_name]
-    if lang and lang.lsp and lang.lsp.enabled and lang.lsp.mason ~= false then
-      table.insert(servers, lang.lsp.name)
+    local tool = apply_tool_defaults(lang and lang.lsp)
+    if tool and tool.install and tool.mason ~= false then
+      table.insert(servers, tool.name)
     end
   end
   return servers
@@ -423,14 +446,17 @@ function M.get_ensure_installed_mason_packages()
   for _, lang_name in ipairs(M.ensure_installed) do
     local lang = M.languages[lang_name]
     if lang then
-      if lang.formatter and lang.formatter.enabled and lang.formatter.mason ~= false then
-        table.insert(packages, lang.formatter.name)
+      local formatter = apply_tool_defaults(lang.formatter)
+      if formatter and formatter.install and formatter.mason ~= false then
+        table.insert(packages, formatter.name)
       end
-      if lang.linter and lang.linter.enabled and lang.linter.mason ~= false then
-        table.insert(packages, lang.linter.name)
+      local linter = apply_tool_defaults(lang.linter)
+      if linter and linter.install and linter.mason ~= false then
+        table.insert(packages, linter.name)
       end
-      if lang.dap and lang.dap.enabled and lang.dap.mason ~= false then
-        table.insert(packages, lang.dap.name)
+      local dap = apply_tool_defaults(lang.dap)
+      if dap and dap.install and dap.mason ~= false then
+        table.insert(packages, dap.name)
       end
     end
   end
@@ -440,7 +466,8 @@ end
 function M.get_all_formatters()
   local formatters = {}
   for lang_name, lang in pairs(M.languages) do
-    if lang.formatter and lang.formatter.enabled then
+    local tool = apply_tool_defaults(lang.formatter)
+    if tool and tool.enable then
       formatters[lang_name] = lang.formatter
     end
   end
@@ -450,7 +477,8 @@ end
 function M.get_all_linters()
   local linters = {}
   for lang_name, lang in pairs(M.languages) do
-    if lang.linter and lang.linter.enabled then
+    local tool = apply_tool_defaults(lang.linter)
+    if tool and tool.enable then
       linters[lang_name] = lang.linter
     end
   end
@@ -460,7 +488,8 @@ end
 function M.get_all_lsp_configs()
   local configs = {}
   for lang_name, lang in pairs(M.languages) do
-    if lang.lsp and lang.lsp.enabled then
+    local tool = apply_tool_defaults(lang.lsp)
+    if tool and tool.enable then
       configs[lang_name] = lang.lsp
     end
   end
@@ -483,7 +512,7 @@ end
 local function mason_install(pkg_name)
   local registry = require("mason-registry")
   local ok, pkg = pcall(registry.get_package, pkg_name)
-  if ok and not pkg:is_installed() then
+  if ok and not pkg:is_installed() and not pkg:is_installing() then
     pkg:install()
     return true
   end
@@ -507,21 +536,25 @@ function M.install_ensure_installed()
       return
     end
 
-    if lang.lsp and lang.lsp.enabled and lang.lsp.mason ~= false then
-      local mason_name = M.lsp_to_mason[lang.lsp.name] or lang.lsp.name
+    local lsp = apply_tool_defaults(lang.lsp)
+    if lsp and lsp.install and lsp.mason ~= false then
+      local mason_name = M.lsp_to_mason[lsp.name] or lsp.name
       mason_install(mason_name)
     end
 
-    if lang.formatter and lang.formatter.enabled and lang.formatter.mason ~= false then
-      mason_install(lang.formatter.name)
+    local formatter = apply_tool_defaults(lang.formatter)
+    if formatter and formatter.install and formatter.mason ~= false then
+      mason_install(formatter.name)
     end
 
-    if lang.linter and lang.linter.enabled and lang.linter.mason ~= false then
-      mason_install(lang.linter.name)
+    local linter = apply_tool_defaults(lang.linter)
+    if linter and linter.install and linter.mason ~= false then
+      mason_install(linter.name)
     end
 
-    if lang.dap and lang.dap.enabled and lang.dap.mason ~= false then
-      mason_install(lang.dap.name)
+    local dap = apply_tool_defaults(lang.dap)
+    if dap and dap.install and dap.mason ~= false then
+      mason_install(dap.name)
     end
 
     if lang.treesitter then
@@ -545,44 +578,48 @@ function M.install_language(lang_name)
   local installed = {}
   local skipped = {}
 
-  if lang.lsp and lang.lsp.enabled then
-    if lang.lsp.mason ~= false then
-      local mason_name = M.lsp_to_mason[lang.lsp.name] or lang.lsp.name
+  local lsp = apply_tool_defaults(lang.lsp)
+  if lsp and lsp.install then
+    if lsp.mason ~= false then
+      local mason_name = M.lsp_to_mason[lsp.name] or lsp.name
       if mason_install(mason_name) then
-        table.insert(installed, lang.lsp.name .. " (LSP)")
+        table.insert(installed, lsp.name .. " (LSP)")
       end
     else
-      table.insert(skipped, lang.lsp.name .. " (non-Mason)")
+      table.insert(skipped, lsp.name .. " (non-Mason)")
     end
   end
 
-  if lang.formatter and lang.formatter.enabled then
-    if lang.formatter.mason ~= false then
-      if mason_install(lang.formatter.name) then
-        table.insert(installed, lang.formatter.name .. " (formatter)")
+  local formatter = apply_tool_defaults(lang.formatter)
+  if formatter and formatter.install then
+    if formatter.mason ~= false then
+      if mason_install(formatter.name) then
+        table.insert(installed, formatter.name .. " (formatter)")
       end
     else
-      table.insert(skipped, lang.formatter.name .. " (non-Mason)")
+      table.insert(skipped, formatter.name .. " (non-Mason)")
     end
   end
 
-  if lang.linter and lang.linter.enabled then
-    if lang.linter.mason ~= false then
-      if mason_install(lang.linter.name) then
-        table.insert(installed, lang.linter.name .. " (linter)")
+  local linter = apply_tool_defaults(lang.linter)
+  if linter and linter.install then
+    if linter.mason ~= false then
+      if mason_install(linter.name) then
+        table.insert(installed, linter.name .. " (linter)")
       end
     else
-      table.insert(skipped, lang.linter.name .. " (non-Mason)")
+      table.insert(skipped, linter.name .. " (non-Mason)")
     end
   end
 
-  if lang.dap and lang.dap.enabled then
-    if lang.dap.mason ~= false then
-      if mason_install(lang.dap.name) then
-        table.insert(installed, lang.dap.name .. " (DAP)")
+  local dap = apply_tool_defaults(lang.dap)
+  if dap and dap.install then
+    if dap.mason ~= false then
+      if mason_install(dap.name) then
+        table.insert(installed, dap.name .. " (DAP)")
       end
     else
-      table.insert(skipped, lang.dap.name .. " (non-Mason)")
+      table.insert(skipped, dap.name .. " (non-Mason)")
     end
   end
 
