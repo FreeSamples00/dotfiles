@@ -18,6 +18,7 @@ local opts = {
   wildmode = "list:full", -- command-line completions don't autofill
   ignorecase = true, -- ignore case in search
   smartcase = true, -- use smart case in search
+  cursorline = true, -- enable cursorline + linenum highlight
 }
 
 -- Set options from table
