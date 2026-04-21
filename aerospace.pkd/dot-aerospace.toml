@@ -140,8 +140,8 @@ cmd-alt-ctrl-shift-m = 'exec-and-forget open -a "microsoft outlook"'
 # PASSWORDS
 cmd-alt-ctrl-p = 'exec-and-forget open -a "proton pass"'
 
-# VMWARE FUSION
-cmd-alt-ctrl-v = 'exec-and-forget open -a "VMWare Fusion"'
+# VPN
+cmd-alt-ctrl-v = 'exec-and-forget open -a "ProtonVPN"'
 
 # DISCORD
 cmd-alt-ctrl-d = 'exec-and-forget open -a "Discord"'
@@ -149,10 +149,10 @@ cmd-alt-ctrl-d = 'exec-and-forget open -a "Discord"'
 # FINDER
 cmd-alt-ctrl-f = 'exec-and-forget open -a "Finder"'
 
-# btop
+# BTOP
 cmd-alt-ctrl-t = "exec-and-forget open -na ghostty.app --args -e btop"
 
-# activity monitor
+# ACTIVITY MONITOR
 cmd-alt-ctrl-shift-t = 'exec-and-forget open -a "activity monitor"'
 
 # ========================= TILING HOTKEYS =========================
