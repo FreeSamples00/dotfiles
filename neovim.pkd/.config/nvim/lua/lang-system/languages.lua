@@ -1,6 +1,8 @@
 --- Language System Core Module
 --- Provides helper functions for language tooling management.
---- Configuration is provided via setup(opts) from init.lua.
+---
+--- Configuration is provided via setup(opts) from lua/plugins/lang-system.lua.
+--- See lua/lang-system/README.md for usage documentation.
 
 local mappings = require("lang-system.mappings")
 

@@ -1,11 +1,12 @@
 --- Language Tool Name Mappings
 ---
 --- Contains mappings for:
---- 1. LSP server names to Mason package names
---- 2. Tool names to null-ls source names
+--- 1. LSP server names to Mason package names (lsp_to_mason)
+--- 2. Tool names to null-ls source providers (tool_to_nullls)
 ---
 --- Source: mason-lspconfig package specs, null-ls builtins, none-ls-extras
 --- Maintained manually - update when adding new tools.
+--- See lua/lang-system/README.md for usage documentation.
 
 local M = {}
 

@@ -1,3 +1,14 @@
+--- Language System Plugin Configuration
+---
+--- Defines language configurations and plugin specs for:
+--- - Mason (package manager)
+--- - nvim-treesitter (syntax highlighting)
+--- - nvim-lspconfig (LSP client)
+--- - none-ls (formatters, linters)
+---
+--- Language definitions are passed to langs.setup() and used by the
+--- lang-system module. See lua/lang-system/README.md for schema details.
+
 local langs = require("lang-system.languages")
 local lang_system = require("lang-system")
 

@@ -1,5 +1,8 @@
 --- Language System Module
 --- Entry point for language tooling configuration.
+---
+--- Provides setup functions for Mason, treesitter, LSP, and null-ls.
+--- Language definitions are configured via langs.setup() in lua/plugins/lang-system.lua.
 
 local M = {}
 
@@ -227,6 +230,20 @@ function M.setup_lspconfig()
     end
     vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO)
   end, { desc = "Show language installation status" })
+
+  vim.api.nvim_create_user_command("LanguageInstallCurrent", function()
+    local ft = vim.api.nvim_buf_get_option(0, "filetype")
+    if ft == "" or ft == nil then
+      vim.notify("No filetype detected for current buffer", vim.log.levels.WARN)
+      return
+    end
+    local lang_name, lang = M.languages.get_language_for_filetype(ft)
+    if not lang_name then
+      vim.notify("No language defined for filetype: " .. ft, vim.log.levels.WARN)
+      return
+    end
+    M.languages.install_language(lang_name)
+  end, { desc = "Install tools for current buffer's language" })
 
   local notified_languages = {}
 
