@@ -16,7 +16,7 @@ esac
 # ==== prompt theme ====
 
 # this is required because lower versions of bash (e.g. 3.2 on macos) don't support `\w`
-unction prompt_path() {
+function prompt_path() {
   local dir="$PWD"
   if [[ "$dir" == "$HOME"* ]]; then
     dir="~${dir#$HOME}"
