@@ -31,6 +31,8 @@ Continue to explore this plugin, seems to have lots
     - [ ] linting, formatting, etc
     - [ ] unit and regression testing
 
+- [ ] add description per language
+
 ### UI
 
 - use snacks picker
@@ -49,5 +51,6 @@ Continue to explore this plugin, seems to have lots
   - d: uninstall language
   - u: update all tools
   - o: open language config location
+  - \*: some way to open configuration location
 
 - command to install language from current filetype (not in UI)

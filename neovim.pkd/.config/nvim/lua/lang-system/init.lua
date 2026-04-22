@@ -186,24 +186,26 @@ function M.setup_lspconfig()
 
   vim.api.nvim_create_user_command("LanguageUninstall", function(opts)
     local lang_name = opts.args
+    local force = opts.bang
     if lang_name == "" then
       local lang_names = vim.tbl_keys(M.languages.languages)
       vim.ui.select(lang_names, {
         prompt = "Select language to uninstall:",
       }, function(choice)
         if choice then
-          M.languages.uninstall_language(choice)
+          M.languages.uninstall_language(choice, { force = force })
         end
       end)
     else
-      M.languages.uninstall_language(lang_name)
+      M.languages.uninstall_language(lang_name, { force = force })
     end
   end, {
     nargs = "?",
+    bang = true,
     complete = function()
       return vim.tbl_keys(M.languages.languages)
     end,
-    desc = "Uninstall language tools",
+    desc = "Uninstall language tools (use ! to force)",
   })
 
   vim.api.nvim_create_user_command("LanguageList", function()
@@ -226,7 +228,12 @@ function M.setup_lspconfig()
     end)
     for _, item in ipairs(sorted) do
       local status_str = item.status.complete and "✓" or "○"
-      table.insert(lines, string.format("  %s %s", status_str, item.name))
+      local lang = M.languages.languages[item.name]
+      local deps_str = ""
+      if lang and lang.depends and #lang.depends > 0 then
+        deps_str = " (depends: " .. table.concat(lang.depends, ", ") .. ")"
+      end
+      table.insert(lines, string.format("  %s %s%s", status_str, item.name, deps_str))
     end
     vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO)
   end, { desc = "Show language installation status" })

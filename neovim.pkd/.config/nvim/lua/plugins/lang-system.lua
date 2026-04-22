@@ -13,10 +13,37 @@ local langs = require("lang-system.languages")
 local lang_system = require("lang-system")
 
 local defaults = {
-  ensure_installed = { "utility", "lua", "markdown", "vim", "json", "toml", "yaml", "bash" },
+  ensure_installed = { "nvim_core", "configs_group", "bash" },
   languages = {
 
-    utility = {
+    -- Language Categories
+
+    nvim_core = {
+      dependencies = {
+        "regex",
+        "lua",
+        "vim",
+      },
+    },
+
+    writing_group = {
+      dependencies = {
+        "markdown",
+        "latex",
+      },
+    },
+
+    configs_group = {
+      dependencies = {
+        "json",
+        "toml",
+        "yaml",
+      },
+    },
+
+    -- Individual Language Defs
+
+    regex = {
       treesitter = {
         "regex",
       },
@@ -89,9 +116,15 @@ local defaults = {
       },
     },
 
+    html = {
+      filetypes = { "html" },
+      treesitter = "html",
+    },
+
     typescript = {
       filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "tsx", "jsx" },
       treesitter = { "typescript", "tsx", "javascript", "jsdoc" },
+      dependencies = { "html" },
       lsp = {
         name = "ts_ls",
       },
@@ -184,14 +217,9 @@ local defaults = {
       },
     },
 
-    vimdoc = {
-      filetypes = { "vimdoc" },
-      treesitter = "vimdoc",
-    },
-
     vim = {
-      filetypes = { "vim" },
-      treesitter = "vim",
+      filetypes = { "vim", "vimdoc" },
+      treesitter = { "vim", "vimdoc" },
     },
 
     bash = {
@@ -208,6 +236,11 @@ local defaults = {
         enable = false,
         install = true,
       },
+    },
+
+    make = {
+      filetypes = { "make", "makefile" },
+      treesitter = "make",
     },
 
     nu = {

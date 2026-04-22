@@ -35,6 +35,7 @@ Language definitions are passed to `langs.setup()` in `lua/plugins/lang-system.l
 lua = {
   filetypes = { "lua" },           -- Required: filetypes this language handles
   treesitter = "lua",              -- Optional: parser name or array
+  dependencies = { "html" },            -- Optional: languages this dependencies on
   lsp = {                          -- Optional: LSP configuration
     name = "lua_ls",               -- lspconfig server name
     config = { ... },              -- passed to lspconfig setup
@@ -64,17 +65,38 @@ lua = {
 | `install` | `true`  | Whether to auto-install via Mason  |
 | `mason`   | `true`  | `false` for system-installed tools |
 
+### Language Dependencies
+
+Languages can declare dependencies on other languages using the `dependencies` field:
+
+```lua
+typescript = {
+  filetypes = { "typescript", "typescriptreact" },
+  treesitter = { "typescript", "tsx" },
+  dependencies = { "html" },  -- Will install html tools first
+  lsp = { name = "ts_ls" },
+},
+```
+
+Dependency behavior:
+
+- **Install**: Dependencies are installed recursively before the language itself
+- **Ensure installed**: Dependencies are automatically added to `ensure_installed` expansion
+- **Uninstall**: Blocked if other languages depend on it (use `!` to force)
+- **Status**: `:LanguageStatus` shows dependencies and checks their installation
+
 ## Commands
 
-| Command                     | Description                      |
-| --------------------------- | -------------------------------- |
-| `:LanguageInstall [name]`   | Install tools for a language     |
-| `:LanguageInstallCurrent`   | Install tools for current buffer   |
-| `:LanguageUninstallCurrent` | Uninstall tools for current buffer |
-| `:LanguageUninstall [name]` | Uninstall tools for a language     |
-| `:LanguageList`             | List all defined languages       |
-| `:LanguageStatus`           | Show installation status         |
-| `:AutoFormatToggle`         | Toggle format-on-save            |
+| Command                     | Description                                    |
+| --------------------------- | ---------------------------------------------- |
+| `:LanguageInstall [name]`   | Install tools for a language (includes deps)   |
+| `:LanguageInstallCurrent`   | Install tools for current buffer               |
+| `:LanguageUninstall [name]` | Uninstall tools for a language                 |
+| `:LanguageUninstall! [name]`| Force uninstall (ignores dependents)           |
+| `:LanguageUninstallCurrent` | Uninstall tools for current buffer             |
+| `:LanguageList`             | List all defined languages                     |
+| `:LanguageStatus`           | Show installation status (includes deps)       |
+| `:AutoFormatToggle`         | Toggle format-on-save                          |
 
 ## Adding a New Language
 

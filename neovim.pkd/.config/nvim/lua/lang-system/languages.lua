@@ -58,6 +58,40 @@ end
 
 M.apply_tool_defaults = apply_tool_defaults
 
+local function get_all_dependencies(lang_name, seen)
+  seen = seen or {}
+  if seen[lang_name] then
+    return {}
+  end
+  seen[lang_name] = true
+
+  local lang = M.languages[lang_name]
+  if not lang or not lang.dependencies then
+    return {}
+  end
+
+  local deps = {}
+  for _, dep in ipairs(lang.dependencies) do
+    if M.languages[dep] and not seen[dep] then
+      table.insert(deps, dep)
+      vim.list_extend(deps, get_all_dependencies(dep, seen))
+    end
+  end
+  return deps
+end
+
+M.get_all_dependencies = get_all_dependencies
+
+local function get_dependents(lang_name)
+  local dependents = {}
+  for name, lang in pairs(M.languages) do
+    if lang.dependencies and vim.tbl_contains(lang.dependencies, lang_name) then
+      table.insert(dependents, name)
+    end
+  end
+  return dependents
+end
+
 local function is_treesitter_installed(parser_name)
   if not parser_name then
     return false
@@ -68,7 +102,7 @@ end
 
 --- Check installation status of all tools for a language.
 --- @param lang_name string Language name (e.g., "lua", "python")
---- @return table|nil Status table with fields: treesitter, lsp, formatter, linter, dap, complete
+--- @return table|nil Status table with fields: treesitter, lsp, formatter, linter, dap, dependencies, complete
 function M.is_installed(lang_name)
   local lang = M.languages[lang_name]
   if not lang then
@@ -82,8 +116,19 @@ function M.is_installed(lang_name)
     formatter = true,
     linter = true,
     dap = true,
+    dependencies = true,
     complete = true,
   }
+
+  local deps = get_all_dependencies(lang_name)
+  for _, dep in ipairs(deps) do
+    local dep_status = M.is_installed(dep)
+    if not dep_status or not dep_status.complete then
+      status.dependencies = false
+      status.complete = false
+      break
+    end
+  end
 
   if lang.treesitter then
     local parsers = type(lang.treesitter) == "table" and lang.treesitter or { lang.treesitter }
@@ -148,11 +193,30 @@ function M.is_installed(lang_name)
   return status
 end
 
+local function expand_with_dependencies(lang_list)
+  local expanded = {}
+  local seen = {}
+  for _, lang_name in ipairs(lang_list) do
+    if not seen[lang_name] then
+      seen[lang_name] = true
+      local deps = get_all_dependencies(lang_name)
+      for _, dep in ipairs(deps) do
+        if not seen[dep] then
+          seen[dep] = true
+          table.insert(expanded, dep)
+        end
+      end
+      table.insert(expanded, lang_name)
+    end
+  end
+  return expanded
+end
+
 --- Get treesitter parsers for ensure_installed languages.
 --- @return string[]
 function M.get_ensure_installed_parsers()
   local parsers = {}
-  for _, lang_name in ipairs(M.ensure_installed) do
+  for _, lang_name in ipairs(expand_with_dependencies(M.ensure_installed)) do
     local lang = M.languages[lang_name]
     if lang and lang.treesitter then
       if type(lang.treesitter) == "table" then
@@ -170,7 +234,7 @@ end
 --- @return string[]
 function M.get_ensure_installed_lsp_servers()
   local servers = {}
-  for _, lang_name in ipairs(M.ensure_installed) do
+  for _, lang_name in ipairs(expand_with_dependencies(M.ensure_installed)) do
     local lang = M.languages[lang_name]
     local tool = apply_tool_defaults(lang and lang.lsp)
     if tool and tool.install and tool.mason ~= false then
@@ -184,7 +248,7 @@ end
 --- @return string[]
 function M.get_ensure_installed_mason_packages()
   local packages = {}
-  for _, lang_name in ipairs(M.ensure_installed) do
+  for _, lang_name in ipairs(expand_with_dependencies(M.ensure_installed)) do
     local lang = M.languages[lang_name]
     if lang then
       local formatter = apply_tool_defaults(lang.formatter)
@@ -325,12 +389,21 @@ end
 --- Install all tools for a specific language.
 --- Notifies user of installed and skipped tools.
 --- @param lang_name string Language name
+--- @param opts table|nil Options: { skip_deps = boolean }
 --- @return boolean Success
-function M.install_language(lang_name)
+function M.install_language(lang_name, opts)
+  opts = opts or {}
   local lang = M.languages[lang_name]
   if not lang then
     vim.notify("Unknown language: " .. lang_name, vim.log.levels.ERROR)
     return false
+  end
+
+  if not opts.skip_deps then
+    local deps = get_all_dependencies(lang_name)
+    for _, dep in ipairs(deps) do
+      M.install_language(dep, { skip_deps = true })
+    end
   end
 
   local installed = {}
@@ -407,11 +480,27 @@ end
 
 --- Uninstall all tools for a specific language.
 --- @param lang_name string Language name
+--- @param opts table|nil Options: { force = boolean }
 --- @return boolean Success
-function M.uninstall_language(lang_name)
+function M.uninstall_language(lang_name, opts)
+  opts = opts or {}
   local lang = M.languages[lang_name]
   if not lang then
     vim.notify("Unknown language: " .. lang_name, vim.log.levels.ERROR)
+    return false
+  end
+
+  local dependents = get_dependents(lang_name)
+  if #dependents > 0 and not opts.force then
+    vim.notify(
+      string.format(
+        "Cannot uninstall '%s': required by %s. Use :LanguageUninstall! %s to force.",
+        lang_name,
+        table.concat(dependents, ", "),
+        lang_name
+      ),
+      vim.log.levels.WARN
+    )
     return false
   end
 
