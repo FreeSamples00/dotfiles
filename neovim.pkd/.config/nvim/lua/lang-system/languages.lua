@@ -1,15 +1,25 @@
 --- Language System Core Module
 --- Provides helper functions for language tooling management.
---- Declarative configuration lives in language_conf.lua.
+--- Configuration is provided via setup(opts) from init.lua.
 
-local mappings = require("core.language-mappings")
-local lang_conf = require("core.language_conf")
+local mappings = require("lang-system.mappings")
 
 local M = {}
 
+local config = {
+  ensure_installed = {},
+  languages = {},
+}
+
 M.lsp_to_mason = mappings.lsp_to_mason
-M.ensure_installed = lang_conf.ensure_installed
-M.languages = lang_conf.languages
+
+--- Setup function called by the plugin's config.
+--- @param opts table Configuration with ensure_installed and languages
+function M.setup(opts)
+  config = vim.tbl_deep_extend("force", config, opts or {})
+  M.ensure_installed = config.ensure_installed
+  M.languages = config.languages
+end
 
 --- Check if a Mason package is installed.
 --- @param pkg_name string Package name as known to Mason
