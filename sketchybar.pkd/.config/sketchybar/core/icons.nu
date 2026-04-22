@@ -478,6 +478,7 @@ def widget_icon [
     "apple_logo" => "󰀵"
     "mail" => "󰶈"
     "ai" => ""
+    "docker" => ""
     _ => ""
   }
 }

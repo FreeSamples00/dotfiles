@@ -115,8 +115,8 @@ export const skenv =  {
       enable: true
       name: focused_app
       color: $"($theme.colors.green)"
-      side: left
       icon_font: $"($fonts.ske_app.family):($fonts.ske_app.style):($fonts.ske_app.size)"
+      side: left
     }
     restart_notifier: {
       enable: true
@@ -165,7 +165,7 @@ export const skenv =  {
       icon_font: $"($fonts.icon.family):($fonts.icon.style):($fonts.icon.size + 4)"
       update_freq: 600
       side: right
-    }
+    } 
     weather: { # TODO:
       enable: false
       name: weather
@@ -179,6 +179,14 @@ export const skenv =  {
       enable: false
       name: caffeinate
       color: $"($theme.colors.green)"
+      side: right
+    }
+    docker: {
+      enable: true
+      name: docker
+      color: $"($theme.colors.blue)"
+      icon_font: $"($fonts.icon.family):($fonts.icon.style):($fonts.icon.size + 4)"
+      update_freq: 10
       side: right
     }
   }

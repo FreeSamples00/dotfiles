@@ -4,14 +4,7 @@
 
 ### Docker
 
-- [ ] docker item that only shows if docker is running
-- [ ] shows number of containers running
 - [ ] on click show more details
-
-```nu
-def dls () { docker images --format json | from json --objects } # get docker info
-dls | get Containers | into int | math sum # num containers
-```
 
 ### AI usage
 
