@@ -22,7 +22,7 @@ Continue to explore this plugin, seems to have lots
   - [ ] likely <leader>c or C
   - [ ] see comment options under "gc"
 
-- [ ] remove opt + j line merging
+- [ ] remove J line merging
 
 ## Language System
 
@@ -30,8 +30,6 @@ Continue to explore this plugin, seems to have lots
   - [ ] LLM accessible scripts:
     - [ ] linting, formatting, etc
     - [ ] unit and regression testing
-
-- [ ] consider moving this to a plugin format that could be lazy loaded
 
 ### UI
 
