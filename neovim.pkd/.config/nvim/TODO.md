@@ -2,14 +2,6 @@
 
 - [ ] add docs in README
 
-- [ ] bottom right notifications
-  - [ ] LSP notifications are doubled
-  - [ ] this seems to work in lazyvim
-
-- [ ] use AI to diff features between this and lazyvim, ensure nothing important is missed
-- [ ] Configure inline hints?
-- [ ] figure out how to get inline lsp hints
-- [ ] make sure all keybinds are wanted, have proper descriptions, and are in the right place
 - [ ] highlight the external parens for block cursor is in
 
 - [ ] why are some UI elements hidden when lazy has to install something?
@@ -22,7 +14,6 @@ Continue to explore this plugin, seems to have lots
 - [ ] open help windows in some kind of styled pop-up/split buffer
   - [ ] maybe use `snacks` preconfigured help split?
 
-- [ ] change dashboard "loaded in" time to dynamically change units (move to seconds instead of ms if needed)
 - [ ] make undotree cumulative?
   - [ ] switch back to that one that started with an a
 - [ ] show hidden files in smart search
@@ -54,6 +45,27 @@ Continue to explore this plugin, seems to have lots
 - [ ] add shorter documentation in README.md
 
 - [ ] consider moving this to a plugin format that could be lazy loaded
+
+### UI
+
+- use snacks picker
+  - split pane:
+    - left: language name
+    - right:
+      - configured tools list
+      - status of tools / language (live)
+      - configured filetypes
+      - keybind reference
+  - have search bar, start in normal mode
+
+- keybinds:
+  - i: install language
+  - X: cleans tools (deletes everything that is not defined in ensure_installed)
+  - d: uninstall language
+  - u: update all tools
+  - o: open language config location
+
+- command to install language from current filetype (not in UI)
 
 ### Bug log
 
