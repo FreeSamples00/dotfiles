@@ -26,6 +26,8 @@ Continue to explore this plugin, seems to have lots
 
 ## Language System
 
+- [ ] get nushell LSP working
+
 - [ ] implement regression and unit testing?
   - [ ] LLM accessible scripts:
     - [ ] linting, formatting, etc
@@ -54,3 +56,9 @@ Continue to explore this plugin, seems to have lots
   - \*: some way to open configuration location
 
 - command to install language from current filetype (not in UI)
+
+## Treesitter
+
+If treesitter-nvim deprecation causes problems, consider switching to a maintained option
+
+- [tree-sitter-manager](https://github.com/romus204/tree-sitter-manager.nvim)
