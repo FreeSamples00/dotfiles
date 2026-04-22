@@ -6,4 +6,387 @@ local M = {}
 M.languages = require("lang-system.languages")
 M.mappings = require("lang-system.mappings")
 
+function M.setup_mason()
+  require("mason").setup()
+
+  vim.defer_fn(function()
+    M.languages.install_ensure_installed()
+  end, 100)
+end
+
+function M.setup_treesitter()
+  require("nvim-treesitter.config").setup({
+    ensure_installed = M.languages.get_ensure_installed_parsers(),
+    highlight = { enable = true },
+    indent = { enable = true, disable = { "python" } },
+    incremental_selection = {
+      enable = true,
+      keymaps = {
+        init_selection = "<c-space>",
+        node_incremental = "<c-space>",
+        scope_incremental = "<c-s>",
+        node_decremental = "<c-backspace>",
+      },
+    },
+    textobjects = {
+      select = {
+        enable = true,
+        lookahead = true,
+        keymaps = {
+          ["aa"] = "@parameter.outer",
+          ["ia"] = "@parameter.inner",
+          ["af"] = "@function.outer",
+          ["if"] = "@function.inner",
+          ["ac"] = "@class.outer",
+          ["ic"] = "@class.inner",
+        },
+      },
+      move = {
+        enable = true,
+        set_jumps = true,
+        goto_next_start = {
+          ["]m"] = "@function.outer",
+          ["]]"] = "@class.outer",
+        },
+        goto_next_end = {
+          ["]M"] = "@function.outer",
+          ["]["] = "@class.outer",
+        },
+        goto_previous_start = {
+          ["[m"] = "@function.outer",
+          ["[["] = "@class.outer",
+        },
+        goto_previous_end = {
+          ["[M"] = "@function.outer",
+          ["[]"] = "@class.outer",
+        },
+      },
+    },
+  })
+end
+
+function M.setup_lspconfig()
+  local globals = require("helpers.globals")
+
+  require("neodev").setup()
+
+  vim.diagnostic.config({
+    virtual_text = false,
+    signs = {
+      text = {
+        [vim.diagnostic.severity.ERROR] = globals.lsp_icons.error,
+        [vim.diagnostic.severity.WARN] = globals.lsp_icons.warn,
+        [vim.diagnostic.severity.INFO] = globals.lsp_icons.info,
+        [vim.diagnostic.severity.HINT] = globals.lsp_icons.hint,
+      },
+    },
+    update_in_insert = true,
+    underline = true,
+    severity_sort = true,
+    float = {
+      focusable = true,
+      style = "minimal",
+      border = "rounded",
+      source = "always",
+      header = "",
+      prefix = "",
+    },
+  })
+
+  local on_attach = function(client, bufnr)
+    local lsp_map = require("helpers.keys").lsp_map
+
+    local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
+    local lang_name, lang = M.languages.get_language_for_filetype(ft)
+    local formatter = M.languages.apply_tool_defaults(lang and lang.formatter)
+    if formatter and formatter.enable then
+      client.server_capabilities.documentFormattingProvider = false
+      client.server_capabilities.documentRangeFormattingProvider = false
+    end
+
+    lsp_map("J", vim.diagnostic.open_float, bufnr, "LSP Diagnostics")
+    lsp_map("K", vim.lsp.buf.hover, bufnr, "LSP Hover")
+    lsp_map("<leader>la", vim.lsp.buf.code_action, bufnr, "Code Action")
+    lsp_map("<leader>lh", Snacks.picker.diagnostics_buffer, bufnr, "Buffer Diagnostics")
+    lsp_map("<leader>lH", Snacks.picker.diagnostics, bufnr, "All Diagnostics")
+    lsp_map("<leader>lk", "<cmd>lua vim.lsp.buf.signature_help()<cr>", bufnr, "Show Signature")
+    lsp_map("<leader>lt", Snacks.picker.lsp_type_definitions, bufnr, "Type Definition")
+    lsp_map("<leader>lr", Snacks.picker.lsp_references, bufnr, "References")
+    lsp_map("<leader>lR", vim.lsp.buf.rename, bufnr, "Rename Symbol")
+    lsp_map("<leader>ld", Snacks.picker.lsp_definitions, bufnr, "Definition")
+    lsp_map("<leader>lD", Snacks.picker.lsp_declarations, bufnr, "Declaration")
+    lsp_map("<leader>li", Snacks.picker.lsp_implementations, bufnr, "Implementation")
+    lsp_map("<leader>lc", Snacks.picker.lsp_incoming_calls, bufnr, "Incoming Calls")
+    lsp_map("<leader>lC", Snacks.picker.lsp_outgoing_calls, bufnr, "Outgoing Calls")
+    lsp_map("<leader>ls", Snacks.picker.lsp_symbols, bufnr, "Buffer Symbols")
+    lsp_map("<leader>lS", Snacks.picker.lsp_workspace_symbols, bufnr, "All Symbols")
+
+    vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
+      vim.lsp.buf.format()
+    end, { desc = "Format current buffer with LSP" })
+
+    lsp_map("<leader>uf", "<cmd>AutoFormatToggle<cr>", bufnr, "Toggle auto-format")
+    lsp_map("<leader>ff", "<cmd>Format<cr>", bufnr, "Format")
+
+    require("illuminate").on_attach(client)
+  end
+
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
+  for lang_name, lsp in pairs(M.languages.get_all_lsp_configs()) do
+    local config = vim.tbl_deep_extend("force", {
+      on_attach = on_attach,
+      capabilities = capabilities,
+    }, lsp.config or {})
+
+    vim.lsp.config(lsp.name, config)
+  end
+
+  require("mason-lspconfig").setup({
+    ensure_installed = M.languages.get_ensure_installed_lsp_servers(),
+    automatic_installation = true,
+    automatic_enable = true,
+  })
+
+  vim.api.nvim_create_user_command("AutoFormatToggle", function()
+    vim.g.autoformat_enabled = not vim.g.autoformat_enabled
+    vim.notify(
+      string.format("Auto-formatting %s", vim.g.autoformat_enabled and "enabled" or "disabled"),
+      vim.log.levels.INFO
+    )
+  end, { desc = "Toggle auto-formatting on save" })
+
+  require("helpers.keys").map("n", "<leader>dm", "<cmd>Mason<cr>", "Mason UI")
+
+  vim.api.nvim_create_user_command("LanguageInstall", function(opts)
+    local lang_name = opts.args
+    if lang_name == "" then
+      local lang_names = vim.tbl_keys(M.languages.languages)
+      vim.ui.select(lang_names, {
+        prompt = "Select language to install:",
+      }, function(choice)
+        if choice then
+          M.languages.install_language(choice)
+        end
+      end)
+    else
+      M.languages.install_language(lang_name)
+    end
+  end, {
+    nargs = "?",
+    complete = function()
+      return vim.tbl_keys(M.languages.languages)
+    end,
+    desc = "Install language tools",
+  })
+
+  vim.api.nvim_create_user_command("LanguageUninstall", function(opts)
+    local lang_name = opts.args
+    if lang_name == "" then
+      local lang_names = vim.tbl_keys(M.languages.languages)
+      vim.ui.select(lang_names, {
+        prompt = "Select language to uninstall:",
+      }, function(choice)
+        if choice then
+          M.languages.uninstall_language(choice)
+        end
+      end)
+    else
+      M.languages.uninstall_language(lang_name)
+    end
+  end, {
+    nargs = "?",
+    complete = function()
+      return vim.tbl_keys(M.languages.languages)
+    end,
+    desc = "Uninstall language tools",
+  })
+
+  vim.api.nvim_create_user_command("LanguageList", function()
+    local lang_names = vim.tbl_keys(M.languages.languages)
+    table.sort(lang_names)
+    vim.notify("Defined languages:\n" .. table.concat(lang_names, "\n"), vim.log.levels.INFO)
+  end, { desc = "List all defined languages" })
+
+  vim.api.nvim_create_user_command("LanguageStatus", function()
+    local status = M.languages.status()
+    local lines = { "Language Status:", "" }
+    local sorted = {}
+    for lang_name, lang_status in pairs(status) do
+      if lang_status then
+        table.insert(sorted, { name = lang_name, status = lang_status })
+      end
+    end
+    table.sort(sorted, function(a, b)
+      return a.name < b.name
+    end)
+    for _, item in ipairs(sorted) do
+      local status_str = item.status.complete and "✓" or "○"
+      table.insert(lines, string.format("  %s %s", status_str, item.name))
+    end
+    vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO)
+  end, { desc = "Show language installation status" })
+
+  local notified_languages = {}
+
+  vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+    group = vim.api.nvim_create_augroup("LanguageNotification", { clear = true }),
+    callback = function()
+      local ft = vim.api.nvim_buf_get_option(0, "filetype")
+      if ft == "" or ft == nil then
+        return
+      end
+
+      local lang_name, lang = M.languages.get_language_for_filetype(ft)
+      if not lang_name then
+        return
+      end
+
+      if notified_languages[lang_name] then
+        return
+      end
+
+      local status = M.languages.is_installed(lang_name)
+      if not status then
+        return
+      end
+
+      if not status.complete then
+        notified_languages[lang_name] = true
+        vim.notify(
+          string.format("Language '%s' config available. Run :LanguageInstall %s to install", lang_name, lang_name),
+          vim.log.levels.INFO
+        )
+      end
+    end,
+  })
+end
+
+function M.setup_null_ls()
+  local null_ls = require("null-ls")
+  local sources = {}
+  local formatters_by_name = {}
+
+  local mason_bin = vim.fn.stdpath("data") .. "/mason/bin/"
+
+  local function get_source(method, name)
+    local mapping = M.mappings.tool_to_nullls[method] and M.mappings.tool_to_nullls[method][name]
+
+    if mapping and mapping.provider == "extras" then
+      local ok, extra = pcall(require, "none-ls." .. method .. "." .. mapping.source)
+      if ok then
+        return extra, mapping
+      else
+        vim.notify(
+          string.format(
+            "[null-ls] failed to load extras source '%s.%s'; ensure none-ls-extras.nvim is installed",
+            method,
+            mapping.source
+          ),
+          vim.log.levels.WARN
+        )
+        return nil, nil
+      end
+    elseif mapping and mapping.provider == "builtin" then
+      local builtin = null_ls.builtins[method][mapping.source]
+      if builtin then
+        return builtin, mapping
+      else
+        vim.notify(
+          string.format(
+            "[null-ls] builtin source '%s.%s' not found; this may indicate a null-ls version mismatch",
+            method,
+            mapping.source
+          ),
+          vim.log.levels.WARN
+        )
+        return nil, nil
+      end
+    else
+      local builtin = null_ls.builtins[method][name]
+      if builtin then
+        return builtin, nil
+      end
+      vim.notify(
+        string.format(
+          "[null-ls] no source found for %s '%s'; add to mappings.lua or install the tool via Mason",
+          method,
+          name
+        ),
+        vim.log.levels.WARN
+      )
+      return nil, nil
+    end
+  end
+
+  for lang_name, formatter in pairs(M.languages.get_all_formatters()) do
+    local name = formatter.name
+    if not formatters_by_name[name] then
+      formatters_by_name[name] = { config = formatter.config, mason = formatter.mason }
+    elseif formatter.config and formatter.config.filetypes then
+      local existing = formatters_by_name[name]
+      if existing.config and existing.config.filetypes then
+        for _, ft in ipairs(formatter.config.filetypes) do
+          if not vim.tbl_contains(existing.config.filetypes, ft) then
+            table.insert(existing.config.filetypes, ft)
+          end
+        end
+      end
+    end
+  end
+
+  for name, formatter_data in pairs(formatters_by_name) do
+    local source, mapping = get_source("formatting", name)
+    if source then
+      local opts = {
+        condition = function()
+          if formatter_data.mason == false then
+            return vim.fn.executable(name) == 1
+          else
+            return M.languages.is_mason_installed(name)
+          end
+        end,
+      }
+      if mapping and mapping.provider == "extras" and formatter_data.mason ~= false then
+        opts.command = mason_bin .. name
+      end
+      if formatter_data.config then
+        opts = vim.tbl_extend("force", opts, formatter_data.config)
+      end
+      if source.with then
+        source = source.with(opts)
+      end
+      table.insert(sources, source)
+    end
+  end
+
+  for lang_name, linter in pairs(M.languages.get_all_linters()) do
+    local source, mapping = get_source("diagnostics", linter.name)
+    if source then
+      local opts = {
+        condition = function()
+          if linter.mason == false then
+            return vim.fn.executable(linter.name) == 1
+          else
+            return M.languages.is_mason_installed(linter.name)
+          end
+        end,
+      }
+      if mapping and mapping.provider == "extras" and linter.mason ~= false then
+        opts.command = mason_bin .. linter.name
+      end
+      if linter.config then
+        opts = vim.tbl_extend("force", opts, linter.config)
+      end
+      if source.with then
+        source = source.with(opts)
+      end
+      table.insert(sources, source)
+    end
+  end
+
+  null_ls.setup({ sources = sources })
+end
+
 return M
