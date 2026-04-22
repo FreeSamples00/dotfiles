@@ -50,8 +50,9 @@ M.languages = {
     formatter = {
       name = "stylua",
     },
-    linter = nil,
-    dap = nil,
+    linter = {
+      name = "selene",
+    },
   },
 
   python = {
@@ -87,11 +88,8 @@ M.languages = {
     formatter = {
       name = "black",
     },
-    linter = nil,
-    dap = {
-      name = "debugpy",
-      enable = false,
-      install = false,
+    linter = {
+      name = "ruff",
     },
   },
 
@@ -107,8 +105,9 @@ M.languages = {
         filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "tsx", "jsx", "json" },
       },
     },
-    linter = nil,
-    dap = nil,
+    linter = {
+      name = "eslint",
+    },
   },
 
   java = {
@@ -120,8 +119,6 @@ M.languages = {
     formatter = {
       name = "google_java_format",
     },
-    linter = nil,
-    dap = nil,
   },
 
   markdown = {
@@ -136,8 +133,6 @@ M.languages = {
         filetypes = { "markdown", "markdown.mdx" },
       },
     },
-    linter = nil,
-    dap = nil,
   },
 
   latex = {
@@ -146,27 +141,40 @@ M.languages = {
     lsp = {
       name = "texlab",
     },
-    formatter = nil,
-    linter = nil,
-    dap = nil,
+    formatter = {
+      name = "latexindent",
+    },
+    linter = {
+      name = "chktex",
+    },
   },
 
   c = {
     filetypes = { "c" },
     treesitter = "c",
-    lsp = nil,
-    formatter = nil,
-    linter = nil,
-    dap = nil,
+    lsp = {
+      name = "clangd",
+    },
+    formatter = {
+      name = "clang-format",
+    },
+    linter = {
+      name = "clang-tidy",
+    },
   },
 
   cpp = {
     filetypes = { "cpp", "hpp", "cc" },
     treesitter = "cpp",
-    lsp = nil,
-    formatter = nil,
-    linter = nil,
-    dap = nil,
+    lsp = {
+      name = "clangd",
+    },
+    formatter = {
+      name = "clang-format",
+    },
+    linter = {
+      name = "clang-tidy",
+    },
   },
 
   go = {
@@ -178,35 +186,35 @@ M.languages = {
     formatter = {
       name = "gofumpt",
     },
-    linter = nil,
-    dap = nil,
+    linter = {
+      name = "golangci-lint",
+    },
   },
 
   rust = {
     filetypes = { "rust" },
     treesitter = "rust",
-    lsp = nil,
-    formatter = nil,
-    linter = nil,
-    dap = nil,
+    lsp = {
+      name = "rust_analyzer",
+    },
+    formatter = {
+      name = "rustfmt",
+      mason = false,
+    },
+    linter = {
+      name = "clippy",
+      mason = false,
+    },
   },
 
   vimdoc = {
     filetypes = { "vimdoc" },
     treesitter = "vimdoc",
-    lsp = nil,
-    formatter = nil,
-    linter = nil,
-    dap = nil,
   },
 
   vim = {
     filetypes = { "vim" },
     treesitter = "vim",
-    lsp = nil,
-    formatter = nil,
-    linter = nil,
-    dap = nil,
   },
 
   bash = {
@@ -223,7 +231,6 @@ M.languages = {
       enable = false,
       install = true,
     },
-    dap = nil,
   },
 
   nu = {
@@ -233,9 +240,6 @@ M.languages = {
       name = "nushell",
       mason = false,
     },
-    formatter = nil,
-    linter = nil,
-    dap = nil,
   },
 
   json = {
@@ -247,8 +251,9 @@ M.languages = {
     formatter = {
       name = "prettier",
     },
-    linter = nil,
-    dap = nil,
+    linter = {
+      name = "jsonlint",
+    },
   },
 
   yaml = {
@@ -260,8 +265,9 @@ M.languages = {
     formatter = {
       name = "prettier",
     },
-    linter = nil,
-    dap = nil,
+    linter = {
+      name = "yamllint",
+    },
   },
 
   toml = {
@@ -270,9 +276,12 @@ M.languages = {
     lsp = {
       name = "tombi",
     },
-    formatter = nil,
-    linter = nil,
-    dap = nil,
+    formatter = {
+      name = "taplo",
+    },
+    linter = {
+      name = "taplo",
+    },
   },
 
   just = {
@@ -281,9 +290,6 @@ M.languages = {
     lsp = {
       name = "just-lsp",
     },
-    formatter = nil,
-    linter = nil,
-    dap = nil,
   },
 }
 
