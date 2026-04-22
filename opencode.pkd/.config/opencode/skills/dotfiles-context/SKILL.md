@@ -36,3 +36,7 @@ _Note: Other configs may follow this pattern. When encountering a `.pkd` directo
 
 Dotfiles are symlinked and managed using GNU `stow`, called through a wrapper script. This influences the `~/dotfiles` structure.
 Hidden (`.**`) config files are typically named using the `dot-**` syntax supported by `stow`, with the exception of directories where `dot-` is not supported on all versions of `stow`.
+
+## Structure and Context
+
+**ALWAYS** look for README.md files in configs, if present they will provide information about the design and use of the configuration

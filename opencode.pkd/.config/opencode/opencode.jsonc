@@ -97,6 +97,7 @@
       "brew list": "allow",
       "* --version": "allow",
       "* --help": "allow",
+      "just *": "allow",
     },
   },
   "agent": {
