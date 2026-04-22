@@ -69,8 +69,9 @@ lua = {
 | Command                     | Description                      |
 | --------------------------- | -------------------------------- |
 | `:LanguageInstall [name]`   | Install tools for a language     |
-| `:LanguageInstallCurrent`   | Install tools for current buffer |
-| `:LanguageUninstall [name]` | Uninstall tools for a language   |
+| `:LanguageInstallCurrent`   | Install tools for current buffer   |
+| `:LanguageUninstallCurrent` | Uninstall tools for current buffer |
+| `:LanguageUninstall [name]` | Uninstall tools for a language     |
 | `:LanguageList`             | List all defined languages       |
 | `:LanguageStatus`           | Show installation status         |
 | `:AutoFormatToggle`         | Toggle format-on-save            |
