@@ -246,6 +246,22 @@ return {
         vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO)
       end, { desc = "Show language installation status" })
 
+      vim.api.nvim_create_user_command("LanguageInstallCurrent", function()
+        local ft = vim.bo.filetype
+        if ft == "" then
+          vim.notify("No filetype detected for current buffer", vim.log.levels.WARN)
+          return
+        end
+
+        local lang_name = languages.get_language_for_filetype(ft)
+        if not lang_name then
+          vim.notify(string.format("No language configured for filetype '%s'", ft), vim.log.levels.WARN)
+          return
+        end
+
+        languages.install_language(lang_name)
+      end, { desc = "Install language tools for current filetype" })
+
       local notified_languages = {}
 
       vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
