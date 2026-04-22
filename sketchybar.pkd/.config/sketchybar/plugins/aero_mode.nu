@@ -1,7 +1,10 @@
 #!/usr/bin/env nu -n
 
 def get_mode [] {
-  aerospace list-windows --focused --format '%{window-parent-container-layout}'
+  ^aerospace list-windows --focused --format '%{window-parent-container-layout}'
+  | complete
+  | get stdout
+  | str trim
   | str replace --regex "._" ""
   | match $in {
       "accordion" => "wm_accordion"

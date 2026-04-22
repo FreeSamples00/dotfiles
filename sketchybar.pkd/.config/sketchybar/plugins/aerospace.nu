@@ -3,10 +3,12 @@
 def workspace_status [
   workspace: string
 ] {
-  if $workspace == (^aerospace list-workspaces --focused) {
+  let focused = ^aerospace list-workspaces --focused | complete | get stdout | str trim
+  if $workspace == $focused {
     return "active"
   } else {
-    if (aerospace list-windows --workspace $workspace | lines | length) > 0 {
+    let windows = ^aerospace list-windows --workspace $workspace | complete | get stdout | lines | length
+    if $windows > 0 {
       return "full"
     } else {
       return "empty"
