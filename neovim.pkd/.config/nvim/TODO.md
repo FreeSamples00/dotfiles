@@ -12,6 +12,9 @@
 - [ ] make sure all keybinds are wanted, have proper descriptions, and are in the right place
 - [ ] highlight the external parens for block cursor is in
 
+- [ ] why are some UI elements hidden when lazy has to install something?
+  - [ ] linenumbers
+
 ## Snacks
 
 Continue to explore this plugin, seems to have lots
@@ -21,26 +24,27 @@ Continue to explore this plugin, seems to have lots
 
 - [ ] change dashboard "loaded in" time to dynamically change units (move to seconds instead of ms if needed)
 - [ ] make undotree cumulative?
+  - [ ] switch back to that one that started with an a
 - [ ] show hidden files in smart search
   - [ ] in explorer too?
 
+- [ ] make enter in the keybinds picker open the bind location
+- [ ] add snacks border to nvim news panel
+
 - [ ] there is a preview panel option for the file explorer, look into setting this up
 
-## Colorscheme issues
+## Keybinds
 
-Currently overrides (highlights specifically) to the catppuccin config do not stick to file buffers. They do however work in temp buffers like `Mason`.
+- [ ] create grouping for comment operations
+  - [ ] likely <leader>c or C
+  - [ ] see comment options under "gc"
 
-This is likely due to treesitter overriding things when a buffer is detected?
-
-**changes needed**
-
-- [ ] current line background
-- [ ] highlight current line number
-- [ ] ...
+- [ ] remove opt + j line merging
 
 ## Language System
 
 - [ ] Look into enabling formatters even if there is no LSP
+
 - [ ] implement regression and unit testing?
   - [ ] LLM accessible scripts:
     - [ ] linting, formatting, etc
