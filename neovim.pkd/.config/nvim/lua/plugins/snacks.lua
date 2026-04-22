@@ -434,5 +434,37 @@ return {
         Snacks.toggle.indent():map("<leader>ug")
       end,
     })
+
+    -- Open help buffers in floating window
+    vim.api.nvim_create_autocmd("BufWinEnter", {
+      pattern = "*.txt",
+      callback = function()
+        if vim.bo.filetype == "help" then
+          local win = vim.api.nvim_get_current_win()
+          local cfg = vim.api.nvim_win_get_config(win)
+          if cfg.relative == "" then
+            local buf = vim.api.nvim_get_current_buf()
+            vim.api.nvim_win_close(win, false)
+            Snacks.win({
+              buf = buf,
+              border = "rounded",
+              title = " Help ",
+              width = 0.9,
+              height = 0.8,
+              wo = {
+                spell = false,
+                wrap = true,
+                breakindent = true,
+                showbreak = "󱞩 ",
+                linebreak = true,
+                signcolumn = "yes",
+                statuscolumn = " ",
+                conceallevel = 3,
+              },
+            })
+          end
+        end
+      end,
+    })
   end,
 }

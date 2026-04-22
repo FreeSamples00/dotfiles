@@ -11,13 +11,8 @@
 
 Continue to explore this plugin, seems to have lots
 
-- [ ] open help windows in some kind of styled pop-up/split buffer
-  - [ ] maybe use `snacks` preconfigured help split?
-
 - [ ] make undotree cumulative?
   - [ ] switch back to that one that makes a cumulative diff
-- [ ] show hidden files in smart search?
-  - [ ] in explorer too?
 
 - [ ] there is a preview panel option for the file explorer, look into setting this up
 
@@ -30,8 +25,6 @@ Continue to explore this plugin, seems to have lots
 - [ ] remove opt + j line merging
 
 ## Language System
-
-- [ ] Look into enabling formatters even if there is no LSP
 
 - [ ] implement regression and unit testing?
   - [ ] LLM accessible scripts:
