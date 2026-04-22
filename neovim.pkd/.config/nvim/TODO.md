@@ -15,12 +15,9 @@ Continue to explore this plugin, seems to have lots
   - [ ] maybe use `snacks` preconfigured help split?
 
 - [ ] make undotree cumulative?
-  - [ ] switch back to that one that started with an a
-- [ ] show hidden files in smart search
+  - [ ] switch back to that one that makes a cumulative diff
+- [ ] show hidden files in smart search?
   - [ ] in explorer too?
-
-- [ ] make enter in the keybinds picker open the bind location
-- [ ] add snacks border to nvim news panel
 
 - [ ] there is a preview panel option for the file explorer, look into setting this up
 
@@ -40,9 +37,6 @@ Continue to explore this plugin, seems to have lots
   - [ ] LLM accessible scripts:
     - [ ] linting, formatting, etc
     - [ ] unit and regression testing
-
-- [ ] add in code documentation
-- [ ] add shorter documentation in README.md
 
 - [ ] consider moving this to a plugin format that could be lazy loaded
 
@@ -66,11 +60,3 @@ Continue to explore this plugin, seems to have lots
   - o: open language config location
 
 - command to install language from current filetype (not in UI)
-
-### Bug log
-
-#### TOML issues
-
-```
- 15:06          Notify          [LSP] Format request failed, no matching language servers.
-```

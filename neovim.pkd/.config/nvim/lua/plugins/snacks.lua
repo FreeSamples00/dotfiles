@@ -5,6 +5,14 @@ local lsp_picker_conf = {
   auto_confirm = false,
 }
 
+local wrap_options = {
+  wrap = true,
+  breakindent = true,
+  showbreak = "󱞩 ",
+  linebreak = true,
+  spell = false,
+}
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
@@ -67,12 +75,7 @@ return {
           layout = { hidden = { "input" } },
           win = {
             preview = {
-              wo = {
-                wrap = true,
-                breakindent = true,
-                showbreak = "󱞩 ",
-                linebreak = true,
-              },
+              wo = wrap_options,
             },
           },
         },
@@ -81,6 +84,23 @@ return {
         },
         marks = {
           layout = { hidden = { "input" } },
+        },
+        keymaps = {
+          confirm = function(picker, item)
+            picker:norm(function()
+              if item then
+                picker:close()
+                if item.file and item.pos then
+                  vim.cmd("edit " .. vim.fn.fnameescape(item.file))
+                  vim.api.nvim_win_set_cursor(0, { item.pos[1], item.pos[2] })
+                elseif item.file then
+                  vim.cmd("edit " .. vim.fn.fnameescape(item.file))
+                else
+                  vim.notify("No file location available for this keymap", vim.log.levels.WARN)
+                end
+              end
+            end)
+          end,
         },
         undo = {
           layout = {
@@ -126,12 +146,7 @@ return {
     words = { enabled = true },
     styles = {
       notification = {
-        wo = {
-          wrap = true,
-          breakindent = true,
-          showbreak = "󱞩 ",
-          linebreak = true,
-        },
+        wo = wrap_options,
         width = { min = 20, max = 60 },
         height = { min = 1, max = 10 },
       },
@@ -369,8 +384,11 @@ return {
       function()
         Snacks.win({
           file = vim.api.nvim_get_runtime_file("doc/news.txt", false)[1],
-          width = 0.6,
-          height = 0.6,
+          border = "rounded",
+          title = " Neovim News ",
+          title_pos = "center",
+          width = 0.9,
+          height = 0.7,
           wo = {
             spell = false,
             wrap = false,
