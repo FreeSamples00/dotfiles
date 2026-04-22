@@ -287,11 +287,24 @@ return {
     event = "LspAttach",
     dependencies = {
       "nvim-lua/plenary.nvim",
+      "nvimtools/none-ls-extras.nvim",
     },
     config = function()
       local null_ls = require("null-ls")
       local sources = {}
       local formatters_by_name = {}
+
+      local function get_source(method, name)
+        local builtin = null_ls.builtins[method][name]
+        if builtin then
+          return builtin
+        end
+        local ok, extra = pcall(require, "none-ls." .. method .. "." .. name)
+        if ok then
+          return extra
+        end
+        return nil
+      end
 
       for lang_name, formatter in pairs(languages.get_all_formatters()) do
         local name = formatter.name
@@ -310,8 +323,8 @@ return {
       end
 
       for name, formatter_data in pairs(formatters_by_name) do
-        local builtin = null_ls.builtins.formatting[name]
-        if builtin then
+        local source = get_source("formatting", name)
+        if source then
           local opts = {
             condition = function()
               if formatter_data.mason == false then
@@ -324,14 +337,16 @@ return {
           if formatter_data.config then
             opts = vim.tbl_extend("force", opts, formatter_data.config)
           end
-          builtin = builtin.with(opts)
-          table.insert(sources, builtin)
+          if source.with then
+            source = source.with(opts)
+          end
+          table.insert(sources, source)
         end
       end
 
       for lang_name, linter in pairs(languages.get_all_linters()) do
-        local builtin = null_ls.builtins.diagnostics[linter.name]
-        if builtin then
+        local source = get_source("diagnostics", linter.name)
+        if source then
           local opts = {
             condition = function()
               if linter.mason == false then
@@ -344,8 +359,10 @@ return {
           if linter.config then
             opts = vim.tbl_extend("force", opts, linter.config)
           end
-          builtin = builtin.with(opts)
-          table.insert(sources, builtin)
+          if source.with then
+            source = source.with(opts)
+          end
+          table.insert(sources, source)
         end
       end
 
