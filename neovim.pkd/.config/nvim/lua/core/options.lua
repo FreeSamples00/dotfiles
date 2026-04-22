@@ -1,5 +1,8 @@
 -- set default options
 
+-- Add Mason bin to PATH
+vim.env.PATH = vim.env.PATH .. ":" .. vim.fn.stdpath("data") .. "/mason/bin"
+
 -- options to apply
 local opts = {
   shiftwidth = 2, -- set sane tabbing

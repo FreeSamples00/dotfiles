@@ -291,25 +291,64 @@ return {
     },
     config = function()
       local null_ls = require("null-ls")
+      local mappings = require("core.language-mappings")
       local sources = {}
       local formatters_by_name = {}
 
+      local mason_bin = vim.fn.stdpath("data") .. "/mason/bin/"
+
       --- Get a none-ls source from builtins or extras.
-      --- Builtins: null_ls.builtins[method][name]
-      --- Extras: require("none-ls.method.name")
       --- @param method string "formatting" or "diagnostics"
-      --- @param name string Source/tool name
-      --- @return table|nil
+      --- @param name string Source/tool name (from config)
+      --- @return table|nil source, table|nil mapping
       local function get_source(method, name)
-        local builtin = null_ls.builtins[method][name]
-        if builtin then
-          return builtin
+        local mapping = mappings.tool_to_nullls[method] and mappings.tool_to_nullls[method][name]
+
+        if mapping and mapping.provider == "extras" then
+          local ok, extra = pcall(require, "none-ls." .. method .. "." .. mapping.source)
+          if ok then
+            return extra, mapping
+          else
+            vim.notify(
+              string.format(
+                "[null-ls] failed to load extras source '%s.%s'; ensure none-ls-extras.nvim is installed",
+                method,
+                mapping.source
+              ),
+              vim.log.levels.WARN
+            )
+            return nil, nil
+          end
+        elseif mapping and mapping.provider == "builtin" then
+          local builtin = null_ls.builtins[method][mapping.source]
+          if builtin then
+            return builtin, mapping
+          else
+            vim.notify(
+              string.format(
+                "[null-ls] builtin source '%s.%s' not found; this may indicate a null-ls version mismatch",
+                method,
+                mapping.source
+              ),
+              vim.log.levels.WARN
+            )
+            return nil, nil
+          end
+        else
+          local builtin = null_ls.builtins[method][name]
+          if builtin then
+            return builtin, nil
+          end
+          vim.notify(
+            string.format(
+              "[null-ls] no source found for %s '%s'; add to language-mappings.lua or install the tool via Mason",
+              method,
+              name
+            ),
+            vim.log.levels.WARN
+          )
+          return nil, nil
         end
-        local ok, extra = pcall(require, "none-ls." .. method .. "." .. name)
-        if ok then
-          return extra
-        end
-        return nil
       end
 
       for lang_name, formatter in pairs(languages.get_all_formatters()) do
@@ -329,7 +368,7 @@ return {
       end
 
       for name, formatter_data in pairs(formatters_by_name) do
-        local source = get_source("formatting", name)
+        local source, mapping = get_source("formatting", name)
         if source then
           local opts = {
             condition = function()
@@ -340,6 +379,9 @@ return {
               end
             end,
           }
+          if mapping and mapping.provider == "extras" and formatter_data.mason ~= false then
+            opts.command = mason_bin .. name
+          end
           if formatter_data.config then
             opts = vim.tbl_extend("force", opts, formatter_data.config)
           end
@@ -351,7 +393,7 @@ return {
       end
 
       for lang_name, linter in pairs(languages.get_all_linters()) do
-        local source = get_source("diagnostics", linter.name)
+        local source, mapping = get_source("diagnostics", linter.name)
         if source then
           local opts = {
             condition = function()
@@ -362,6 +404,9 @@ return {
               end
             end,
           }
+          if mapping and mapping.provider == "extras" and linter.mason ~= false then
+            opts.command = mason_bin .. linter.name
+          end
           if linter.config then
             opts = vim.tbl_extend("force", opts, linter.config)
           end

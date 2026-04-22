@@ -19,10 +19,17 @@
 local M = {}
 
 --- Languages to install on startup. Add language names from M.languages.
-M.ensure_installed = { "lua", "markdown", "vim", "json", "toml", "yaml", "bash" }
+M.ensure_installed = { "utility", "lua", "markdown", "vim", "json", "toml", "yaml", "bash" }
 
 --- Language definitions. Key is the language name used in commands.
 M.languages = {
+
+  utility = {
+    treesitter = {
+      "regex", -- needed by snacks
+    },
+  },
+
   lua = {
     filetypes = { "lua" },
     treesitter = "lua",
@@ -49,9 +56,6 @@ M.languages = {
     },
     formatter = {
       name = "stylua",
-    },
-    linter = {
-      name = "selene",
     },
   },
 
@@ -105,9 +109,6 @@ M.languages = {
         filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "tsx", "jsx", "json" },
       },
     },
-    linter = {
-      name = "eslint",
-    },
   },
 
   java = {
@@ -142,10 +143,7 @@ M.languages = {
       name = "texlab",
     },
     formatter = {
-      name = "latexindent",
-    },
-    linter = {
-      name = "chktex",
+      name = "tex-fmt",
     },
   },
 
@@ -158,9 +156,6 @@ M.languages = {
     formatter = {
       name = "clang-format",
     },
-    linter = {
-      name = "clang-tidy",
-    },
   },
 
   cpp = {
@@ -171,9 +166,6 @@ M.languages = {
     },
     formatter = {
       name = "clang-format",
-    },
-    linter = {
-      name = "clang-tidy",
     },
   },
 
@@ -186,9 +178,6 @@ M.languages = {
     formatter = {
       name = "gofumpt",
     },
-    linter = {
-      name = "golangci-lint",
-    },
   },
 
   rust = {
@@ -199,10 +188,6 @@ M.languages = {
     },
     formatter = {
       name = "rustfmt",
-      mason = false,
-    },
-    linter = {
-      name = "clippy",
       mason = false,
     },
   },
@@ -251,9 +236,6 @@ M.languages = {
     formatter = {
       name = "prettier",
     },
-    linter = {
-      name = "jsonlint",
-    },
   },
 
   yaml = {
@@ -275,12 +257,6 @@ M.languages = {
     treesitter = "toml",
     lsp = {
       name = "tombi",
-    },
-    formatter = {
-      name = "taplo",
-    },
-    linter = {
-      name = "taplo",
     },
   },
 

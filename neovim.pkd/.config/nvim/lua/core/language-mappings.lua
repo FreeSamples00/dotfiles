@@ -1,10 +1,11 @@
---- LSP Server Name to Mason Package Name Mappings
+--- Language Tool Name Mappings
 ---
---- lspconfig uses different names than Mason packages.
---- This table maps lspconfig server names to their Mason equivalents.
+--- Contains mappings for:
+--- 1. LSP server names to Mason package names
+--- 2. Tool names to null-ls source names
 ---
---- Source: mason-lspconfig package specs (neovim.lspconfig field)
---- Maintained manually - update when adding new LSP servers.
+--- Source: mason-lspconfig package specs, null-ls builtins, none-ls-extras
+--- Maintained manually - update when adding new tools.
 
 local M = {}
 
@@ -268,6 +269,32 @@ M.lsp_to_mason = {
   zk = "zk",
   zls = "zls",
   zuban = "zuban",
+}
+
+--- Map from config tool name to null-ls source name.
+--- null-ls uses different names than Mason packages or tool executables.
+--- Used to look up sources in null_ls.builtins or none-ls-extras.
+--- @type table<string, table<string, { source: string, provider: "builtin"|"extras" }>>
+M.tool_to_nullls = {
+  diagnostics = {
+    eslint_d = { source = "eslint_d", provider = "extras" },
+    ruff = { source = "ruff", provider = "extras" },
+    selene = { source = "selene", provider = "builtin" },
+    yamllint = { source = "yamllint", provider = "builtin" },
+  },
+  formatting = {
+    black = { source = "black", provider = "builtin" },
+    ["clang-format"] = { source = "clang_format", provider = "builtin" },
+    eslint = { source = "eslint", provider = "extras" },
+    gofumpt = { source = "gofumpt", provider = "builtin" },
+    ["google-java-format"] = { source = "google_java_format", provider = "builtin" },
+    prettier = { source = "prettier", provider = "builtin" },
+    ruff = { source = "ruff", provider = "extras" },
+    rustfmt = { source = "rustfmt", provider = "extras" },
+    shfmt = { source = "shfmt", provider = "builtin" },
+    stylua = { source = "stylua", provider = "builtin" },
+    ["tex-fmt"] = { source = "tex_fmt", provider = "extras" },
+  },
 }
 
 return M
