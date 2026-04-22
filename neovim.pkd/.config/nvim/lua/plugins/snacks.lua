@@ -65,6 +65,16 @@ return {
         },
         notifications = {
           layout = { hidden = { "input" } },
+          win = {
+            preview = {
+              wo = {
+                wrap = true,
+                breakindent = true,
+                showbreak = "󱞩 ",
+                linebreak = true,
+              },
+            },
+          },
         },
         todo_comments = {
           layout = { hidden = { "input" } },
@@ -116,7 +126,14 @@ return {
     words = { enabled = true },
     styles = {
       notification = {
-        -- wo = { wrap = true } -- Wrap notifications
+        wo = {
+          wrap = true,
+          breakindent = true,
+          showbreak = "󱞩 ",
+          linebreak = true,
+        },
+        width = { min = 20, max = 60 },
+        height = { min = 1, max = 10 },
       },
     },
   },
