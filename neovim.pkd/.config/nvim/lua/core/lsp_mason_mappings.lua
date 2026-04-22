@@ -1,5 +1,15 @@
+--- LSP Server Name to Mason Package Name Mappings
+---
+--- lspconfig uses different names than Mason packages.
+--- This table maps lspconfig server names to their Mason equivalents.
+---
+--- Source: mason-lspconfig package specs (neovim.lspconfig field)
+--- Maintained manually - update when adding new LSP servers.
+
 local M = {}
 
+--- Map from lspconfig server name to Mason package name.
+--- @type table<string, string>
 M.lsp_to_mason = {
   ada_language_server = "ada-language-server",
   air = "air",

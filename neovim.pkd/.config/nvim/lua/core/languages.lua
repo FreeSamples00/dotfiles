@@ -1,3 +1,7 @@
+--- Language System Core Module
+--- Provides helper functions for language tooling management.
+--- Declarative configuration lives in language_conf.lua.
+
 local lsp_mason = require("core.lsp_mason_mappings")
 local lang_conf = require("core.language_conf")
 
@@ -7,6 +11,9 @@ M.lsp_to_mason = lsp_mason.lsp_to_mason
 M.ensure_installed = lang_conf.ensure_installed
 M.languages = lang_conf.languages
 
+--- Check if a Mason package is installed.
+--- @param pkg_name string Package name as known to Mason
+--- @return boolean
 function M.is_mason_installed(pkg_name)
   if not pkg_name then
     return false
@@ -20,6 +27,10 @@ local function is_mason_installed(pkg_name)
   return M.is_mason_installed(pkg_name)
 end
 
+--- Apply default values to a tool definition.
+--- Sets `enable = true` and `install = true` if not specified.
+--- @param tool table|nil Tool definition from language config
+--- @return table|nil
 local function apply_tool_defaults(tool)
   if not tool then
     return nil
@@ -43,6 +54,9 @@ local function is_treesitter_installed(parser_name)
   return ok
 end
 
+--- Check installation status of all tools for a language.
+--- @param lang_name string Language name (e.g., "lua", "python")
+--- @return table|nil Status table with fields: treesitter, lsp, formatter, linter, dap, complete
 function M.is_installed(lang_name)
   local lang = M.languages[lang_name]
   if not lang then
@@ -122,6 +136,8 @@ function M.is_installed(lang_name)
   return status
 end
 
+--- Get treesitter parsers for ensure_installed languages.
+--- @return string[]
 function M.get_ensure_installed_parsers()
   local parsers = {}
   for _, lang_name in ipairs(M.ensure_installed) do
@@ -137,6 +153,9 @@ function M.get_ensure_installed_parsers()
   return parsers
 end
 
+--- Get LSP server names for ensure_installed languages.
+--- Only includes servers with `install = true` and `mason != false`.
+--- @return string[]
 function M.get_ensure_installed_lsp_servers()
   local servers = {}
   for _, lang_name in ipairs(M.ensure_installed) do
@@ -149,6 +168,8 @@ function M.get_ensure_installed_lsp_servers()
   return servers
 end
 
+--- Get Mason package names for formatters, linters, and DAPs in ensure_installed.
+--- @return string[]
 function M.get_ensure_installed_mason_packages()
   local packages = {}
   for _, lang_name in ipairs(M.ensure_installed) do
@@ -171,6 +192,8 @@ function M.get_ensure_installed_mason_packages()
   return packages
 end
 
+--- Get all enabled formatters from language definitions.
+--- @return table<string, table> Map of language name to formatter config
 function M.get_all_formatters()
   local formatters = {}
   for lang_name, lang in pairs(M.languages) do
@@ -182,6 +205,8 @@ function M.get_all_formatters()
   return formatters
 end
 
+--- Get all enabled linters from language definitions.
+--- @return table<string, table> Map of language name to linter config
 function M.get_all_linters()
   local linters = {}
   for lang_name, lang in pairs(M.languages) do
@@ -193,6 +218,8 @@ function M.get_all_linters()
   return linters
 end
 
+--- Get all enabled LSP configs from language definitions.
+--- @return table<string, table> Map of language name to LSP config
 function M.get_all_lsp_configs()
   local configs = {}
   for lang_name, lang in pairs(M.languages) do
@@ -204,6 +231,9 @@ function M.get_all_lsp_configs()
   return configs
 end
 
+--- Find language definition by filetype.
+--- @param ft string Filetype to look up
+--- @return string|nil, table|nil Language name and config, or nil if not found
 function M.get_language_for_filetype(ft)
   for lang_name, lang in pairs(M.languages) do
     if vim.tbl_contains(lang.filetypes, ft) then
@@ -213,6 +243,9 @@ function M.get_language_for_filetype(ft)
   return nil, nil
 end
 
+-- Install a Mason package if not already installed.
+-- @param pkg_name string Mason package name
+-- @return boolean True if installation was triggered
 local function mason_install(pkg_name)
   local registry = require("mason-registry")
   local ok, pkg = pcall(registry.get_package, pkg_name)
@@ -223,6 +256,9 @@ local function mason_install(pkg_name)
   return false
 end
 
+-- Uninstall a Mason package if installed.
+-- @param pkg_name string Mason package name
+-- @return boolean True if uninstallation was triggered
 local function mason_uninstall(pkg_name)
   local registry = require("mason-registry")
   local ok, pkg = pcall(registry.get_package, pkg_name)
@@ -233,6 +269,8 @@ local function mason_uninstall(pkg_name)
   return false
 end
 
+--- Install all tools for languages in ensure_installed list.
+--- Called on startup by Mason config.
 function M.install_ensure_installed()
   for _, lang_name in ipairs(M.ensure_installed) do
     local lang = M.languages[lang_name]
@@ -272,6 +310,10 @@ function M.install_ensure_installed()
   end
 end
 
+--- Install all tools for a specific language.
+--- Notifies user of installed and skipped tools.
+--- @param lang_name string Language name
+--- @return boolean Success
 function M.install_language(lang_name)
   local lang = M.languages[lang_name]
   if not lang then
@@ -351,6 +393,9 @@ function M.install_language(lang_name)
   return true
 end
 
+--- Uninstall all tools for a specific language.
+--- @param lang_name string Language name
+--- @return boolean Success
 function M.uninstall_language(lang_name)
   local lang = M.languages[lang_name]
   if not lang then
@@ -421,6 +466,8 @@ function M.uninstall_language(lang_name)
   return true
 end
 
+--- Get installation status for all defined languages.
+--- @return table<string, table> Map of language name to status table
 function M.status()
   local status = {}
   for lang_name, _ in pairs(M.languages) do

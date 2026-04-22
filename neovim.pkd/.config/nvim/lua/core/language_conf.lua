@@ -1,7 +1,27 @@
+--- Language Configuration - Declarative Tool Definitions
+---
+--- This is the single source of truth for language tooling.
+--- Define languages here, and the rest of the system reads from it.
+---
+--- Tool Schema:
+---   filetypes: string[] - Filetypes this language handles
+---   treesitter: string|string[] - Parser name(s) for treesitter
+---   lsp: { name: string, config?: table, mason?: boolean }
+---   formatter: { name: string, config?: table, mason?: boolean }
+---   linter: { name: string, config?: table, mason?: boolean, enable?: boolean }
+---   dap: { name: string, config?: table, mason?: boolean, enable?: boolean }
+---
+--- Tool defaults (applied by languages.lua):
+---   enable: true (if not specified)
+---   install: true (if not specified)
+---   mason: true (if not specified) - set false for system-installed tools
+
 local M = {}
 
+--- Languages to install on startup. Add language names from M.languages.
 M.ensure_installed = { "lua", "markdown", "vim", "json", "toml", "yaml", "bash" }
 
+--- Language definitions. Key is the language name used in commands.
 M.languages = {
   lua = {
     filetypes = { "lua" },

@@ -294,6 +294,12 @@ return {
       local sources = {}
       local formatters_by_name = {}
 
+      --- Get a none-ls source from builtins or extras.
+      --- Builtins: null_ls.builtins[method][name]
+      --- Extras: require("none-ls.method.name")
+      --- @param method string "formatting" or "diagnostics"
+      --- @param name string Source/tool name
+      --- @return table|nil
       local function get_source(method, name)
         local builtin = null_ls.builtins[method][name]
         if builtin then
