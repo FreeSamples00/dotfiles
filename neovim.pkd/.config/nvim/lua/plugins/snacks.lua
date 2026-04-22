@@ -130,13 +130,6 @@ return {
       desc = "Smart Find Files",
     },
     {
-      "<leader>,",
-      function()
-        Snacks.picker.buffers()
-      end,
-      desc = "Buffers",
-    },
-    {
       "L",
       function()
         Snacks.picker.buffers()
@@ -162,7 +155,7 @@ return {
       function()
         Snacks.picker.notifications()
       end,
-      desc = "Notification History",
+      desc = "Notifications",
     },
     {
       "<leader>e",
@@ -187,11 +180,11 @@ return {
       desc = "Find Config File",
     },
     {
-      "<leader>ff",
+      "<leader>sf",
       function()
         Snacks.picker.files()
       end,
-      desc = "Find Files",
+      desc = "Files",
     },
     {
       "<leader>fg",
@@ -201,11 +194,11 @@ return {
       desc = "Find Git Files",
     },
     {
-      "<leader>fr",
+      "<leader>sr",
       function()
         Snacks.picker.recent()
       end,
-      desc = "Recent",
+      desc = "Recent Files",
     },
     -- git
     {
@@ -252,7 +245,7 @@ return {
       desc = "Buffer Lines",
     },
     {
-      "<leader>c",
+      "<leader>sc",
       function()
         Snacks.picker.commands()
       end,
@@ -273,7 +266,7 @@ return {
       desc = "Icons",
     },
     {
-      "<leader>k",
+      "<leader>sk",
       function()
         Snacks.picker.keymaps()
       end,
@@ -316,11 +309,11 @@ return {
     },
     -- Other
     {
-      "<leader>R",
+      "<leader>fr",
       function()
         Snacks.rename.rename_file()
       end,
-      desc = "Rename File",
+      desc = "Rename",
     },
     {
       "<leader>gB",
