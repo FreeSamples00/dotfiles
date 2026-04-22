@@ -43,6 +43,7 @@ return {
       { "<C-.>", "<cmd>BulletDemote<cr>", mode = { "i", "n" }, desc = "Bullet Right", ft = "markdown" },
       { "<C-x>", "<cmd>ToggleCheckbox<cr>", mode = { "i", "n" }, desc = "Toggle Checkbox", ft = "markdown" },
       { "<cr>", "<cmd>InsertNewBullet<cr>", mode = { "i" }, desc = "New Bullet", ft = "markdown" },
+      { "o", "<cmd>InsertNewBullet<cr>", desc = "New Bullet", ft = "markdown" },
       { "<leader>M,", "<cmd>BulletPromote<cr>", desc = "Bullet Left", ft = "markdown" },
       { "<leader>M.", "<cmd>BulletDemote<cr>", desc = "Bullet Right", ft = "markdown" },
       { "<leader>Mx", "<cmd>ToggleCheckbox<cr>", desc = "Toggle Checkbox", ft = "markdown" },
