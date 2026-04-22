@@ -12,7 +12,7 @@ A declarative language configuration system that centralizes LSP, formatters, li
 lua/core/
 ├── language_conf.lua      # Declarative language definitions (edit here)
 ├── languages.lua          # Helper functions and public API
-└── lsp_mason_mappings.lua # lspconfig → Mason package name mappings
+└── language-mappings.lua  # LSP/formatter/linter → Mason package mappings
 
 lua/plugins/
 └── language-tools.lua     # Plugin setup (Mason, LSP, none-ls, treesitter)
@@ -103,9 +103,9 @@ lua = {
 2. Add to language definition with `name` matching the none-ls source
 3. Mason package name should match the source name
 
-### LSP Server Name Mappings
+### Tool Name Mappings
 
-`lsp_mason_mappings.lua` maps lspconfig server names to Mason package names. If auto-install fails, the mapping may be missing. Check `mason-lspconfig` docs for the correct Mason package name.
+`language-mappings.lua` maps LSP/formatter/linter names to Mason package names. If auto-install fails, the mapping may be missing. Check Mason docs for the correct package name.
 
 ### none-ls Source Loading
 
