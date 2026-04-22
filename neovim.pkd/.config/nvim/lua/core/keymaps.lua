@@ -51,15 +51,10 @@ vim.keymap.set("n", "xx", "yydd", {
   desc = "Yank line then delete it",
 })
 
----- Buffers ----
-
-local buffers = require("helpers.buffers")
-map("n", "<leader>bd", buffers.delete_this, "Close Buffer")
-map("n", "<leader>bo", buffers.delete_others, "Close Other Buffers")
-map("n", "<leader>bD", buffers.delete_all, "Close All Buffers")
-
 ---- Interface ----
 
+map("n", "<leader>bd", "<cmd>bdelete<CR>", "Close")
+map("n", "<leader>br", "<cmd>edit!<CR>", "Revert")
 map("n", "<leader>ur", "<cmd>nohl<cr>", "Clear highlights")
 
 ---- Command-line Mode (Emacs-style) ----

@@ -12,13 +12,7 @@ return {
       require("mini.move").setup()
     end,
   },
-  {
-    "kazhala/close-buffers.nvim",
-    cmd = { "Bdelete", "Bwipeout" },
-    opts = {
-      preserve_window_layout = { "this", "nameless" },
-    },
-  },
+
   {
     "tpope/vim-sleuth",
     event = "BufReadPost",
