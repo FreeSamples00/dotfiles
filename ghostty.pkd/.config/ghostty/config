@@ -45,7 +45,7 @@ custom-shader = shaders/cursor_trail.glsl
 custom-shader-animation = always
 
 # --- BELL & NOTIFICATIONS ---
-bell-features = system, border, attention, no-title, no-audio
+bell-features = system, attention, no-title, no-audio, no-border
 desktop-notifications = true
 app-notifications = config-reload, clipboard-copy
 
@@ -61,7 +61,8 @@ clipboard-trim-trailing-spaces = true
 
 # --- APP ICON ---
 # icon sourced from: https://github.com/jasonlong/ghostty-theme-icons
-macos-icon = custom # use icon file at ~/.config/ghostty/Ghostty.icns
+# use icon file at ~/.config/ghostty/Ghostty.icns
+macos-icon = custom
 
 # --- KEYBINDS ---
 keybind = super+shift+,=reload_config
