@@ -7,8 +7,8 @@
 --- - nvim-lspconfig (LSP client)
 --- - none-ls (formatters, linters)
 ---
---- Language defaults are in lua/lang-system/defaults.lua.
---- Override them via the languages table below.
+--- Default definitions are in lua/lang-system/languages.lua and mappings.lua.
+--- Override them via the opts table below.
 
 local lang_system = require("lang-system")
 

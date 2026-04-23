@@ -8,23 +8,27 @@ A declarative language configuration system that centralizes LSP, formatters, li
 
 ```
 lua/lang-system/
-├── init.lua       # Entry point; sets up Mason, treesitter, LSP, null-ls
-├── languages.lua  # Helper functions and public API
-├── defaults.lua   # Default language definitions (merged with user opts)
-└── mappings.lua   # LSP/formatter/linter → Mason package mappings
+├── init.lua       # Entry point; exports merged data and core functions
+├── functions.lua  # Core helper functions and merge logic
+├── languages.lua  # Default language definitions
+└── mappings.lua   # Default LSP/formatter/linter → Mason mappings
 
 lua/plugins/
-└── lang-system.lua  # Plugin spec + user language overrides
+└── lang-system.lua  # Plugin spec + user overrides
 ```
 
-## Default Language Definitions
+## Default Definitions
 
-`defaults.lua` contains default language configurations. User-defined languages in `lua/plugins/lang-system.lua` are deep-merged with defaults, so you only need to specify overrides.
+Both `languages.lua` and `mappings.lua` contain defaults that can be overridden via opts in `lua/plugins/lang-system.lua`. User values are deep-merged with defaults.
+
+### Language Defaults
+
+`languages.lua` contains default language configurations.
 
 **Example: Override default LSP server**
 
 ```lua
--- defaults.lua defines:
+-- languages.lua defines:
 python = {
   filetypes = { "python", "py" },
   treesitter = "python",
@@ -32,26 +36,30 @@ python = {
 }
 
 -- User opts override:
-languages = {
-  python = {
-    lsp = { name = "pyright" },  -- Uses pyright instead
+opts = {
+  languages = {
+    python = {
+      lsp = { name = "pyright" },  -- Uses pyright instead
+    },
   },
 }
 ```
 
-**Example: Add formatter to language without one**
+### Mapping Defaults
+
+`mappings.lua` contains default mappings for LSP servers and tools to Mason packages. Extend them via the `mappings` opt:
 
 ```lua
--- defaults.lua defines:
-html = {
-  filetypes = { "html" },
-  treesitter = "html",
-}
-
--- User opts add:
-languages = {
-  html = {
-    formatter = { name = "prettier" },
+opts = {
+  mappings = {
+    lsp_to_mason = {
+      my_custom_lsp = "my-custom-mason-package",
+    },
+    tool_to_nullls = {
+      formatting = {
+        my_formatter = { source = "my_formatter", provider = "builtin" },
+      },
+    },
   },
 }
 ```
@@ -140,7 +148,7 @@ Dependency behavior:
 
 ## Adding a New Language
 
-1. If the language has sensible defaults, add to `defaults.lua`:
+1. If the language has sensible defaults, add to `languages.lua`:
 
    ```lua
    lua = {
@@ -154,9 +162,11 @@ Dependency behavior:
 2. Add user overrides to `lua/plugins/lang-system.lua` if needed:
 
    ```lua
-   languages = {
-     lua = {
-       formatter = { name = "other_formatter" },  -- Override default
+   opts = {
+     languages = {
+       lua = {
+         formatter = { name = "other_formatter" },  -- Override default
+       },
      },
    }
    ```
@@ -164,7 +174,9 @@ Dependency behavior:
 3. Add to `ensure_installed` for auto-install on startup:
 
    ```lua
-   ensure_installed = { ..., "lua" }
+   opts = {
+     ensure_installed = { ..., "lua" }
+   }
    ```
 
 4. If using a formatter/linter from `none-ls-extras`, it's loaded automatically.

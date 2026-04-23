@@ -3,15 +3,40 @@
 ---
 --- Provides setup functions for Mason, treesitter, LSP, and null-ls.
 --- Language definitions are configured via setup(opts) from lazy.nvim.
+--- Default definitions are in languages.lua and mappings.lua.
 
 local M = {}
 
-M.languages = require("lang-system.languages")
-M.mappings = require("lang-system.mappings")
+local functions = require("lang-system.functions")
+
+-- Export core functions
+M.is_mason_installed = functions.is_mason_installed
+M.is_installed = functions.is_installed
+M.install_ensure_installed = functions.install_ensure_installed
+M.install_language = functions.install_language
+M.uninstall_language = functions.uninstall_language
+M.status = functions.status
+M.get_ensure_installed_parsers = functions.get_ensure_installed_parsers
+M.get_ensure_installed_lsp_servers = functions.get_ensure_installed_lsp_servers
+M.get_ensure_installed_mason_packages = functions.get_ensure_installed_mason_packages
+M.get_all_formatters = functions.get_all_formatters
+M.get_all_linters = functions.get_all_linters
+M.get_all_lsp_configs = functions.get_all_lsp_configs
+M.get_language_for_filetype = functions.get_language_for_filetype
+M.apply_tool_defaults = functions.apply_tool_defaults
+
+-- Merged data (populated after setup())
+M.languages = {}
+M.lsp_to_mason = {}
+M.tool_to_nullls = {}
 
 function M.setup(opts)
-  opts = opts or {}
-  M.languages.setup(opts)
+  functions.setup(opts)
+
+  -- Update merged data references after setup
+  M.languages = functions.languages
+  M.lsp_to_mason = functions.lsp_to_mason
+  M.tool_to_nullls = functions.tool_to_nullls
 
   vim.api.nvim_create_user_command("AutoFormatToggle", function()
     vim.g.autoformat_enabled = not vim.g.autoformat_enabled
@@ -24,21 +49,21 @@ function M.setup(opts)
   vim.api.nvim_create_user_command("LanguageInstall", function(opts)
     local lang_name = opts.args
     if lang_name == "" then
-      local lang_names = vim.tbl_keys(M.languages.languages)
+      local lang_names = vim.tbl_keys(M.languages)
       vim.ui.select(lang_names, {
         prompt = "Select language to install:",
       }, function(choice)
         if choice then
-          M.languages.install_language(choice)
+          M.install_language(choice)
         end
       end)
     else
-      M.languages.install_language(lang_name)
+      M.install_language(lang_name)
     end
   end, {
     nargs = "?",
     complete = function()
-      return vim.tbl_keys(M.languages.languages)
+      return vim.tbl_keys(M.languages)
     end,
     desc = "Install language tools",
   })
@@ -47,34 +72,34 @@ function M.setup(opts)
     local lang_name = opts.args
     local force = opts.bang
     if lang_name == "" then
-      local lang_names = vim.tbl_keys(M.languages.languages)
+      local lang_names = vim.tbl_keys(M.languages)
       vim.ui.select(lang_names, {
         prompt = "Select language to uninstall:",
       }, function(choice)
         if choice then
-          M.languages.uninstall_language(choice, { force = force })
+          M.uninstall_language(choice, { force = force })
         end
       end)
     else
-      M.languages.uninstall_language(lang_name, { force = force })
+      M.uninstall_language(lang_name, { force = force })
     end
   end, {
     nargs = "?",
     bang = true,
     complete = function()
-      return vim.tbl_keys(M.languages.languages)
+      return vim.tbl_keys(M.languages)
     end,
     desc = "Uninstall language tools (use ! to force)",
   })
 
   vim.api.nvim_create_user_command("LanguageList", function()
-    local lang_names = vim.tbl_keys(M.languages.languages)
+    local lang_names = vim.tbl_keys(M.languages)
     table.sort(lang_names)
     vim.notify("Defined languages:\n" .. table.concat(lang_names, "\n"), vim.log.levels.INFO)
   end, { desc = "List all defined languages" })
 
   vim.api.nvim_create_user_command("LanguageStatus", function()
-    local status = M.languages.status()
+    local status = M.status()
     local lines = { "Language Status:", "" }
     local sorted = {}
     for lang_name, lang_status in pairs(status) do
@@ -87,10 +112,10 @@ function M.setup(opts)
     end)
     for _, item in ipairs(sorted) do
       local status_str = item.status.complete and "✓" or "○"
-      local lang = M.languages.languages[item.name]
+      local lang = M.languages[item.name]
       local deps_str = ""
-      if lang and lang.depends and #lang.depends > 0 then
-        deps_str = " (depends: " .. table.concat(lang.depends, ", ") .. ")"
+      if lang and lang.dependencies and #lang.dependencies > 0 then
+        deps_str = " (depends: " .. table.concat(lang.dependencies, ", ") .. ")"
       end
       table.insert(lines, string.format("  %s %s%s", status_str, item.name, deps_str))
     end
@@ -103,12 +128,12 @@ function M.setup(opts)
       vim.notify("No filetype detected for current buffer", vim.log.levels.WARN)
       return
     end
-    local lang_name, lang = M.languages.get_language_for_filetype(ft)
+    local lang_name, lang = M.get_language_for_filetype(ft)
     if not lang_name then
       vim.notify("No language defined for filetype: " .. ft, vim.log.levels.WARN)
       return
     end
-    M.languages.install_language(lang_name)
+    M.install_language(lang_name)
   end, { desc = "Install tools for current buffer's language" })
 
   vim.api.nvim_create_user_command("LanguageUninstallCurrent", function()
@@ -117,12 +142,12 @@ function M.setup(opts)
       vim.notify("No filetype detected for current buffer", vim.log.levels.WARN)
       return
     end
-    local lang_name, lang = M.languages.get_language_for_filetype(ft)
+    local lang_name, lang = M.get_language_for_filetype(ft)
     if not lang_name then
       vim.notify("No language defined for filetype: " .. ft, vim.log.levels.WARN)
       return
     end
-    M.languages.uninstall_language(lang_name)
+    M.uninstall_language(lang_name)
   end, { desc = "Uninstall tools for current buffer's language" })
 
   local notified_languages = {}
@@ -135,7 +160,7 @@ function M.setup(opts)
         return
       end
 
-      local lang_name, lang = M.languages.get_language_for_filetype(ft)
+      local lang_name, lang = M.get_language_for_filetype(ft)
       if not lang_name then
         return
       end
@@ -144,7 +169,7 @@ function M.setup(opts)
         return
       end
 
-      local status = M.languages.is_installed(lang_name)
+      local status = M.is_installed(lang_name)
       if not status then
         return
       end
@@ -164,13 +189,13 @@ function M.setup_mason()
   require("mason").setup()
 
   vim.defer_fn(function()
-    M.languages.install_ensure_installed()
+    M.install_ensure_installed()
   end, 100)
 end
 
 function M.setup_treesitter()
   require("nvim-treesitter.config").setup({
-    ensure_installed = M.languages.get_ensure_installed_parsers(),
+    ensure_installed = M.get_ensure_installed_parsers(),
     highlight = { enable = true },
     indent = { enable = true, disable = { "python" } },
     incremental_selection = {
@@ -251,8 +276,8 @@ function M.setup_lspconfig()
     local lsp_map = require("helpers.keys").lsp_map
 
     local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
-    local lang_name, lang = M.languages.get_language_for_filetype(ft)
-    local formatter = M.languages.apply_tool_defaults(lang and lang.formatter)
+    local lang_name, lang = M.get_language_for_filetype(ft)
+    local formatter = M.apply_tool_defaults(lang and lang.formatter)
     if formatter and formatter.enable then
       client.server_capabilities.documentFormattingProvider = false
       client.server_capabilities.documentRangeFormattingProvider = false
@@ -288,7 +313,7 @@ function M.setup_lspconfig()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-  for lang_name, lsp in pairs(M.languages.get_all_lsp_configs()) do
+  for lang_name, lsp in pairs(M.get_all_lsp_configs()) do
     local config = vim.tbl_deep_extend("force", {
       on_attach = on_attach,
       capabilities = capabilities,
@@ -298,7 +323,7 @@ function M.setup_lspconfig()
   end
 
   require("mason-lspconfig").setup({
-    ensure_installed = M.languages.get_ensure_installed_lsp_servers(),
+    ensure_installed = M.get_ensure_installed_lsp_servers(),
     automatic_installation = true,
     automatic_enable = true,
   })
@@ -312,7 +337,7 @@ function M.setup_null_ls()
   local mason_bin = vim.fn.stdpath("data") .. "/mason/bin/"
 
   local function get_source(method, name)
-    local mapping = M.mappings.tool_to_nullls[method] and M.mappings.tool_to_nullls[method][name]
+    local mapping = M.tool_to_nullls[method] and M.tool_to_nullls[method][name]
 
     if mapping and mapping.provider == "extras" then
       local ok, extra = pcall(require, "none-ls." .. method .. "." .. mapping.source)
@@ -361,7 +386,7 @@ function M.setup_null_ls()
     end
   end
 
-  for lang_name, formatter in pairs(M.languages.get_all_formatters()) do
+  for lang_name, formatter in pairs(M.get_all_formatters()) do
     local name = formatter.name
     if not formatters_by_name[name] then
       formatters_by_name[name] = { config = formatter.config, mason = formatter.mason }
@@ -385,7 +410,7 @@ function M.setup_null_ls()
           if formatter_data.mason == false then
             return vim.fn.executable(name) == 1
           else
-            return M.languages.is_mason_installed(name)
+            return M.is_mason_installed(name)
           end
         end,
       }
@@ -402,7 +427,7 @@ function M.setup_null_ls()
     end
   end
 
-  for lang_name, linter in pairs(M.languages.get_all_linters()) do
+  for lang_name, linter in pairs(M.get_all_linters()) do
     local source, mapping = get_source("diagnostics", linter.name)
     if source then
       local opts = {
@@ -410,7 +435,7 @@ function M.setup_null_ls()
           if linter.mason == false then
             return vim.fn.executable(linter.name) == 1
           else
-            return M.languages.is_mason_installed(linter.name)
+            return M.is_mason_installed(linter.name)
           end
         end,
       }
