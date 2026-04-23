@@ -1,0 +1,4 @@
+--- Lang-System Local Plugin
+---
+--- Marker file for lazy.nvim plugin detection.
+--- Configuration is handled in lua/lang-system/init.lua

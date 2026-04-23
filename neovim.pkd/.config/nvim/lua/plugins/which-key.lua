@@ -20,6 +20,7 @@ return {
       { "<leader>u", group = "UI" },
       { "<leader>l", group = "LSP" },
       { "<leader>d", group = "Dev Tools" },
+      { "<leader>dl", group = "Languages" },
       { "<leader>M", group = "Markdown" },
 
       -- Harpoon description overrides

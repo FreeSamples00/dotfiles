@@ -1,279 +1,291 @@
 --- Language System Plugin Configuration
 ---
 --- Defines language configurations and plugin specs for:
+--- - lang-system (local plugin with keybinds and commands)
 --- - Mason (package manager)
 --- - nvim-treesitter (syntax highlighting)
 --- - nvim-lspconfig (LSP client)
 --- - none-ls (formatters, linters)
 ---
---- Language definitions are passed to langs.setup() and used by the
---- lang-system module. See lua/lang-system/README.md for schema details.
+--- Language definitions are passed to lang-system.setup() via lazy.nvim opts.
 
-local langs = require("lang-system.languages")
 local lang_system = require("lang-system")
 
-local defaults = {
-  ensure_installed = { "nvim_core", "configs_group", "bash" },
-  languages = {
-
-    -- Language Categories
-
-    nvim_core = {
-      dependencies = {
-        "regex",
-        "lua",
-        "vim",
-      },
+return {
+  {
+    "lang-system",
+    dir = vim.fn.stdpath("config") .. "/lua/lang-system",
+    name = "lang-system",
+    lazy = false,
+    priority = 100,
+    config = function(_, opts)
+      require("lang-system").setup(opts)
+    end,
+    keys = {
+      { "<leader>dm", "<cmd>Mason<cr>", desc = "Mason UI" },
+      { "<leader>dls", "<cmd>LanguageStatus<cr>", desc = "Status" },
+      { "<leader>dll", "<cmd>LanguageList<cr>", desc = "List" },
+      { "<leader>dli", "<cmd>LanguageInstallCurrent<cr>", desc = "Install Current" },
+      { "<leader>dlu", "<cmd>LanguageUninstallCurrent<cr>", desc = "Uninstall Current" },
     },
+    opts = {
+      ensure_installed = { "nvim_core", "configs_group", "bash" },
+      languages = {
 
-    writing_group = {
-      dependencies = {
-        "markdown",
-        "latex",
-      },
-    },
+        -- Language Categories
 
-    configs_group = {
-      dependencies = {
-        "json",
-        "toml",
-        "yaml",
-      },
-    },
+        nvim_core = {
+          dependencies = {
+            "regex",
+            "lua",
+            "vim",
+          },
+        },
 
-    -- Individual Language Defs
+        writing_group = {
+          dependencies = {
+            "markdown",
+            "latex",
+          },
+        },
 
-    regex = {
-      treesitter = {
-        "regex",
-      },
-    },
+        configs_group = {
+          dependencies = {
+            "json",
+            "toml",
+            "yaml",
+          },
+        },
 
-    lua = {
-      filetypes = { "lua" },
-      treesitter = "lua",
-      lsp = {
-        name = "lua_ls",
-        config = {
-          settings = {
-            Lua = {
-              completion = {
-                callSnippet = "Replace",
-              },
-              diagnostics = {
-                globals = { "vim" },
-              },
-              workspace = {
-                library = {
-                  [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-                  [vim.fn.stdpath("config") .. "/lua"] = true,
+        -- Individual Language Defs
+
+        regex = {
+          treesitter = {
+            "regex",
+          },
+        },
+
+        lua = {
+          filetypes = { "lua" },
+          treesitter = "lua",
+          lsp = {
+            name = "lua_ls",
+            config = {
+              settings = {
+                Lua = {
+                  completion = {
+                    callSnippet = "Replace",
+                  },
+                  diagnostics = {
+                    globals = { "vim" },
+                  },
+                  workspace = {
+                    library = {
+                      [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+                      [vim.fn.stdpath("config") .. "/lua"] = true,
+                    },
+                  },
                 },
               },
             },
           },
+          formatter = {
+            name = "stylua",
+          },
         },
-      },
-      formatter = {
-        name = "stylua",
-      },
-    },
 
-    python = {
-      filetypes = { "python", "py" },
-      treesitter = "python",
-      lsp = {
-        name = "basedpyright",
-      },
-      formatter = { -- only need ruff once, it provides linting no matter how it's configured
-        name = "ruff",
-      },
-    },
-
-    html = {
-      filetypes = { "html" },
-      treesitter = "html",
-    },
-
-    typescript = {
-      filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "tsx", "jsx" },
-      treesitter = { "typescript", "tsx", "javascript", "jsdoc" },
-      dependencies = { "html" },
-      lsp = {
-        name = "ts_ls",
-      },
-      formatter = {
-        name = "prettier",
-        config = {
-          filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "tsx", "jsx", "json" },
+        python = {
+          filetypes = { "python", "py" },
+          treesitter = "python",
+          lsp = {
+            name = "basedpyright",
+          },
         },
-      },
-    },
 
-    java = {
-      filetypes = { "java" },
-      treesitter = "java",
-      lsp = {
-        name = "jdtls",
-      },
-      formatter = {
-        name = "google_java_format",
-      },
-    },
-
-    markdown = {
-      filetypes = { "markdown", "markdown.mdx", "md" },
-      treesitter = { "markdown", "markdown_inline" },
-      lsp = {
-        name = "marksman",
-      },
-      formatter = {
-        name = "prettier",
-        config = {
-          filetypes = { "markdown", "markdown.mdx" },
+        html = {
+          filetypes = { "html" },
+          treesitter = "html",
         },
-      },
-    },
 
-    latex = {
-      filetypes = { "latex", "tex", "bib" },
-      treesitter = "latex",
-      lsp = {
-        name = "texlab",
-      },
-      formatter = {
-        name = "tex-fmt",
-      },
-    },
+        typescript = {
+          filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "tsx", "jsx" },
+          treesitter = { "typescript", "tsx", "javascript", "jsdoc" },
+          dependencies = { "html" },
+          lsp = {
+            name = "ts_ls",
+          },
+          formatter = {
+            name = "prettier",
+            config = {
+              filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "tsx", "jsx", "json" },
+            },
+          },
+        },
 
-    c = {
-      filetypes = { "c" },
-      treesitter = "c",
-      lsp = {
-        name = "clangd",
-      },
-      formatter = {
-        name = "clang-format",
-      },
-    },
+        java = {
+          filetypes = { "java" },
+          treesitter = "java",
+          lsp = {
+            name = "jdtls",
+          },
+          formatter = {
+            name = "google_java_format",
+          },
+        },
 
-    cpp = {
-      filetypes = { "cpp", "hpp", "cc" },
-      treesitter = "cpp",
-      lsp = {
-        name = "clangd",
-      },
-      formatter = {
-        name = "clang-format",
-      },
-    },
+        markdown = {
+          filetypes = { "markdown", "markdown.mdx", "md" },
+          treesitter = { "markdown", "markdown_inline" },
+          lsp = {
+            name = "marksman",
+          },
+          formatter = {
+            name = "prettier",
+            config = {
+              filetypes = { "markdown", "markdown.mdx" },
+            },
+          },
+        },
 
-    go = {
-      filetypes = { "go" },
-      treesitter = "go",
-      lsp = {
-        name = "gopls",
-      },
-      formatter = {
-        name = "gofumpt",
-      },
-    },
+        latex = {
+          filetypes = { "latex", "tex", "bib" },
+          treesitter = "latex",
+          lsp = {
+            name = "texlab",
+          },
+          formatter = {
+            name = "tex-fmt",
+          },
+        },
 
-    rust = {
-      filetypes = { "rust" },
-      treesitter = "rust",
-      lsp = {
-        name = "rust_analyzer",
-      },
-      formatter = {
-        name = "rustfmt",
-        mason = false,
-      },
-    },
+        c = {
+          filetypes = { "c" },
+          treesitter = "c",
+          lsp = {
+            name = "clangd",
+          },
+          formatter = {
+            name = "clang-format",
+          },
+        },
 
-    vim = {
-      filetypes = { "vim", "vimdoc" },
-      treesitter = { "vim", "vimdoc" },
-    },
+        cpp = {
+          filetypes = { "cpp", "hpp", "cc" },
+          treesitter = "cpp",
+          lsp = {
+            name = "clangd",
+          },
+          formatter = {
+            name = "clang-format",
+          },
+        },
 
-    bash = {
-      filetypes = { "sh", "bash", "zsh" },
-      treesitter = "bash",
-      lsp = {
-        name = "bashls",
-      },
-      formatter = {
-        name = "shfmt",
-      },
-      linter = {
-        name = "shellcheck",
-        enable = false,
-        install = true,
-      },
-    },
+        go = {
+          filetypes = { "go" },
+          treesitter = "go",
+          lsp = {
+            name = "gopls",
+          },
+          formatter = {
+            name = "gofumpt",
+          },
+        },
 
-    make = {
-      filetypes = { "make", "makefile" },
-      treesitter = "make",
-    },
+        rust = {
+          filetypes = { "rust" },
+          treesitter = "rust",
+          lsp = {
+            name = "rust_analyzer",
+          },
+          formatter = {
+            name = "rustfmt",
+            mason = false,
+          },
+        },
 
-    nu = {
-      filetypes = { "nu" },
-      treesitter = "nu",
-      lsp = {
-        name = "nushell",
-        mason = false,
-      },
-    },
+        vim = {
+          filetypes = { "vim", "vimdoc" },
+          treesitter = { "vim", "vimdoc" },
+        },
 
-    json = {
-      filetypes = { "json", "jsonc" },
-      treesitter = "json",
-      lsp = {
-        name = "jsonls",
-      },
-      formatter = {
-        name = "prettier",
-      },
-    },
+        bash = {
+          filetypes = { "sh", "bash", "zsh" },
+          treesitter = "bash",
+          lsp = {
+            name = "bashls",
+          },
+          formatter = {
+            name = "shfmt",
+          },
+          linter = {
+            name = "shellcheck",
+            enable = false,
+            install = true,
+          },
+        },
 
-    yaml = {
-      filetypes = { "yml", "yaml" },
-      treesitter = "yaml",
-      lsp = {
-        name = "yamlls",
-      },
-      formatter = {
-        name = "prettier",
-      },
-      linter = {
-        name = "yamllint",
-      },
-    },
+        make = {
+          filetypes = { "make", "makefile" },
+          treesitter = "make",
+        },
 
-    toml = {
-      filetypes = { "toml", "tml" },
-      treesitter = "toml",
-      lsp = {
-        name = "tombi",
-      },
-    },
+        nu = {
+          filetypes = { "nu" },
+          treesitter = "nu",
+          lsp = {
+            name = "nushell",
+            mason = false,
+          },
+        },
 
-    just = {
-      filetypes = { "just" },
-      treesitter = "just",
-      lsp = {
-        name = "just-lsp",
+        json = {
+          filetypes = { "json", "jsonc" },
+          treesitter = "json",
+          lsp = {
+            name = "jsonls",
+          },
+          formatter = {
+            name = "prettier",
+          },
+        },
+
+        yaml = {
+          filetypes = { "yml", "yaml" },
+          treesitter = "yaml",
+          lsp = {
+            name = "yamlls",
+          },
+          formatter = {
+            name = "prettier",
+          },
+          linter = {
+            name = "yamllint",
+          },
+        },
+
+        toml = {
+          filetypes = { "toml", "tml" },
+          treesitter = "toml",
+          lsp = {
+            name = "tombi",
+          },
+        },
+
+        just = {
+          filetypes = { "just" },
+          treesitter = "just",
+          lsp = {
+            name = "just-lsp",
+          },
+        },
       },
     },
   },
-}
 
-langs.setup(defaults)
-
-return {
   {
     "williamboman/mason.nvim",
     lazy = false,
+    dependencies = { "lang-system" },
     config = function()
       lang_system.setup_mason()
     end,
@@ -286,6 +298,7 @@ return {
       pcall(require("nvim-treesitter.install").update({ with_sync = true }))
     end,
     dependencies = {
+      "lang-system",
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
     config = function()
@@ -297,6 +310,7 @@ return {
     "neovim/nvim-lspconfig",
     lazy = false,
     dependencies = {
+      "lang-system",
       "williamboman/mason-lspconfig.nvim",
       "folke/neodev.nvim",
       "RRethy/vim-illuminate",

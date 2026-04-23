@@ -2,12 +2,163 @@
 --- Entry point for language tooling configuration.
 ---
 --- Provides setup functions for Mason, treesitter, LSP, and null-ls.
---- Language definitions are configured via langs.setup() in lua/plugins/lang-system.lua.
+--- Language definitions are configured via setup(opts) from lazy.nvim.
 
 local M = {}
 
 M.languages = require("lang-system.languages")
 M.mappings = require("lang-system.mappings")
+
+function M.setup(opts)
+  opts = opts or {}
+  M.languages.setup(opts)
+
+  vim.api.nvim_create_user_command("AutoFormatToggle", function()
+    vim.g.autoformat_enabled = not vim.g.autoformat_enabled
+    vim.notify(
+      string.format("Auto-formatting %s", vim.g.autoformat_enabled and "enabled" or "disabled"),
+      vim.log.levels.INFO
+    )
+  end, { desc = "Toggle auto-formatting on save" })
+
+  vim.api.nvim_create_user_command("LanguageInstall", function(opts)
+    local lang_name = opts.args
+    if lang_name == "" then
+      local lang_names = vim.tbl_keys(M.languages.languages)
+      vim.ui.select(lang_names, {
+        prompt = "Select language to install:",
+      }, function(choice)
+        if choice then
+          M.languages.install_language(choice)
+        end
+      end)
+    else
+      M.languages.install_language(lang_name)
+    end
+  end, {
+    nargs = "?",
+    complete = function()
+      return vim.tbl_keys(M.languages.languages)
+    end,
+    desc = "Install language tools",
+  })
+
+  vim.api.nvim_create_user_command("LanguageUninstall", function(opts)
+    local lang_name = opts.args
+    local force = opts.bang
+    if lang_name == "" then
+      local lang_names = vim.tbl_keys(M.languages.languages)
+      vim.ui.select(lang_names, {
+        prompt = "Select language to uninstall:",
+      }, function(choice)
+        if choice then
+          M.languages.uninstall_language(choice, { force = force })
+        end
+      end)
+    else
+      M.languages.uninstall_language(lang_name, { force = force })
+    end
+  end, {
+    nargs = "?",
+    bang = true,
+    complete = function()
+      return vim.tbl_keys(M.languages.languages)
+    end,
+    desc = "Uninstall language tools (use ! to force)",
+  })
+
+  vim.api.nvim_create_user_command("LanguageList", function()
+    local lang_names = vim.tbl_keys(M.languages.languages)
+    table.sort(lang_names)
+    vim.notify("Defined languages:\n" .. table.concat(lang_names, "\n"), vim.log.levels.INFO)
+  end, { desc = "List all defined languages" })
+
+  vim.api.nvim_create_user_command("LanguageStatus", function()
+    local status = M.languages.status()
+    local lines = { "Language Status:", "" }
+    local sorted = {}
+    for lang_name, lang_status in pairs(status) do
+      if lang_status then
+        table.insert(sorted, { name = lang_name, status = lang_status })
+      end
+    end
+    table.sort(sorted, function(a, b)
+      return a.name < b.name
+    end)
+    for _, item in ipairs(sorted) do
+      local status_str = item.status.complete and "✓" or "○"
+      local lang = M.languages.languages[item.name]
+      local deps_str = ""
+      if lang and lang.depends and #lang.depends > 0 then
+        deps_str = " (depends: " .. table.concat(lang.depends, ", ") .. ")"
+      end
+      table.insert(lines, string.format("  %s %s%s", status_str, item.name, deps_str))
+    end
+    vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO)
+  end, { desc = "Show language installation status" })
+
+  vim.api.nvim_create_user_command("LanguageInstallCurrent", function()
+    local ft = vim.api.nvim_buf_get_option(0, "filetype")
+    if ft == "" or ft == nil then
+      vim.notify("No filetype detected for current buffer", vim.log.levels.WARN)
+      return
+    end
+    local lang_name, lang = M.languages.get_language_for_filetype(ft)
+    if not lang_name then
+      vim.notify("No language defined for filetype: " .. ft, vim.log.levels.WARN)
+      return
+    end
+    M.languages.install_language(lang_name)
+  end, { desc = "Install tools for current buffer's language" })
+
+  vim.api.nvim_create_user_command("LanguageUninstallCurrent", function()
+    local ft = vim.api.nvim_buf_get_option(0, "filetype")
+    if ft == "" or ft == nil then
+      vim.notify("No filetype detected for current buffer", vim.log.levels.WARN)
+      return
+    end
+    local lang_name, lang = M.languages.get_language_for_filetype(ft)
+    if not lang_name then
+      vim.notify("No language defined for filetype: " .. ft, vim.log.levels.WARN)
+      return
+    end
+    M.languages.uninstall_language(lang_name)
+  end, { desc = "Uninstall tools for current buffer's language" })
+
+  local notified_languages = {}
+
+  vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+    group = vim.api.nvim_create_augroup("LanguageNotification", { clear = true }),
+    callback = function()
+      local ft = vim.api.nvim_buf_get_option(0, "filetype")
+      if ft == "" or ft == nil then
+        return
+      end
+
+      local lang_name, lang = M.languages.get_language_for_filetype(ft)
+      if not lang_name then
+        return
+      end
+
+      if notified_languages[lang_name] then
+        return
+      end
+
+      local status = M.languages.is_installed(lang_name)
+      if not status then
+        return
+      end
+
+      if not status.complete then
+        notified_languages[lang_name] = true
+        vim.notify(
+          string.format("Language '%s' config available. Run :LanguageInstall %s to install", lang_name, lang_name),
+          vim.log.levels.INFO
+        )
+      end
+    end,
+  })
+end
 
 function M.setup_mason()
   require("mason").setup()
@@ -150,154 +301,6 @@ function M.setup_lspconfig()
     ensure_installed = M.languages.get_ensure_installed_lsp_servers(),
     automatic_installation = true,
     automatic_enable = true,
-  })
-
-  vim.api.nvim_create_user_command("AutoFormatToggle", function()
-    vim.g.autoformat_enabled = not vim.g.autoformat_enabled
-    vim.notify(
-      string.format("Auto-formatting %s", vim.g.autoformat_enabled and "enabled" or "disabled"),
-      vim.log.levels.INFO
-    )
-  end, { desc = "Toggle auto-formatting on save" })
-
-  require("helpers.keys").map("n", "<leader>dm", "<cmd>Mason<cr>", "Mason UI")
-
-  vim.api.nvim_create_user_command("LanguageInstall", function(opts)
-    local lang_name = opts.args
-    if lang_name == "" then
-      local lang_names = vim.tbl_keys(M.languages.languages)
-      vim.ui.select(lang_names, {
-        prompt = "Select language to install:",
-      }, function(choice)
-        if choice then
-          M.languages.install_language(choice)
-        end
-      end)
-    else
-      M.languages.install_language(lang_name)
-    end
-  end, {
-    nargs = "?",
-    complete = function()
-      return vim.tbl_keys(M.languages.languages)
-    end,
-    desc = "Install language tools",
-  })
-
-  vim.api.nvim_create_user_command("LanguageUninstall", function(opts)
-    local lang_name = opts.args
-    local force = opts.bang
-    if lang_name == "" then
-      local lang_names = vim.tbl_keys(M.languages.languages)
-      vim.ui.select(lang_names, {
-        prompt = "Select language to uninstall:",
-      }, function(choice)
-        if choice then
-          M.languages.uninstall_language(choice, { force = force })
-        end
-      end)
-    else
-      M.languages.uninstall_language(lang_name, { force = force })
-    end
-  end, {
-    nargs = "?",
-    bang = true,
-    complete = function()
-      return vim.tbl_keys(M.languages.languages)
-    end,
-    desc = "Uninstall language tools (use ! to force)",
-  })
-
-  vim.api.nvim_create_user_command("LanguageList", function()
-    local lang_names = vim.tbl_keys(M.languages.languages)
-    table.sort(lang_names)
-    vim.notify("Defined languages:\n" .. table.concat(lang_names, "\n"), vim.log.levels.INFO)
-  end, { desc = "List all defined languages" })
-
-  vim.api.nvim_create_user_command("LanguageStatus", function()
-    local status = M.languages.status()
-    local lines = { "Language Status:", "" }
-    local sorted = {}
-    for lang_name, lang_status in pairs(status) do
-      if lang_status then
-        table.insert(sorted, { name = lang_name, status = lang_status })
-      end
-    end
-    table.sort(sorted, function(a, b)
-      return a.name < b.name
-    end)
-    for _, item in ipairs(sorted) do
-      local status_str = item.status.complete and "✓" or "○"
-      local lang = M.languages.languages[item.name]
-      local deps_str = ""
-      if lang and lang.depends and #lang.depends > 0 then
-        deps_str = " (depends: " .. table.concat(lang.depends, ", ") .. ")"
-      end
-      table.insert(lines, string.format("  %s %s%s", status_str, item.name, deps_str))
-    end
-    vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO)
-  end, { desc = "Show language installation status" })
-
-  vim.api.nvim_create_user_command("LanguageInstallCurrent", function()
-    local ft = vim.api.nvim_buf_get_option(0, "filetype")
-    if ft == "" or ft == nil then
-      vim.notify("No filetype detected for current buffer", vim.log.levels.WARN)
-      return
-    end
-    local lang_name, lang = M.languages.get_language_for_filetype(ft)
-    if not lang_name then
-      vim.notify("No language defined for filetype: " .. ft, vim.log.levels.WARN)
-      return
-    end
-    M.languages.install_language(lang_name)
-  end, { desc = "Install tools for current buffer's language" })
-
-  vim.api.nvim_create_user_command("LanguageUninstallCurrent", function()
-    local ft = vim.api.nvim_buf_get_option(0, "filetype")
-    if ft == "" or ft == nil then
-      vim.notify("No filetype detected for current buffer", vim.log.levels.WARN)
-      return
-    end
-    local lang_name, lang = M.languages.get_language_for_filetype(ft)
-    if not lang_name then
-      vim.notify("No language defined for filetype: " .. ft, vim.log.levels.WARN)
-      return
-    end
-    M.languages.uninstall_language(lang_name)
-  end, { desc = "Uninstall tools for current buffer's language" })
-
-  local notified_languages = {}
-
-  vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
-    group = vim.api.nvim_create_augroup("LanguageNotification", { clear = true }),
-    callback = function()
-      local ft = vim.api.nvim_buf_get_option(0, "filetype")
-      if ft == "" or ft == nil then
-        return
-      end
-
-      local lang_name, lang = M.languages.get_language_for_filetype(ft)
-      if not lang_name then
-        return
-      end
-
-      if notified_languages[lang_name] then
-        return
-      end
-
-      local status = M.languages.is_installed(lang_name)
-      if not status then
-        return
-      end
-
-      if not status.complete then
-        notified_languages[lang_name] = true
-        vim.notify(
-          string.format("Language '%s' config available. Run :LanguageInstall %s to install", lang_name, lang_name),
-          vim.log.levels.INFO
-        )
-      end
-    end,
   })
 end
 
