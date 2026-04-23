@@ -16,11 +16,9 @@ return {
     "lang-system",
     dir = vim.fn.stdpath("config") .. "/lua/lang-system",
     name = "lang-system",
+    main = "lang-system",
     lazy = false,
     priority = 100,
-    config = function(_, opts)
-      require("lang-system").setup(opts)
-    end,
     keys = {
       { "<leader>dm", "<cmd>Mason<cr>", desc = "Mason UI" },
       { "<leader>dls", "<cmd>LanguageStatus<cr>", desc = "Status" },
