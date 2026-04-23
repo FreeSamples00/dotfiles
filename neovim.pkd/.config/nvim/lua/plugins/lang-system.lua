@@ -30,8 +30,9 @@ return {
       ensure_installed = { "nvim_core", "configs_group", "bash" },
       languages = {
 
-        -- Language Categories
+        ---- LANGUAGE GROUP DEFINITIONS ----
 
+        -- core languages for interacting with neovim
         nvim_core = {
           dependencies = {
             "regex",
@@ -40,6 +41,7 @@ return {
           },
         },
 
+        -- languages for writing documents
         writing_group = {
           dependencies = {
             "markdown",
@@ -47,15 +49,33 @@ return {
           },
         },
 
+        -- collection of languages commonly used in configuration files
         configs_group = {
           dependencies = {
             "json",
             "toml",
             "yaml",
+            "oneoff_configs",
           },
         },
 
-        -- Individual Language Defs
+        -- parsers for uncommon but nice to have config files
+        oneoff_configs = {
+          treesitter = {
+            "ini",
+            "git_config",
+            "gitattributes",
+            "gitignore",
+            "editorconfig",
+            "dockerfile",
+            "ssh_config",
+            "diff",
+            "xml",
+            "comment",
+          },
+        },
+
+        ---- LANGUAGE DEFINITIONS ----
 
         regex = {
           treesitter = {
