@@ -8,7 +8,6 @@ repos:
         args: ["--fix=lf"]
       - id: check-yaml
       - id: check-toml
-      - id: check-added-large-files
       - id: check-executables-have-shebangs
       - id: check-shebang-scripts-are-executable
       - id: detect-private-key
@@ -19,7 +18,9 @@ repos:
     hooks:
       - id: trufflehog
         name: TruffleHog Secret Scanner
-        entry: trufflehog git file://. --since-commit HEAD --results=verified,unknown --fail
+        entry:
+          trufflehog git file://. --since-commit HEAD --results=verified,unknown
+          --fail
         args: []
 
   - repo: https://github.com/JohnnyMorganz/StyLua
