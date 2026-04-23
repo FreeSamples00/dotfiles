@@ -1,26 +1,23 @@
 --- Language System Core Module
 --- Provides helper functions for language tooling management.
 ---
---- Configuration is provided via setup(opts) from lua/plugins/lang-system.lua.
+--- Default language definitions are in defaults.lua.
+--- User overrides are merged via setup(opts) from lua/plugins/lang-system.lua.
 --- See lua/lang-system/README.md for usage documentation.
 
+local defaults = require("lang-system.defaults")
 local mappings = require("lang-system.mappings")
 
 local M = {}
-
-local config = {
-  ensure_installed = {},
-  languages = {},
-}
 
 M.lsp_to_mason = mappings.lsp_to_mason
 
 --- Setup function called by the plugin's config.
 --- @param opts table Configuration with ensure_installed and languages
 function M.setup(opts)
-  config = vim.tbl_deep_extend("force", config, opts or {})
-  M.ensure_installed = config.ensure_installed
-  M.languages = config.languages
+  opts = opts or {}
+  M.ensure_installed = opts.ensure_installed or {}
+  M.languages = vim.tbl_deep_extend("force", defaults.languages or {}, opts.languages or {})
 end
 
 --- Check if a Mason package is installed.

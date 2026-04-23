@@ -10,10 +10,50 @@ A declarative language configuration system that centralizes LSP, formatters, li
 lua/lang-system/
 ├── init.lua       # Entry point; sets up Mason, treesitter, LSP, null-ls
 ├── languages.lua  # Helper functions and public API
+├── defaults.lua   # Default language definitions (merged with user opts)
 └── mappings.lua   # LSP/formatter/linter → Mason package mappings
 
 lua/plugins/
-└── lang-system.lua  # Plugin spec + language definitions
+└── lang-system.lua  # Plugin spec + user language overrides
+```
+
+## Default Language Definitions
+
+`defaults.lua` contains default language configurations. User-defined languages in `lua/plugins/lang-system.lua` are deep-merged with defaults, so you only need to specify overrides.
+
+**Example: Override default LSP server**
+
+```lua
+-- defaults.lua defines:
+python = {
+  filetypes = { "python", "py" },
+  treesitter = "python",
+  lsp = { name = "basedpyright" },
+}
+
+-- User opts override:
+languages = {
+  python = {
+    lsp = { name = "pyright" },  -- Uses pyright instead
+  },
+}
+```
+
+**Example: Add formatter to language without one**
+
+```lua
+-- defaults.lua defines:
+html = {
+  filetypes = { "html" },
+  treesitter = "html",
+}
+
+-- User opts add:
+languages = {
+  html = {
+    formatter = { name = "prettier" },
+  },
+}
 ```
 
 ## Dependencies
@@ -100,7 +140,7 @@ Dependency behavior:
 
 ## Adding a New Language
 
-1. Add definition to `lua/plugins/lang-system.lua`:
+1. If the language has sensible defaults, add to `defaults.lua`:
 
    ```lua
    lua = {
@@ -108,18 +148,26 @@ Dependency behavior:
      treesitter = "lua",
      lsp = { name = "lua_ls" },
      formatter = { name = "stylua" },
-     linter = nil,
-     dap = nil,
    },
    ```
 
-2. Add to `ensure_installed` for auto-install on startup:
+2. Add user overrides to `lua/plugins/lang-system.lua` if needed:
+
+   ```lua
+   languages = {
+     lua = {
+       formatter = { name = "other_formatter" },  -- Override default
+     },
+   }
+   ```
+
+3. Add to `ensure_installed` for auto-install on startup:
 
    ```lua
    ensure_installed = { ..., "lua" }
    ```
 
-3. If using a formatter/linter from `none-ls-extras`, it's loaded automatically.
+4. If using a formatter/linter from `none-ls-extras`, it's loaded automatically.
 
 ## Adding a New Tool (Formatters/Linters)
 
