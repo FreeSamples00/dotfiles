@@ -82,36 +82,9 @@ local defaults = {
       filetypes = { "python", "py" },
       treesitter = "python",
       lsp = {
-        name = "pylsp",
-        config = {
-          settings = {
-            pylsp = {
-              plugins = {
-                flake8 = {
-                  enabled = true,
-                  maxLineLength = 88,
-                },
-                pycodestyle = {
-                  enabled = false,
-                },
-                mccabe = {
-                  enabled = false,
-                },
-                pyflakes = {
-                  enabled = false,
-                },
-                autopep8 = {
-                  enabled = false,
-                },
-              },
-            },
-          },
-        },
+        name = "basedpyright",
       },
-      formatter = {
-        name = "black",
-      },
-      linter = {
+      formatter = { -- only need ruff once, it provides linting no matter how it's configured
         name = "ruff",
       },
     },
