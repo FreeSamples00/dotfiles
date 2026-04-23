@@ -10,7 +10,9 @@ These rules prevent resource exhaustion and permission prompts. Violations cause
 
 ## CRITICAL: Shell Commands
 
-**Nushell**: When running nushell commands, use `nu --config "~/.config/nushell/config.nu" --env-config "~/.config/nushell/env.nu"` to gain the same environment as the user.
+### Nushell
+
+When running nushell commands, use `nu --config "~/.config/nushell/config.nu" --env-config "~/.config/nushell/env.nu"` to gain the same environment as the user.
 
 - The user uses nushell by default, falling back to bash when required for a task.
 - **ALWAYS** prefer bash commands over nushell for your operations, unless nushell is required for the task (debugging, config development, etc).
@@ -57,6 +59,8 @@ When in plan mode or gathering context for a task:
 - Use the `webfetch` tool to access documentation and resources about the current task
   - **DO NOT** fall into research rabbit holes that require many web requests unless deep research is required.
   - **ALWAYS** ask the user via the user clarification tool before going on extensive research endeavors, unless this has been implicitly or explicitly allowed for the current task.
+
+- **ALWAYS** prefer command runners such as `just` and `make` over running the commands yourself.
 
 ## Communication Style
 
