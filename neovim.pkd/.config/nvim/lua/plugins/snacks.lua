@@ -142,6 +142,7 @@ return {
         git_branches = hidden_search_options,
         git_log_line = hidden_search_options,
         git_log_file = hidden_search_options,
+        git_diff = hidden_search_options,
       },
     },
     quickfile = { enabled = true },
@@ -251,6 +252,13 @@ return {
         Snacks.picker.git_log()
       end,
       desc = "Git Log",
+    },
+    {
+      "<leader>gd",
+      function()
+        Snacks.picker.git_diff()
+      end,
+      desc = "Git Diff",
     },
     {
       "<leader>gL",
