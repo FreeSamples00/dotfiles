@@ -11,77 +11,68 @@
 
 
 " ==================== Colors ====================
-set termguicolors
-colorscheme catppuccin
+set termguicolors                    " enable true color support
+colorscheme catppuccin               " set colorscheme
 
 " ==================== Settings ====================
-syntax on
-set number
-set relativenumber
-set laststatus=0
-set cursorline
-set ruler
-set rulerformat=%f\ \ %l:%c
-set showmode
+syntax on                            " enable syntax highlighting
+set number                           " show line numbers
+set relativenumber                   " show relative line numbers
+set laststatus=0                     " hide status line
+set cursorline                       " highlight current line
+set ruler                            " show cursor position
+set rulerformat=%f\ \ %l:%c          " ruler format: filename line:col
+set showmode                         " show current mode
 
-set title
-set titlestring=%f
+set title                            " set window title
+set titlestring=%f                   " title shows filename
 
-set nocompatible
-set backspace=indent,eol,start
-set hidden
-set mouse=a
+set nocompatible                     " use vim settings, not vi
+set backspace=indent,eol,start       " allow backspace everywhere
+set hidden                           " allow hidden buffers
+set mouse=a                          " enable mouse support
 
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-set expandtab
-set autoindent
+set tabstop=2                        " tab width
+set softtabstop=2                    " soft tab width
+set shiftwidth=2                     " indent width
+set expandtab                        " use spaces instead of tabs
+set autoindent                       " auto-indent new lines
 
-set incsearch
-set ignorecase
-set smartcase
+set incsearch                        " incremental search
+set ignorecase                       " ignore case in search
+set smartcase                        " case-sensitive if uppercase used
 
-set clipboard=unnamedplus
+set clipboard=unnamedplus            " use system clipboard
 
-set ttimeoutlen=10
+set ttimeoutlen=10                   " key code timeout (ms)
 
-set belloff=all
+set belloff=all                      " disable all bells
 
-set fillchars=eob:\   " remove '~' from blanklines
+set fillchars=eob:\                  " hide ~ on blank lines
+
+autocmd VimEnter * DoMatchParen      " highlight matching brackets
 
 " ==================== Mappings ====================
 
-" set leader key
-let mapleader = " "
+let mapleader = " "                  " leader key is space
 
-" open file vim explorer
-nnoremap <leader>e :Explore<CR>
+nnoremap <leader>e :Explore<CR>      " open netrw file explorer
 
-" Mappings from keymaps.lua (translated to Vimscript)
-" Normal mode: Remap 'd' to delete without yanking (black-hole register)
-nnoremap d "_d
+nnoremap d "_d                       " delete without yanking
+vnoremap d "_d                       " visual delete without yanking
+xnoremap p "_dP                      " paste without yanking replaced text
+xnoremap P "_dP                      " same for P
 
-" Visual mode: Remap 'd' to delete visual selection without yanking
-vnoremap d "_d
+nnoremap xx yydd                     " cut entire line
 
-" Visual mode: remap 'p' & 'P' to put replace text w/out yanking the replaced text
-xnoremap p "_dP
-xnoremap P "_dP
+nnoremap U <C-r>                     " U = redo
 
-" Custom sequence bindings: Yank line then delete it
-nnoremap xx yydd
-
-" rebind U to redo in normal mode
-nnoremap U <C-r>
-
-" reselect visual range after shifting
-xnoremap < <gv
-xnoremap > >gv
+xnoremap < <gv                       " indent left and reselect
+xnoremap > >gv                       " indent right and reselect
 
 " ==================== Cursor Shape Configuration ====================
 
-let &t_SI = "\033[5 q"   " Blinking bar in insert mode
-let &t_EI = "\033[2 q"   " Steady block in normal mode
-let &t_SR = "\033[3 q"   " Blinking underline in replace mode
-let &t_VE = "\033[2 q"   " Visual mode exit
+let &t_SI = "\033[5 q"               " blinking bar in insert mode
+let &t_EI = "\033[2 q"               " steady block in normal mode
+let &t_SR = "\033[3 q"               " blinking underline in replace mode
+let &t_VE = "\033[2 q"               " cursor on visual mode exit
