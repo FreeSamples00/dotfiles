@@ -51,6 +51,10 @@ set fillchars=eob:\                  " hide ~ on blank lines
 
 autocmd VimEnter * DoMatchParen      " highlight matching brackets
 
+" ==================== Auto Commands ====================
+
+autocmd FileType make setlocal noexpandtab  " use tabs in makefiles
+
 " ==================== Mappings ====================
 
 let mapleader = " "                  " leader key is space
