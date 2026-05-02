@@ -19,6 +19,7 @@ return {
   lazy = false,
   ---@type snacks.Config
   opts = {
+    image = { enabled = true, doc = { inline = false, float = false } },
     animate = { enable = true },
     bigfile = { enabled = true },
     dashboard = {
@@ -376,6 +377,13 @@ return {
       desc = "Lazygit",
     },
     {
+      "<leader>i",
+      function()
+        Snacks.image.hover()
+      end,
+      desc = "Image Hover",
+    },
+    {
       "]]",
       function()
         Snacks.words.jump(vim.v.count1)
@@ -457,6 +465,31 @@ return {
             end,
           })
           :map("<leader>uf")
+        Snacks.toggle
+          .new({
+            name = "Inline Images",
+            get = function()
+              return Snacks.image.config.doc.inline
+            end,
+            set = function(state)
+              Snacks.image.config.doc.inline = state
+              local langs = Snacks.image.langs()
+              for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+                if vim.api.nvim_buf_is_loaded(buf) then
+                  local ft = vim.bo[buf].filetype
+                  if vim.tbl_contains(langs, ft) then
+                    Snacks.image.placement.clean(buf)
+                    pcall(vim.api.nvim_del_augroup_by_name, "snacks.image.inline." .. buf)
+                    vim.b[buf].snacks_image_attached = nil
+                    if state then
+                      Snacks.image.doc.attach(buf)
+                    end
+                  end
+                end
+              end
+            end,
+          })
+          :map("<leader>ui")
       end,
     })
 
