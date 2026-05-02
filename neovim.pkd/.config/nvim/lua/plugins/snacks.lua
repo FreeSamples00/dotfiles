@@ -445,6 +445,18 @@ return {
         Snacks.toggle.treesitter():map("<leader>uT")
         Snacks.toggle.inlay_hints():map("<leader>uh")
         Snacks.toggle.indent():map("<leader>ug")
+        Snacks.toggle.option("colorcolumn", { name = "Color Column", off = "", on = "80" }):map("<leader>uv")
+        Snacks.toggle
+          .new({
+            name = "Auto Format",
+            get = function()
+              return vim.g.autoformat_enabled ~= false
+            end,
+            set = function(state)
+              vim.g.autoformat_enabled = state
+            end,
+          })
+          :map("<leader>uf")
       end,
     })
 
