@@ -130,7 +130,7 @@ cmd-alt-ctrl-c = "exec-and-forget open -a calculator"
 cmd-alt-ctrl-s = "exec-and-forget open -a messages"
 
 # ZEN
-cmd-alt-ctrl-w = "exec-and-forget open -na helium"
+cmd-alt-ctrl-w = "exec-and-forget open -na zen"
 
 # MAIL
 # cmd-alt-ctrl-shift-m = 'exec-and-forget open -na ghostty.app --args -e env XDG_CONFIG_HOME=~/.config aerc -C ~/.config/aerc/aerc.conf -A ~/.config/aerc/accounts.conf -B ~/.config/aerc/binds.conf'
