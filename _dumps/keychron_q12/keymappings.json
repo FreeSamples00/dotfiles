@@ -2,7 +2,7 @@
   "id": 875825347,
   "keymap": [
     [
-      { "col": 0, "row": 0, "val": 74 },
+      { "col": 0, "row": 0, "val": 168 },
       { "col": 1, "row": 0, "val": 30752 },
       { "col": 2, "row": 0, "val": 32266 },
       { "col": 3, "row": 0, "val": 32264 },
@@ -515,9 +515,9 @@
     ]
   ],
   "version": "1.0.0",
-  "MD5": "50a43513cfc88cded049ea22c0a63084",
+  "MD5": "40109508cb32aa7705484aa2d0ad9d27",
   "knob": [
-    { "left": "KC_MS_WH_UP", "right": "KC_MS_WH_DOWN" },
+    { "left": "KC_VOLD", "right": "KC_VOLU" },
     { "left": "KC_TRNS", "right": "KC_TRNS" },
     { "left": "KC_TRNS", "right": "KC_TRNS" },
     { "left": "KC_TRNS", "right": "KC_TRNS" }
