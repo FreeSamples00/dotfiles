@@ -37,6 +37,13 @@
 2. if applicable update or create tests
 3. if applicable update or create documentation
 
+### 5. Running Tests
+
+1. Run `just test` before committing changes to `functions.lua`
+2. Add tests for new functions in `functions.lua`
+3. Update fixtures in `tests/fixtures/` if language schema changes
+4. Test files follow `*_spec.lua` naming convention
+
 ## Constraints
 
 - **ALWAYS** check `mappings.lua` before adding LSP/tools - names often differ

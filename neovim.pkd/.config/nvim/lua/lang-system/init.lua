@@ -304,7 +304,6 @@ function M.setup_lspconfig()
       vim.lsp.buf.format()
     end, { desc = "Format current buffer with LSP" })
 
-    lsp_map("<leader>uf", "<cmd>AutoFormatToggle<cr>", bufnr, "Toggle auto-format")
     lsp_map("<leader>ff", "<cmd>Format<cr>", bufnr, "Format")
 
     require("illuminate").on_attach(client)

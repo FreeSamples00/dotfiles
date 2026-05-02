@@ -200,3 +200,31 @@ Sources are loaded with fallback logic:
 3. For `provider = "extras"`, load from `none-ls.{method}.{source}`
 
 This allows using tools from `none-ls-extras.nvim` with explicit mapping.
+
+## Testing
+
+Run tests with [just](https://github.com/casey/just):
+
+```bash
+just test              # Run all tests
+just test-unit         # Run unit tests only
+just test-integration  # Run integration tests only
+just test-file unit/dependencies_spec.lua  # Run specific file
+```
+
+Requires [plenary.nvim](https://github.com/nvim-lua/plenary.nvim) installed.
+
+### Test Structure
+
+```
+tests/
+├── minimal_init.lua           # Mock data and test environment
+├── unit/
+│   ├── apply_tool_defaults_spec.lua
+│   ├── dependencies_spec.lua
+│   ├── ensure_installed_spec.lua
+│   └── filetype_lookup_spec.lua
+└── integration/
+    ├── setup_spec.lua
+    └── is_installed_spec.lua
+```

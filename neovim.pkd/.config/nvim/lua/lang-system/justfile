@@ -1,0 +1,22 @@
+# Lang-System Test Runner
+# Requires: nvim, plenary.nvim
+
+# Run all tests
+test:
+    nvim --headless -u tests/minimal_init.lua \
+        -c "PlenaryBustedDirectory tests/ {minimal_init = 'tests/minimal_init.lua'}"
+
+# Run unit tests only
+test-unit:
+    nvim --headless -u tests/minimal_init.lua \
+        -c "PlenaryBustedDirectory tests/unit/ {minimal_init = 'tests/minimal_init.lua'}"
+
+# Run integration tests only
+test-integration:
+    nvim --headless -u tests/minimal_init.lua \
+        -c "PlenaryBustedDirectory tests/integration/ {minimal_init = 'tests/minimal_init.lua'}"
+
+# Run specific test file
+test-file file:
+    nvim --headless -u tests/minimal_init.lua \
+        -c "PlenaryBustedFile tests/{{file}}"

@@ -5,9 +5,6 @@
 --- User overrides are merged via setup(opts) from lua/plugins/lang-system.lua.
 --- See lua/lang-system/README.md for usage documentation.
 
-local languages = require("lang-system.languages")
-local mappings = require("lang-system.mappings")
-
 local M = {}
 
 --- Setup function called by the plugin's config.
@@ -16,7 +13,9 @@ function M.setup(opts)
   opts = opts or {}
   M.ensure_installed = opts.ensure_installed or {}
 
-  -- Merge language definitions
+  local languages = require("lang-system.languages")
+  local mappings = require("lang-system.mappings")
+
   M.languages = vim.tbl_deep_extend("force", languages.languages or {}, opts.languages or {})
 
   -- Merge mappings
@@ -149,7 +148,7 @@ function M.is_installed(lang_name)
     if lsp.mason == false then
       status.lsp = vim.fn.executable(lsp.name) == 1
     else
-      local mason_name = mappings.lsp_to_mason[lsp.name] or lsp.name
+      local mason_name = M.lsp_to_mason[lsp.name] or lsp.name
       status.lsp = is_mason_installed(mason_name)
     end
     if not status.lsp then
@@ -359,7 +358,7 @@ function M.install_ensure_installed()
 
     local lsp = apply_tool_defaults(lang.lsp)
     if lsp and lsp.install and lsp.mason ~= false then
-      local mason_name = mappings.lsp_to_mason[lsp.name] or lsp.name
+      local mason_name = M.lsp_to_mason[lsp.name] or lsp.name
       mason_install(mason_name)
     end
 
@@ -415,7 +414,7 @@ function M.install_language(lang_name, opts)
   local lsp = apply_tool_defaults(lang.lsp)
   if lsp and lsp.install then
     if lsp.mason ~= false then
-      local mason_name = mappings.lsp_to_mason[lsp.name] or lsp.name
+      local mason_name = M.lsp_to_mason[lsp.name] or lsp.name
       if mason_install(mason_name) then
         table.insert(installed, lsp.name .. " (LSP)")
       end
