@@ -51,7 +51,10 @@ sketchybarrc
     ├── use core/loader.nu *    # Loads load_widgets function
     ├── source core/defaults.nu # Applies bar defaults, registers events
     └── load_widgets            # Iterates widgets, calls item scripts
+        └── sketchybar --update # Forces all scripts to run initially
 ```
+
+The final `--update` command initializes all items by forcing their scripts to execute once on bar load.
 
 ### Items vs Plugins
 
@@ -71,6 +74,23 @@ The configuration follows a clear separation of concerns:
 - Receive arguments via CLI parameters from the item's script path
 - Use `sketchybar --set` to update icon/label values
 - Handle data fetching and formatting
+- Standard arguments: `name`, `animation_type`, `animation_speed`, plus widget-specific params
+
+**Script Path Construction Pattern**
+
+Items construct plugin paths using a consistent pattern:
+
+```nu
+let script = [
+  ($env.CONFIG_DIR)/plugins/widget_name.nu
+  $env.name              # Widget identifier
+  $env.animation_type    # Injected by loader
+  $env.animation_speed   # Injected by loader
+  $env.custom_param      # Widget-specific parameters
+] | str join " "
+```
+
+This pattern ensures all plugins receive the same base arguments for consistency.
 
 ### Configuration Flow
 
@@ -86,6 +106,58 @@ items/<widget>.nu
 plugins/<widget>.nu (CLI args)
 ```
 
+**Environment Variable Flattening**
+
+The loader flattens configuration records into environment variables:
+
+```nu
+with-env ($widget | merge {
+  animation_speed: $skenv.animation.speed
+  animation_type: $skenv.animation.type
+}) {
+  ./items/($widget.name).nu
+}
+```
+
+Important constraints:
+
+- Configuration records must be **flat** (no nested structures)
+- All env vars are **strings** - booleans, times, etc require conversion: `($env.enable | into bool)`
+- Complex values (colors, fonts) are passed as string references to config constants
+
+### Dynamic Item Creation
+
+Items can create multiple widgets dynamically. The aerospace item demonstrates this pattern:
+
+```nu
+def workspaces [] {
+  ^aerospace list-workspaces --all | lines
+}
+
+workspaces | each {|workspace|
+  let name = $"aerospace_($workspace)"
+  sketchybar ...[
+    --add item $name $env.side
+    --set $name label=($workspace)
+    # ... additional configuration
+  ]
+}
+```
+
+All items share the `aerospace_` prefix, allowing the loader to wrap them in a single bracket via regex matching.
+
+## Design Patterns Overview
+
+This configuration follows several key patterns documented throughout:
+
+| Pattern           | Description                                               | See Section                                   |
+| ----------------- | --------------------------------------------------------- | --------------------------------------------- |
+| **Configuration** | Centralized, flat config passed via environment variables | [Widget Configuration](#widget-configuration) |
+| **Loader**        | Automatic bracket wrapping and spacer insertion           | [Automatic Styling](#automatic-styling)       |
+| **Events**        | Event-driven updates with special env vars                | [Events](#events)                             |
+| **Performance**   | `updates=when_shown` for multi-display optimization       | [Bar Defaults](#bar-defaults)                 |
+| **Script Paths**  | Standardized argument passing to plugins                  | [Items vs Plugins](#items-vs-plugins)         |
+
 ## Widget Configuration
 
 Widgets are defined in `config.nu` under `skenv.widgets`. Each widget shares common fields:
@@ -98,6 +170,56 @@ widget_name: {
   side: left/center/right # Position on bar
   update_freq: 10         # Update interval in seconds (optional)
   icon_font: "Font:Style:Size" # Custom icon font (optional)
+}
+```
+
+### Flat Configuration Requirement
+
+Configuration records must be flat (no nesting) because they're passed as environment variables:
+
+```nu
+# ✅ Correct - flat structure
+notifiers: {
+  enable: true
+  name: notifiers
+  restart_enable: true        # Prefixed for clarity
+  restart_color: "0xFFf38ba8"
+  focus_enable: true          # Prefixed for clarity
+  focus_update_freq: 60
+}
+
+# ❌ Wrong - nested structure
+notifiers: {
+  enable: true
+  name: notifiers
+  restart: {                  # Won't work - nesting
+    enable: true
+    color: "0xFFf38ba8"
+  }
+}
+```
+
+### Boolean Handling
+
+Environment variables are always strings. Booleans must be converted in item scripts:
+
+```nu
+# In config.nu
+my_widget: {
+  enable: true              # Boolean value
+  feature_enable: true      # Boolean value
+}
+
+# In items/my_widget.nu
+let enable = $env.enable | into bool        # Convert string to bool
+let feature = $env.feature_enable | into bool
+
+if $enable {
+  # Create widget...
+}
+
+if $feature {
+  # Add feature...
 }
 ```
 
@@ -281,6 +403,43 @@ In item scripts:
 --subscribe $env.name system_woke front_app_switched
 ```
 
+### Special Environment Variables
+
+When scripts execute, sketchybar provides special environment variables:
+
+| Variable          | Description                              | Example                         |
+| ----------------- | ---------------------------------------- | ------------------------------- |
+| `$env.NAME`       | Name of the item that invoked the script | `"clock"`                       |
+| `$env.SENDER`     | Reason for script execution (event name) | `"system_woke"`, `"routine"`    |
+| `$env.INFO`       | Event-specific data                      | Front app name, volume %, etc.  |
+| `$env.CONFIG_DIR` | Absolute path to config directory        | `/Users/scc/.config/sketchybar` |
+
+**Example: Using `$env.INFO` for dynamic updates**
+
+The `focused_app` plugin receives the front application name via `$env.INFO`:
+
+```nu
+# plugins/focused_app.nu
+def main [name: string, animation_type: string, animation_speed: string] {
+  let info = $env | get -o INFO
+  if ($info) != null {
+    use ../core/icons.nu *
+    let app = {
+      name: $info
+      icon: (icons "app" $info)
+    }
+    sketchybar ...[
+      --animate $animation_type $animation_speed
+      --set $name
+      icon=($app.icon)
+      label=($app.name)
+    ]
+  }
+}
+```
+
+When `front_app_switched` event fires, `$env.INFO` contains the application name, allowing the plugin to update icon and label accordingly.
+
 ## Icon System
 
 The `core/icons.nu` module provides two icon functions:
@@ -322,7 +481,40 @@ The loader (`core/loader.nu`) automatically:
 2. **Adds spacers** - Inserts spacing between widgets
 3. **Applies animations** - Uses animation settings from config
 
-Bracket defaults:
+### Bracket Grouping Pattern
+
+Items with a shared name prefix are automatically wrapped in a single bracket using regex matching:
+
+```nu
+# In core/loader.nu
+def add_bracket [name: string] {
+  sketchybar ...[
+    --add bracket $bname $"/($name).*/"
+    # Regex matches: name.*, name_suffix, etc.
+  ]
+}
+```
+
+**Example: Multiple items in one bracket**
+
+The `aerospace.nu` item creates:
+
+- `aerospace_left` (padding item)
+- `aerospace_1` through `aerospace_6` (workspace items)
+- `aerospace_right` (padding item)
+
+The loader wraps all items matching `/aerospace.*/` in a single bracket.
+
+**Example: Notifiers grouping**
+
+The `notifiers.nu` item creates:
+
+- `notifiers_restart` (restart notification)
+- `notifiers_focus` (focus mode indicator)
+
+Both share the `notifiers_` prefix, so one bracket wraps both items.
+
+### Bracket Defaults
 
 ```nu
 bracket: {
@@ -381,6 +573,26 @@ defaults: {
   }
 }
 ```
+
+### Performance Optimization
+
+The global default `updates=when_shown` (set in `core/defaults.nu`) ensures items only update when visible:
+
+```nu
+sketchybar ...[
+  --default
+  updates=when_shown  # Only run scripts when item is visible
+  # ... other defaults
+]
+```
+
+**Benefits:**
+
+- Reduces unnecessary script execution on multi-display setups
+- Items on inactive displays don't consume resources
+- Improves overall system performance
+
+**Important:** The initial `sketchybar --update` in `sketchybarrc` forces all scripts to run once on bar load, ensuring proper initialization.
 
 ## Conventions
 
