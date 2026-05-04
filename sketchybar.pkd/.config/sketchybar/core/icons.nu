@@ -476,6 +476,9 @@ def widget_icon [
     mail => "󰶈"
     ai => ""
     docker => ""
+    focus_dnd => "󰤄"
+    focus_sleep => "󰿒"
+    focus_reduce => "󱏬"
     _ => ""
   }
 }

@@ -105,6 +105,12 @@ export const skenv = {
       update_freq: 3600 # hour in seconds
       side: left
     }
+    focus_notifier: {
+      enable: true
+      name: focus_notifier
+      update_freq: 60 # minute in seconds
+      side: left
+    }
     # NOTE: ===== right side items, ordered out to in =====
     clock: {
       enable: true
