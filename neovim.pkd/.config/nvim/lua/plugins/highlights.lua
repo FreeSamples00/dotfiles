@@ -1,6 +1,6 @@
 -- plugins that background highlight
 return {
-  {
+  { -- comment highlighting
     "folke/todo-comments.nvim",
     event = "BufReadPost",
     dependencies = { "nvim-lua/plenary.nvim" },
@@ -22,7 +22,7 @@ return {
     },
     opts = {},
   },
-  {
+  { -- color code highlighting
     "catgoose/nvim-colorizer.lua",
     event = "BufReadPre",
     opts = {
@@ -30,6 +30,9 @@ return {
       parsers = {
         names = { enable = false },
         xterm = { enable = true },
+        hex = {
+          aarrggbb = true,
+        },
       },
     },
   },

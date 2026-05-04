@@ -447,9 +447,6 @@ return {
         Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
         Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
         Snacks.toggle.diagnostics():map("<leader>ud")
-        Snacks.toggle
-          .option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 })
-          :map("<leader>uc")
         Snacks.toggle.treesitter():map("<leader>uT")
         Snacks.toggle.inlay_hints():map("<leader>uh")
         Snacks.toggle.indent():map("<leader>ug")
@@ -490,6 +487,22 @@ return {
             end,
           })
           :map("<leader>ui")
+        Snacks.toggle
+          .new({
+            name = "Colorizer",
+            get = function()
+              return vim.b.colorizer_enabled ~= false
+            end,
+            set = function(state)
+              vim.b.colorizer_enabled = state
+              if state then
+                require("colorizer").attach_to_buffer(0)
+              else
+                require("colorizer").detach_from_buffer(0)
+              end
+            end,
+          })
+          :map("<leader>uc")
       end,
     })
 
