@@ -28,21 +28,9 @@ const theme = {
 
 # TODO: define standard sizes?
 const fonts = {
-  icon: {
-    family: "SpaceMono Nerd Font Mono"
-    style: Bold
-    size: 20
-  }
-  label: {
-    family: "JetBrainsMono Nerd Font Mono"
-    style: Bold
-    size: 17
-  }
-  ske_app: {
-    family: sketchybar-app-font
-    style: Regular
-    size: 14
-  }
+  icon: {family: "SpaceMono Nerd Font Mono", style: Bold, size: 20}
+  label: {family: "JetBrainsMono Nerd Font Mono", style: Bold, size: 17}
+  ske_app: {family: sketchybar-app-font, style: Regular, size: 14}
 }
 
 const defaults = {
@@ -60,29 +48,20 @@ const defaults = {
   }
   label: {
     font: $fonts.label
-    padding: {
-      left: 0
-      right: 8
-    }
+    padding: {left: 0, right: 8}
     color: transparent
   }
   icon: {
     font: $fonts.icon
-    padding: {
-      left: 8
-      right: 6
-    }
+    padding: {left: 8, right: 6}
     color: transparent
   }
 }
 
-export const skenv =  {
+export const skenv = {
   theme: $theme.name
   defaults: $defaults
-  spacer: {
-    width: 8
-    color: "transparent"
-  }
+  spacer: {width: 8, color: "transparent"}
   widgets: {
     # NOTE: ===== left side items, ordered out to in =====
     apple: {
@@ -94,7 +73,7 @@ export const skenv =  {
     aero_mode: {
       enable: true
       name: aero_mode
-      # color: $"($theme.colors.orange)"
+      # color: $"($theme.colors.orange)", 
       color: $"($theme.colors.red)"
       icon_font: $"($fonts.icon.family):($fonts.icon.style):($fonts.icon.size + 4)"
       update_freq: 5
@@ -161,12 +140,21 @@ export const skenv =  {
     ai-usage: {
       enable: true
       name: "ai-usage"
-      color: $"($theme.colors.green)"
+      color: $"($theme.colors.tangerine)"
       icon_font: $"($fonts.icon.family):($fonts.icon.style):($fonts.icon.size + 4)"
       update_freq: 600
       side: right
-    } 
-    weather: { # TODO:
+    }
+    dexcom: {
+      enable: true
+      name: dexcom
+      color: $"($theme.colors.green)"
+      icon_font: $"($fonts.ske_app.family):($fonts.ske_app.style):($fonts.ske_app.size)"
+      update_freq: 300
+      side: right
+    }
+    weather: {
+      # TODO:
       enable: false
       name: weather
       color: $"($theme.colors.cyan)"
@@ -175,7 +163,8 @@ export const skenv =  {
       side: right
       stale_threshold: "30min"
     }
-    caffeinate: { # TODO:
+    caffeinate: {
+      # TODO:
       enable: false
       name: caffeinate
       color: $"($theme.colors.green)"
@@ -190,10 +179,7 @@ export const skenv =  {
       side: right
     }
   }
-  animation: {
-    type: exp
-    speed: 15
-  }
+  animation: {type: exp, speed: 15}
   custom_events: [
     aerospace_workspace_change
     opencode-completion
