@@ -359,6 +359,17 @@ function M.setup_null_ls()
         )
         return nil, nil
       end
+    elseif mapping and mapping.provider == "local" then
+      local ok, local_source = pcall(require, "lang-system.sources." .. method .. "." .. mapping.source)
+      if ok then
+        return local_source, mapping
+      else
+        vim.notify(
+          string.format("[null-ls] failed to load local source '%s.%s'", method, mapping.source),
+          vim.log.levels.WARN
+        )
+        return nil, nil
+      end
     elseif mapping and mapping.provider == "builtin" then
       local builtin = null_ls.builtins[method][mapping.source]
       if builtin then

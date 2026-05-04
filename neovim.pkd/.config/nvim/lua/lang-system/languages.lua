@@ -226,6 +226,10 @@ M.languages = {
       name = "nushell",
       mason = false,
     },
+    formatter = {
+      name = "nufmt",
+      mason = false,
+    },
   },
 
   json = {
