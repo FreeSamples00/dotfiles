@@ -7,8 +7,11 @@ def main [
   format: string
 ] {
   sketchybar ...[
-    --animate $animation_type $animation_speed
-    --set $name
+    --animate
+    $animation_type
+    $animation_speed
+    --set
+    $name
     label=(date now | format date ($format))
   ]
 }

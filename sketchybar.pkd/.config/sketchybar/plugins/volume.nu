@@ -23,12 +23,15 @@ def main [
   let label = if $volume == "missing value" {
     ("--")
   } else {
-    if ($volume | into int) > 0 {($"($volume)%")} else {("")}
+    if ($volume | into int) > 0 { $"($volume)%" } else { ("") }
   }
-  let padding = if $icon == (icons widget volume_mute) {0} else {$right_pad}
+  let padding = if $icon == (icons widget volume_mute) { 0 } else { $right_pad }
   sketchybar ...[
-    --animate $animation_type $animation_speed
-    --set $name
+    --animate
+    $animation_type
+    $animation_speed
+    --set
+    $name
     icon=($icon)
     label=($label)
     label.padding_right=($padding)

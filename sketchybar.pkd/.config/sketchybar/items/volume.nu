@@ -9,13 +9,22 @@ def main [] {
     $env.right_pad
   ] | str join " "
   sketchybar ...[
-    --add item $env.name $env.side
-    --animate $env.animation_type $env.animation_speed
-    --set $env.name
+    --add
+    item
+    $env.name
+    $env.side
+    --animate
+    $env.animation_type
+    $env.animation_speed
+    --set
+    $env.name
     label.color=($env.color)
     icon.color=($env.color)
     icon.font=($env.icon_font)
     script=($script)
-    --subscribe $env.name volume_change system_woke
+    --subscribe
+    $env.name
+    volume_change
+    system_woke
   ]
 }

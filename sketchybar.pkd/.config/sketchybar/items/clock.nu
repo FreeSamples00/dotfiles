@@ -11,15 +11,23 @@ def main [] {
     $"\"($env.format)\""
   ] | str join " "
   sketchybar ...[
-    --add item $env.name $env.side
-    --animate $env.animation_type $env.animation_speed
-    --set $env.name
+    --add
+    item
+    $env.name
+    $env.side
+    --animate
+    $env.animation_type
+    $env.animation_speed
+    --set
+    $env.name
     icon.color=($env.color)
     label.color=($env.color)
     icon=($icon)
     script=($script)
     update_freq=($env.update_freq)
     click_script=('open -na ghostty.app --args -e tty-clock -Bbsctn -C 5 -f "%A %m/%d %Y"')
-    --subscribe $env.name system_woke
+    --subscribe
+    $env.name
+    system_woke
   ]
 }

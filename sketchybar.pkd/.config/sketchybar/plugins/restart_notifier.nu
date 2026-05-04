@@ -8,10 +8,13 @@ def main [
 ] {
   let time_since_boot = sys host | get uptime
   let threshold = $threshold | into duration
-  let toggle = if ($time_since_boot >= $threshold) {"on"} else {"off"}
+  let toggle = if $time_since_boot >= $threshold { "on" } else { "off" }
   sketchybar ...[
-    --animate $animation_type $animation_speed
-    --set $name
+    --animate
+    $animation_type
+    $animation_speed
+    --set
+    $name
     drawing=($toggle)
   ]
 }

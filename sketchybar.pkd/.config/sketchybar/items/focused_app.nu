@@ -8,13 +8,22 @@ def main [] {
     $env.animation_speed
   ] | str join " "
   sketchybar ...[
-    --animate ($env.animation_type) ($env.animation_speed)
-    --add item ($env.name) ($env.side)
-    --set ($env.name)
+    --animate
+    ($env.animation_type)
+    ($env.animation_speed)
+    --add
+    item
+    ($env.name)
+    ($env.side)
+    --set
+    ($env.name)
     script=($script)
     icon.color=($env.color)
     icon.font=($env.icon_font)
     label.color=($env.color)
-    --subscribe $env.name front_app_switched system_woke
+    --subscribe
+    $env.name
+    front_app_switched
+    system_woke
   ]
 }

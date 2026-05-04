@@ -1,8 +1,6 @@
 #!/usr/bin/env nu -n
 
-def workspace_status [
-  workspace: string
-] {
+def workspace_status [workspace: string] {
   let focused = ^aerospace list-workspaces --focused | complete | get stdout | str trim
   if $workspace == $focused {
     return "active"
@@ -23,14 +21,15 @@ def main [
   full_color: string
   empty_color: string
 ] {
-  let color = match (workspace_status $workspace)  {
+  let color = match (workspace_status $workspace) {
     active => $active_color
     full => $full_color
     empty => $empty_color
     _ => "#000000"
   }
   sketchybar ...[
-    --set $name
+    --set
+    $name
     label.color=($color)
   ]
 }

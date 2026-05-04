@@ -9,8 +9,12 @@ def main [] {
     $env.animation_speed
   ] | str join " "
   sketchybar ...[
-    --add item $env.name $env.side
-    --set $env.name
+    --add
+    item
+    $env.name
+    $env.side
+    --set
+    $env.name
     icon=(icons widget docker)
     icon.font=($env.icon_font)
     icon.color=($env.color)
@@ -20,6 +24,8 @@ def main [] {
     click_script=($script)
     update_freq=($env.update_freq)
     drawing=off
-    --subscribe $env.name system_woke
+    --subscribe
+    $env.name
+    system_woke
   ]
 }

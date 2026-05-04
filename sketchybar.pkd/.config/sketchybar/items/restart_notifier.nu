@@ -10,8 +10,12 @@ def main [] {
     $env.threshold
   ] | str join " "
   sketchybar ...[
-    --add item $env.name $env.side
-    --set $env.name
+    --add
+    item
+    $env.name
+    $env.side
+    --set
+    $env.name
     icon=(icons "widget" "restart")
     icon.color=($env.color)
     label.padding_right=0
@@ -20,6 +24,8 @@ def main [] {
     click_script=`osascript -e 'tell application "loginwindow" to «event aevtrrst»'`
     update_freq=($env.update_freq)
     drawing=off
-    --subscribe $env.name system_woke
+    --subscribe
+    $env.name
+    system_woke
   ]
 }
