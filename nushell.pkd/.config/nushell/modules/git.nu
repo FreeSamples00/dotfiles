@@ -7,16 +7,14 @@
 # completer for connections types of git clone wrapper
 def gcl-con-completer [] {
   [
-    { value: "ssh", description: "Clone via SSH (requires SSH key)" }
-    { value: "https", description: "Clone via HTTPS (public only)" }
-    { value: "http", description: "Clone via HTTPS (public only)" }
+    {value: "ssh", description: "Clone via SSH (requires SSH key)"}
+    {value: "https", description: "Clone via HTTPS (public only)"}
+    {value: "http", description: "Clone via HTTPS (public only)"}
   ]
 }
 
 # Completer for gitignore generator, supplies project types
-def ignore-completer [
-  spans: list<string>
-]: nothing -> table<value: string> {
+def ignore-completer [spans: list<string>]: nothing -> table<value: string> {
   let cache = "~/.cache/nushell/ignore-cache.json" | path expand
   let list = if ($cache | path type) == file {
     open $cache
@@ -67,9 +65,9 @@ export def gcl [
   --depth (-d): int # Depth to clone history at
 ] {
   let URL = match $con_type {
-    "ssh" => "git@github.com:"
-    "http" => "https://github.com/"
-    "https" => "https://github.com/"
+    ssh => "git@github.com:"
+    http => "https://github.com/"
+    https => "https://github.com/"
     _ => (error make {
         msg: $"Connection type `($con_type)` not supported."
         help: $"Use one of: (gcl-con-completer | get value)"
@@ -81,10 +79,10 @@ export def gcl [
     )
   }
 
-  let args = if $branch != null { ($args | append $"--branch=($branch)") } else {$args}
-  let args = if $depth != null { ($args | append $"--depth=($depth)") } else {$args}
+  let args = if $branch != null { ($args | append $"--branch=($branch)") } else { $args }
+  let args = if $depth != null { ($args | append $"--depth=($depth)") } else { $args }
 
-  let env_vars = if $con_type == https { { GIT_TERMINAL_PROMPT: "0" } } else { {} }
+  let env_vars = if $con_type == https { {GIT_TERMINAL_PROMPT: "0"} } else { {} }
 
   with-env $env_vars {
     git clone $"($URL)($target | str replace --regex "^https://github.com/" "")" ...$args
@@ -106,14 +104,13 @@ export def get-ignore [
 }
 
 # Wrapper for ghgrab
-export def ghet [
-  url?: string
-] {
+export def ghet [url?: string] {
   print "Getting github token..."
-  let args =  [
+  let args = [
     --cwd
     --no-folder
-    --token (pass-cli item view --item-title GitHub --field "Read-Only PAT")
+    --token
+    (pass-cli item view --item-title GitHub --field "Read-Only PAT")
   ] | (if (($url | describe) != 'nothing') {
           $in | append (if ($url | str starts-with "https://github.com/") {
               $url

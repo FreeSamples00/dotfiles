@@ -6,12 +6,10 @@ const models_route = "/openai/v1/models"
 const tokens_route = "/anthropic/v1/messages/count_tokens"
 const search_route = "/v2/search"
 
-
 # Gets API key from opencode storage location
 def api_key [] {
   open ~/.local/share/opencode/auth.json | get synthetic.key
 }
-
 
 # Get subscription usage and quota information
 export def usage [
@@ -19,7 +17,8 @@ export def usage [
   --raw (-r) # Return unmodified API response
 ] {
   http get --headers {Authorization: $"Bearer (api_key)"} $"($url_base)($usage_route)"
-  | if $raw {$in} else { $in
+  | if $raw { $in } else {
+    $in
     | if $type == "inference" {
       get rollingFiveHourLimit
       | insert usage {|| {
@@ -77,7 +76,7 @@ export def search [
 ] {
   let query = {query: $query} | to json
   http post --headers {Authorization: $"Bearer (api_key)"} $"($url_base)($search_route)" $query
-  | if $raw {$in} else {
+  | if $raw { $in } else {
     get results
   }
 }
@@ -117,8 +116,10 @@ export def tokens [
     )
   }
   let body = {
-    model: $model,
-    messages: [{role: $role, content: $content}]
+    model: $model
+    messages: [
+      {role: $role, content: $content}
+    ]
   } | to json
   http post --headers {Authorization: $"Bearer (api_key)"} $"($url_base)($tokens_route)" $body
 }

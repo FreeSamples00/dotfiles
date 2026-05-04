@@ -2,7 +2,8 @@ const highlight_color = "light_red_bold"
 
 const fd_defaults = [
   --no-ignore-vcs
-  --color always
+  --color
+  always
   --hidden
   --absolute-path
 ]
@@ -21,21 +22,17 @@ const rg_defaults = [
   --json
 ]
 
-const rg_types = [
-  --type-add 'nu:*.nu'
-]
+const rg_types = [--type-add 'nu:*.nu']
 
 const rg_ignore = [
   .git
   target
 ]
 
-def colorize [
-  text: string
-  start: int
-  end: int
-] {
-  let prefix = if (($start - 1) < 0) {""} else {$text | str substring 0..($start - 1)}
+def colorize [text: string, start: int, end: int] {
+  let prefix = if ($start - 1) < 0 { "" } else {
+    $text | str substring 0..($start - 1)
+  }
   let match_text = $text | str substring $start..($end - 1)
   let suffix = $text | str substring $end..
   $"($prefix)(ansi $highlight_color)($match_text)(ansi reset)($suffix)"
@@ -82,12 +79,13 @@ export def main [
   --json (-j) # output results in json format
 ]: string -> table<line: int, match: string> {
   let stdin = $in
-  if ($stdin == null) {
+  if $stdin == null {
     print $"(ansi red)ERR: No stdin passed."
     return
   }
 
-  $stdin | rg $pattern --json
+  $stdin
+  | rg $pattern --json
   | from json -o
   | where type == "match"
   | get data
@@ -105,6 +103,8 @@ export def main [
     }
   }
   | if $json {
+
+    # possibly fucks with spacing
     to json
   } else {
     $in
@@ -135,8 +135,10 @@ export def all [
     return
   }
 
-  let rg_defaults = if ($type != null) {$rg_defaults | append $"--type=($type)"} else {$rg_defaults}
-                    | append ($rg_ignore | each {|| $"--glob=!($in)"} | flatten)
+  let rg_defaults = if $type != null {
+    $rg_defaults | append $"--type=($type)"
+  } else { $rg_defaults }
+  | append ($rg_ignore | each {|| $"--glob=!($in)"} | flatten)
 
   rg $pattern ...$rg_defaults ...$rg_types --max-depth=($depth)
   | from json -o
@@ -157,6 +159,8 @@ export def all [
     }
   }
   | if $json {
+
+    # possibly fucks with spacing
     to json
   } else {
     $in | metadata set --path-columns [name]
@@ -182,16 +186,15 @@ export def file [
   --json (-j) # output in json
   pattern?: string # pattern to search for
 ]: nothing -> table {
-
   if (which fd | length) == 0 {
     print $"(ansi red)ERR: fd not found."
     return
   }
 
-  let fd_defaults = if ($type != null) {
-      $fd_defaults | append $"--type=($type)"
-    } else {$fd_defaults}
-    | append ($fd_ignore | each {|| $"--exclude=($in)"} | flatten)
+  let fd_defaults = if $type != null {
+    $fd_defaults | append $"--type=($type)"
+  } else { $fd_defaults }
+  | append ($fd_ignore | each {|| $"--exclude=($in)"} | flatten)
 
   let pattern = $pattern | default ""
 
@@ -205,7 +208,8 @@ export def file [
     }
     | update type {|| mime ($file | ansi strip) }
     | update name {|row| $row.name | path relative-to (pwd -P) }
-  } | flatten
+  }
+  | flatten
   | if $json {
     to json
   } else {

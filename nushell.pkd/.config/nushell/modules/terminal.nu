@@ -13,11 +13,11 @@ export def main [] {
 
 def progress-completer [] {
   [
-    {value: off description: "Disable progress bar"}
-    {value: update description: "Update progress (0-100)"}
-    {value: error description: "Display error in progress; optionally update value"}
-    {value: unknown description: "Indicate progress currently unknown"}
-    {value: pause description: "Indicate pauses progress; optionall update value"}
+    {value: off, description: "Disable progress bar"}
+    {value: update, description: "Update progress (0-100)"}
+    {value: error, description: "Display error in progress; optionally update value"}
+    {value: unknown, description: "Indicate progress currently unknown"}
+    {value: pause, description: "Indicate pauses progress; optionall update value"}
   ]
 }
 

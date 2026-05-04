@@ -24,9 +24,7 @@ export alias 2pdf = ^open -a helium
 # --------- FUNCTIONS -----------
 
 # launch an application using macos `open`
-export def launch [
-  ...application: string@application_completer
-] {
+export def launch [...application: string@application_completer] {
   let application = $application | str join " "
   ^open -a $application
 }
@@ -49,10 +47,10 @@ export def notify [
   message?: string # Notification Body
 ] {
   if (sys host | get long_os_version) =~ macOS {
-    let subtitle = if $subtitle == default {(pwd)} else {$subtitle}
+    let subtitle = if $subtitle == default { (pwd) } else { $subtitle }
     mut command = $'display notification ($message) with title ($title) with subtitle ($subtitle)'
     osascript -e ($command)
   } else {
-  print "Not on macos"
+    print "Not on macos"
   }
 }

@@ -20,7 +20,9 @@ export alias c = clear
 export def cls [
   --long (-l) # detailed ls
 ] {
-  clear; print ""; if $long {ls -l} else {ls}
+  clear
+  print ""
+  if $long { ls -l } else { ls }
 }
 
 # unfreeze first job
@@ -62,7 +64,8 @@ export def reload [
   --login (-l) # Reload as login shell
 ]: nothing -> nothing {
   if $login {
-    clear; exec nu -l
+    clear
+    exec nu -l
   } else {
     exec nu
   }
@@ -73,12 +76,15 @@ export def mime [
   file: path # File to mime the type of
   --full (-f) # Show full mimed type (**/** vs **)
 ]: nothing -> string {
-  ^file --mime-type -b $file | str trim
+  ^file --mime-type -b $file
+  | str trim
   | if $in =~ "cannot open" {
     return "ERR"
-  } else {$in}
-  | if $full { $in
-  } else {$in
+  } else { $in }
+  | if $full {
+    $in
+  } else {
+    $in
     match $in {
       "application/octet-stream" => "binary"
       "text/plain" => "text"
@@ -103,7 +109,9 @@ export def rnm [
   }
   let path = $path | path expand
   let dir = $path | path dirname
-  let new_path = [($path | path basename)] | input $"(ansi attr_bold)Rename File: (ansi reset)" --reedline
+  let new_path = [
+    ($path | path basename)
+  ] | input $"(ansi attr_bold)Rename File: (ansi reset)" --reedline
   if $new_path != "" {
     mv ($path) $"($dir)/($new_path)"
   }
@@ -150,10 +158,9 @@ export def symlink [
 ] {
   # force relative links
   let link = $link | str replace --regex "/$" ""
-  let file = $file | str replace --regex "/$" "" | if ($full) {$in | path expand} else {$in}
+  let file = $file | str replace --regex "/$" "" | if $full { $in | path expand } else { $in }
   ^ln -s $file $link
 }
-
 
 # Send xterm-ghostty to remote machine
 export def ghostty-xterm [

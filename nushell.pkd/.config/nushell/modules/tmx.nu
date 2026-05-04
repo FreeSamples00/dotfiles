@@ -1,5 +1,4 @@
-def session-completer [
-] {
+def session-completer [] {
   tmux list-sessions
   | parse '{value}: {description}'
 }
@@ -23,7 +22,7 @@ export def list [] {
       | str replace --all --regex '[()]' ""
       | if $in == attached {true} else {false}
     }
-  | if ($in | length) == 0 {$in | ignore} else {$in}
+  | if ($in | length) == 0 { $in | ignore } else { $in }
 }
 
 export def new [
@@ -31,8 +30,8 @@ export def new [
   --background (-b) # create in background
 ] {
   mut args = []
-  if $name != null { $args = $args | append [-s $name] } else {[]}
-  if $background { $args = $args | append [-d] } else {[]}
+  if $name != null { $args = $args | append [-s $name] } else { [] }
+  if $background { $args = $args | append [-d] } else { [] }
   tmux new-session ...$args nu
 }
 
@@ -40,5 +39,6 @@ export def kill [
   ...sessions: string@session-completer # sessions to delete
 ] {
   $sessions
-  | each {|| tmux kill-session -t $in} | ignore
+  | each {|| tmux kill-session -t $in}
+  | ignore
 }

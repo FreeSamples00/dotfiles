@@ -68,15 +68,21 @@ export def copy [
   let data = $in
   let converter = if $format != null {
     match $format {
-      csv => {|| to csv}
-      html => {|| to html}
-      json => {|| to json}
-      md => {|| to md}
-      msgpack => {|| to msgpack | encode base64 | str trim} # encode and trim newlines/whitespace
-      msgpackz => {|| to msgpackz | encode base64 | str trim}
-      nuon => {|| to nuon}
-      text => {|| to text}
-      toml => {|| # toml expects a record, this wraps tables for compatability
+      csv => {|| to csv }
+      html => {|| to html }
+      json => {|| to json }
+      md => {|| to md }
+      msgpack => {||
+        to msgpack | encode base64 | str trim # encode and trim newlines/whitespace
+      }
+      msgpackz => {||
+        to msgpackz | encode base64 | str trim
+      }
+      nuon => {|| to nuon }
+      text => {|| to text }
+      toml => {||
+        
+        # toml expects a record, this wraps tables for compatability
         let d = $in
         if ($d | describe | str starts-with "record") {
           $d
@@ -84,8 +90,8 @@ export def copy [
           {data: $d}
         } | to toml
       }
-      tsv => {|| to tsv}
-      yaml|yml => {|| to yaml}
+      tsv => {|| to tsv }
+      yaml | yml => {|| to yaml }
       _ => (error make {
           msg: $"Format `($format)` not supported."
           help: $"Use one of: (to-completer | get value)."
@@ -97,7 +103,7 @@ export def copy [
       )
     }
   } else {
-    {|| $in}
+    {|| $in }
   }
   $data | do $converter | clip copy
 }
@@ -117,17 +123,21 @@ export def paste [
 ]: nothing -> any {
   let converter = if $format != null {
     match $format {
-      csv => {|| from csv}
-      json => {|| from json}
-      msgpack => {|| str trim | decode base64 | from msgpack} # trim whitespace/newlines then decode
-      msgpackz => {|| str trim | decode base64 | from msgpackz}
-      nuon => {|| from nuon}
-      ssv => {|| from ssv}
-      toml => {|| from toml}
-      tsv => {|| from tsv}
-      url => {|| from url}
-      xml => {|| from xml}
-      yaml|yml => {|| from yaml}
+      csv => {|| from csv }
+      json => {|| from json }
+      msgpack => {||
+        str trim | decode base64 | from msgpack # trim whitespace/newlines then decode
+      }
+      msgpackz => {||
+        str trim | decode base64 | from msgpackz
+      }
+      nuon => {|| from nuon }
+      ssv => {|| from ssv }
+      toml => {|| from toml }
+      tsv => {|| from tsv }
+      url => {|| from url }
+      xml => {|| from xml }
+      yaml | yml => {|| from yaml }
       _ => (error make {
             msg: $"Format `($format)` not supported."
             help: $"Use one of: (from-completer | get value)."
@@ -137,9 +147,9 @@ export def paste [
             }
           }
         )
-      }
-    } else {
-      {|| $in}
     }
+  } else {
+    {|| $in }
+  }
   clip paste | do $converter
 }

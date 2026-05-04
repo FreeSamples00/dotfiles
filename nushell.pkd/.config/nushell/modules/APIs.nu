@@ -27,15 +27,15 @@ export def weather [
 ] {
   let location = if $location == here {
     http get ipinfo.io/city | str trim
-  } else {$location}
+  } else { $location }
   | str replace " " "+"
   let detail = match $detail {
-    simple => "n",
+    simple => "n"
     detailed => ""
   }
   let forecast = match $forecast {
-    current => "0",
-    today => "1",
+    current => "0"
+    today => "1"
     tomorrow => "2"
   }
   let output = if $json {
