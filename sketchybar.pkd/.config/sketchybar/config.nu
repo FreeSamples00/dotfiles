@@ -137,20 +137,20 @@ export const skenv = {
       update_freq: 600
       side: right
     }
-    ai-usage: {
-      enable: true
-      name: "ai-usage"
-      color: $"($theme.colors.tangerine)"
-      icon_font: $"($fonts.icon.family):($fonts.icon.style):($fonts.icon.size + 4)"
-      update_freq: 600
-      side: right
-    }
     dexcom: {
       enable: true
       name: dexcom
       color: $"($theme.colors.green)"
       icon_font: $"($fonts.ske_app.family):($fonts.ske_app.style):($fonts.ske_app.size)"
       update_freq: 300
+      side: right
+    }
+    ai-usage: {
+      enable: true
+      name: "ai-usage"
+      color: $"($theme.colors.tangerine)"
+      icon_font: $"($fonts.icon.family):($fonts.icon.style):($fonts.icon.size + 4)"
+      update_freq: 600
       side: right
     }
     weather: {

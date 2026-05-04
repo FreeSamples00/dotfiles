@@ -24,6 +24,7 @@ def main [] {
     icon.font=($env.icon_font)
     label.color=($env.color)
     script=($script)
+    click_script=($script)
     label=--
     update_freq=($env.update_freq)
   ]

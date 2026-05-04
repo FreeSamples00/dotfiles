@@ -6,9 +6,7 @@ def main [name: string, animation_type: string, animation_speed: string] {
   let result = try {
     let data = dexcom | first
     $"($data.Value) ($data.Arrow)"
-  } catch {
-    "ERR"
-  }
+  } catch {|err| "ERR" }
 
   sketchybar ...[
     --animate
