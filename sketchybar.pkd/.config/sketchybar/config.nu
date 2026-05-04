@@ -97,19 +97,18 @@ export const skenv = {
       icon_font: $"($fonts.ske_app.family):($fonts.ske_app.style):($fonts.ske_app.size)"
       side: left
     }
-    restart_notifier: {
+    notifiers: {
       enable: true
-      name: restart_notifier
-      color: $"($theme.colors.red)"
-      threshold: "7day" # needs to be string for env passing
-      update_freq: 3600 # hour in seconds
+      name: notifiers
       side: left
-    }
-    focus_notifier: {
-      enable: true
-      name: focus_notifier
-      update_freq: 60 # minute in seconds
-      side: left
+      # restart notifier
+      restart_enable: true
+      restart_color: $"($theme.colors.red)"
+      restart_threshold: "7day"
+      restart_update_freq: 3600
+      # focus notifier
+      focus_enable: true
+      focus_update_freq: 60
     }
     # NOTE: ===== right side items, ordered out to in =====
     clock: {
