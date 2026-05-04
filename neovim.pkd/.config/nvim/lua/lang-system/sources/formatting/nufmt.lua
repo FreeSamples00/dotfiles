@@ -4,6 +4,7 @@ local h = require("null-ls.helpers")
 local FORMATTING = methods.internal.FORMATTING
 
 return h.make_builtin({
+  -- install with: cargo install --git https://github.com/nushell/nufmt
   name = "nufmt",
   meta = {
     url = "https://github.com/nushell/nufmt",

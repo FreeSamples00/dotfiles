@@ -405,7 +405,11 @@ function M.setup_null_ls()
   for lang_name, formatter in pairs(M.get_all_formatters()) do
     local name = formatter.name
     if not formatters_by_name[name] then
-      formatters_by_name[name] = { config = formatter.config, mason = formatter.mason }
+      formatters_by_name[name] = {
+        config = formatter.config,
+        mason = formatter.mason,
+        extra_args = formatter.extra_args,
+      }
     elseif formatter.config and formatter.config.filetypes then
       local existing = formatters_by_name[name]
       if existing.config and existing.config.filetypes then
@@ -435,6 +439,9 @@ function M.setup_null_ls()
       end
       if formatter_data.config then
         opts = vim.tbl_extend("force", opts, formatter_data.config)
+      end
+      if formatter_data.extra_args then
+        opts.extra_args = formatter_data.extra_args
       end
       if source.with then
         source = source.with(opts)

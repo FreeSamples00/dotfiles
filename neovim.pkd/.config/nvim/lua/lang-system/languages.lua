@@ -227,8 +227,13 @@ M.languages = {
       mason = false,
     },
     formatter = {
+      -- install with: cargo install --git https://github.com/nushell/nufmt
       name = "nufmt",
       mason = false,
+      extra_args = {
+        "--config",
+        vim.fn.expand("~/.config/nushell/nufmt.nuon"),
+      },
     },
   },
 
