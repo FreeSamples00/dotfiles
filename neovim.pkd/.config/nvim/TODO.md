@@ -26,7 +26,9 @@ Continue to explore this plugin, seems to have lots
 
 ## Language System
 
-- [ ] get nushell LSP working
+- [ ] get nushell working
+  - [ ] LSP
+  - [ ] [formatter](https://github.com/nushell/nufmt)
 
 - [ ] implement regression and unit testing?
   - [ ] LLM accessible scripts:
