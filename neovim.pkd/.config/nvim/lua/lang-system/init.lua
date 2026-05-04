@@ -321,6 +321,12 @@ function M.setup_lspconfig()
     vim.lsp.config(lsp.name, config)
   end
 
+  for lang_name, lsp in pairs(M.get_all_lsp_configs()) do
+    if lsp.mason == false then
+      vim.lsp.enable(lsp.name)
+    end
+  end
+
   require("mason-lspconfig").setup({
     ensure_installed = M.get_ensure_installed_lsp_servers(),
     automatic_installation = true,

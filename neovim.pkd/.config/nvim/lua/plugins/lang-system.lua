@@ -28,7 +28,7 @@ return {
       { "<leader>dlu", "<cmd>LanguageUninstallCurrent<cr>", desc = "Uninstall Current" },
     },
     opts = {
-      ensure_installed = { "nvim_core", "configs_group", "bash" },
+      ensure_installed = { "nvim_core", "configs_group", "bash", "nu" },
       languages = {},
     },
   },
