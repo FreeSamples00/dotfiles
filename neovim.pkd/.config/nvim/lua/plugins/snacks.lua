@@ -13,6 +13,8 @@ local wrap_options = {
   spell = false,
 }
 
+local truncate_path = require("helpers.utils").truncate_path
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
@@ -43,10 +45,35 @@ return {
               { " plugins in ", hl = "keyword" },
               { ms .. "ms", hl = "special" },
             },
+            padding = 0,
+          }
+        end,
+        function()
+          local ok, Checker = pcall(require, "lazy.manage.checker")
+          if not ok then
+            return { padding = 0 }
+          end
+          Checker.fast_check({ report = false })
+          local updates = #Checker.updated
+          if updates == 0 then
+            return { padding = 0 }
+          end
+          return {
+            align = "center",
+            text = {
+              { "📦 [", hl = "keyword" },
+              { tostring(updates), hl = "special" },
+              { "] ", hl = "keyword" },
+              { "Updates available", hl = "keyword" },
+            },
             padding = 1,
           }
         end,
-        { title = "  " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":~"), padding = 1, align = "center" },
+        {
+          title = " " .. truncate_path(vim.fn.fnamemodify(vim.fn.getcwd(), ":~"), 45),
+          padding = 1,
+          align = "center",
+        },
         { section = "keys", gap = 1, padding = 0 },
       },
     },
