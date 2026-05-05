@@ -7,8 +7,21 @@ map("n", "<esc>", "<cmd>nohlsearch<cr><esc>", "Esc + clear hl")
 map("n", "U", "<C-r>", "Redo")
 
 -- Navigation in wrapped lines
-vim.keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
-vim.keymap.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
+vim.keymap.set(
+  { "n", "x" },
+  "j",
+  "v:count == 0 ? 'gj' : 'j'",
+  { desc = "Down a visual line", expr = true, silent = true }
+)
+vim.keymap.set(
+  { "n", "x" },
+  "k",
+  "v:count == 0 ? 'gk' : 'k'",
+  { desc = "Up a visual line", expr = true, silent = true }
+)
+vim.keymap.set({ "n", "x" }, "0", "g0", { desc = "Start of visual line" })
+vim.keymap.set({ "n", "x" }, "^", "g^", { desc = "First non-blank of visual line" })
+vim.keymap.set({ "n", "x" }, "$", "g$", { desc = "End of visual line" })
 
 -- Indentation (stay in visual mode)
 map("v", "<", "<gv")
