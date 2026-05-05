@@ -19,9 +19,14 @@ vim.keymap.set(
   "v:count == 0 ? 'gk' : 'k'",
   { desc = "Up a visual line", expr = true, silent = true }
 )
-vim.keymap.set({ "n", "x" }, "0", "g0", { desc = "Start of visual line" })
-vim.keymap.set({ "n", "x" }, "^", "g^", { desc = "First non-blank of visual line" })
-vim.keymap.set({ "n", "x" }, "$", "g$", { desc = "End of visual line" })
+vim.keymap.set({ "n", "x" }, "0", "&wrap ? 'g0' : '0'", { desc = "Start of [visual] line", expr = true, silent = true })
+vim.keymap.set(
+  { "n", "x" },
+  "^",
+  "&wrap ? 'g^' : '^'",
+  { desc = "First non-blank of [visual] line", expr = true, silent = true }
+)
+vim.keymap.set({ "n", "x" }, "$", "&wrap ? 'g$' : '$'", { desc = "End of [visual] line", expr = true, silent = true })
 
 -- Indentation (stay in visual mode)
 map("v", "<", "<gv")
