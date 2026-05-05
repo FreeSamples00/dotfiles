@@ -1,20 +1,29 @@
+-- mappings for dotfiles types
+local dot_mappings = {
+  ["zshrc"] = "zsh",
+  ["bashrc"] = "bash",
+  ["vimrc"] = "vim",
+  ["screenrc"] = "screen",
+  ["gitconfig"] = "toml",
+}
+
 vim.filetype.add({
   pattern = {
-    [".*.tex"] = "tex",
-    [".*.bib"] = "tex",
-    [".*.aux"] = "tex",
-    ["dot%-(.+)"] = function(_, _, ext)
-      return ext
+    -- map '.foo' files
+    [".*/%.(.+)"] = function(_, _, name)
+      return dot_mappings[name] or name
+    end,
+    -- map 'dot-foo' files
+    [".*/dot%-(.+)"] = function(_, _, name)
+      return dot_mappings[name] or name
     end,
   },
+  extension = {
+    tex = "tex",
+    bib = "tex",
+    aux = "tex",
+  },
   filename = {
-    [".zshrc"] = "zsh",
-    ["dot-zshrc"] = "zsh",
-    [".bashrc"] = "bash",
-    ["dot-bashrc"] = "bash",
-    [".vimrc"] = "vim",
-    ["dot-vimrc"] = "vim",
-    [".screenrc"] = "screen",
-    ["dot-screenrc"] = "screen",
+    --["foo"] = "bar"
   },
 })
