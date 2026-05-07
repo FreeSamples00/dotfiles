@@ -155,7 +155,7 @@ This configuration follows several key patterns documented throughout:
 | **Configuration** | Centralized, flat config passed via environment variables | [Widget Configuration](#widget-configuration) |
 | **Loader**        | Automatic bracket wrapping and spacer insertion           | [Automatic Styling](#automatic-styling)       |
 | **Events**        | Event-driven updates with special env vars                | [Events](#events)                             |
-| **Performance**   | `updates=when_shown` for multi-display optimization       | [Bar Defaults](#bar-defaults)                 |
+| **Performance**   | `updates=on` default so hidden items re-appear             | [Bar Defaults](#bar-defaults)                 |
 | **Script Paths**  | Standardized argument passing to plugins                  | [Items vs Plugins](#items-vs-plugins)         |
 
 ## Widget Configuration
@@ -576,23 +576,21 @@ defaults: {
 
 ### Performance Optimization
 
-The global default `updates=when_shown` (set in `core/defaults.nu`) ensures items only update when visible:
+The global default `updates=on` (set in `core/defaults.nu`) ensures hidden items update so they can re-appear when their state changes:
 
 ```nu
 sketchybar ...[
   --default
-  updates=when_shown  # Only run scripts when item is visible
+  updates=on  # Run scripts even when item is hidden, so it can re-appear
   # ... other defaults
 ]
 ```
 
-**Benefits:**
+**Why `on` instead of `when_shown`:**
 
-- Reduces unnecessary script execution on multi-display setups
-- Items on inactive displays don't consume resources
-- Improves overall system performance
-
-**Important:** The initial `sketchybar --update` in `sketchybarrc` forces all scripts to run once on bar load, ensuring proper initialization.
+- Hidden items need to run their scripts to detect state changes and re-appear
+- `when_shown` would prevent hidden items from ever becoming visible again
+- Items that truly don't need background updates can opt into `when_shown` individually
 
 ## Conventions
 

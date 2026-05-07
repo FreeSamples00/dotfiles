@@ -23,7 +23,6 @@ def main [] {
     script=($script)
     click_script=($script)
     update_freq=($env.update_freq)
-    updates=on
     --subscribe
     $env.name
     system_woke
