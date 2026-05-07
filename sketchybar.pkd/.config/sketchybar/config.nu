@@ -108,7 +108,7 @@ export const skenv = {
       restart_update_freq: 3600
       # focus notifier
       focus_enable: true
-      focus_update_freq: 60
+      focus_update_freq: 30
     }
     # NOTE: ===== right side items, ordered out to in =====
     clock: {

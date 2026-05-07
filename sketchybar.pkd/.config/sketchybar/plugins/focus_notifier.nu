@@ -2,7 +2,8 @@
 
 def get_focus [] {
   use ../core/icons.nu *
-  return (match (^($env.FILE_PWD | path join "getfocus")) {
+  let mode = ^($env.FILE_PWD | path join "getfocus")
+  return (match ($mode) {
     "Do Not Disturb" => {
       {
         icon: (icons widget "focus_dnd")
@@ -24,7 +25,15 @@ def get_focus [] {
         draw: "on"
       }
     }
-    _ => {
+    "None" => {
+      {
+        icon: "", 
+        color: "0xFF6D7CFF", 
+        draw: "off"
+      }
+    }
+    $focus => {
+      print $"Unkown focus mode: '($focus)'"
       {
         icon: "", 
         color: "0xFF6D7CFF", 

@@ -29,6 +29,7 @@ def main [] {
       script=($restart_script)
       click_script=`osascript -e 'tell application "loginwindow" to «event aevtrrst»'`
       update_freq=($env.restart_update_freq)
+      updates=on
       --subscribe
       notifiers_restart
       system_woke
@@ -55,6 +56,7 @@ def main [] {
       script=($focus_script)
       click_script=($focus_script)
       update_freq=($env.focus_update_freq)
+      updates=on
       --subscribe
       notifiers_focus
       system_woke
