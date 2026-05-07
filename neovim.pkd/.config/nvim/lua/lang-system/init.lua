@@ -468,6 +468,9 @@ function M.setup_null_ls()
       if linter.config then
         opts = vim.tbl_extend("force", opts, linter.config)
       end
+      if linter.extra_args then
+        opts.extra_args = linter.extra_args
+      end
       if source.with then
         source = source.with(opts)
       end

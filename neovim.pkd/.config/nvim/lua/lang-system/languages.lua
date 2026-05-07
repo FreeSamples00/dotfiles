@@ -270,6 +270,21 @@ M.languages = {
     },
   },
 
+  sql = {
+    filetypes = { "sql" },
+    treesitter = "sql",
+    lsp = {
+      name = "sqlls",
+    },
+    formatter = {
+      name = "sqlfmt",
+    },
+    linter = {
+      name = "sqruff",
+      extra_args = { "--exclude-rules", "LT105" },
+    },
+  },
+
   just = {
     filetypes = { "just" },
     treesitter = "just",

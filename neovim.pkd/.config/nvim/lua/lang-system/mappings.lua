@@ -281,6 +281,7 @@ M.tool_to_nullls = {
     eslint_d = { source = "eslint_d", provider = "extras" },
     ruff = { source = "ruff", provider = "extras" },
     selene = { source = "selene", provider = "builtin" },
+    sqruff = { source = "sqruff", provider = "builtin" },
     yamllint = { source = "yamllint", provider = "builtin" },
   },
   formatting = {
@@ -293,6 +294,8 @@ M.tool_to_nullls = {
     ruff = { source = "ruff", provider = "extras" },
     rustfmt = { source = "rustfmt", provider = "extras" },
     shfmt = { source = "shfmt", provider = "builtin" },
+    sqlfmt = { source = "sqlfmt", provider = "builtin" },
+    sqruff = { source = "sqruff", provider = "builtin" },
     stylua = { source = "stylua", provider = "builtin" },
     ["tex-fmt"] = { source = "tex_fmt", provider = "extras" },
     nufmt = { source = "nufmt", provider = "local" },
