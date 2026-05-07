@@ -20,21 +20,38 @@ export def usage [
   | if $raw { $in } else {
     $in
     | if $type == "inference" {
-      get rollingFiveHourLimit
-      | insert usage {|| {
-          percent: (($in.max - $in.remaining) / $in.max * 100)
-          used: ($in.max - $in.remaining)
-          remaining: ($in.remaining)
-          limit: ($in.max)
-        }}
-      | insert reset {|| {
-          next_tick: ($in.nextTickAt | date humanize)
-          tick_percent: ($in.tickPercent * 100 | into string -d 2 | $in + "%")
-          limited: ($in.limited)
-        }}
-      | reject nextTickAt tickPercent remaining max limited
-      | update usage.percent {|| $"($in | into string -d 2)%" }
-      | table -e
+      let response = $in
+      let rolling = $response.rollingFiveHourLimit
+        | insert usage {|| {
+            percent: (($in.max - $in.remaining) / $in.max * 100)
+            used: ($in.max - $in.remaining)
+            remaining: ($in.remaining)
+            limit: ($in.max)
+          }}
+        | insert reset {|| {
+            next_tick: ($in.nextTickAt | date humanize)
+            tick_percent: ($in.tickPercent * 100 | into string -d 2 | $in + "%")
+            limited: ($in.limited)
+          }}
+        | reject nextTickAt tickPercent remaining max limited
+        | update usage.percent {|| $"($in | into string -d 2)%" }
+
+      let weekly = $response.weeklyTokenLimit
+        | insert usage {|| {
+            percent: (100 - $in.percentRemaining)
+            used: (($in.maxCredits | str replace '$' '' | into float) - ($in.remainingCredits | str replace '$' '' | into float) | into string -d 2 | $"$($in)")
+            remaining: ($in.remainingCredits)
+            limit: ($in.maxCredits)
+          }}
+        | insert reset {|| {
+            next_regen: ($in.nextRegenAt | date humanize)
+            next_regen_credits: ($in.nextRegenCredits)
+            regen_percent: (($in.nextRegenCredits | str replace '$' '' | into float) / ($in.maxCredits | str replace '$' '' | into float) * 100 | into string -d 2 | $in + "%")
+          }}
+        | reject nextRegenAt nextRegenCredits percentRemaining maxCredits remainingCredits
+        | update usage.percent {|| $"($in | into string -d 2)%" }
+
+      {rolling: $rolling, weekly: $weekly} | table -e
     } else if $type == "search" {
       get search.hourly
       | insert usage {|| {
