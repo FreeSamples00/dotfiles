@@ -245,6 +245,9 @@ M.languages = {
     },
     formatter = {
       name = "prettier",
+      config = {
+        filetypes = { "json", "jsonc" },
+      },
     },
   },
 
