@@ -10,11 +10,11 @@ local dot_mappings = {
 vim.filetype.add({
   pattern = {
     -- map '.foo' files
-    [".*/%.(.+)"] = function(_, _, name)
+    [".*/%.([%w_-]+)$"] = function(_, _, name)
       return dot_mappings[name] or name
     end,
     -- map 'dot-foo' files
-    [".*/dot%-(.+)"] = function(_, _, name)
+    [".*/dot%-([%w_-]+)$"] = function(_, _, name)
       return dot_mappings[name] or name
     end,
   },
