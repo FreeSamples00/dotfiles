@@ -25,3 +25,4 @@ dotfiles/
 - [Dotfiles Management](./docs/dotfiles-stow.md) - Managing configuration symlinks with `./dot`
 - [Cronjobs](./docs/cronjobs.md) - Scheduled tasks backup
 - [Yubikey](./docs/yubikey.md) - Yubikey setup and SSH usage
+- [TDF](./docs/pdf-viewer.md) - TUI pdf viewer
