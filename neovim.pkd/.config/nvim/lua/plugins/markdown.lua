@@ -32,6 +32,12 @@ return {
           scope_highlight = "RenderMarkdownCheckedStrike",
         },
       },
+      html = {
+        enabled = true,
+        comment = {
+          conceal = false,
+        },
+      },
     },
   },
   {
