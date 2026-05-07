@@ -168,7 +168,9 @@ widget_name: {
   name: "widget_name"     # Widget identifier (must match items/<name>.nu)
   color: "0xAARRGGBB"     # Widget color (hex with alpha)
   side: left/center/right # Position on bar
-  update_freq: 10         # Update interval in seconds (optional)
+  update_freq: 10         # Update interval in seconds (optional, use high/low for conditional items)
+  high_update_freq: 5     # Active polling interval in seconds (optional, replaces update_freq)
+  low_update_freq: 60     # Idle polling interval in seconds (optional, replaces update_freq)
   icon_font: "Font:Style:Size" # Custom icon font (optional)
 }
 ```
@@ -231,6 +233,7 @@ if $feature {
 | `aerospace`        | `color_focused`, `color_full`, `color_empty`, `label_pad`, `outer_pad` |
 | `restart_notifier` | `threshold` - uptime threshold (e.g., "7day")                          |
 | `volume`           | `right_pad` - right padding value                                      |
+| `docker`           | `high_update_freq`, `low_update_freq` - dynamic update speeds         |
 | `weather`          | `location`, `temp_unit`, `stale_threshold`                             |
 
 ### Side Ordering
@@ -591,6 +594,29 @@ sketchybar ...[
 - Hidden items need to run their scripts to detect state changes and re-appear
 - `when_shown` would prevent hidden items from ever becoming visible again
 - Items that truly don't need background updates can opt into `when_shown` individually
+
+### Dynamic Update Frequency
+
+Conditional items that are usually dormant (e.g., docker, which only matters when containers are running) can use **two update frequencies** instead of a single `update_freq`:
+
+- **`low_update_freq`** - Used while the item is idle/hidden (infrequent polling to check if state changed)
+- **`high_update_freq`** - Used while the item is active/visible (frequent polling for responsive updates)
+
+The item script initializes `update_freq` to `low_update_freq` and passes both values to the plugin via CLI arguments. The plugin then switches the item's `update_freq` at runtime:
+
+```nu
+# In items/docker.nu - initialize at low frequency, pass both to plugin
+update_freq=($env.low_update_freq)
+
+# In plugins/docker.nu - switch based on state
+if $status.running {
+  sketchybar --set $name drawing=on update_freq=($high_update_freq)
+} else {
+  sketchybar --set $name drawing=off update_freq=($low_update_freq)
+}
+```
+
+This avoids wasting CPU on frequent polls for items that spend most of their time idle while still providing responsive updates when active.
 
 ## Conventions
 

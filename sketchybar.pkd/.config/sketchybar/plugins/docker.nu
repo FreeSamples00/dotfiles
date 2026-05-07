@@ -12,7 +12,13 @@ def docker-info [] {
   | first
 }
 
-def main [name: string, animation_type: string, animation_speed: string] {
+def main [
+  name: string
+  animation_type: string
+  animation_speed: string
+  high_update_freq: string
+  low_update_freq: string
+] {
   let status = docker-info
   if $status.running {
     sketchybar ...[
@@ -23,8 +29,14 @@ def main [name: string, animation_type: string, animation_speed: string] {
       $name
       drawing=on
       label=($status.ContainersRunning)
+      update_freq=($high_update_freq)
     ]
   } else {
-    sketchybar --set $name drawing=off
+    sketchybar ...[
+      --set
+      $name
+      drawing=off
+      update_freq=($low_update_freq)
+    ]
   }
 }

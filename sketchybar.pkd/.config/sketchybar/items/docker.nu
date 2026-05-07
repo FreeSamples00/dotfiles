@@ -7,6 +7,8 @@ def main [] {
     $env.name
     $env.animation_type
     $env.animation_speed
+    $env.high_update_freq
+    $env.low_update_freq
   ] | str join " "
   sketchybar ...[
     --add
@@ -22,7 +24,7 @@ def main [] {
     label.padding_left=0
     script=($script)
     click_script=($script)
-    update_freq=($env.update_freq)
+    update_freq=($env.low_update_freq)
     --subscribe
     $env.name
     system_woke

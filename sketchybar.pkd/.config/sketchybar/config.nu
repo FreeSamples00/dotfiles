@@ -180,7 +180,8 @@ export const skenv = {
       name: docker
       color: $"($theme.colors.blue)"
       icon_font: $"($fonts.icon.family):($fonts.icon.style):($fonts.icon.size + 4)"
-      update_freq: 10
+      high_update_freq: 5
+      low_update_freq: 60
       side: right
     }
   }
