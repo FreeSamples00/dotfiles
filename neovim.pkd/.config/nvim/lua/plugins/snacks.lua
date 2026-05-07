@@ -171,6 +171,22 @@ return {
         git_log_line = hidden_search_options,
         git_log_file = hidden_search_options,
         git_diff = hidden_search_options,
+        explorer = {
+          layout = {
+            preset = "sidebar",
+            preview = "main",
+            -- hidden = { "preview" }, -- hide preview by default
+          },
+          win = {
+            preview = {
+              col = 0,
+              row = 0,
+              max_width = 50,
+              max_height = 35,
+              border = "rounded",
+            },
+          },
+        },
       },
     },
     quickfile = { enabled = true },
