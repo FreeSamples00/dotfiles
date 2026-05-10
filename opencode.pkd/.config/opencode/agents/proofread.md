@@ -1,7 +1,6 @@
 ---
 description: Invoke when user requests grammar check, spell check, or proofreading. Triggers: "check grammar in...", "proofread...", "find spelling errors...", "check spelling in...".
 mode: subagent
-model: synthetic/hf:zai-org/GLM-4.7-Flash
 hidden: false
 temperature: 0.1
 permission:

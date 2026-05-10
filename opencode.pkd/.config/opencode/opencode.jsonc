@@ -1,6 +1,7 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "model": "synthetic/hf:zai-org/GLM-5.1",
+  "small_model": "synthetic/hf:openai/gpt-oss-120b",
   "default_agent": "plan",
   "share": "disabled",
   "provider": {
@@ -22,6 +23,19 @@
             "output": 3,
           },
           "family": "GLM",
+          "reasoning": true,
+        },
+        "hf:openai/gpt-oss-120b": {
+          "name": "GPT OSS 120B",
+          "limit": {
+            "context": 128000,
+            "output": 32768,
+          },
+          "cost": {
+            "input": 0.1,
+            "output": 0.1,
+          },
+          "family": "gpt-oss",
           "reasoning": true,
         },
       },
@@ -101,13 +115,11 @@
   },
   "agent": {
     "plan": {
-      "model": "synthetic/hf:zai-org/GLM-5.1",
       "mode": "primary",
       "color": "primary",
       "permission": {},
     },
     "build": {
-      "model": "synthetic/hf:zai-org/GLM-5.1",
       "mode": "primary",
       "color": "secondary",
       "permission": {
@@ -115,6 +127,21 @@
         "write": "allow",
         "patch": "ask",
       },
+    },
+    "explore": {
+      "model": "synthetic/hf:openai/gpt-oss-120b",
+    },
+    "general": {
+      "model": "synthetic/hf:openai/gpt-oss-120b",
+    },
+    "scout": {
+      "model": "synthetic/hf:openai/gpt-oss-120b",
+    },
+    "text-worker": {
+      "model": "synthetic/hf:openai/gpt-oss-120b",
+    },
+    "proofread": {
+      "model": "synthetic/hf:zai-org/GLM-4.7-Flash",
     },
   },
   "mcp": {
