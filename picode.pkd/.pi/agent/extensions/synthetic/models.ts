@@ -3,7 +3,7 @@ import type { ProviderModelConfig } from "@earendil-works/pi-coding-agent";
 export const SYNTHETIC_MODELS: ProviderModelConfig[] = [
   {
     id: "hf:zai-org/GLM-5.1",
-    name: "zai-org/GLM-5.1",
+    name: "GLM 5.1",
     reasoning: true,
     thinkingLevelMap: { minimal: null, xhigh: null },
     compat: {
@@ -23,7 +23,7 @@ export const SYNTHETIC_MODELS: ProviderModelConfig[] = [
   },
   {
     id: "hf:openai/gpt-oss-120b",
-    name: "openai/gpt-oss-120b",
+    name: "GPT-OSS 120B",
     reasoning: true,
     input: ["text"],
     cost: {

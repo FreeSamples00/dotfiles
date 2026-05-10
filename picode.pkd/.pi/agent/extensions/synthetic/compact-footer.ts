@@ -44,9 +44,7 @@ function buildSegments(
   const pwdStr = branch ? `${pwd} (${branch})` : pwd;
   segments.push(theme.fg("dim", pwdStr));
 
-  // 2. Token stats
-  let totalInput = 0;
-  let totalOutput = 0;
+  // 2. Cost + context usage
   let totalCost = 0;
   for (const entry of ctx.sessionManager.getEntries()) {
     if (
@@ -55,39 +53,40 @@ function buildSegments(
     ) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const m = entry.message as any;
-      totalInput += m.usage?.input ?? 0;
-      totalOutput += m.usage?.output ?? 0;
       totalCost += m.usage?.cost?.total ?? 0;
     }
   }
 
-  const statsParts: string[] = [];
-  if (totalInput) statsParts.push(`↑${formatTokens(totalInput)}`);
-  if (totalOutput) statsParts.push(`↓${formatTokens(totalOutput)}`);
-  if (totalCost) statsParts.push(`$${totalCost.toFixed(3)}`);
-  if (statsParts.length > 0) {
-    segments.push(theme.fg("dim", statsParts.join(" ")));
-  }
-
-  // 3. Context usage
+  // 2. Cost + context usage
   const contextUsage = ctx.getContextUsage();
+  const costParts: string[] = [];
+  if (totalCost) {
+    costParts.push(theme.fg("warning", `$${totalCost.toFixed(3)}`));
+  }
   if (contextUsage) {
     const pctValue = contextUsage.percent ?? 0;
     const windowStr = formatTokens(contextUsage.contextWindow);
-    const pctStr =
-      contextUsage.percent !== null ? `${pctValue.toFixed(0)}%` : "?";
-    const contextDisplay = `${pctStr}/${windowStr}`;
+    let usedStr: string;
+    if (contextUsage.percent !== null && contextUsage.contextWindow > 0) {
+      const usedTokens = Math.round((pctValue / 100) * contextUsage.contextWindow);
+      usedStr = formatTokens(usedTokens);
+    } else {
+      usedStr = "?";
+    }
 
     let color: string;
     if (pctValue > 90) color = "error";
     else if (pctValue > 70) color = "warning";
     else color = "dim";
 
-    segments.push(theme.fg(color, `ctx ${contextDisplay}`));
+    costParts.push(theme.fg(color, `${usedStr}/${windowStr}`));
+  }
+  if (costParts.length > 0) {
+    segments.push(costParts.join(" "));
   }
 
   // 4. Model
-  const modelId = ctx.model?.id || "no-model";
+  const modelId = ctx.model?.name || ctx.model?.id || "no-model";
   segments.push(theme.fg("dim", modelId));
 
   // 5. Extension statuses (each becomes its own segment)

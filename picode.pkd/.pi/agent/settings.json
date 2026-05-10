@@ -3,7 +3,7 @@
   "defaultModel": "hf:zai-org/GLM-5.1",
   "defaultThinkingLevel": "medium",
   "hideThinkingBlock": true,
-  "theme": "dark",
+  "theme": "catppuccin-mocha",
   "compaction": {
     "enabled": true,
     "reserveTokens": 16384,
@@ -12,6 +12,11 @@
   "retry": {
     "enabled": true,
     "maxRetries": 3
+  },
+  "synthetic": {
+    "hideStatuses": {
+      "search": true
+    }
   },
   "lastChangelogVersion": "0.74.0",
   "packages": []

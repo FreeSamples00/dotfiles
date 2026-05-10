@@ -1,4 +1,7 @@
 import type { AuthStorage, ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
+import { getAgentDir } from "@earendil-works/pi-coding-agent";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { SYNTHETIC_MODELS } from "./models";
 import {
   QuotaStore,
@@ -8,6 +11,25 @@ import {
 } from "./quotas";
 import { formatStatus } from "./usage-status";
 import { installCompactFooter } from "./compact-footer";
+
+interface SyntheticSettings {
+  hideStatuses?: Record<string, boolean>;
+}
+
+/**
+ * Read the `synthetic` section from settings.json.
+ * hideStatuses maps short labels ("week", "5h", "search", "tools") to true to hide them.
+ */
+function readSyntheticSettings(): SyntheticSettings {
+  try {
+    const settingsPath = join(getAgentDir(), "settings.json");
+    const raw = readFileSync(settingsPath, "utf-8");
+    const parsed = JSON.parse(raw);
+    return parsed?.synthetic ?? {};
+  } catch {
+    return {};
+  }
+}
 
 const EXTENSION_ID = "synthetic-usage";
 const QUOTA_REFRESH_INTERVAL_MS = 60_000;
@@ -41,6 +63,7 @@ function renderFromStoreOrRefresh(
   ctx: ExtensionContext,
   quotaStore: QuotaStore,
   authStorage: AuthStorage | undefined,
+  hiddenLabels: Set<string>,
 ): void {
   if (ctx.model?.provider !== "synthetic") {
     clearStatus(ctx);
@@ -49,7 +72,7 @@ function renderFromStoreOrRefresh(
 
   const snapshot = quotaStore.getSnapshot();
   if (snapshot) {
-    const status = formatStatus(ctx, snapshot);
+    const status = formatStatus(ctx, snapshot, hiddenLabels);
     if (ctx.hasUI) ctx.ui.setStatus(EXTENSION_ID, status);
   } else {
     if (ctx.hasUI)
@@ -62,7 +85,7 @@ function renderFromStoreOrRefresh(
         if (!apiKey) return;
         quotaStore.refreshFromApi(() => fetchQuotas(apiKey)).then((snap) => {
           if (snap && ctx.hasUI) {
-            const status = formatStatus(ctx, snap);
+            const status = formatStatus(ctx, snap, hiddenLabels);
             ctx.ui.setStatus(EXTENSION_ID, status);
           }
         });
@@ -78,6 +101,11 @@ export default function (pi: ExtensionAPI) {
   let currentAuthStorage: AuthStorage | undefined;
   let refreshTimer: ReturnType<typeof setInterval> | undefined;
   let removeCompactFooter: (() => void) | undefined;
+  const getHiddenStatuses = (): Set<string> => {
+    const hidden = readSyntheticSettings().hideStatuses;
+    if (!hidden) return new Set();
+    return new Set(Object.entries(hidden).filter(([, v]) => v).map(([k]) => k));
+  };
 
   function startRefreshTimer(ctx: ExtensionContext): void {
     stopRefreshTimer();
@@ -88,7 +116,7 @@ export default function (pi: ExtensionAPI) {
         if (!apiKey) return;
         quotaStore.refreshFromApi(() => fetchQuotas(apiKey)).then((snap) => {
           if (snap && ctx.hasUI) {
-            const status = formatStatus(ctx, snap);
+            const status = formatStatus(ctx, snap, getHiddenStatuses());
             ctx.ui.setStatus(EXTENSION_ID, status);
           }
         });
@@ -110,7 +138,7 @@ export default function (pi: ExtensionAPI) {
       quotaStore.ingest(quotas, "header");
       const snapshot = quotaStore.getSnapshot();
       if (snapshot && ctx.hasUI) {
-        const status = formatStatus(ctx, snapshot);
+        const status = formatStatus(ctx, snapshot, getHiddenStatuses());
         ctx.ui.setStatus(EXTENSION_ID, status);
       }
     }
@@ -131,7 +159,7 @@ export default function (pi: ExtensionAPI) {
           fetchQuotas(apiKey),
         );
         if (snap && ctx.hasUI) {
-          const status = formatStatus(ctx, snap);
+          const status = formatStatus(ctx, snap, getHiddenStatuses());
           ctx.ui.setStatus(EXTENSION_ID, status);
         }
       }
@@ -141,7 +169,7 @@ export default function (pi: ExtensionAPI) {
 
   pi.on("model_select", (_event, ctx) => {
     if (ctx.model?.provider === "synthetic") {
-      renderFromStoreOrRefresh(ctx, quotaStore, currentAuthStorage);
+      renderFromStoreOrRefresh(ctx, quotaStore, currentAuthStorage, getHiddenStatuses());
       startRefreshTimer(ctx);
     } else {
       clearStatus(ctx);
@@ -150,11 +178,11 @@ export default function (pi: ExtensionAPI) {
   });
 
   pi.on("agent_end", (_event, ctx) => {
-    renderFromStoreOrRefresh(ctx, quotaStore, currentAuthStorage);
+    renderFromStoreOrRefresh(ctx, quotaStore, currentAuthStorage, getHiddenStatuses());
   });
 
   pi.on("turn_end", (_event, ctx) => {
-    renderFromStoreOrRefresh(ctx, quotaStore, currentAuthStorage);
+    renderFromStoreOrRefresh(ctx, quotaStore, currentAuthStorage, getHiddenStatuses());
   });
 
   pi.on("session_before_switch", (_event, ctx) => {

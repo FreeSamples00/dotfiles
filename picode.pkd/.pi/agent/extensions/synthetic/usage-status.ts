@@ -245,11 +245,14 @@ function formatBar(remainingPercent: number, width: number): string {
 export function formatStatus(
   ctx: ExtensionContext,
   snapshot: QuotaSnapshot | undefined,
+  hiddenLabels: Set<string> = new Set(),
 ): string | undefined {
   if (!ctx.hasUI) return undefined;
   if (!snapshot) return ctx.ui.theme.fg("dim", "loading usage...");
 
-  const windows = parseSnapshot(snapshot.quotas);
+  const windows = parseSnapshot(snapshot.quotas).filter(
+    (w) => !hiddenLabels.has(SHORT_LABELS[w.label] ?? w.label),
+  );
   if (windows.length === 0) return undefined;
 
   const theme = ctx.ui.theme;
