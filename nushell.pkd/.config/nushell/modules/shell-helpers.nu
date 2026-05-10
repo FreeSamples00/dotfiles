@@ -49,13 +49,14 @@ export def e --env --wrapped [
 }
 
 # Usage:
-#   `rsync <SRC> <DEST>`
+#   `rsync [--flags] <SRC> <DEST>`
 #
 # Flags:
-#   `-a` archive: recursive, preserves file attributes
-#   `-z` compression
+#   `--archive` archive: recursive, preserves file attributes
+#   `--compress` compression
+#   `--crtimes` preserve file creation times if possible
 #   `--stats` post transfer summary
-export alias rsync = rsync -az --stats
+export alias rsync = rsync --archive --compress --crtimes --stats
 
 # ---------- FUNCTIONS ----------
 
