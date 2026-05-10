@@ -1,0 +1,18 @@
+{
+  "defaultProvider": "synthetic",
+  "defaultModel": "hf:zai-org/GLM-5.1",
+  "defaultThinkingLevel": "medium",
+  "hideThinkingBlock": true,
+  "theme": "dark",
+  "compaction": {
+    "enabled": true,
+    "reserveTokens": 16384,
+    "keepRecentTokens": 20000
+  },
+  "retry": {
+    "enabled": true,
+    "maxRetries": 3
+  },
+  "lastChangelogVersion": "0.74.0",
+  "packages": []
+}
