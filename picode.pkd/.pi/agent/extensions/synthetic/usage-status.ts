@@ -233,6 +233,15 @@ function parseSnapshot(quotas: QuotasResponse): WindowStatus[] {
   }));
 }
 
+const BAR_WIDTH = 5;
+const BAR_FILLED = "▓";
+const BAR_EMPTY = "░";
+
+function formatBar(remainingPercent: number, width: number): string {
+  const filled = Math.round((remainingPercent / 100) * width);
+  return BAR_FILLED.repeat(filled) + BAR_EMPTY.repeat(width - filled);
+}
+
 export function formatStatus(
   ctx: ExtensionContext,
   snapshot: QuotaSnapshot | undefined,
@@ -248,18 +257,21 @@ export function formatStatus(
 
   for (const w of windows) {
     const short = SHORT_LABELS[w.label] ?? w.label;
-    const used = Math.max(
+    const remaining = Math.max(
       0,
-      Math.min(100, Math.round(w.usedPercent)),
+      Math.min(100, 100 - Math.round(w.usedPercent)),
     );
     const color = getSeverityColor(w.severity);
-    const pctText = theme.fg(color, `${used}%`);
+    const bar = theme.fg(color, formatBar(remaining, BAR_WIDTH));
+    const pctText = theme.fg(color, `${remaining}%`);
     const reset = w.resetsAt
-      ? theme.fg("dim", ` (\u21ba${formatResetTime(w.resetsAt)})`)
+      ? theme.fg("dim", `\u21ba${formatResetTime(w.resetsAt)}`)
       : "";
     const limitTag = w.limited ? theme.fg("error", " [limited]") : "";
-    parts.push(`${theme.fg("dim", `${short}:`)}${pctText}${reset}${limitTag}`);
+    parts.push(
+      `${theme.fg("dim", `${short} `)}${bar} ${pctText} ${reset}${limitTag}`,
+    );
   }
 
-  return parts.join(" ");
+  return parts.join(theme.fg("dim", " │ "));
 }
