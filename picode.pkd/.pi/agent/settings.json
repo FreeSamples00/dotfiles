@@ -13,6 +13,10 @@
     "enabled": true,
     "maxRetries": 3
   },
+  "compact-footer": {
+    "order": ["pwd", "model", "<flex>", "context", "cost", "statuses"],
+    "separator": " │ "
+  },
   "synthetic": {
     "hideStatuses": {
       "search": true

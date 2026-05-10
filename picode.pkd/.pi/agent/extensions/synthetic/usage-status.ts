@@ -209,7 +209,7 @@ function toWindows(quotas: QuotasResponse): QuotaWindow[] {
 }
 
 const SHORT_LABELS: Record<string, string> = {
-  "Credits / week": "week",
+  "Credits / week": "wk",
   "Requests / 5h": "5h",
   "Search / hour": "search",
   "Free Tool Calls / day": "tools",

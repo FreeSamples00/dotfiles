@@ -10,7 +10,6 @@ import {
   type QuotasResponse,
 } from "./quotas";
 import { formatStatus } from "./usage-status";
-import { installCompactFooter } from "./compact-footer";
 
 interface SyntheticSettings {
   hideStatuses?: Record<string, boolean>;
@@ -100,7 +99,6 @@ export default function (pi: ExtensionAPI) {
   const quotaStore = new QuotaStore();
   let currentAuthStorage: AuthStorage | undefined;
   let refreshTimer: ReturnType<typeof setInterval> | undefined;
-  let removeCompactFooter: (() => void) | undefined;
   const getHiddenStatuses = (): Set<string> => {
     const hidden = readSyntheticSettings().hideStatuses;
     if (!hidden) return new Set();
@@ -148,10 +146,6 @@ export default function (pi: ExtensionAPI) {
     quotaStore.clear();
     currentAuthStorage = ctx.modelRegistry.authStorage;
 
-    // Install compact one-line footer
-    removeCompactFooter?.();
-    removeCompactFooter = installCompactFooter(pi, ctx);
-
     if (ctx.model?.provider === "synthetic") {
       const apiKey = await getSyntheticApiKey(currentAuthStorage);
       if (apiKey) {
@@ -188,14 +182,12 @@ export default function (pi: ExtensionAPI) {
   pi.on("session_before_switch", (_event, ctx) => {
     clearStatus(ctx);
     stopRefreshTimer();
-    removeCompactFooter?.();
     quotaStore.clear();
     currentAuthStorage = undefined;
   });
 
   pi.on("session_shutdown", () => {
     stopRefreshTimer();
-    removeCompactFooter?.();
     quotaStore.clear();
     currentAuthStorage = undefined;
   });
