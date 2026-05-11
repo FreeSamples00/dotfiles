@@ -30,16 +30,16 @@
     "crust": "#11111b",
     "selectedBg": "#313244",
     "userMsgBg": "#1e1e2e",
-    "toolPendingBg": "#1e1e2e",
-    "toolSuccessBg": "#1e2e1e",
-    "toolErrorBg": "#2e1e1e",
+    "toolPendingBg": "#252536",
+    "toolSuccessBg": "#313244",
+    "toolErrorBg": "#382030",
     "customMsgBg": "#231e2e"
   },
   "colors": {
     "accent": "mauve",
     "border": "surface2",
     "borderAccent": "mauve",
-    "borderMuted": "surface1",
+    "borderMuted": "surface2",
     "success": "green",
     "error": "red",
     "warning": "yellow",
@@ -85,12 +85,12 @@
     "syntaxOperator": "sky",
     "syntaxPunctuation": "overlay1",
 
-    "thinkingOff": "surface1",
+    "thinkingOff": "surface2",
     "thinkingMinimal": "surface2",
-    "thinkingLow": "blue",
-    "thinkingMedium": "sapphire",
-    "thinkingHigh": "mauve",
-    "thinkingXhigh": "red",
+    "thinkingLow": "surface2",
+    "thinkingMedium": "surface2",
+    "thinkingHigh": "surface2",
+    "thinkingXhigh": "surface2",
 
     "bashMode": "peach"
   },
