@@ -56,6 +56,17 @@ function registerSyntheticProvider(pi: ExtensionAPI): void {
 function clearStatus(ctx: ExtensionContext): void {
   if (!ctx.hasUI) return;
   ctx.ui.setStatus(EXTENSION_ID, undefined);
+  ctx.ui.setStatus(`${EXTENSION_ID}:compact`, undefined);
+}
+
+function setStatuses(
+  ctx: ExtensionContext,
+  snapshot: QuotaSnapshot | undefined,
+  hiddenLabels: Set<string>,
+): void {
+  if (!ctx.hasUI) return;
+  ctx.ui.setStatus(EXTENSION_ID, formatStatus(ctx, snapshot, hiddenLabels, false));
+  ctx.ui.setStatus(`${EXTENSION_ID}:compact`, formatStatus(ctx, snapshot, hiddenLabels, true));
 }
 
 function renderFromStoreOrRefresh(
@@ -71,8 +82,7 @@ function renderFromStoreOrRefresh(
 
   const snapshot = quotaStore.getSnapshot();
   if (snapshot) {
-    const status = formatStatus(ctx, snapshot, hiddenLabels);
-    if (ctx.hasUI) ctx.ui.setStatus(EXTENSION_ID, status);
+    setStatuses(ctx, snapshot, hiddenLabels);
   } else {
     if (ctx.hasUI)
       ctx.ui.setStatus(
@@ -84,8 +94,7 @@ function renderFromStoreOrRefresh(
         if (!apiKey) return;
         quotaStore.refreshFromApi(() => fetchQuotas(apiKey)).then((snap) => {
           if (snap && ctx.hasUI) {
-            const status = formatStatus(ctx, snap, hiddenLabels);
-            ctx.ui.setStatus(EXTENSION_ID, status);
+            setStatuses(ctx, snap, hiddenLabels);
           }
         });
       });
@@ -114,8 +123,7 @@ export default function (pi: ExtensionAPI) {
         if (!apiKey) return;
         quotaStore.refreshFromApi(() => fetchQuotas(apiKey)).then((snap) => {
           if (snap && ctx.hasUI) {
-            const status = formatStatus(ctx, snap, getHiddenStatuses());
-            ctx.ui.setStatus(EXTENSION_ID, status);
+            setStatuses(ctx, snap, getHiddenStatuses());
           }
         });
       });
@@ -136,8 +144,7 @@ export default function (pi: ExtensionAPI) {
       quotaStore.ingest(quotas, "header");
       const snapshot = quotaStore.getSnapshot();
       if (snapshot && ctx.hasUI) {
-        const status = formatStatus(ctx, snapshot, getHiddenStatuses());
-        ctx.ui.setStatus(EXTENSION_ID, status);
+        setStatuses(ctx, snapshot, getHiddenStatuses());
       }
     }
   });
@@ -153,8 +160,7 @@ export default function (pi: ExtensionAPI) {
           fetchQuotas(apiKey),
         );
         if (snap && ctx.hasUI) {
-          const status = formatStatus(ctx, snap, getHiddenStatuses());
-          ctx.ui.setStatus(EXTENSION_ID, status);
+          setStatuses(ctx, snap, getHiddenStatuses());
         }
       }
       startRefreshTimer(ctx);

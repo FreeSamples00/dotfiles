@@ -5,17 +5,25 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
 
-// ── Settings ────────────────────────────────────────────────────────────────
+// ── Types ───────────────────────────────────────────────────────────────────
 
-type SegmentToken =
-  | "pwd"
-  | "context"
-  | "cost"
-  | "model"
-  | "statuses"
-  | "<flex>"
-  | "<bar>"
-  | "<space>";
+type ContentToken = "pwd" | "context" | "cost" | "model" | "statuses";
+type StaticToken = "<flex>" | "<bar>" | "<space>";
+type SegmentToken = ContentToken | StaticToken;
+type CollapseLevel = "full" | "short" | "minimal";
+
+interface CompactFooterSettings {
+  /** Segment order. Listed segments are shown; omitted ones are hidden. */
+  order?: SegmentToken[];
+  /** Separator between segments (default " │ ") */
+  separator?: string;
+  /** Drop priority (lower = drops first). Default: pwd 1, cost 2, statuses 3, model 4, context 5 */
+  priority?: Record<string, number>;
+  /** Collapse thresholds by segment. Keys are terminal widths below which the form activates. */
+  collapse?: Record<string, { short?: number; minimal?: number }>;
+}
+
+// ── Defaults ────────────────────────────────────────────────────────────────
 
 const DEFAULT_ORDER: SegmentToken[] = [
   "pwd",
@@ -25,12 +33,21 @@ const DEFAULT_ORDER: SegmentToken[] = [
   "statuses",
 ];
 
-interface CompactFooterSettings {
-  /** Segment order. Listed segments are shown; omitted ones are hidden. */
-  order?: SegmentToken[];
-  /** Separator between segments (default " │ ") */
-  separator?: string;
-}
+const DEFAULT_PRIORITY: Record<string, number> = {
+  pwd: 1,
+  cost: 2,
+  statuses: 3,
+  model: 4,
+  context: 5,
+};
+
+const DEFAULT_COLLAPSE: Record<string, { short?: number; minimal?: number }> = {
+  pwd: { short: 100, minimal: 60 },
+  context: { short: 70 },
+  statuses: { short: 90 },
+};
+
+// ── Settings ────────────────────────────────────────────────────────────────
 
 function readSettings(): CompactFooterSettings {
   try {
@@ -60,32 +77,99 @@ function sanitizeStatusText(text: string): string {
     .trim();
 }
 
-// ── Segment builder ─────────────────────────────────────────────────────────
+// ── Segment builders ────────────────────────────────────────────────────────
 
-/**
- * Build each content segment as a tagged entry.
- * Static tokens (<flex>, <bar>, <space>) are produced by the layout step.
- */
-function buildContentSegments(
+function buildPwdSegment(
   ctx: ExtensionContext,
   footerData: ReadonlyFooterDataProvider,
   theme: { fg: (color: string, text: string) => string },
-): Map<SegmentToken, string> {
-  const segments = new Map<SegmentToken, string>();
-
-  // PWD + branch
+  level: CollapseLevel,
+): string | undefined {
   let pwd = ctx.sessionManager.getCwd();
   const home =
     typeof process !== "undefined"
       ? process.env.HOME || process.env.USERPROFILE
       : undefined;
-  if (home && pwd.startsWith(home)) pwd = `~${pwd.slice(home.length)}`;
   const branch = footerData.getGitBranch();
-  const pwdPart = theme.fg("muted", pwd);
-  const branchPart = branch ? theme.fg("accent", ` (${branch})`) : "";
-  segments.set("pwd", pwdPart + branchPart);
 
-  // Cost
+  if (level === "full") {
+    // Home-relative path
+    if (home && pwd.startsWith(home)) pwd = `~${pwd.slice(home.length)}`;
+    const pwdPart = theme.fg("muted", pwd);
+    const branchPart = branch ? theme.fg("accent", ` (${branch})`) : "";
+    return pwdPart + branchPart;
+  }
+
+  if (level === "short") {
+    // Basename + branch
+    const parts = pwd.split("/");
+    const base = parts[parts.length - 1] || pwd;
+    const pwdPart = theme.fg("muted", base);
+    const branchPart = branch ? theme.fg("accent", ` (${branch})`) : "";
+    return pwdPart + branchPart;
+  }
+
+  // minimal: basename only, no branch
+  const parts = pwd.split("/");
+  const base = parts[parts.length - 1] || pwd;
+  return theme.fg("muted", base);
+}
+
+function buildContextSegment(
+  ctx: ExtensionContext,
+  theme: { fg: (color: string, text: string) => string },
+  level: CollapseLevel,
+): string | undefined {
+  const contextUsage = ctx.getContextUsage();
+  if (!contextUsage) return undefined;
+
+  const pctValue = contextUsage.percent ?? 0;
+
+  if (level === "short") {
+    // Percentage only
+    let color: string;
+    let prefix = "";
+    if (pctValue >= 80) {
+      color = "error";
+      prefix = "⚠ ";
+    } else if (pctValue >= 50) {
+      color = "error";
+    } else {
+      color = "dim";
+    }
+    return theme.fg(color, `${prefix}${Math.round(pctValue)}%`);
+  }
+
+  // Full: used/total
+  const windowStr = formatTokens(contextUsage.contextWindow);
+  let usedStr: string;
+  if (contextUsage.percent !== null && contextUsage.contextWindow > 0) {
+    const usedTokens = Math.round(
+      (pctValue / 100) * contextUsage.contextWindow,
+    );
+    usedStr = formatTokens(usedTokens);
+  } else {
+    usedStr = "?";
+  }
+
+  let color: string;
+  let prefix = "";
+  if (pctValue >= 80) {
+    color = "error";
+    prefix = "⚠ ";
+  } else if (pctValue >= 50) {
+    color = "error";
+  } else {
+    color = "dim";
+  }
+
+  return theme.fg(color, `${prefix}${usedStr}/${windowStr}`);
+}
+
+function buildCostSegment(
+  ctx: ExtensionContext,
+  theme: { fg: (color: string, text: string) => string },
+): string | undefined {
   let totalCost = 0;
   for (const entry of ctx.sessionManager.getEntries()) {
     if (
@@ -97,185 +181,314 @@ function buildContentSegments(
       totalCost += m.usage?.cost?.total ?? 0;
     }
   }
-  if (totalCost) {
-    segments.set("cost", theme.fg("warning", `$${totalCost.toFixed(3)}`));
-  }
-
-  // Context usage
-  const contextUsage = ctx.getContextUsage();
-  if (contextUsage) {
-    const pctValue = contextUsage.percent ?? 0;
-    const windowStr = formatTokens(contextUsage.contextWindow);
-    let usedStr: string;
-    if (contextUsage.percent !== null && contextUsage.contextWindow > 0) {
-      const usedTokens = Math.round(
-        (pctValue / 100) * contextUsage.contextWindow,
-      );
-      usedStr = formatTokens(usedTokens);
-    } else {
-      usedStr = "?";
-    }
-
-    let color: string;
-    let prefix = "";
-    if (pctValue >= 80) {
-      color = "error";
-      prefix = "⚠ ";
-    } else if (pctValue >= 50) {
-      color = "error";
-    } else {
-      color = "dim";
-    }
-
-    segments.set("context", theme.fg(color, `${prefix}${usedStr}/${windowStr}`));
-  }
-
-  // Model
-  const modelId = ctx.model?.name || ctx.model?.id || "no-model";
-  segments.set("model", theme.fg("toolTitle", modelId));
-
-  // Extension statuses (combined into one segment)
-  const statuses = footerData.getExtensionStatuses();
-  if (statuses.size > 0) {
-    const parts = Array.from(statuses.entries())
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([, text]) => sanitizeStatusText(text));
-    segments.set("statuses", parts.join(" "));
-  }
-
-  return segments;
+  if (!totalCost) return undefined;
+  return theme.fg("warning", `$${totalCost.toFixed(2)}`);
 }
 
-// ── Layout ──────────────────────────────────────────────────────────────────
+function buildModelSegment(
+  ctx: ExtensionContext,
+  theme: { fg: (color: string, text: string) => string },
+): string | undefined {
+  const modelId = ctx.model?.name || ctx.model?.id || "no-model";
+  return theme.fg("toolTitle", modelId);
+}
 
-/**
- * Resolve the ordered segment list, then lay out with flex expansion.
- */
+function buildStatusesSegment(
+  footerData: ReadonlyFooterDataProvider,
+  level: CollapseLevel,
+): string | undefined {
+  const statuses = footerData.getExtensionStatuses();
+  if (statuses.size === 0) return undefined;
+
+  const compact = level !== "full";
+  const parts: string[] = [];
+
+  for (const [key, text] of Array.from(statuses.entries()).sort(([a], [b]) =>
+    a.localeCompare(b),
+  )) {
+    // In compact mode, prefer :compact variant if available
+    if (compact) {
+      const compactKey = `${key}:compact`;
+      const compactText = statuses.get(compactKey);
+      if (compactText) {
+        parts.push(sanitizeStatusText(compactText));
+        continue;
+      }
+    }
+    // Skip :compact entries when rendering full mode
+    if (key.endsWith(":compact")) continue;
+    parts.push(sanitizeStatusText(text));
+  }
+
+  return parts.join(" ") || undefined;
+}
+
+// ── Segment dispatch ────────────────────────────────────────────────────────
+
+function isStaticToken(token: string): token is StaticToken {
+  return token.startsWith("<");
+}
+
+function buildSegment(
+  token: ContentToken,
+  ctx: ExtensionContext,
+  footerData: ReadonlyFooterDataProvider,
+  theme: { fg: (color: string, text: string) => string },
+  level: CollapseLevel,
+): string | undefined {
+  switch (token) {
+    case "pwd":
+      return buildPwdSegment(ctx, footerData, theme, level);
+    case "context":
+      return buildContextSegment(ctx, theme, level);
+    case "cost":
+      return buildCostSegment(ctx, theme);
+    case "model":
+      return buildModelSegment(ctx, theme);
+    case "statuses":
+      return buildStatusesSegment(footerData, level);
+  }
+}
+
+function determineLevel(
+  token: string,
+  collapse: Record<string, { short?: number; minimal?: number }>,
+  width: number,
+): CollapseLevel {
+  const c = collapse[token];
+  if (!c) return "full";
+  if (c.minimal !== undefined && width < c.minimal) return "minimal";
+  if (c.short !== undefined && width < c.short) return "short";
+  return "full";
+}
+
+/** What's the next more compact level? */
+function nextLevel(current: CollapseLevel): CollapseLevel | null {
+  if (current === "full") return "short";
+  if (current === "short") return "minimal";
+  return null; // already minimal
+}
+
+// ── Layout ───────────────────────────────────────────────────────────────────
+
+interface Entry {
+  token: SegmentToken;
+  text: string;
+  width: number; // -1 for flex (computed later)
+  priority: number;
+  droppable: boolean;
+  level: CollapseLevel; // current collapse level of this entry
+}
+
 function layoutFooter(
   order: SegmentToken[],
-  content: Map<SegmentToken, string>,
+  ctx: ExtensionContext,
+  footerData: ReadonlyFooterDataProvider,
+  theme: { fg: (color: string, text: string) => string },
   width: number,
   separator: string,
-  theme: { fg: (color: string, text: string) => string },
+  priorityMap: Record<string, number>,
+  collapseMap: Record<string, { short?: number; minimal?: number }>,
 ): string[] {
   const sepWidth = visibleWidth(separator);
-  const spaceWidth = 2; // <space> token width
 
-  // Build the ordered list of (token, renderedText)
-  type Entry = { token: SegmentToken; text: string; width: number };
+  // 1. Build entries with collapse levels
   const entries: Entry[] = [];
 
   for (const token of order) {
     if (token === "<flex>") {
-      entries.push({ token, text: "", width: -1 }); // -1 = flex marker
+      entries.push({
+        token,
+        text: "",
+        width: -1,
+        priority: Infinity,
+        droppable: false,
+        level: "full",
+      });
     } else if (token === "<bar>") {
-      const text = theme.fg("borderMuted", "─");
-      entries.push({ token, text, width: 1 });
+      entries.push({
+        token,
+        text: theme.fg("borderMuted", "─"),
+        width: 1,
+        priority: 0,
+        droppable: true,
+        level: "full",
+      });
     } else if (token === "<space>") {
-      entries.push({ token, text: " ".repeat(spaceWidth), width: spaceWidth });
+      entries.push({
+        token,
+        text: "  ",
+        width: 2,
+        priority: 0,
+        droppable: true,
+        level: "full",
+      });
     } else {
-      const text = content.get(token);
-      if (text) {
-        entries.push({ token, text, width: visibleWidth(text) });
+      const level = determineLevel(token, collapseMap, width);
+      const text = buildSegment(token, ctx, footerData, theme, level);
+      if (text !== undefined) {
+        entries.push({
+          token,
+          text,
+          width: visibleWidth(text),
+          priority: priorityMap[token] ?? Infinity,
+          droppable: true,
+          level,
+        });
       }
-      // If content missing (e.g. no cost yet), skip silently
     }
   }
 
-  // Count flex tokens
-  const flexCount = entries.filter((e) => e.token === "<flex>").length;
-
-  // Compute total fixed width (segments + separators between non-flex entries)
-  // For flex calculation, treat the whole line as one row (no wrapping when flex present)
-  if (flexCount > 0) {
-    // Calculate total fixed width including separators
-    let totalFixedWidth = 0;
-    for (let i = 0; i < entries.length; i++) {
-      if (entries[i]!.width >= 0) {
-        totalFixedWidth += entries[i]!.width;
-      }
-    }
-    // Add separator widths (between all adjacent non-empty entries)
-    for (let i = 1; i < entries.length; i++) {
-      if (entries[i]!.text !== "" && entries[i - 1]!.text !== "") {
-        totalFixedWidth += sepWidth;
-      } else if (
-        entries[i]!.token === "<flex>" &&
-        entries[i - 1]!.text !== ""
-      ) {
-        // Separator before flex is absorbed by flex
-      } else if (
-        entries[i]!.text !== "" &&
-        entries[i - 1]!.token === "<flex>"
-      ) {
-        // Separator after flex is absorbed by flex
-      }
-    }
-
-    const available = Math.max(0, width - totalFixedWidth);
-    const perFlex = Math.floor(available / flexCount);
-    const remainder = available - perFlex * flexCount;
-
-    // Assign flex widths
-    let flexIndex = 0;
+  // 2. Split into sections by flex (for separator logic)
+  function buildSections(): string[][] {
+    const sections: string[][] = [];
+    let current: string[] = [];
     for (const entry of entries) {
       if (entry.token === "<flex>") {
-        const extra = flexIndex < remainder ? 1 : 0;
-        entry.text = " ".repeat(perFlex + extra);
-        entry.width = perFlex + extra;
-        flexIndex++;
+        sections.push(current);
+        current = [];
+      } else if (entry.text) {
+        current.push(entry.text);
+      }
+    }
+    sections.push(current);
+    return sections;
+  }
+
+  function calcSectionsWidth(sections: string[][]): number {
+    let total = 0;
+    for (const section of sections) {
+      for (const text of section) {
+        total += visibleWidth(text);
+      }
+      if (section.length > 1) {
+        total += (section.length - 1) * sepWidth;
+      }
+    }
+    return total;
+  }
+
+  function flexCount(): number {
+    return entries.filter((e) => e.token === "<flex>").length;
+  }
+
+  // 3. Collapse-before-drop: try collapsing the lowest-priority segment
+  //    before removing it entirely. Only drop if already minimal.
+  function collapseOrDropLowestPriority(
+    ctx: ExtensionContext,
+    footerData: ReadonlyFooterDataProvider,
+    theme: { fg: (color: string, text: string) => string },
+  ): boolean {
+    // Find the lowest-priority droppable entry
+    let lowestIdx = -1;
+    let lowestPri = Infinity;
+    for (let i = 0; i < entries.length; i++) {
+      if (entries[i]!.droppable && entries[i]!.priority < lowestPri) {
+        lowestPri = entries[i]!.priority;
+        lowestIdx = i;
+      }
+    }
+    if (lowestIdx === -1) return false;
+
+    const entry = entries[lowestIdx]!;
+
+    // Try collapsing one level further
+    const next = nextLevel(entry.level);
+    if (next !== null && !isStaticToken(entry.token)) {
+      const newText = buildSegment(
+        entry.token as ContentToken,
+        ctx,
+        footerData,
+        theme,
+        next,
+      );
+      if (newText !== undefined) {
+        entry.text = newText;
+        entry.width = visibleWidth(newText);
+        entry.level = next;
+        return true;
       }
     }
 
-    // Join — no separators around flex tokens
-    const parts: string[] = [];
-    for (let i = 0; i < entries.length; i++) {
-      if (entries[i]!.text === "") continue; // skip empty flex placeholders (shouldn't happen after fill)
-      if (
-        i > 0 &&
-        entries[i]!.token !== "<flex>" &&
-        entries[i - 1]!.token !== "<flex>" &&
-        entries[i - 1]!.text !== "" &&
-        // Only add separator if previous was a real content entry
-        entries[i]!.text !== ""
-      ) {
-        parts.push(separator);
-      }
-      parts.push(entries[i]!.text);
+    // Already minimal or can't collapse further — drop it
+    entries.splice(lowestIdx, 1);
+    return true;
+  }
+
+  const hasFlex = flexCount() > 0;
+
+  if (hasFlex) {
+    let sections = buildSections();
+    while (calcSectionsWidth(sections) > width && collapseOrDropLowestPriority(ctx, footerData, theme)) {
+      sections = buildSections();
     }
+
+    const totalFixedWidth = calcSectionsWidth(sections);
+    const flexSpace = Math.max(0, width - totalFixedWidth);
+    const numFlex = flexCount();
+    const perFlex = Math.floor(flexSpace / numFlex);
+    const remainder = flexSpace - perFlex * numFlex;
+
+    const joinedSections = sections.map((s) => s.join(separator));
+    const parts: string[] = [];
+    let flexIdx = 0;
+
+    for (let i = 0; i < joinedSections.length; i++) {
+      if (joinedSections[i]) parts.push(joinedSections[i]!);
+      if (flexIdx < numFlex) {
+        const extra = flexIdx < remainder ? 1 : 0;
+        parts.push(" ".repeat(perFlex + extra));
+        flexIdx++;
+      }
+    }
+
     return [truncateToWidth(parts.join(""), width, theme.fg("dim", "…"))];
   }
 
-  // No flex — use wrapping layout
+  // No flex — fit on one line by collapsing/dropping, then wrap as last resort
+  let sections = buildSections();
+  while (calcSectionsWidth(sections) > width && collapseOrDropLowestPriority(ctx, footerData, theme)) {
+    sections = buildSections();
+  }
+
+  // Single section (no flex), join with separator
+  const allTexts = entries.filter((e) => e.text).map((e) => e.text);
+  if (allTexts.length === 0) return [];
+
+  // Try to fit on one line
+  const oneLine = allTexts.join(separator);
+  if (visibleWidth(oneLine) <= width) {
+    return [truncateToWidth(oneLine, width, theme.fg("dim", "…"))];
+  }
+
+  // Wrap: fill each line as much as possible
   const lines: string[] = [];
   let currentLine: string[] = [];
   let currentWidth = 0;
 
-  for (const entry of entries) {
-    const needed = entry.width + (currentLine.length > 0 ? sepWidth : 0);
+  for (const text of allTexts) {
+    const textWidth = visibleWidth(text);
+    const needed = textWidth + (currentLine.length > 0 ? sepWidth : 0);
     if (currentWidth + needed <= width) {
-      currentLine.push(entry.text);
+      currentLine.push(text);
       currentWidth += needed;
     } else {
-      if (currentLine.length > 0) {
-        lines.push(currentLine.join(separator));
-      }
-      if (entry.width > width) {
-        lines.push(truncateToWidth(entry.text, width, "…"));
+      if (currentLine.length > 0) lines.push(currentLine.join(separator));
+      if (textWidth > width) {
+        lines.push(truncateToWidth(text, width, "…"));
         currentLine = [];
         currentWidth = 0;
       } else {
-        currentLine = [entry.text];
-        currentWidth = entry.width;
+        currentLine = [text];
+        currentWidth = textWidth;
       }
     }
   }
+  if (currentLine.length > 0) lines.push(currentLine.join(separator));
 
-  if (currentLine.length > 0) {
-    lines.push(currentLine.join(separator));
-  }
-
-  return lines;
+  return lines.map((line) =>
+    truncateToWidth(line, width, theme.fg("dim", "…")),
+  );
 }
 
 // ── Install ─────────────────────────────────────────────────────────────────
@@ -306,10 +519,23 @@ export default function (pi: ExtensionAPI) {
           const settings = readSettings();
           const order = settings.order ?? DEFAULT_ORDER;
           const separator = settings.separator ?? " │ ";
-          const content = buildContentSegments(ctx, footerData, theme);
-          const lines = layoutFooter(order, content, width, separator, theme);
-          return lines.map((line) =>
-            truncateToWidth(line, width, theme.fg("dim", "…")),
+          const priorityMap = {
+            ...DEFAULT_PRIORITY,
+            ...(settings.priority ?? {}),
+          };
+          const collapseMap = {
+            ...DEFAULT_COLLAPSE,
+            ...(settings.collapse ?? {}),
+          };
+          return layoutFooter(
+            order,
+            ctx,
+            footerData,
+            theme,
+            width,
+            separator,
+            priorityMap,
+            collapseMap,
           );
         },
       };

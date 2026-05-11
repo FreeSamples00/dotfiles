@@ -209,6 +209,13 @@ function toWindows(quotas: QuotasResponse): QuotaWindow[] {
 }
 
 const SHORT_LABELS: Record<string, string> = {
+  "Credits / week": "week",
+  "Requests / 5h": "5h",
+  "Search / hour": "search",
+  "Free Tool Calls / day": "tools",
+};
+
+const COMPACT_LABELS: Record<string, string> = {
   "Credits / week": "wk",
   "Requests / 5h": "5h",
   "Search / hour": "search",
@@ -246,6 +253,7 @@ export function formatStatus(
   ctx: ExtensionContext,
   snapshot: QuotaSnapshot | undefined,
   hiddenLabels: Set<string> = new Set(),
+  compact: boolean = false,
 ): string | undefined {
   if (!ctx.hasUI) return undefined;
   if (!snapshot) return ctx.ui.theme.fg("dim", "loading usage...");
@@ -256,24 +264,31 @@ export function formatStatus(
   if (windows.length === 0) return undefined;
 
   const theme = ctx.ui.theme;
+  const labels = compact ? COMPACT_LABELS : SHORT_LABELS;
   const parts: string[] = [];
 
   for (const w of windows) {
-    const short = SHORT_LABELS[w.label] ?? w.label;
+    const short = labels[w.label] ?? w.label;
     const remaining = Math.max(
       0,
       Math.min(100, 100 - Math.round(w.usedPercent)),
     );
     const color = getSeverityColor(w.severity);
-    const bar = theme.fg(color, formatBar(remaining, BAR_WIDTH));
-    const pctText = theme.fg(color, `${remaining}%`);
-    const reset = w.resetsAt
-      ? theme.fg("dim", `\u21ba${formatResetTime(w.resetsAt)}`)
-      : "";
     const limitTag = w.limited ? theme.fg("error", " [limited]") : "";
-    parts.push(
-      `${theme.fg("dim", `${short} `)}${bar} ${pctText} ${reset}${limitTag}`,
-    );
+
+    if (compact) {
+      const pctText = theme.fg(color, `${remaining}%`);
+      parts.push(`${theme.fg("dim", `${short} `)}${pctText}${limitTag}`);
+    } else {
+      const bar = theme.fg(color, formatBar(remaining, BAR_WIDTH));
+      const pctText = theme.fg(color, `${remaining}%`);
+      const reset = w.resetsAt
+        ? theme.fg("dim", `\u21ba${formatResetTime(w.resetsAt)}`)
+        : "";
+      parts.push(
+        `${theme.fg("dim", `${short} `)}${bar} ${pctText} ${reset}${limitTag}`,
+      );
+    }
   }
 
   return parts.join(theme.fg("dim", " │ "));

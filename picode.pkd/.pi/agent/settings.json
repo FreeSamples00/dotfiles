@@ -14,8 +14,20 @@
     "maxRetries": 3
   },
   "compact-footer": {
-    "order": ["pwd", "model", "<flex>", "context", "cost", "statuses"],
-    "separator": " │ "
+    "order": ["pwd", "context", "cost", "<flex>", "model", "statuses"],
+    "separator": " │ ",
+    "priority": {
+      "pwd": 1,
+      "cost": 2,
+      "statuses": 3,
+      "model": 4,
+      "context": 5
+    },
+    "collapse": {
+      "pwd": { "short": 100, "minimal": 60 },
+      "context": { "short": 70 },
+      "statuses": { "short": 90 }
+    }
   },
   "synthetic": {
     "hideStatuses": {
