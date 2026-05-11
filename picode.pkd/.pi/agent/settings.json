@@ -14,7 +14,14 @@
     "maxRetries": 3
   },
   "compact-footer": {
-    "order": ["pwd", "context", "cost", "<flex>", "model", "statuses"],
+    "order": [
+      "pwd",
+      "context",
+      "cost",
+      "<flex>",
+      "model",
+      "statuses"
+    ],
     "separator": " │ ",
     "priority": {
       "pwd": 1,
@@ -24,9 +31,19 @@
       "context": 5
     },
     "collapse": {
-      "pwd": { "short": 100, "minimal": 60 },
-      "context": { "short": 70 },
-      "statuses": { "short": 90 }
+      "pwd": {
+        "short": 100,
+        "minimal": 60
+      },
+      "context": {
+        "short": 70
+      },
+      "statuses": {
+        "short": 90
+      },
+      "model": {
+        "short": 80
+      }
     }
   },
   "synthetic": {
@@ -35,5 +52,12 @@
     }
   },
   "lastChangelogVersion": "0.74.0",
-  "packages": []
+  "packages": [],
+  "terminal": {
+    "showTerminalProgress": true
+  },
+  "collapseChangelog": true,
+  "quietStartup": true,
+  "doubleEscapeAction": "tree",
+  "treeFilterMode": "user-only"
 }

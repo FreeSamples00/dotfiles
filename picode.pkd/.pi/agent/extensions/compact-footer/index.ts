@@ -45,6 +45,7 @@ const DEFAULT_COLLAPSE: Record<string, { short?: number; minimal?: number }> = {
   pwd: { short: 100, minimal: 60 },
   context: { short: 70 },
   statuses: { short: 90 },
+  model: { short: 80 },
 };
 
 // ── Settings ────────────────────────────────────────────────────────────────
@@ -188,9 +189,17 @@ function buildCostSegment(
 function buildModelSegment(
   ctx: ExtensionContext,
   theme: { fg: (color: string, text: string) => string },
+  level: CollapseLevel,
 ): string | undefined {
   const modelId = ctx.model?.name || ctx.model?.id || "no-model";
-  return theme.fg("toolTitle", modelId);
+  const modelPart = theme.fg("toolTitle", modelId);
+
+  // Append thinking level in dim color; collapse drops it first
+  if (level === "full" && currentThinkingLevel && currentThinkingLevel !== "off") {
+    return modelPart + theme.fg("dim", ` [${currentThinkingLevel}]`);
+  }
+
+  return modelPart;
 }
 
 function buildStatusesSegment(
@@ -244,7 +253,7 @@ function buildSegment(
     case "cost":
       return buildCostSegment(ctx, theme);
     case "model":
-      return buildModelSegment(ctx, theme);
+      return buildModelSegment(ctx, theme, level);
     case "statuses":
       return buildStatusesSegment(footerData, level);
   }
@@ -493,10 +502,22 @@ function layoutFooter(
 
 // ── Install ─────────────────────────────────────────────────────────────────
 
+// ── Thinking level state ──────────────────────────────────────────────────────
+
+let currentThinkingLevel: string = "off";
+
+// ── Install ─────────────────────────────────────────────────────────────────
+
 let cleanup: (() => void) | undefined;
 
 export default function (pi: ExtensionAPI) {
+  pi.on("thinking_level_select", async (event, _ctx) => {
+    currentThinkingLevel = event.level;
+  // Footer re-renders on next paint automatically
+  });
+
   pi.on("session_start", async (_event, ctx) => {
+    currentThinkingLevel = pi.getThinkingLevel() ?? "off";
     if (!ctx.hasUI) return;
 
     cleanup?.();
@@ -550,11 +571,13 @@ export default function (pi: ExtensionAPI) {
   });
 
   pi.on("session_before_switch", (_event, ctx) => {
+    currentThinkingLevel = "off";
     cleanup?.();
     cleanup = undefined;
   });
 
   pi.on("session_shutdown", () => {
+    currentThinkingLevel = "off";
     cleanup?.();
     cleanup = undefined;
   });
