@@ -129,12 +129,14 @@
       },
     },
     "explore": {
+      "mode": "subagent",
       "model": "synthetic/hf:openai/gpt-oss-120b",
     },
     "general": {
       "model": "synthetic/hf:openai/gpt-oss-120b",
     },
     "scout": {
+      "mode": "subagent",
       "model": "synthetic/hf:openai/gpt-oss-120b",
     },
     "text-worker": {
