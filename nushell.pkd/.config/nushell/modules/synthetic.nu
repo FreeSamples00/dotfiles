@@ -23,7 +23,7 @@ export def usage [
       let response = $in
       let rolling = $response.rollingFiveHourLimit
         | insert usage {|| {
-            percent: (($in.max - $in.remaining) / $in.max * 100)
+            percent: ($in.remaining / $in.max * 100)
             used: ($in.max - $in.remaining)
             remaining: ($in.remaining)
             limit: ($in.max)
@@ -38,7 +38,7 @@ export def usage [
 
       let weekly = $response.weeklyTokenLimit
         | insert usage {|| {
-            percent: (100 - $in.percentRemaining)
+            percent: ($in.percentRemaining)
             used: (($in.maxCredits | str replace '$' '' | into float) - ($in.remainingCredits | str replace '$' '' | into float) | into string -d 2 | $"$($in)")
             remaining: ($in.remainingCredits)
             limit: ($in.maxCredits)
@@ -55,7 +55,7 @@ export def usage [
     } else if $type == "search" {
       get search.hourly
       | insert usage {|| {
-          percent: ($in.requests / $in.limit * 100)
+          percent: (($in.limit - $in.requests) / $in.limit * 100)
           requests: ($in.requests)
           limit: ($in.limit)
         }}
