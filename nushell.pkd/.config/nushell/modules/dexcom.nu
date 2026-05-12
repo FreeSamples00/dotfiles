@@ -27,6 +27,12 @@ const RETRY_CODES = [
   "SessionIdNotFound"
 ]
 
+# API error codes that indicate authentication failures
+const AUTH_ERROR_CODES = [
+  "AccountPasswordInvalid"
+  "SSO_AuthenticateMaxAttemptsExceeded"
+]
+
 # ===== HELPERS =====
 
 # handle stored session IDs
@@ -89,28 +95,61 @@ def create_new_session []: nothing -> string {
 
 # send post request to dexcom API
 def post [endpoint: string, body: record] {
-  http post $"($BASE_URL)($endpoint)" --content-type application/json --allow-errors --headers {
+  let resp = http post $"($BASE_URL)($endpoint)" --content-type application/json --allow-errors --headers {
       Accept-Encoding: application/json
     } $body
+
+  if (is-api-error $resp) {
+    error make {msg: $"Dexcom ($resp.Code): ($resp.Message)"}
+  }
+  $resp
+}
+
+# Parse dexcom display time (DT) timestamp
+def parse_timestamp []: string -> datetime {
+  let m = $in | parse --regex `Date\((?<ts>\d+)(?<offset>[+-]\d{4})\)`
+  let ts = $m.ts.0 | into int
+  let offset_str = $m.offset.0
+
+  # get offset
+  let offset_sign = if ($offset_str | str starts-with "+") { 1 } else { -1 }
+  let offset_hours = ($offset_str | str substring 1..=2 | into int) * $offset_sign
+
+  # ms → seconds
+  let epoch_secs = $ts / 1000 | into int
+
+  # epoch → timezone
+  $epoch_secs | into datetime -f "%s" --offset $offset_hours
+}
+
+# Check if a value is a Dexcom API error record
+# The API returns {Code: ..., Message: ...} on errors; success returns a list or string
+def is-api-error [val]: nothing -> bool {
+  ($val | describe | str starts-with "record") and ($val.Code? | describe | str starts-with "string")
 }
 
 def get_bg_raw [
-  minutes: int = 30 # n minutes to request
+  minutes: int = 5 # n minutes to request
   count: int = 1 # maximum entries to retrieve
 ] {
-  let resp = post $ENDPOINTS.values {
+  let resp = http post $"($BASE_URL)($ENDPOINTS.values)" --content-type application/json --allow-errors --headers {
+      Accept-Encoding: application/json
+    } {
     sessionID: (cookie_load)
     minutes: $minutes
     maxCount: $count
   }
 
-  if $resp.Code? in $RETRY_CODES {
+  # Session expired — refresh and retry once
+  if (is-api-error $resp) and ($resp.Code in $RETRY_CODES) {
     create_new_session
     post $ENDPOINTS.values {
       sessionID: (cookie_load)
       minutes: $minutes
       maxCount: $count
     }
+  } else if (is-api-error $resp) {
+    error make {msg: $"Dexcom ($resp.Code): ($resp.Message)"}
   } else {
     $resp
   }
@@ -120,29 +159,34 @@ def get_bg_raw [
 
 # get bg value from dexcom
 export def main [
-  --minutes(-m): int = 30, # time period to query
+  --minutes(-m): int = 5, # time period to query
   --count(-c): int = 1, # max values to return
   --raw(-r) # return all values
 ] {
-  get_bg_raw $minutes $count
-  | insert Arrow {
-    match $in.Trend {
-        "None" => ""
-        "DoubleUp" => "↑↑"
-        "SingleUp" => "↑"
-        "FortyFiveUp" => "↗"
-        "Flat" => "→"
-        "FortyFiveDown" => "↘"
-        "SingleDown" => "↓"
-        "DoubleDown" => "↓↓"
-        "NotComputable" => "?"
-        "RateOutOfRange" => "-"
-        _ => $in
-    }
-  }
-  | if $raw {
-    $in
+  let readings = get_bg_raw $minutes $count
+
+  if $raw {
+    $readings
   } else {
-    select Value Arrow
+    $readings
+    | insert Arrow {
+      match $in.Trend {
+          "None" => ""
+          "DoubleUp" => "↑↑"
+          "SingleUp" => "↑"
+          "FortyFiveUp" => "↗"
+          "Flat" => "→"
+          "FortyFiveDown" => "↘"
+          "SingleDown" => "↓"
+          "DoubleDown" => "↓↓"
+          "NotComputable" => "?"
+          "RateOutOfRange" => "-"
+          _ => $in
+      }
+    }
+    | insert Time {
+      $in.DT | parse_timestamp
+    }
+    | select Time Value Arrow
   }
 }
