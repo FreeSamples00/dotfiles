@@ -61,9 +61,9 @@ return {
           return {
             align = "center",
             text = {
-              { "📦 [", hl = "keyword" },
+              { "📦 ", hl = "keyword" },
               { tostring(updates), hl = "special" },
-              { "] ", hl = "keyword" },
+              { " ", hl = "keyword" },
               { "Updates available", hl = "keyword" },
             },
             padding = 1,

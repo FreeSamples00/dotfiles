@@ -23,7 +23,12 @@ require("helpers.keys").set_leader(" ")
 
 -- Load plugins from specifications
 -- (The leader key must be set before this)
-lazy.setup("plugins")
+lazy.setup("plugins", {
+  checker = {
+    enabled = true,
+    notify = false,
+  },
+})
 
 -- Might as well set up an easy-access keybinding
 
