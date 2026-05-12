@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/tui.json",
-  "theme": "opencode-custom",
+  "theme": "catppuccin-mocha-mauve",
   "keybinds": {
     "input_newline": "return",
     "input_submit": "shift+return,ctrl+return,alt+return,ctrl+j"

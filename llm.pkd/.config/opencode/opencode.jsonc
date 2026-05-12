@@ -145,6 +145,9 @@
     "proofread": {
       "model": "synthetic/hf:zai-org/GLM-4.7-Flash",
     },
+    "compaction": {
+      "model": "synthetic/hf:openai/gpt-oss-120b",
+    },
   },
   "mcp": {
     "pdf_reader": {
