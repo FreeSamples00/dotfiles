@@ -15,14 +15,14 @@ export extern "jc" []
 
 # ----- TDF (TUI pdf viewer) -----
 def _tdf-completer [spans: list<string>]: nothing -> table<string: any, string: any> {
-  let path = $spans | skip 1 | first | default -e "."
-  ls $path --mime-type
+  let path = $spans | skip 1 | first | default -e ""
+  ls ($"($path)*" | into glob) --mime-type
   | where type in ["application/pdf" "dir"]
   | sort-by type
   | each {|row|
     match $row.type {
       "application/pdf" => { value: $row.name, style: yellow}
-      "dir" => { value: $row.name, style: light_blue}
+      "dir" => { value: $"($row.name)/", style: light_blue}
     }
   }
 }
