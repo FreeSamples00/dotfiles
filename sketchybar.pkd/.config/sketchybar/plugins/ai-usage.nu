@@ -8,14 +8,18 @@ def api_key [] {
   open ~/.local/share/opencode/auth.json | get synthetic.key
 }
 
-# Get rolling 5-hour inference usage percentage
 def get-usage [] {
-  http get --headers {Authorization: $"Bearer (api_key)"} $"($url_base)($usage_route)"
-  | get rollingFiveHourLimit
-  | (($in.max - $in.remaining) / $in.max * 100)
-  | math round -p 1
-  | into string
-  | $in + "%"
+  let resp = http get --headers {Authorization: $"Bearer (api_key)"} $"($url_base)($usage_route)"
+  let five_hr = $resp.rollingFiveHourLimit
+    | ($in.remaining / $in.max * 100)
+    | math round -p 0
+    | into string
+    | $in + "%"
+  let weekly = $resp.weeklyTokenLimit.percentRemaining
+    | math round -p 1
+    | into string
+    | $in + "%"
+  $"($five_hr)·($weekly)"
 }
 
 def main [name: string, animation_type: string, animation_speed: string] {
