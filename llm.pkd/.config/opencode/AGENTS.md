@@ -56,9 +56,10 @@ When in plan mode or gathering context for a task:
 
 - **ALWAYS**: Use `pwd` to understand current location and how it pertains to skills and the task.
 - Use `tree` and `ls` to gather initial information about the filesystem.
-- Use the `webfetch` tool to access documentation and resources about the current task
-  - **DO NOT** fall into research rabbit holes that require many web requests unless deep research is required.
-  - **ALWAYS** ask the user via the user clarification tool before going on extensive research endeavors, unless this has been implicitly or explicitly allowed for the current task.
+- For documentation and web research, delegate to @research when expecting >2-3 queries
+  - Use `webfetch` yourself for single quick lookups
+  - **DO NOT** fall into research rabbit holes — delegate broad research to @research instead
+  - **ALWAYS** ask the user via the user clarification tool before going on extensive research endeavors, unless this has been implicitly or explicitly allowed for the current task
 
 - **ALWAYS** prefer command runners such as `just` and `make` over running the commands yourself.
 
@@ -76,21 +77,94 @@ Adopt these communication preferences in all interactions:
 
 ## Sub-agent Delegation
 
-Delegate specialized tasks to appropriate sub-agents:
+### Delegation Framework
 
-### Proofreading
+Before acting, review: is a subagent better suited? Delegate when overhead < doing it yourself, OR quality gain justifies it.
 
-When the user requests proofreading, grammar checking, or spell checking:
+**General principles:**
+- Reference paths/lines, don't paste files (`src/app.ts:42` not full contents)
+- Provide context summaries, let subagents read what they need
+- Brief delegation notices: "Searching codebase via @research..." not "I'm going to delegate to @research because..."
+- Skip delegation if explaining the task > doing it yourself
 
-1. **Delegate to proofread sub-agent** using the Task tool
-2. **Pass ONLY file paths** in the task prompt - do NOT include file content
-3. **Do NOT add grammar instructions** - the sub-agent has its own system prompt
-4. Example Task prompt: "Check this file for errors: path/to/file.md"
-5. Example requests to delegate:
-   - "check the grammar in this file"
-   - "proofread this document"
-   - "find spelling errors in..."
-   - "check spelling in..."
+**Do it yourself when:**
+- Single small change (<20 lines, 1 file)
+- Tight integration with your current work
+- You know the path and need full content anyway
+- Quick single lookup you can answer immediately
+
+**Delegate when:**
+- Context-heavy work where you only need the result
+- Broad or uncertain scope searches
+- Well-defined execution tasks that free you to think strategically
+- Problems requiring deeper reasoning than your standard effort
+
+**Parallel delegation:**
+- @research (codebase) + @research (web) in parallel
+- @research + @fixer in parallel
+- Multiple @fixer instances for multi-folder work (one per folder)
+
+### @research
+
+- **Role:** Codebase reconnaissance and web research specialist
+- **Tier:** Lightweight (fast, low cost)
+- **Permissions:** Read files, grep, glob, webfetch, websearch
+
+**Delegate when:**
+- Need to discover what exists before planning
+- Broad/uncertain scope codebase search
+- Expecting >2-3 web queries — delegate rather than burning your own context
+- Unfamiliar library docs, API references, version-specific behavior
+- External documentation, changelogs, migration guides
+- Any research where you need the answer, not the process
+
+**Don't delegate when:**
+- You know the path and need full file content
+- Single specific lookup you can answer immediately
+- Info already in conversation
+- Just need standard/stable API knowledge you're confident about
+
+### @fixer
+
+- **Role:** Scoped implementation and documentation specialist
+- **Tier:** Lightweight (fast, low cost)
+- **Permissions:** Read, edit, write files (no bash, no web, no task delegation)
+
+**Delegate when:**
+- Well-defined implementation tasks with clear scope
+- Writing or updating tests, test fixtures, test helpers
+- Documentation generation (docstrings, README, API docs)
+- Bulk text operations (batch refactoring, mass edits, renames)
+- Multi-folder work — scope per folder and spawn parallel @fixers
+
+**Don't delegate when:**
+- Needs discovery, research, or architectural decisions
+- Single small change (<20 lines, 1 file) — do it yourself
+- Ambiguous requirements needing iteration
+- Tight integration with your current active work
+- Explaining the task > doing it yourself
+
+### @oracle
+
+- **Role:** Strategic advisor for high-stakes decisions and deep analysis
+- **Tier:** Intense (strongest reasoning, higher cost)
+- **Permissions:** Read files, webfetch (read-only)
+
+**Delegate when:**
+- Major architectural decisions with long-term impact
+- Problems persisting after 2+ fix attempts
+- High-risk multi-system refactors
+- Code review, simplification, YAGNI scrutiny
+- Security, scalability, or data integrity decisions
+- Grammar/spelling proofreading of documents
+- Genuinely uncertain where cost of wrong choice is high
+
+**Don't delegate when:**
+- Routine decisions you're confident about
+- First bug fix attempt
+- Straightforward trade-offs
+- Tactical "how" vs strategic "should we"
+- Quick research/testing can answer the question
 
 ## Behavioral Guidelines
 

@@ -76,7 +76,6 @@
     // sub-agents
     "task": {
       "*": "allow",
-      "proofread": "allow",
     },
     // commands
     "bash": {
@@ -117,7 +116,13 @@
     "plan": {
       "mode": "primary",
       "color": "primary",
-      "permission": {},
+      "permission": {
+        "task": {
+          "*": "deny",
+          "research": "allow",
+          "oracle": "allow",
+        },
+      },
     },
     "build": {
       "mode": "primary",
@@ -126,24 +131,23 @@
         "edit": "allow",
         "write": "allow",
         "patch": "ask",
+        "task": {
+          "*": "allow",
+        },
       },
     },
-    "explore": {
+    "research": {
       "mode": "subagent",
       "model": "synthetic/hf:openai/gpt-oss-120b",
     },
-    "general": {
-      "model": "synthetic/hf:openai/gpt-oss-120b",
-    },
-    "scout": {
+    "fixer": {
       "mode": "subagent",
       "model": "synthetic/hf:openai/gpt-oss-120b",
     },
-    "text-worker": {
-      "model": "synthetic/hf:openai/gpt-oss-120b",
-    },
-    "proofread": {
-      "model": "synthetic/hf:zai-org/GLM-4.7-Flash",
+    "oracle": {
+      "mode": "subagent",
+      "model": "synthetic/hf:zai-org/GLM-5.1",
+      "reasoningEffort": "high",
     },
     "compaction": {
       "model": "synthetic/hf:openai/gpt-oss-120b",
