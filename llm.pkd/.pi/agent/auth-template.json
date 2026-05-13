@@ -1,6 +1,0 @@
-{
-  "synthetic": {
-    "type": "api_key",
-    "key": "{{pass://Personal/Synthetic/API Key}}"
-  }
-}
