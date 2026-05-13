@@ -4,6 +4,7 @@
   "small_model": "synthetic/hf:openai/gpt-oss-120b",
   "default_agent": "plan",
   "share": "disabled",
+  "plugin": ["@tarquinen/opencode-smart-title"],
   "provider": {
     "synthetic": {
       "npm": "@ai-sdk/openai-compatible",
@@ -158,5 +159,4 @@
       "model": "synthetic/hf:openai/gpt-oss-120b",
     },
   },
-
 }
