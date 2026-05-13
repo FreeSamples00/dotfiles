@@ -54,7 +54,7 @@
     "list": "allow",
     "lsp": "allow",
     "skill": "allow",
-    "pdf_reader": "allow",
+
     "external_directory": {
       "*": "ask",
       "~/dotfiles": "ask",
@@ -110,6 +110,11 @@
       "* --version": "allow",
       "* --help": "allow",
       "just *": "allow",
+      // PDF tools
+      "pdftotext *": "allow",
+      "pdftoppm *": "allow",
+      "pdfinfo *": "allow",
+      "tesseract *": "allow",
     },
   },
   "agent": {
@@ -153,12 +158,5 @@
       "model": "synthetic/hf:openai/gpt-oss-120b",
     },
   },
-  "mcp": {
-    "pdf_reader": {
-      "type": "local",
-      "command": ["uvx", "pdf-reader-mcp"],
-      "timeout": 60000,
-      "enabled": true,
-    },
-  },
+
 }
