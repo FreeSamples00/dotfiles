@@ -4,7 +4,10 @@
   "small_model": "synthetic/hf:openai/gpt-oss-120b",
   "default_agent": "plan",
   "share": "disabled",
-  "plugin": ["@tarquinen/opencode-smart-title"],
+  "plugin": [
+    "@tarquinen/opencode-smart-title",
+    "@mohak34/opencode-notifier@latest",
+  ],
   "provider": {
     "synthetic": {
       "npm": "@ai-sdk/openai-compatible",
