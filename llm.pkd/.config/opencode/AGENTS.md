@@ -4,11 +4,9 @@ description: Global agent preferences and environment configuration
 
 # Agent Preferences
 
-## CRITICAL: System Constraints
+## CRITICAL: Shell Commands
 
 These rules prevent resource exhaustion and permission prompts. Violations cause performance issues or workflow interruption.
-
-## CRITICAL: Shell Commands
 
 ### Nushell
 
@@ -56,9 +54,9 @@ When in plan mode or gathering context for a task:
 
 - **ALWAYS**: Use `pwd` to understand current location and how it pertains to skills and the task.
 - Use `tree` and `ls` to gather initial information about the filesystem.
-- For documentation and web research, delegate to @research when expecting >2-3 queries
+- For codebase exploration and web research, use @explorer or @librarian when expecting >2-3 queries
   - Use `webfetch` yourself for single quick lookups
-  - **DO NOT** fall into research rabbit holes — delegate broad research to @research instead
+  - **DO NOT** fall into research rabbit holes — use @librarian for broad research instead
   - **ALWAYS** ask the user via the user clarification tool before going on extensive research endeavors, unless this has been implicitly or explicitly allowed for the current task
 
 - **ALWAYS** prefer command runners such as `just` and `make` over running the commands yourself.
@@ -75,96 +73,65 @@ Adopt these communication preferences in all interactions:
 - **No emoji usage**: Do not use emojis unless contextually necessary
 - **Markdown Formatting**: Avoid using `---` page breaks in responses unless necessary, using these disrupts the markdown rendering of the opencode harness.
 
-## Sub-agent Delegation
+## Sub-agents
 
-### Delegation Framework
+Sub-agents are tools available to the main agent. Use them as naturally as grep, read, or bash — no special delegation ceremony needed. The main agent always stays in the loop: invoke a sub-agent, review its output, then decide the next step.
 
-Before acting, review: is a subagent better suited? Delegate when overhead < doing it yourself, OR quality gain justifies it.
+**Principles:**
+- Reference paths/lines in prompts, don't paste file contents (`src/app.ts:42` not full contents)
+- Provide context summaries; let sub-agents read what they need
+- Run independent sub-agent calls in parallel (e.g., @explorer + @librarian simultaneously)
+- Prefer resuming an existing session (via `task_id`) when continuing work on the same topic
 
-**General principles:**
-- Reference paths/lines, don't paste files (`src/app.ts:42` not full contents)
-- Provide context summaries, let subagents read what they need
-- Brief delegation notices: "Searching codebase via @research..." not "I'm going to delegate to @research because..."
-- Skip delegation if explaining the task > doing it yourself
+### @explorer
 
-**Do it yourself when:**
-- Single small change (<20 lines, 1 file)
-- Tight integration with your current work
-- You know the path and need full content anyway
-- Quick single lookup you can answer immediately
+Codebase reconnaissance. Read files, grep, glob. No web access, no bash, no edits.
 
-**Delegate when:**
-- Context-heavy work where you only need the result
-- Broad or uncertain scope searches
-- Well-defined execution tasks that free you to think strategically
-- Problems requiring deeper reasoning than your standard effort
+**Use when:**
+- Discovering what exists before planning
+- Broad or uncertain scope codebase search
+- Needing a summarized map rather than full file contents
 
-**Parallel delegation:**
-- @research (codebase) + @research (web) in parallel
-- @research + @fixer in parallel
-- Multiple @fixer instances for multi-folder work (one per folder)
+### @librarian
 
-### @research
+External knowledge and documentation retrieval. Web access only, no local files, no bash.
 
-- **Role:** Codebase reconnaissance and web research specialist
-- **Tier:** Lightweight (fast, low cost)
-- **Permissions:** Read files, grep, glob, webfetch, websearch
+**Use when:**
+- Looking up unfamiliar library docs, API references, or version-specific behavior
+- Reading external documentation, changelogs, or migration guides
+- Researching libraries with frequent API changes
+- Any web research where you need current, specific information
 
-**Delegate when:**
-- Need to discover what exists before planning
-- Broad/uncertain scope codebase search
-- Expecting >2-3 web queries — delegate rather than burning your own context
-- Unfamiliar library docs, API references, version-specific behavior
-- External documentation, changelogs, migration guides
-- Any research where you need the answer, not the process
-
-**Don't delegate when:**
-- You know the path and need full file content
-- Single specific lookup you can answer immediately
-- Info already in conversation
-- Just need standard/stable API knowledge you're confident about
+**Rule of thumb:** "How does this library work?" → @librarian. "How does programming work?" → yourself.
 
 ### @fixer
 
-- **Role:** Scoped implementation and documentation specialist
-- **Tier:** Lightweight (fast, low cost)
-- **Permissions:** Read, edit, write files (no bash, no web, no task delegation)
+Scoped implementation and documentation. Read, edit, write files. Bash limited to task runners (`just`, `make`, `npm run`, `bun run`, `bun test`) and `* --version`. No web access, no sub-agent delegation.
 
-**Delegate when:**
+**Use when:**
 - Well-defined implementation tasks with clear scope
 - Writing or updating tests, test fixtures, test helpers
 - Documentation generation (docstrings, README, API docs)
 - Bulk text operations (batch refactoring, mass edits, renames)
-- Multi-folder work — scope per folder and spawn parallel @fixers
-
-**Don't delegate when:**
-- Needs discovery, research, or architectural decisions
-- Single small change (<20 lines, 1 file) — do it yourself
-- Ambiguous requirements needing iteration
-- Tight integration with your current active work
-- Explaining the task > doing it yourself
+- Multi-folder work — scope per folder and run parallel @fixer instances
 
 ### @oracle
 
-- **Role:** Strategic advisor for high-stakes decisions and deep analysis
-- **Tier:** Intense (strongest reasoning, higher cost)
-- **Permissions:** Read files, webfetch (read-only)
+Strategic advisor for deep analysis. Read files, grep, glob, webfetch, websearch. No edits, no bash. Uses the primary model with high reasoning effort.
 
-**Delegate when:**
+**Use when:**
 - Major architectural decisions with long-term impact
-- Problems persisting after 2+ fix attempts
 - High-risk multi-system refactors
 - Code review, simplification, YAGNI scrutiny
 - Security, scalability, or data integrity decisions
+- Problems where the cost of a wrong choice is high
 - Grammar/spelling proofreading of documents
-- Genuinely uncertain where cost of wrong choice is high
+- Failed after multiple fix attempts and need deeper analysis
 
-**Don't delegate when:**
-- Routine decisions you're confident about
-- First bug fix attempt
-- Straightforward trade-offs
-- Tactical "how" vs strategic "should we"
-- Quick research/testing can answer the question
+### Universal sub-agent constraints
+
+- `task: deny` — no sub-agent delegation (prevents delegation chains)
+- `question: deny` — no user interaction (prevents interruption of the main conversation)
 
 ## Behavioral Guidelines
 
@@ -175,7 +142,17 @@ All agents MUST:
 3. Suggest shell-based solutions by default when applicable
 4. Provide actionable, direct feedback without hedging
 5. Reference sources and documentation links in responses
-6. Delegate to appropriate sub-agents for specialized tasks
+6. The main agent should use sub-agents as appropriate for specialized work
+
+## Auto-Continue Protocol
+
+When you have incomplete todos and your last message is not a question to the user, continue to the next pending todo immediately. Do not stop and wait for confirmation between steps.
+
+Exceptions — stop and wait:
+- You need a decision from the user
+- You encountered a blocking error you cannot resolve
+- The next todo has different scope requiring user confirmation
+- You asked a question and have not received an answer
 
 ## User Clarification
 

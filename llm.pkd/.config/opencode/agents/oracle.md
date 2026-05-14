@@ -11,6 +11,7 @@ permission:
   glob: allow
   list: allow
   webfetch: allow
+  websearch: allow
   question: deny
   edit: deny
   write: deny
