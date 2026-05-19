@@ -17,7 +17,7 @@ return {
       command_palette = true, -- cmdline + popupmenu positioned together
       long_message_to_split = true, -- overflow to split window
       inc_rename = false,
-      lsp_doc_border = true, -- bordered LSP hover/signature
+      lsp_doc_border = "rounded", -- bordered LSP hover/signature
     },
     messages = {
       enabled = true,

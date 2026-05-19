@@ -186,7 +186,11 @@ function M.setup(opts)
 end
 
 function M.setup_mason()
-  require("mason").setup()
+  require("mason").setup({
+    ui = {
+      border = "rounded",
+    },
+  })
 
   vim.defer_fn(function()
     M.install_ensure_installed()

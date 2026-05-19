@@ -28,6 +28,9 @@ lazy.setup("plugins", {
     enabled = true, -- check for updates on startup
     notify = false, -- don't spam notifications
   },
+  ui = {
+    border = "rounded",
+  },
 })
 
 require("helpers.keys").map("n", "<leader>dL", lazy.show, "Lazy UI")
