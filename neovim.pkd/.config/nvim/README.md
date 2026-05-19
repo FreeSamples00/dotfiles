@@ -1,6 +1,6 @@
 # NEOVIM
 
-## UI / UX
+## UI
 
 ### Snacks.nvim
 
@@ -52,11 +52,16 @@ Catppuccin-mocha (default) with transparent background. Also includes: gruvbox, 
 
 - **gitsigns**: Git hunks in signcolumn
 
-## Navigation
+## UX
 
-### Harpoon (v2)
-
-Quick file marking for fast switching between frequently used files:
+- **Comment.nvim**: Toggle comments
+- **mini.move**: Move text with Alt+hjkl
+- **vim-sleuth**: Auto-detect indentation
+- **vim-surround**: Surround text objects with brackets/quotes
+- **minipairs**: Auto-pairing for brackets and quotes. Skips pairing after word characters (e.g., `foo"` won't add closing quote)
+- **which-key**: Keybind discovery popup with Helix preset. Press `<leader>?` to show all keymaps. Groups: `<leader>f` (File), `<leader>g` (Git), `<leader>h` (Harpoon), `<leader>s` (Search), `<leader>u` (UI), `<leader>l` (LSP), `<leader>d` (Dev Tools), `<leader>M` (Markdown)
+- **nvim-cmp**: Autocompletion with LSP, LuaSnip, buffer, path sources. Tab/S-Tab for navigation, CR to confirm
+- **Harpoon (v2)**: Quick file marking for fast switching
 
 | Key | Action |
 |-----|--------|
@@ -67,6 +72,8 @@ Quick file marking for fast switching between frequently used files:
 | `<leader>hd` | Remove file |
 | `<leader>h[` / `h]` | Prev/next harpooned file |
 | `<leader>1-9` | Jump to harpooned file |
+
+## Navigation
 
 ### Snacks Pickers
 
@@ -84,35 +91,14 @@ Quick file marking for fast switching between frequently used files:
 | `<leader>r` | Registers |
 | `<leader>U` | Undo history |
 
-## Nice to Haves
-
-### minipairs
-
-Auto-pairing for brackets and quotes. Configured to skip pairing after word characters (e.g., `foo"` won't add closing quote).
-
-### which-key
-
-Keybind discovery popup with Helix preset. Press `<leader>?` to show all keymaps. Groups: `<leader>f` (File), `<leader>g` (Git), `<leader>h` (Harpoon), `<leader>s` (Search), `<leader>u` (UI), `<leader>l` (LSP), `<leader>d` (Dev Tools), `<leader>M` (Markdown).
-
-### lazygit
-
-Integrated via Snacks (`<leader>gg`).
-
-### Autocompletion (nvim-cmp)
-
-Sources: LSP, LuaSnip, buffer, path. Tab/S-Tab for navigation, CR to confirm.
-
-### Misc
-
-- **Comment.nvim**: Toggle comments
-- **mini.move**: Move text with Alt+hjkl
-- **vim-sleuth**: Auto-detect indentation
-- **vim-surround**: Surround text objects with brackets/quotes
-
 ### Markdown
 
 - **render-markdown.nvim**: Pretty markdown rendering with heading blocks, checkboxes, code blocks
 - **bullets.vim**: Automatic bullet lists, checkbox toggling (`<C-x>`), indentation (`<C-,>`/`<C-.>`)
+
+### lazygit
+
+Integrated via Snacks (`<leader>gg`).
 
 ## Language Tooling
 

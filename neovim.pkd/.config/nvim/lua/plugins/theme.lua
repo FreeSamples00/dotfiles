@@ -2,8 +2,6 @@
 return {
   "typicode/bg.nvim",
 
-  "ellisonleao/gruvbox.nvim",
-
   {
     "catppuccin/nvim",
     name = "catppuccin-custom",
@@ -74,13 +72,4 @@ return {
       },
     },
   },
-
-  {
-    "rose-pine/nvim",
-    name = "rose-pine",
-  },
-
-  "sainnhe/everforest",
-
-  "savq/melange-nvim",
 }
