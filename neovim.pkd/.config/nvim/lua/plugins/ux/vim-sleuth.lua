@@ -1,4 +1,6 @@
+--- vim-sleuth: auto-detect indentation style from file contents
+
 return {
   "tpope/vim-sleuth",
-  event = "BufReadPost",
+  event = "BufReadPost", -- detect after buffer is read
 }

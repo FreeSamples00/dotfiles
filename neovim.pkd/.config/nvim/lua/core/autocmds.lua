@@ -1,13 +1,15 @@
+--- Autocommands: format-on-save, text filetype rules, yank highlight, spell file generation
+
 local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup
 
 local general = augroup("General", { clear = true })
 local globals = require("helpers.globals")
 
--- Initialize auto-format setting
+-- cross-module global: toggled by <leader>uf in snacks/setup.lua
 vim.g.autoformat_enabled = true
 
------ special rules for text heavy filetypes -----
+----- Text-heavy filetype rules (see helpers.globals.text_filetypes) -----
 autocmd("FileType", {
   group = general,
   pattern = globals.text_filetypes,
@@ -15,16 +17,16 @@ autocmd("FileType", {
     vim.opt_local.spell = true
     vim.opt_local.spelllang = "en"
     vim.opt_local.wrap = true
-    vim.opt_local.textwidth = 0
+    vim.opt_local.textwidth = 0 -- no hard line breaks
     vim.opt_local.linebreak = true
     vim.opt_local.breakindent = true
     vim.opt_local.showbreak = "󱞩 "
-    vim.opt_local.formatoptions:remove("t")
-    vim.opt_local.formatoptions:remove("c")
+    vim.opt_local.formatoptions:remove("t") -- don't auto-wrap text
+    vim.opt_local.formatoptions:remove("c") -- don't auto-wrap comments
   end,
 })
 
------ Auto generate spell files as needed -----
+----- Auto-generate spell files on startup if missing -----
 autocmd("VimEnter", {
   group = general,
   callback = function()
@@ -56,7 +58,7 @@ autocmd("TextYankPost", {
   end,
 })
 
------ Auto-format on save -----
+----- Auto-format on save (respects vim.g.autoformat_enabled) -----
 autocmd("BufWritePre", {
   group = general,
   desc = "Auto-format on save",

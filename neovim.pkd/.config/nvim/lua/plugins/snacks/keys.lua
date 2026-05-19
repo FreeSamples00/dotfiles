@@ -1,3 +1,5 @@
+--- Snacks keymaps: picker shortcuts, git, explorer, toggle mappings, debug helpers
+
 return {
   "folke/snacks.nvim",
   keys = {
@@ -43,6 +45,8 @@ return {
       end,
       desc = "File Explorer",
     },
+
+    -- file group
     {
       "<leader>fb",
       function()
@@ -72,12 +76,21 @@ return {
       desc = "Find Git Files",
     },
     {
+      "<leader>fr",
+      function()
+        Snacks.rename.rename_file()
+      end,
+      desc = "Rename",
+    },
+    {
       "<leader>sr",
       function()
         Snacks.picker.recent()
       end,
       desc = "Recent Files",
     },
+
+    -- git group
     {
       "<leader>gb",
       function()
@@ -113,6 +126,23 @@ return {
       end,
       desc = "Git Log File",
     },
+    {
+      "<leader>gB",
+      function()
+        Snacks.gitbrowse()
+      end,
+      desc = "Git Browse",
+      mode = { "n", "v" },
+    },
+    {
+      "<leader>gg",
+      function()
+        Snacks.lazygit()
+      end,
+      desc = "Lazygit",
+    },
+
+    -- search group
     {
       "<leader>r",
       function()
@@ -190,28 +220,8 @@ return {
       end,
       desc = "Colorschemes",
     },
-    {
-      "<leader>fr",
-      function()
-        Snacks.rename.rename_file()
-      end,
-      desc = "Rename",
-    },
-    {
-      "<leader>gB",
-      function()
-        Snacks.gitbrowse()
-      end,
-      desc = "Git Browse",
-      mode = { "n", "v" },
-    },
-    {
-      "<leader>gg",
-      function()
-        Snacks.lazygit()
-      end,
-      desc = "Lazygit",
-    },
+
+    -- other
     {
       "<leader>i",
       function()

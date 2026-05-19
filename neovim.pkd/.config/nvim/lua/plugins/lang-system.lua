@@ -2,12 +2,12 @@
 ---
 --- Defines plugin specs for:
 --- - lang-system (local plugin with keybinds and commands)
---- - Mason (package manager)
---- - nvim-treesitter (syntax highlighting)
---- - nvim-lspconfig (LSP client)
---- - none-ls (formatters, linters)
+--- - Mason (package manager for LSP/formatters/linters)
+--- - nvim-treesitter (syntax highlighting + textobjects)
+--- - nvim-lspconfig (LSP client with mason-lspconfig bridge + neodev + illuminate + cmp-nvim-lsp)
+--- - none-ls (formatters and linters, loaded on LspAttach)
 ---
---- Default definitions are in lua/lang-system/languages.lua and mappings.lua.
+--- Default definitions: lua/lang-system/languages.lua and mappings.lua
 --- Override them via the opts table below.
 
 local lang_system = require("lang-system")
@@ -15,11 +15,11 @@ local lang_system = require("lang-system")
 return {
   {
     "lang-system",
-    dir = vim.fn.stdpath("config") .. "/lua/lang-system",
+    dir = vim.fn.stdpath("config") .. "/lua/lang-system", -- local plugin
     name = "lang-system",
     main = "lang-system",
     lazy = false,
-    priority = 100,
+    priority = 100, -- load before Mason/lspconfig
     keys = {
       { "<leader>dm", "<cmd>Mason<cr>", desc = "Mason UI" },
       { "<leader>dls", "<cmd>LanguageStatus<cr>", desc = "Status" },
@@ -28,7 +28,7 @@ return {
       { "<leader>dlu", "<cmd>LanguageUninstallCurrent<cr>", desc = "Uninstall Current" },
     },
     opts = {
-      ensure_installed = { "nvim_core", "configs_group", "bash", "nu" },
+      ensure_installed = { "nvim_core", "configs_group", "bash", "nu" }, -- auto-install on startup
       languages = {},
     },
   },
@@ -36,7 +36,7 @@ return {
   {
     "williamboman/mason.nvim",
     lazy = false,
-    dependencies = { "lang-system" },
+    dependencies = { "lang-system" }, -- ensure lang-system loads first
     config = function()
       lang_system.setup_mason()
     end,
@@ -50,7 +50,7 @@ return {
     end,
     dependencies = {
       "lang-system",
-      "nvim-treesitter/nvim-treesitter-textobjects",
+      "nvim-treesitter/nvim-treesitter-textobjects", -- textobject motions
     },
     config = function()
       lang_system.setup_treesitter()
@@ -62,10 +62,10 @@ return {
     lazy = false,
     dependencies = {
       "lang-system",
-      "williamboman/mason-lspconfig.nvim",
-      "folke/neodev.nvim",
-      "RRethy/vim-illuminate",
-      "hrsh7th/cmp-nvim-lsp",
+      "williamboman/mason-lspconfig.nvim", -- Mason ↔ lspconfig bridge
+      "folke/neodev.nvim", -- Lua dev enhancements for neovim config
+      "RRethy/vim-illuminate", -- highlight word under cursor references
+      "hrsh7th/cmp-nvim-lsp", -- LSP completion source
     },
     config = function()
       lang_system.setup_lspconfig()
@@ -74,10 +74,10 @@ return {
 
   {
     "nvimtools/none-ls.nvim",
-    event = "LspAttach",
+    event = "LspAttach", -- lazy load with LSP
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvimtools/none-ls-extras.nvim",
+      "nvimtools/none-ls-extras.nvim", -- extra formatter/linter sources
     },
     config = function()
       lang_system.setup_null_ls()

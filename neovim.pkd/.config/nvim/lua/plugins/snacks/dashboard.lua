@@ -1,8 +1,10 @@
+--- Snacks dashboard: startup screen with plugin stats, update check, and cwd section
+
 local truncate_path = require("helpers.utils").truncate_path
 
 local check_updates
+local num_updates -- cached update count, reset on dashboard re-entry
 do
-  local num_updates = nil
   vim.api.nvim_create_autocmd("BufEnter", {
     callback = function()
       if vim.bo.filetype == "snacks_dashboard" then
@@ -40,7 +42,7 @@ return {
             action = ":Lazy update",
             hidden = true,
             enabled = function()
-              return check_updates() > 0
+              return check_updates() > 0 -- only show when updates exist
             end,
           },
         },
@@ -79,7 +81,7 @@ return {
           }
         end,
         {
-          title = " " .. truncate_path(vim.fn.fnamemodify(vim.fn.getcwd(), ":~"), 45),
+          title = " " .. truncate_path(vim.fn.fnamemodify(vim.fn.getcwd(), ":~"), 45), -- truncated cwd
           padding = 1,
           align = "center",
         },

@@ -1,3 +1,5 @@
+--- Which-key: keybind discovery popup with Helix-style preset and low delay
+
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",
@@ -5,11 +7,11 @@ return {
     { "<leader>?", "<cmd>WhichKey<CR>", desc = "Keybind Popup", mode = { "n", "v" } },
   },
   opts = {
-    preset = "helix",
+    preset = "helix", -- Helix-style popup layout
     notify = true,
     keys = { scroll_down = "<c-d>", scroll_up = "<c-u>" },
-    icons = { mappings = false, group = "" },
-    delay = 5,
+    icons = { mappings = false, group = "" }, -- no icon noise
+    delay = 5, -- near-instant popup
     spec = {
       { "<leader>f", group = "File" },
       { "<leader>b", group = "Buffer" },

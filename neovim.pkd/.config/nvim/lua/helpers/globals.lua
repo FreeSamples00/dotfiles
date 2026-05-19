@@ -1,5 +1,8 @@
+--- Shared constants consumed across core and plugin modules
+
 local M = {}
 
+---@type string[] Filetypes that get spell+wrap settings (used in core/autocmds)
 M.text_filetypes = {
   "text",
   "markdown",
@@ -8,6 +11,7 @@ M.text_filetypes = {
   "mail",
 }
 
+---@type string[] Filetypes where lualine and features are hidden
 M.ignored_filetypes = {
   "NvimTree",
   "packer",
@@ -25,6 +29,7 @@ M.ignored_filetypes = {
   "snacks_picker_input",
 }
 
+---@type table<string, string> Diagnostic icons (used in lualine)
 M.lsp_icons = {
   error = " ",
   warn = " ",

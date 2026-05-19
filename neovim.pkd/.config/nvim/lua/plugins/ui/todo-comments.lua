@@ -1,3 +1,5 @@
+--- Todo-comments: highlight and search TODO/FIX/XXX keywords in comments
+
 return {
   "folke/todo-comments.nvim",
   event = "BufReadPost",

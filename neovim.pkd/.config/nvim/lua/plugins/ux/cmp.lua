@@ -1,3 +1,6 @@
+--- nvim-cmp: autocompletion with LSP, LuaSnip, buffer, and path sources
+--- Tab/S-Tab navigate items, CR confirms (no auto-select)
+
 return {
   "hrsh7th/nvim-cmp",
   event = "InsertEnter",
@@ -67,7 +70,7 @@ return {
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
         ["<CR>"] = cmp.mapping.confirm({
           behavior = cmp.ConfirmBehavior.Replace,
-          select = false,
+          select = false, -- only confirm explicitly selected item
         }),
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
@@ -89,7 +92,7 @@ return {
         end, { "i", "s" }),
       }),
       formatting = {
-        fields = { "icon", "abbr" },
+        fields = { "icon", "abbr" }, -- icon + name only, no kind text
         format = function(entry, vim_item)
           vim_item.icon = kind_icons[vim_item.kind]
           return vim_item

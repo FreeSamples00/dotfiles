@@ -1,3 +1,6 @@
+--- Lualine: custom statusline with mode, filename, git diff, diagnostics, macro/SSH indicators, clock
+--- Uses helpers.globals for ignored_filetypes and lsp_icons
+
 local globals = require("helpers.globals")
 
 return {
@@ -9,7 +12,7 @@ return {
       return os.date("%-I:%M %p")
     end
 
-    -- indicator for macro being recorded
+    -- shows recording register when macro is active
     local function macro_indicator()
       local reg = vim.fn.reg_recording()
       if reg == "" then
@@ -18,7 +21,7 @@ return {
       return " " .. reg
     end
 
-    -- indicator for ssh connection
+    -- shows icon when in an SSH session
     local function ssh_indicator()
       if vim.env.SSH_CONNECTION or vim.env.SSH_CLIENT or vim.env.SSH_TTY then
         return "󰒋"
@@ -26,10 +29,7 @@ return {
       return ""
     end
 
-    -- actual line settings
     return {
-
-      -- general settings
       options = {
         icons_enabled = true,
         theme = "auto",
@@ -41,21 +41,20 @@ return {
           left = "",
           right = "",
         },
-        disabled_filetypes = globals.ignored_filetypes,
+        disabled_filetypes = globals.ignored_filetypes, -- hide in special windows
         always_last_session = true,
         lsp_progress = { enabled = true },
       },
 
-      -- Sections
       sections = {
-        -- Left side | left -> right
+        -- left: mode → filename → diff
         lualine_a = { "mode" },
         lualine_b = {
           {
             "filename",
             file_status = true,
             newfile_status = true,
-            path = 0,
+            path = 0, -- relative path
             shorting_target = 20,
             symbols = {
               modified = "󰏫",
@@ -67,33 +66,20 @@ return {
         },
         lualine_c = { "diff" },
 
-        -- Right Side | left -> right
+        -- right: macro → SSH → diagnostics → progress → clock
         lualine_x = {
           {
             macro_indicator,
-            color = {
-              fg = "#cb2000",
-              bg = nil,
-              gui = "bold",
-            },
+            color = { fg = "#cb2000", bg = nil, gui = "bold" },
           },
           {
             ssh_indicator,
-            color = {
-              fg = "#FFD709",
-              bg = nil,
-              gui = "bold",
-            },
+            color = { fg = "#FFD709", bg = nil, gui = "bold" },
           },
           {
             "diagnostics",
             sources = { "nvim_diagnostic" },
-            symbols = {
-              error = globals.lsp_icons.error,
-              warn = globals.lsp_icons.warn,
-              hint = globals.lsp_icons.hint,
-              info = globals.lsp_icons.info,
-            },
+            symbols = globals.lsp_icons, -- shared diagnostic icons
             colored = true,
             always_visible = false,
           },
@@ -102,7 +88,6 @@ return {
         lualine_z = { get_time },
       },
 
-      -- disabled sections
       inactive_sections = {
         lualine_a = {},
         lualine_b = {},
@@ -112,7 +97,6 @@ return {
         lualine_z = {},
       },
 
-      -- disable top things
       tabline = {},
       extensions = {},
     }

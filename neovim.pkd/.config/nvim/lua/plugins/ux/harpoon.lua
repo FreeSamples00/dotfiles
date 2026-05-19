@@ -1,11 +1,14 @@
+--- Harpoon v2: quick file marking for fast switching between pinned files
+--- save_on_toggle + sync_on_ui_close persist marks automatically
+
 return {
   "ThePrimeagen/harpoon",
   branch = "harpoon2",
   dependencies = { "nvim-lua/plenary.nvim" },
   opts = {
     settings = {
-      save_on_toggle = true,
-      sync_on_ui_close = true,
+      save_on_toggle = true, -- save when closing menu
+      sync_on_ui_close = true, -- sync on any UI close
     },
   },
   keys = {

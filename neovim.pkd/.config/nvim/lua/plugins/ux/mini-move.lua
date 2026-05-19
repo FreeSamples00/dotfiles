@@ -1,3 +1,5 @@
+--- mini.move: move text lines/blocks with Alt+hjkl
+
 return {
   "echasnovski/mini.move",
   event = "VeryLazy",

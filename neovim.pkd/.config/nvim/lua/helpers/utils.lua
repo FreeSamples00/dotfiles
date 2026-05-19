@@ -1,5 +1,8 @@
+--- Utility functions and shared option tables used across plugin specs
+
 local M = {}
 
+--- Window options for wrapped text (used in snacks notifications, picker preview, help windows)
 M.wrap_options = {
   wrap = true,
   breakindent = true,
@@ -8,6 +11,13 @@ M.wrap_options = {
   spell = false,
 }
 
+--- Truncate a file path by dropping middle segments
+--- Used in snacks dashboard for cwd display
+---@param path string Full path to truncate
+---@param max_len? number Maximum output length (default 50)
+---@param direction? "left"|"middle"|"right" Where to drop segments (default "middle")
+---@param delim? string Truncation indicator (default "...")
+---@return string Truncated path
 function M.truncate_path(path, max_len, direction, delim)
   max_len = max_len or 50
   delim = "/" .. (delim or "...")

@@ -1,12 +1,14 @@
+--- Core keymaps: editing, yank, navigation, disabled defaults
+--- Uses helpers.keys.map for consistent silent+desc keymaps
+
 local map = require("helpers.keys").map
 
 ---- Core Editing ----
 
--- Basic
 map("n", "<esc>", "<cmd>nohlsearch<cr><esc>", "Esc + clear hl")
 map("n", "U", "<C-r>", "Redo")
 
--- Navigation in wrapped lines
+-- navigate by visual lines when wrapping is on
 vim.keymap.set(
   { "n", "x" },
   "j",
@@ -28,13 +30,12 @@ vim.keymap.set(
 )
 vim.keymap.set({ "n", "x" }, "$", "&wrap ? 'g$' : '$'", { desc = "End of [visual] line", expr = true, silent = true })
 
--- Indentation (stay in visual mode)
+-- stay in visual mode after indent
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
 ---- Yank & Register Operations ----
-
--- Delete without yanking
+-- d/c use black-hole register to preserve clipboard contents
 vim.keymap.set("n", "d", '"_d', {
   remap = false,
   silent = true,
@@ -46,23 +47,22 @@ vim.keymap.set("v", "d", '"_d', {
   desc = "Delete visual selection without yanking",
 })
 
--- Change without yanking
 vim.keymap.set("n", "c", '"_c', {
   remap = false,
   silent = true,
-  desc = "Delete without yanking",
+  desc = "Change without yanking",
 })
 vim.keymap.set("v", "c", '"_c', {
   remap = false,
   silent = true,
-  desc = "Delete visual selection without yanking",
+  desc = "Change visual selection without yanking",
 })
 
--- Paste without yanking
+-- paste without overwriting register
 map("x", "p", [["_dp]], "Paste without copying")
 map("x", "P", [["_dp]], "Paste without copying")
 
--- Cut line
+-- cut line (yank + delete)
 vim.keymap.set("n", "xx", "yydd", {
   remap = false,
   silent = true,
@@ -77,25 +77,17 @@ map("n", "<leader>ur", "<cmd>nohl<cr>", "Clear highlights")
 
 ---- Command-line Mode (Emacs-style) ----
 
--- Navigation
 vim.keymap.set("c", "<C-a>", "<Home>")
 vim.keymap.set("c", "<C-e>", "<End>")
 vim.keymap.set("c", "<M-b>", "<S-Left>")
 vim.keymap.set("c", "<M-f>", "<S-Right>")
-
--- Editing
 vim.keymap.set("c", "<M-BS>", "<C-w>")
 
 ---- Disabled Keymaps ----
 
--- Ex mode
-vim.keymap.set("n", "Q", "<Nop>")
+vim.keymap.set("n", "Q", "<Nop>") -- ex mode
 vim.keymap.set("n", "gQ", "<Nop>")
-
--- Command window
-vim.keymap.set("n", "q:", "<Nop>")
+vim.keymap.set("n", "q:", "<Nop>") -- command window
 vim.keymap.set("n", "q/", "<Nop>")
 vim.keymap.set("n", "q?", "<Nop>")
-
--- Join lines
-vim.keymap.set("n", "J", "<Nop>")
+vim.keymap.set("n", "J", "<Nop>") -- free for LSP hover

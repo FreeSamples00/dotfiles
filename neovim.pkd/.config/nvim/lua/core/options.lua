@@ -1,35 +1,33 @@
--- set default options
+--- Editor options: indentation, display, search, clipboard, undo
 
--- Add Mason bin to PATH
+-- add Mason bin to PATH for LSP/tools
 vim.env.PATH = vim.env.PATH .. ":" .. vim.fn.stdpath("data") .. "/mason/bin"
 
--- options to apply
 local opts = {
-  shiftwidth = 2, -- set sane tabbing
-  tabstop = 2, -- |
-  softtabstop = 2, -- |
-  expandtab = true, -- replace tab chars with spaces
-  wrap = false, -- disable linewrapping by default
-  termguicolors = true, -- enable 24bit color if supported
-  number = true, -- enable line numbers
-  relativenumber = true, -- enable relative line numbers
-  clipboard = "unnamedplus", -- use system clipboard
-  undofile = true, -- enable undofile to track changes across sessions
-  confirm = true, -- enable confirm menu on things like saving before quiting
-  scrolloff = 5, -- keep n lines on screen above and below cursor at all times
-  fillchars = { eob = " " }, -- remove `~` from end of buffer
-  wildmode = "list:full", -- command-line completions don't autofill
-  ignorecase = true, -- ignore case in search
-  smartcase = true, -- use smart case in search
-  cursorline = true, -- enable cursorline + linenum highlight
+  shiftwidth = 2, -- 2-space indentation
+  tabstop = 2,
+  softtabstop = 2,
+  expandtab = true, -- spaces instead of tabs
+  wrap = false, -- no wrapping by default (text filetypes override in autocmds)
+  termguicolors = true, -- 24-bit color
+  number = true,
+  relativenumber = true,
+  clipboard = "unnamedplus", -- system clipboard
+  undofile = true, -- persistent undo across sessions
+  confirm = true, -- confirm before abandoning unsaved changes
+  scrolloff = 5, -- keep 5 lines visible around cursor
+  fillchars = { eob = " " }, -- hide ~ at end of buffer
+  wildmode = "list:full", -- show all completions, don't auto-select
+  ignorecase = true, -- case-insensitive search
+  smartcase = true, -- case-sensitive when uppercase present
+  cursorline = true, -- highlight current line
 }
 
--- Set options from table
 for opt, val in pairs(opts) do
   vim.opt[opt] = val
 end
 
--- use OSC52 clipboard when SSH'd
+-- OSC52 clipboard for SSH sessions
 if os.getenv("SSH_CONNECTION") or os.getenv("SSH_TTY") then
   vim.g.clipboard = {
     name = "OSC 52",

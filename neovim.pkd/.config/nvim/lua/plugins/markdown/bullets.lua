@@ -1,3 +1,6 @@
+--- bullets.vim: auto bullet lists, checkbox toggling, and indentation
+--- Manual key mappings (set_mappings=0) to avoid conflicts with other plugins
+
 return {
   "bullets-vim/bullets.vim",
   lazy = true,
@@ -13,11 +16,11 @@ return {
     { "<leader>Mx", "<cmd>ToggleCheckbox<cr>", desc = "Toggle Checkbox", ft = "markdown" },
   },
   init = function()
-    vim.g.bullets_delete_last_bullet_if_empty = 2
-    vim.g.bullets_nested_checkboxes = 0
-    vim.g.bullets_checkbox_markers = " x"
-    vim.g.bullets_outline_levels = { "num", "abc", "std-" }
-    vim.g.bullets_renumber_on_change = 0
-    vim.g.bullets_set_mappings = 0
+    vim.g.bullets_delete_last_bullet_if_empty = 2 -- clean up empty trailing bullets
+    vim.g.bullets_nested_checkboxes = 0 -- no nested checkbox logic
+    vim.g.bullets_checkbox_markers = " x" -- simple checked/unchecked
+    vim.g.bullets_outline_levels = { "num", "abc", "std-" } -- outline numbering
+    vim.g.bullets_renumber_on_change = 0 -- don't auto-renumber
+    vim.g.bullets_set_mappings = 0 -- manual mappings only (see keys above)
   end,
 }

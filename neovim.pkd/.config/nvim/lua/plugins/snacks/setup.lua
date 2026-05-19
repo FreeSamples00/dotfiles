@@ -1,3 +1,6 @@
+--- Snacks setup: toggle mappings, debug helpers, help window in floating split
+--- vim.g.autoformat_enabled is the cross-module toggle for format-on-save (see core/autocmds)
+
 local wrap_options = require("helpers.utils").wrap_options
 
 return {
@@ -6,6 +9,7 @@ return {
     vim.api.nvim_create_autocmd("User", {
       pattern = "VeryLazy",
       callback = function()
+        -- debug helpers
         _G.dd = function(...)
           Snacks.debug.inspect(...)
         end
@@ -21,6 +25,7 @@ return {
           vim.print = _G.dd
         end
 
+        -- UI toggles (<leader>u prefix)
         Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
         Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
         Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
@@ -29,6 +34,8 @@ return {
         Snacks.toggle.inlay_hints():map("<leader>uh")
         Snacks.toggle.indent():map("<leader>ug")
         Snacks.toggle.option("colorcolumn", { name = "Color Column", off = "", on = "80" }):map("<leader>uv")
+
+        -- format-on-save toggle (reads vim.g.autoformat_enabled from core/autocmds)
         Snacks.toggle
           .new({
             name = "Auto Format",
@@ -40,6 +47,8 @@ return {
             end,
           })
           :map("<leader>uf")
+
+        -- inline image toggle
         Snacks.toggle
           .new({
             name = "Inline Images",
@@ -65,6 +74,8 @@ return {
             end,
           })
           :map("<leader>ui")
+
+        -- colorizer toggle
         Snacks.toggle
           .new({
             name = "Colorizer",
@@ -84,13 +95,14 @@ return {
       end,
     })
 
+    -- open :help in a floating window instead of a split
     vim.api.nvim_create_autocmd("BufWinEnter", {
       pattern = "*.txt",
       callback = function()
         if vim.bo.filetype == "help" then
           local win = vim.api.nvim_get_current_win()
           local cfg = vim.api.nvim_win_get_config(win)
-          if cfg.relative == "" then
+          if cfg.relative == "" then -- not already floating
             local buf = vim.api.nvim_get_current_buf()
             vim.api.nvim_win_close(win, false)
             Snacks.win({
