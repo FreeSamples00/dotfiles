@@ -49,6 +49,27 @@ autocmd("VimEnter", {
   end,
 })
 
+----- Quit if only picker/explorer windows remain -----
+local autoclose_filetypes = globals.autoclose_filetypes
+autocmd("WinClosed", {
+  group = general,
+  callback = function()
+    vim.schedule(function()
+      local wins = vim.api.nvim_list_wins()
+      local real_wins = vim.tbl_filter(function(win)
+        if vim.api.nvim_win_get_config(win).zindex then
+          return false
+        end
+        local ft = vim.bo[vim.api.nvim_win_get_buf(win)].filetype
+        return not vim.tbl_contains(autoclose_filetypes, ft)
+      end, wins)
+      if #real_wins == 0 and #wins > 0 then
+        vim.cmd("qa")
+      end
+    end)
+  end,
+})
+
 ----- Highlight on yank -----
 autocmd("TextYankPost", {
   group = general,
