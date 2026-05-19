@@ -7,8 +7,6 @@ return {
     skip_ts = { "string" },
     skip_unbalanced = true,
     markdown = true,
-    -- Don't pair when left character is a word character
-    -- e.g., foo" won't add closing quote, but "foo" will
     mappings = {
       ['"'] = { action = "closeopen", pair = '""', neigh_pattern = "[^%w\\].", register = { cr = false } },
       ["'"] = { action = "closeopen", pair = "''", neigh_pattern = "[^%w\\].", register = { cr = false } },

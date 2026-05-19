@@ -11,7 +11,6 @@ return {
     icons = { mappings = false, group = "" },
     delay = 5,
     spec = {
-      -- Group definitions
       { "<leader>f", group = "File" },
       { "<leader>b", group = "Buffer" },
       { "<leader>g", group = "Git" },
@@ -22,8 +21,6 @@ return {
       { "<leader>d", group = "Dev Tools" },
       { "<leader>dl", group = "Languages" },
       { "<leader>M", group = "Markdown" },
-
-      -- Harpoon description overrides
       { "<leader>1", desc = "Harpoon Jump (1-9)" },
       { "<leader>2", hidden = true },
       { "<leader>3", hidden = true },
