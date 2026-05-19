@@ -1,5 +1,13 @@
 local M = {}
 
+M.wrap_options = {
+  wrap = true,
+  breakindent = true,
+  showbreak = "󱞩 ",
+  linebreak = true,
+  spell = false,
+}
+
 function M.truncate_path(path, max_len, direction, delim)
   max_len = max_len or 50
   delim = "/" .. (delim or "...")

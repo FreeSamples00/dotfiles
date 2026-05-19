@@ -1,0 +1,114 @@
+local wrap_options = require("helpers.utils").wrap_options
+
+local hidden_search_options = {
+  layout = { hidden = { "input" } },
+  auto_confirm = false,
+}
+
+return {
+  "folke/snacks.nvim",
+  opts = {
+    picker = {
+      enabled = true,
+      sources = {
+        buffers = {
+          layout = { hidden = { "input" } },
+          win = {
+            list = {
+              keys = {
+                ["l"] = "confirm",
+              },
+            },
+          },
+        },
+        notifications = {
+          layout = { hidden = { "input" } },
+          win = {
+            preview = {
+              wo = wrap_options,
+            },
+          },
+        },
+        todo_comments = {
+          layout = { hidden = { "input" } },
+        },
+        marks = {
+          layout = { hidden = { "input" } },
+        },
+        keymaps = {
+          confirm = function(picker, item)
+            picker:norm(function()
+              if item then
+                picker:close()
+                if item.file and item.pos then
+                  vim.cmd("edit " .. vim.fn.fnameescape(item.file))
+                  vim.api.nvim_win_set_cursor(0, { item.pos[1], item.pos[2] })
+                elseif item.file then
+                  vim.cmd("edit " .. vim.fn.fnameescape(item.file))
+                else
+                  vim.notify("No file location available for this keymap", vim.log.levels.WARN)
+                end
+              end
+            end)
+          end,
+        },
+        undo = {
+          layout = {
+            hidden = { "input" },
+            layout = {
+              width = 0.9,
+              height = 0.9,
+              min_width = 100,
+              min_height = 30,
+              box = "horizontal",
+              {
+                box = "vertical",
+                width = 42,
+                { win = "input", height = 0 },
+                { win = "list", height = 0 },
+              },
+              { win = "preview", width = 0 },
+            },
+          },
+          win = {
+            input = { border = "rounded" },
+            list = { border = "rounded" },
+            preview = { border = "rounded" },
+          },
+        },
+        lsp_definitions = hidden_search_options,
+        lsp_declarations = hidden_search_options,
+        lsp_references = hidden_search_options,
+        lsp_implementations = hidden_search_options,
+        lsp_type_definitions = hidden_search_options,
+        lsp_incoming_calls = hidden_search_options,
+        lsp_outgoing_calls = hidden_search_options,
+        lsp_symbols = hidden_search_options,
+        lsp_workspaces_symbols = hidden_search_options,
+        diagnostics_buffer = hidden_search_options,
+        diagnostics = hidden_search_options,
+        git_log = hidden_search_options,
+        git_files = hidden_search_options,
+        git_branches = hidden_search_options,
+        git_log_line = hidden_search_options,
+        git_log_file = hidden_search_options,
+        git_diff = hidden_search_options,
+        explorer = {
+          layout = {
+            preset = "sidebar",
+            preview = "main",
+          },
+          win = {
+            preview = {
+              col = 0,
+              row = 0,
+              max_width = 50,
+              max_height = 35,
+              border = "rounded",
+            },
+          },
+        },
+      },
+    },
+  },
+}
