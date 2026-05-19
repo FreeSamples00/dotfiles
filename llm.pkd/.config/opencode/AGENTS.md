@@ -92,6 +92,14 @@ Codebase reconnaissance. Read files, grep, glob. No web access, no bash, no edit
 - Broad or uncertain scope codebase search
 - Needing a summarized map rather than full file contents
 
+**Before delegating to @explorer:**
+- Verify the target path exists within the workspace — use `ls` or `pwd` to confirm
+- If the target is at an absolute path outside the workspace (e.g., `~/.local/share/nvim/`, system directories), either:
+  - Provide the absolute path via the glob/grep `path` parameter in the explorer prompt
+  - Use bash directly (`ls`, `grep`, `rg`) to search external paths
+  - Use @librarian for source code available online (GitHub, docs sites)
+- Do not delegate to @explorer expecting it to discover external paths — it can only search within the workspace tree
+
 ### @librarian
 
 External knowledge and documentation retrieval. Web access only, no local files, no bash.
