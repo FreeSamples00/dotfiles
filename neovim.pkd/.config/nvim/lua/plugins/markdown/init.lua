@@ -1,4 +1,1 @@
-return {
-  require("plugins.markdown.render-markdown"),
-  require("plugins.markdown.bullets"),
-}
+return require("helpers.plugins").require_all("plugins.markdown")
