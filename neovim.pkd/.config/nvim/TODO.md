@@ -37,6 +37,8 @@ Continue to explore this plugin, seems to have lots
 
 - [ ] add description per language
 
+- [ ] move custom args and such to user conf instead of plugin?
+
 ### UI
 
 - use snacks picker

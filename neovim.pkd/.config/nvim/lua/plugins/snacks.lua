@@ -15,6 +15,32 @@ local wrap_options = {
 
 local truncate_path = require("helpers.utils").truncate_path
 
+local check_updates
+do
+  local num_updates = nil
+  vim.api.nvim_create_autocmd("BufEnter", {
+    callback = function()
+      if vim.bo.filetype == "snacks_dashboard" then
+        num_updates = nil
+        Snacks.dashboard.update()
+      end
+    end,
+  })
+  check_updates = function()
+    if num_updates ~= nil then
+      return num_updates
+    end
+    local ok, Checker = pcall(require, "lazy.manage.checker")
+    if not ok then
+      num_updates = 0
+      return 0
+    end
+    Checker.fast_check({ report = false })
+    num_updates = #Checker.updated
+    return num_updates
+  end
+end
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
@@ -29,6 +55,15 @@ return {
       preset = {
         keys = {
           { key = "q", action = ":qa", hidden = true },
+          {
+            key = "U",
+            desc = "Update Plugins",
+            action = ":Lazy update",
+            hidden = true,
+            enabled = function()
+              return check_updates() > 0
+            end,
+          },
         },
       },
       sections = {
@@ -49,12 +84,7 @@ return {
           }
         end,
         function()
-          local ok, Checker = pcall(require, "lazy.manage.checker")
-          if not ok then
-            return { padding = 0 }
-          end
-          Checker.fast_check({ report = false })
-          local updates = #Checker.updated
+          local updates = check_updates()
           if updates == 0 then
             return { padding = 0 }
           end
