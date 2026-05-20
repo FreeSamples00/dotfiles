@@ -97,7 +97,7 @@
     "todoread": "allow",
     "todowrite": "allow",
     // internet
-    "websearch": "allow",
+    "websearch": "deny",
     "webfetch": "allow",
     "codesearch": "allow",
     // interaction

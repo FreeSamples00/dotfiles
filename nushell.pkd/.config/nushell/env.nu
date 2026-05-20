@@ -12,6 +12,8 @@ $env.NU_LIB_DIRS ++= [$env.nu_module_dir $env.nu_confs_dir]
 $env.config.buffer_editor = "nvim"
 $env.EDITOR = "nvim"
 
+$env.OPENCODE_ENABLE_EXA = 1
+
 # ----- External Configs -----
 $env.dependencies = [
   starship

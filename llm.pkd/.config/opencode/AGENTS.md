@@ -102,7 +102,7 @@ Codebase reconnaissance. Read files, grep, glob. No web access, no bash, no edit
 
 ### @librarian
 
-External knowledge and documentation retrieval. Web access only, no local files, no bash.
+External knowledge and documentation retrieval. Has **websearch** (more robust than webfetch alone) plus webfetch for reading specific URLs. No local files, no bash.
 
 **Use when:**
 - Looking up unfamiliar library docs, API references, or version-specific behavior
@@ -110,7 +110,7 @@ External knowledge and documentation retrieval. Web access only, no local files,
 - Researching libraries with frequent API changes
 - Any web research where you need current, specific information
 
-**Rule of thumb:** "How does this library work?" → @librarian. "How does programming work?" → yourself.
+**Rule of thumb:** "How does this library work?" → @librarian. "How does programming work?" → yourself. Route internet research to @librarian — it has dedicated search capabilities beyond simple URL fetching.
 
 ### @fixer
 
@@ -151,6 +151,16 @@ All agents MUST:
 4. Provide actionable, direct feedback without hedging
 5. Reference sources and documentation links in responses
 6. The main agent should use sub-agents as appropriate for specialized work
+
+## Tool Call Discipline — Anti-Loop Rules
+
+Repeating the same or equivalent tool call expecting different results wastes tokens and provides no value. This applies especially to search-oriented tools: grep, glob, webfetch, websearch, read (re-reading the same file), and bash (re-running similar commands).
+
+- **Never retry an equivalent call** — if `grep "pattern" src/` returned empty, do not try `rg "pattern" src/` or `grep -r "pattern" src/`; they search the same scope
+- **Consecutive empty = stop** — 2+ empty results targeting the same logical scope means the target likely doesn't exist in the searchable space
+- **Read before calling again** — always consume the results of a tool call before making another; do not fire off multiple variations of the same query in parallel
+- **Change approach, not parameters** — if a search fails, switch tools or strategy (e.g. from grep to glob, from websearch to webfetch with a known URL), do not tweak the same tool's arguments
+- **Accept "not found"** — missing information is better than a token-burning loop. Report the gap and move on
 
 ## Auto-Continue Protocol
 
