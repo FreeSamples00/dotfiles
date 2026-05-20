@@ -42,19 +42,6 @@
           "family": "gpt-oss",
           "reasoning": true,
         },
-        "hf:Qwen/Qwen3-235B-A22B-Thinking-2507": {
-          "name": "Qwen3-235B-Thinking",
-          "limit": {
-            "context": 262144,
-            "output": 65536,
-          },
-          "cost": {
-            "input": 0.65,
-            "output": 3,
-          },
-          "family": "Qwen",
-          "reasoning": true,
-        },
         "hf:zai-org/GLM-4.7-Flash": {
           "name": "GLM-4.7-Flash",
           "limit": {
@@ -71,47 +58,12 @@
       },
     },
   },
-  // Define permissions for model tooling
   "permission": {
-    "*": "ask",
-    // read operations
-    "read": {
-      "*": "allow",
-      "*.priv": "deny",
-    },
-    "grep": "allow",
-    "glob": "allow",
-    "list": "allow",
-    "lsp": "allow",
+    "*": "deny",
     "skill": "allow",
-
-    "external_directory": {
-      "*": "ask",
-      "~/dotfiles": "ask",
-    },
-    // edit operations
-    "write": "deny",
-    "edit": "deny",
-    "patch": "deny",
-    // todolists
-    "todoread": "allow",
-    "todowrite": "allow",
-    // internet
-    "websearch": "deny",
-    "webfetch": "allow",
-    "codesearch": "allow",
-    // interaction
-    "question": "allow",
-    "doom_loop": "ask",
-    // sub-agents
-    "task": {
-      "*": "allow",
-    },
-    // commands
     "bash": {
-      "*": "ask", // MUST BE FIRST
+      "*": "ask",
       "make *": "allow",
-      // File Exploration
       "pwd *": "allow",
       "ls *": "allow",
       "find *": "allow",
@@ -124,27 +76,23 @@
       "stat *": "allow",
       "wc *": "allow",
       "tree *": "allow",
-      // Git
+      "which *": "allow",
+      "brew list": "allow",
+      "* --version": "allow",
+      "* --help": "allow",
+      "just *": "allow",
+      "pdftotext *": "allow",
+      "pdftoppm *": "allow",
+      "pdfinfo *": "allow",
+      "tesseract *": "allow",
       "git *": "deny",
       "git status": "allow",
       "git diff *": "allow",
       "git log *": "allow",
       "git show *": "allow",
       "git rev-parse *": "allow",
-      // hard nos
-      "pass-cli *": "deny",
       "rm -rf *": "deny",
-      // info
-      "which *": "allow",
-      "brew list": "allow",
-      "* --version": "allow",
-      "* --help": "allow",
-      "just *": "allow",
-      // PDF tools
-      "pdftotext *": "allow",
-      "pdftoppm *": "allow",
-      "pdfinfo *": "allow",
-      "tesseract *": "allow",
+      "pass-cli *": "deny",
     },
   },
   "agent": {
@@ -152,6 +100,22 @@
       "mode": "primary",
       "color": "primary",
       "permission": {
+        "read": {
+          "*": "allow",
+          "*.priv": "deny",
+        },
+        "grep": "allow",
+        "glob": "allow",
+        "list": "allow",
+        "lsp": "allow",
+        "todowrite": "allow",
+        "webfetch": "allow",
+        "codesearch": "allow",
+        "question": "allow",
+        "doom_loop": "ask",
+        "external_directory": {
+          "*": "ask",
+        },
         "task": {
           "*": "deny",
           "explorer": "allow",
@@ -163,14 +127,95 @@
     "build": {
       "mode": "primary",
       "color": "secondary",
-      // Alternative model: synthetic/hf:Qwen/Qwen3-Coder-480B-A35B-Instruct
       "permission": {
+        "read": {
+          "*": "allow",
+          "*.priv": "deny",
+        },
         "edit": "allow",
         "write": "allow",
         "patch": "ask",
+        "grep": "allow",
+        "glob": "allow",
+        "list": "allow",
+        "lsp": "allow",
+        "todowrite": "allow",
+        "webfetch": "allow",
+        "codesearch": "allow",
+        "question": "allow",
+        "doom_loop": "ask",
+        "external_directory": {
+          "*": "ask",
+        },
         "task": {
           "*": "allow",
         },
+      },
+    },
+    "explorer": {
+      "mode": "subagent",
+      "model": "synthetic/hf:zai-org/GLM-4.7-Flash",
+      "temperature": 0.2,
+      "reasoningEffort": "low",
+      "hidden": false,
+      "permission": {
+        "bash": "deny",
+        "read": {
+          "*": "allow",
+          "*.priv": "deny",
+        },
+        "grep": "allow",
+        "glob": "allow",
+        "list": "allow",
+      },
+    },
+    "librarian": {
+      "mode": "subagent",
+      "model": "synthetic/hf:zai-org/GLM-4.7-Flash",
+      "temperature": 0.2,
+      "reasoningEffort": "medium",
+      "hidden": false,
+      "permission": {
+        "bash": "deny",
+        "webfetch": "allow",
+        "websearch": "allow",
+      },
+    },
+    "fixer": {
+      "mode": "subagent",
+      "model": "synthetic/hf:zai-org/GLM-4.7-Flash",
+      "temperature": 0.2,
+      "reasoningEffort": "medium",
+      "hidden": true,
+      "permission": {
+        "read": {
+          "*": "allow",
+          "*.priv": "deny",
+        },
+        "edit": "allow",
+        "write": "allow",
+        "grep": "allow",
+        "glob": "allow",
+        "list": "allow",
+      },
+    },
+    "oracle": {
+      "mode": "subagent",
+      "model": "synthetic/hf:zai-org/GLM-5.1",
+      "temperature": 0.1,
+      "reasoningEffort": "high",
+      "hidden": false,
+      "permission": {
+        "bash": "deny",
+        "read": {
+          "*": "allow",
+          "*.priv": "deny",
+        },
+        "grep": "allow",
+        "glob": "allow",
+        "list": "allow",
+        "webfetch": "allow",
+        "websearch": "allow",
       },
     },
     "compaction": {
