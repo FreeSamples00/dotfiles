@@ -44,8 +44,8 @@ let scheme = {
 
 $env.config.color_config = {
   separator: {fg: $theme.surface2, attr: b}
-  leading_trailing_space_bg: {fg: $theme.lavender, attr: u}
-  header: {fg: $theme.text, attr: b}
+  leading_trailing_space_bg: {fg: $theme.surface2, attr: u}
+  header: {fg: $theme.lavender, attr: b}
   row_index: $scheme.virtual_text
   record: $theme.text
   list: $theme.text

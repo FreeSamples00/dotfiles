@@ -47,14 +47,14 @@ $env.config = {
   }
 
   # ----- Error Settings -----
-  display_errors: {exit_code: false, termination_signal: false}
+  display_errors: {exit_code: true, termination_signal: true}
 
   # ----- Table Settings -----
-  footer_mode: 20 # display column names in footer if table larger than window
+  footer_mode: 30 # display column names in footer if table larger than window
   table: {
-    mode: "default" # theme
+    mode: "light" # also consider "frameless" or "psql", 
     index_mode: auto # only show index numbers when part of data
-    trim: {methodology: "truncating", truncating_suffix: "…"}
+    trim: {methodology: "truncating", truncating_suffix: "…", wrapping_try_keep_words: true}
     header_on_separator: true # place column name in table border
     abbreviated_row_count: 15
     missing_value_symbol: "——"
