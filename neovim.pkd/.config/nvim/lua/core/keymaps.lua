@@ -91,3 +91,18 @@ vim.keymap.set("n", "q:", "<Nop>") -- command window
 vim.keymap.set("n", "q/", "<Nop>")
 vim.keymap.set("n", "q?", "<Nop>")
 vim.keymap.set({ "n", "x" }, "J", "<Nop>") -- free for LSP hover
+
+-- fold operations (not used; zz/zt/zb/zg/zw/zh/zl still work)
+vim.keymap.set("n", "za", "<Nop>")
+vim.keymap.set("n", "zc", "<Nop>")
+vim.keymap.set("n", "zo", "<Nop>")
+vim.keymap.set("n", "zm", "<Nop>")
+vim.keymap.set("n", "zr", "<Nop>")
+vim.keymap.set("n", "zA", "<Nop>")
+vim.keymap.set("n", "zC", "<Nop>")
+vim.keymap.set("n", "zO", "<Nop>")
+vim.keymap.set("n", "zM", "<Nop>")
+vim.keymap.set("n", "zR", "<Nop>")
+vim.keymap.set("n", "zn", "<Nop>")
+vim.keymap.set("n", "zN", "<Nop>")
+vim.keymap.set("n", "zi", "<Nop>")
