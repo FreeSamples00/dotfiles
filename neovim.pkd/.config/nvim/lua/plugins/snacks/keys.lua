@@ -82,14 +82,6 @@ return {
       end,
       desc = "Rename",
     },
-    {
-      "<leader>sr",
-      function()
-        Snacks.picker.recent()
-      end,
-      desc = "Recent Files",
-    },
-
     -- git group
     {
       "<leader>gb",
