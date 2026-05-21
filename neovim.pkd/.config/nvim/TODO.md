@@ -2,38 +2,13 @@
 
 - [ ] add docs in README
 
-- [ ] highlight the external parens for block cursor is in
-
-- [ ] why are some UI elements hidden when lazy has to install something?
-  - [ ] linenumbers
-
-## Snacks
-
-Continue to explore this plugin, seems to have lots
-
-- [ ] make undotree cumulative?
-  - [ ] switch back to that one that makes a cumulative diff
-
-- [ ] there is a preview panel option for the file explorer, look into setting this up
-
 ## Keybinds
 
 - [ ] create grouping for comment operations
   - [ ] likely <leader>c or C
   - [ ] see comment options under "gc"
 
-- [ ] remove J line merging
-
 ## Language System
-
-- [x] get nushell working
-  - [x] LSP
-  - [x] [formatter](https://github.com/nushell/nufmt)
-
-- [ ] implement regression and unit testing?
-  - [ ] LLM accessible scripts:
-    - [ ] linting, formatting, etc
-    - [ ] unit and regression testing
 
 - [ ] add description per language
 
