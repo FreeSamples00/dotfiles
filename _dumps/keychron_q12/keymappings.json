@@ -63,7 +63,7 @@
       { "col": 1, "row": 3, "val": 93 },
       { "col": 2, "row": 3, "val": 94 },
       { "col": 3, "row": 3, "val": 0 },
-      { "col": 4, "row": 3, "val": 57 },
+      { "col": 4, "row": 3, "val": 11561 },
       { "col": 5, "row": 3, "val": 4 },
       { "col": 6, "row": 3, "val": 22 },
       { "col": 7, "row": 3, "val": 7 },
@@ -515,7 +515,7 @@
     ]
   ],
   "version": "1.0.0",
-  "MD5": "40109508cb32aa7705484aa2d0ad9d27",
+  "MD5": "86ba721a0a08134672bbb712c0561488",
   "knob": [
     { "left": "KC_VOLD", "right": "KC_VOLU" },
     { "left": "KC_TRNS", "right": "KC_TRNS" },
