@@ -90,4 +90,4 @@ vim.keymap.set("n", "gQ", "<Nop>")
 vim.keymap.set("n", "q:", "<Nop>") -- command window
 vim.keymap.set("n", "q/", "<Nop>")
 vim.keymap.set("n", "q?", "<Nop>")
-vim.keymap.set("n", "J", "<Nop>") -- free for LSP hover
+vim.keymap.set({ "n", "x" }, "J", "<Nop>") -- free for LSP hover
