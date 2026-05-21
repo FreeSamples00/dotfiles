@@ -309,8 +309,6 @@ function M.setup_lspconfig()
     end, { desc = "Format current buffer with LSP" })
 
     lsp_map("<leader>ff", "<cmd>Format<cr>", bufnr, "Format")
-
-    require("illuminate").on_attach(client)
   end
 
   local capabilities = vim.lsp.protocol.make_client_capabilities()

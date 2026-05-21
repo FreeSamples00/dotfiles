@@ -4,7 +4,7 @@
 --- - lang-system (local plugin with keybinds and commands)
 --- - Mason (package manager for LSP/formatters/linters)
 --- - nvim-treesitter (syntax highlighting + textobjects)
---- - nvim-lspconfig (LSP client with mason-lspconfig bridge + neodev + illuminate + cmp-nvim-lsp)
+--- - nvim-lspconfig (LSP client with mason-lspconfig bridge + neodev + cmp-nvim-lsp)
 --- - none-ls (formatters and linters, loaded on LspAttach)
 ---
 --- Default definitions: lua/lang-system/languages.lua and mappings.lua
@@ -64,7 +64,6 @@ return {
       "lang-system",
       "williamboman/mason-lspconfig.nvim", -- Mason ↔ lspconfig bridge
       "folke/neodev.nvim", -- Lua dev enhancements for neovim config
-      "RRethy/vim-illuminate", -- highlight word under cursor references
       "hrsh7th/cmp-nvim-lsp", -- LSP completion source
     },
     config = function()
