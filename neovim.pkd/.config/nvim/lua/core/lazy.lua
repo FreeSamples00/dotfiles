@@ -20,8 +20,8 @@ if not ok then
   return
 end
 
--- set leader before plugin loading (see helpers.keys.set_leader)
-require("helpers.keys").set_leader(" ")
+-- set leader before plugin loading (see helpers.keys.set_leaders)
+require("helpers.keys").set_leaders(" ", "\\")
 
 lazy.setup("plugins", {
   checker = {

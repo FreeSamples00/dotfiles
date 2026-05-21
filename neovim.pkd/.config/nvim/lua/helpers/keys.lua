@@ -26,11 +26,13 @@ function M.dap_map(mode, lhs, rhs, desc)
   M.map(mode, lhs, rhs, desc)
 end
 
----@param key string Leader key (sets both mapleader and maplocalleader)
-function M.set_leader(key)
-  vim.g.mapleader = key
-  vim.g.maplocalleader = key
-  M.map({ "n", "v" }, key, "<nop>")
+---@param global_key string Leader key
+---@param local_key string Local leader key
+function M.set_leaders(global_key, local_key)
+  vim.g.mapleader = global_key
+  vim.g.maplocalleader = local_key
+  M.map({ "n", "v" }, global_key, "<nop>")
+  M.map({ "n", "v" }, local_key, "<nop>")
 end
 
 return M
