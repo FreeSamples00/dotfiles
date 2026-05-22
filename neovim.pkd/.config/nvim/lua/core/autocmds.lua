@@ -70,6 +70,47 @@ autocmd("WinClosed", {
   end,
 })
 
+----- Open dashboard when last buffer is deleted -----
+autocmd("BufDelete", {
+  group = general,
+  callback = function(args)
+    -- Bail if the deleted buffer was a dashboard (user intentionally closed it)
+    local deleted_ft = vim.api.nvim_buf_is_valid(args.buf) and vim.bo[args.buf].filetype or ""
+    if deleted_ft == "snacks_dashboard" then
+      return
+    end
+
+    vim.schedule(function()
+      -- Already on a dashboard — nothing to do
+      if vim.bo.filetype == "snacks_dashboard" then
+        return
+      end
+
+      -- Check if any loaded, listed, named buffers remain
+      local has_real_buffer = false
+      for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buflisted then
+          local name = vim.api.nvim_buf_get_name(buf)
+          local ft = vim.bo[buf].filetype
+          -- "Real" = has a filename and isn't the dashboard
+          if name ~= "" and ft ~= "snacks_dashboard" then
+            has_real_buffer = true
+            break
+          end
+        end
+      end
+
+      if not has_real_buffer then
+        -- Open dashboard in current window (like on startup) so lualine stays visible
+        Snacks.dashboard.open({
+          win = vim.api.nvim_get_current_win(),
+          buf = vim.api.nvim_get_current_buf(),
+        })
+      end
+    end)
+  end,
+})
+
 ----- Highlight on yank -----
 autocmd("TextYankPost", {
   group = general,
