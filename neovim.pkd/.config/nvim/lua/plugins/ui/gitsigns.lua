@@ -3,7 +3,7 @@
 --- Toggle all git signs with <leader>uG.
 
 return {
-  "lewis6991/gitsigns.nvim",
+  "lewis6999/gitsigns.nvim",
   event = "BufReadPost",
   opts = {
     on_attach = function(buffer)
