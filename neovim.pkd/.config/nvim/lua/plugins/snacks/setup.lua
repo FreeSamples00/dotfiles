@@ -35,6 +35,19 @@ return {
         Snacks.toggle.indent():map("<leader>ug")
         Snacks.toggle.option("colorcolumn", { name = "Color Column", off = "", on = "80" }):map("<leader>uv")
 
+        -- git signs toggle
+        Snacks.toggle
+          .new({
+            name = "Git Signs",
+            get = function()
+              return require("gitsigns.config").config.signcolumn
+            end,
+            set = function(state)
+              require("gitsigns").toggle_signs(state)
+            end,
+          })
+          :map("<leader>uG")
+
         -- format-on-save toggle (reads vim.g.autoformat_enabled from core/autocmds)
         Snacks.toggle
           .new({
