@@ -126,6 +126,7 @@ export def main [
 export def all [
   pattern: string # pattern to search for
   --type (-t): string@rg_type_completer # filetype to search in
+  --filter (-f): list<string> # glob patterns to include files (e.g. ["*.nu", "*.ts"])
   --depth (-d): int = 999 # max depth to search
   --raw (-r) # no ansi colors
   --json (-j) # output in json
@@ -135,10 +136,12 @@ export def all [
     return
   }
 
-  let rg_defaults = if $type != null {
-    $rg_defaults | append $"--type=($type)"
-  } else { $rg_defaults }
+  let rg_defaults = $rg_defaults
+  | if $type != null { append $"--type=($type)" } else { $in }
   | append ($rg_ignore | each {|| $"--glob=!($in)"} | flatten)
+  | if ($filter | is-not-empty) {
+      append ($filter | each {|| $"--glob=($in)"} | flatten)
+    } else { $in }
 
   rg $pattern ...$rg_defaults ...$rg_types --max-depth=($depth)
   | from json -o
@@ -182,6 +185,7 @@ export def all [
 export def file [
   --depth (-d): int = 999 # max depth to search
   --type (-t): string@fd_type_completer # file types to search for
+  --filter (-f): list<string> # file extensions to include (e.g. ["nu", "ts"])
   --long (-l) # show detailed file info
   --json (-j) # output in json
   pattern?: string # pattern to search for
@@ -191,10 +195,12 @@ export def file [
     return
   }
 
-  let fd_defaults = if $type != null {
-    $fd_defaults | append $"--type=($type)"
-  } else { $fd_defaults }
+  let fd_defaults = $fd_defaults
+  | if $type != null { append $"--type=($type)" } else { $in }
   | append ($fd_ignore | each {|| $"--exclude=($in)"} | flatten)
+  | if ($filter | is-not-empty) {
+      append ($filter | each {|| [--extension $in] } | flatten)
+    } else { $in }
 
   let pattern = $pattern | default ""
 
