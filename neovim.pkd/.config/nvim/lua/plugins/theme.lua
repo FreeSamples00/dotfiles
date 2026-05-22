@@ -48,6 +48,18 @@ return {
             NormalFloat = { bg = "NONE" }, -- transparent floats
             FloatBorder = { bg = "NONE" },
             FloatTitle = { bg = "NONE" },
+
+            -- gitsigns inline preview overrides for transparent mode
+            -- added: explicit fg for consistent readability
+            GitSignsAddInline = { fg = colors.text, style = { "bold" } },
+            -- changed: amber bg (semantic yellow, not Catppuccin's default blue)
+            GitSignsChangeInline = { fg = colors.text, bg = "#4a3d1a", style = { "bold" } },
+            -- deleted: stronger red bg
+            GitSignsDeleteInline = { fg = colors.text, bg = "#5e1e2a", style = { "bold" } },
+            -- deleted virtual lines: dim red bg, stronger red on words
+            GitSignsDeleteVirtLn = { bg = "#2d2429" },
+            GitSignsDeleteVirtLnInLine = { bg = "#5e1e2a" },
+            GitSignsVirtLnum = { fg = "#5c4555" },
           }
         end,
       },
