@@ -47,7 +47,7 @@ $env.config = {
   }
 
   # ----- Error Settings -----
-  display_errors: {exit_code: true, termination_signal: true}
+  display_errors: {exit_code: false, termination_signal: true}
 
   # ----- Table Settings -----
   footer_mode: 30 # display column names in footer if table larger than window
