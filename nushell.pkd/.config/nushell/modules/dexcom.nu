@@ -4,8 +4,10 @@
 
 # ===== CONSTANTS =====
 
-# location of stored session id
-const SESSION_COOKIES = "~/.local/share/dexcom/session"
+# storage cache
+const CACHE_DIR = $"~/.local/share/dexcom"
+const SESSION_FILE = $"($CACHE_DIR)/session"
+const LOG_FILE = $"($CACHE_DIR)/logs.jsonl"
 
 # API base url
 const BASE_URL = "https://share2.dexcom.com/ShareWebServices/Services/"
@@ -14,7 +16,7 @@ const BASE_URL = "https://share2.dexcom.com/ShareWebServices/Services/"
 const ENDPOINTS = {
   login_id: General/LoginPublisherAccountById
   auth: General/AuthenticatePublisherAccount
-  values: Publisher/ReadPublisherLatestGlucoseValues
+  bg_values: Publisher/ReadPublisherLatestGlucoseValues
 }
 
 # US application ID
@@ -35,9 +37,26 @@ const AUTH_ERROR_CODES = [
 
 # ===== HELPERS =====
 
+def log [
+  level: string # log level
+  cause: string # what triggered the log event
+  data?: record # extra context
+] {
+  {
+    ts: (date now | into string)
+    level: $level
+    cause: $cause
+    data: ($data | to json --raw)
+  }
+  | to json --raw
+  | str trim
+  | $"($in)\n"
+  | save --append $LOG_FILE
+}
+
 # handle stored session IDs
 def cookie_load [] {
-  let path = $SESSION_COOKIES | path expand
+  let path = $SESSION_FILE | path expand
   if ($path | path exists) {
     open $path | str trim
   } else {
@@ -46,8 +65,8 @@ def cookie_load [] {
 }
 
 def cookie_save [] {
-  mkdir ($SESSION_COOKIES | path expand | path dirname)
-  $in | save -f $SESSION_COOKIES
+  mkdir ($SESSION_FILE | path expand | path dirname)
+  $in | save -f $SESSION_FILE
 }
 
 # Get dexcom credentials
@@ -60,10 +79,20 @@ def get_creds [
       password: (input "Password: ")
     }
     "proton" => {
-      let creds = pass-cli item view --item-title Dexcom --output json | from json
-      return {
-        username: $creds.item.content.content.Login.username
-        password: $creds.item.content.content.Login.password
+      let creds = try {
+        pass-cli item view --item-title Dexcom --output json | from json
+      } catch { |err|
+        log "error" "creds" {source: "proton", event: "retrieval failure", error: $err.msg}
+        error make {msg: $"Failed to retrieve Dexcom credentials from proton: ($err.msg)"}
+      }
+      try {
+        return {
+          username: $creds.item.content.content.Login.username
+          password: $creds.item.content.content.Login.password
+        }
+      } catch { |err|
+        log "error" "creds" {source: "proton", event: "parse failure", error: $err.msg}
+        error make {msg: $"Dexcom credential structure unexpected: ($err.msg)"}
       }
     }
     _ => {
@@ -74,34 +103,48 @@ def get_creds [
 
 # Retrieve user's account ID
 def get_account_id [creds: record<username: string, password: string>]: nothing -> string {
-  post $ENDPOINTS.auth {accountName: $creds.username, password: $creds.password, applicationId: $APP_ID}
+  post! "auth" {accountName: $creds.username, password: $creds.password, applicationId: $APP_ID}
 }
 
 # create a new session id
 def create_new_session []: nothing -> string {
   let creds = get_creds
-  let session_id = post $ENDPOINTS.login_id {
+  let session_id = post! "login_id" {
     accountId: (get_account_id $creds)
     password: $creds.password
     applicationId: $APP_ID
   }
   if ($session_id | describe) != "string" or $session_id == $DEFAULT_UUID {
+    log "error" "session" {event: "creation failure"}
     error make {msg: "Error creating new session"}
   } else {
+    log "info" "session" {event: "created"}
     $session_id | cookie_save
     return $session_id
   }
 }
 
-# send post request to dexcom API
-def post [endpoint: string, body: record] {
-  let resp = http post $"($BASE_URL)($endpoint)" --content-type application/json --allow-errors --headers {
+# Send post request to dexcom API (raw — returns response as-is)
+def post [endpoint: string@[login_id auth bg_values], body: record] {
+  let path = $ENDPOINTS | get $endpoint
+  http post $"($BASE_URL)($path)" --content-type application/json --allow-errors --headers {
       Accept-Encoding: application/json
     } $body
+}
+
+# Send post request to dexcom API (raises on error, logs result)
+def post! [endpoint: string, body: record] {
+  let resp = post $endpoint $body
 
   if (is-api-error $resp) {
+    (log
+      "error"
+      "api"
+      {endpoint: $endpoint, code: $resp.Code, message: $resp.Message}
+    )
     error make {msg: $"Dexcom ($resp.Code): ($resp.Message)"}
   }
+  log "info" "api" {endpoint: $endpoint, status: "success"}
   $resp
 }
 
@@ -132,9 +175,7 @@ def get_bg_raw [
   minutes: int = 5 # n minutes to request
   count: int = 1 # maximum entries to retrieve
 ] {
-  let resp = http post $"($BASE_URL)($ENDPOINTS.values)" --content-type application/json --allow-errors --headers {
-      Accept-Encoding: application/json
-    } {
+  let resp = post "bg_values" {
     sessionID: (cookie_load)
     minutes: $minutes
     maxCount: $count
@@ -142,15 +183,22 @@ def get_bg_raw [
 
   # Session expired — refresh and retry once
   if (is-api-error $resp) and ($resp.Code in $RETRY_CODES) {
+    log "warn" "session" {event: "expired", code: $resp.Code}
     create_new_session
-    post $ENDPOINTS.values {
+    post! "bg_values" {
       sessionID: (cookie_load)
       minutes: $minutes
       maxCount: $count
     }
   } else if (is-api-error $resp) {
+    (log
+      "error"
+      "api"
+      {endpoint: "bg_values", code: $resp.Code, message: $resp.Message}
+    )
     error make {msg: $"Dexcom ($resp.Code): ($resp.Message)"}
   } else {
+    log "info" "api" {endpoint: "bg_values", status: "success"}
     $resp
   }
 }
@@ -188,5 +236,27 @@ export def main [
       $in.DT | parse_timestamp
     }
     | select Time Value Arrow
+  }
+}
+
+export def logs [
+  --path (-p) # return logs location
+  --raw (-r) # get raw log data
+  --clear # clear logs
+] {
+  if $path {
+    return ($LOG_FILE | path expand)
+  } else if $clear {
+    "" | save --force ($LOG_FILE | path expand)
+  } else {
+    open ($LOG_FILE | path expand)
+    | from json --objects
+    | update data {|| $in | from json}
+    | if $raw {
+      return $in
+    } else {
+      $in
+      | update ts {|| $in | into datetime}
+    }
   }
 }
