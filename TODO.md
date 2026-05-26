@@ -1,46 +1,28 @@
 # Dotfile TODOs
 
+## Re-organize configs
+
+Consolidate configs into top-level groups, does not have to be all configs, just those that align into a group
+
+- macos: window manager, etc
+- coreutils: bash, vim, etc
+
+## Switch Window Manager
+
+[BarutSRB/OmniWM: MacOS Niri and Hyprland inspired tiling window manager that's developer signed and notorized (safe for managed enterprise environments). Aiming for parity and extra innovation.](https://github.com/BarutSRB/OmniWM)
+
+- switch to omniWM for named workspaces + niri style
+- move app launch shortcuts to independent package
+  - [asmvik/skhd: Simple hotkey daemon for macOS](https://github.com/asmvik/skhd)
+
+## Switch to nix for package management
+
+- can save macos settings
+- use home manager instead of stow
+- declarative for reproducability
+- GUI apps via integrated homebrew cask management
+- opencode session `ses_1c8110babffewSeWrxI02bMBNs`
+
 ## Documentation
 
 Create better documentation system than just readmes
-
-## Hooks
-
-Create dynamic formatting hook to ensure all included filetypes get formatted before commits?
-
-## `dot`
-
-- [ ] add ykey subcommand
-
-  - [ ] --ssh-install
-    - extract keys `ssh-keygen -K`
-    - move keys to .ssh/keys/yubico{.pub} (mkdir -p)
-  - [ ] --ssh-remove
-  - [ ] `echo -e "\nHost *\n\tIdentityFile ~/.ssh/keys/yubico_ssh\n\tIdentityAgent none" >> ~/.ssh/config`
-    - delete yubico keys from .ssh/keys
-  - [ ] --commands
-    - set yubico static passwords
-    - allow input for setting shortpress?
-
-- [ ] add brew subcommand
-
-  - [ ] --dump (same as current dump scheme)
-  - [ ] --install (use curl to install)
-  - [ ] --bundle (install brew packages from brewfile)
-
-- [ ] add cron subcommand
-  - [ ] --dump (same as scheme)
-  - [ ] --deploy (deploy cronjobs to crontab)
-    - [ ] fuzzy selection / filter or match stow pattern?
-
-## Packages
-
-## Aesthetics
-
-- [ ] customize `grc`
-
-## Misc
-
-- [ ] update readme
-  - [ ] command changes
-  - [ ] add sections for major features
