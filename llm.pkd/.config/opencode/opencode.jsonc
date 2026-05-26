@@ -181,6 +181,25 @@
         "websearch": "allow",
       },
     },
+    "documenter": {
+      "mode": "subagent",
+      "model": "synthetic/hf:zai-org/GLM-4.7-Flash",
+      "temperature": 0.2,
+      "reasoningEffort": "medium",
+      "hidden": true,
+      "permission": {
+        "bash": "deny",
+        "read": {
+          "*": "allow",
+          "*.priv": "deny",
+        },
+        "edit": "allow",
+        "write": "allow",
+        "grep": "allow",
+        "glob": "allow",
+        "list": "allow",
+      },
+    },
     "fixer": {
       "mode": "subagent",
       "model": "synthetic/hf:zai-org/GLM-4.7-Flash",
