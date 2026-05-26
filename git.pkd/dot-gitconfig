@@ -41,3 +41,5 @@
 	blame-code-style="syntax"
 	blame-separator-style="#cba6f7"
 	blame-separator-format="{n:^4} │"
+[init]
+	defaultBranch = main
