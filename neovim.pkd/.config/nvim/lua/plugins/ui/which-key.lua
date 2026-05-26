@@ -62,8 +62,27 @@ return {
       -- visual mode group
       { "v", group = "visual select", mode = "n" },
 
-      -- hide fold prefix in normal mode
-      { "z", hidden = true, mode = "n" },
+      -- z group: visible for spell/scroll, fold sub-keys hidden
+      { "z", group = "spell/scroll", mode = "n" },
+      { "za", hidden = true, mode = "n" },
+      { "zc", hidden = true, mode = "n" },
+      { "zd", hidden = true, mode = "n" },
+      { "zD", hidden = true, mode = "n" },
+      { "zE", hidden = true, mode = "n" },
+      { "zf", hidden = true, mode = "n" },
+      { "zi", hidden = true, mode = "n" },
+      { "zm", hidden = true, mode = "n" },
+      { "zM", hidden = true, mode = "n" },
+      { "zn", hidden = true, mode = "n" },
+      { "zN", hidden = true, mode = "n" },
+      { "zo", hidden = true, mode = "n" },
+      { "zO", hidden = true, mode = "n" },
+      { "zr", hidden = true, mode = "n" },
+      { "zR", hidden = true, mode = "n" },
+      { "zx", hidden = true, mode = "n" },
+      { "zX", hidden = true, mode = "n" },
+      { "zA", hidden = true, mode = "n" },
+      { "zC", hidden = true, mode = "n" },
     },
   },
 }
