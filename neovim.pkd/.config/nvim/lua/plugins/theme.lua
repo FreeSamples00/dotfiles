@@ -73,7 +73,7 @@ return {
         which_key = true,
         snacks = { enabled = true },
         harpoon = true,
-        --TODO: lualine integration
+        lualine = { enabled = true },
       },
     },
   },
