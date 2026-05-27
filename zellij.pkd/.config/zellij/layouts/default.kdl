@@ -1,0 +1,95 @@
+// zjstatus plugin
+// https://github.com/dj95/zjstatus
+
+layout {
+    default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="https://github.com/dj95/zjstatus/releases/latest/download/zjstatus.wasm" {
+
+                // catpuccin mocha colors
+                color_base       "#1e1e2e"
+                color_text       "#cdd6f4"
+                color_overlay0   "#6c7086"
+                color_surface0   "#313244"
+                color_surface1   "#45475a"
+                color_surface2   "#585b70"
+                color_green      "#a6e3a1"
+                color_blue       "#89b4fa"
+                color_sapphire   "#74c7ec"
+                color_mauve      "#cba6f7"
+                color_peach      "#fab387"
+                color_red        "#f38ba8"
+                color_teal       "#94e2d5"
+                color_yellow     "#f9e2af"
+                color_rosewater  "#f5e0dc"
+
+                // global format
+                format_left   "{mode}{tabs}"
+                format_center ""
+                // format_right  "#[fg=$mauve]#[fg=$base,bg=$mauve]󰕮#[fg=$surface0,bg=$mauve]#[fg=$text,bg=$surface0] {session} "
+                // format_right  "#[fg=$mauve]#[fg=$base,bg=$mauve]#[fg=$base,bg=$mauve] {session} "
+                // format_right  "#[fg=$surface0]#[fg=$text,bg=$surface0] {session} #[fg=$mauve,bg=$surface0]#[fg=$base,bg=$mauve] 󰕮 "
+                format_right  "#[fg=$surface0]#[fg=$text,bg=$surface0] {session} #[fg=$mauve,bg=$surface0]#[fg=$base,bg=$mauve] {swap_layout}"
+                format_space  ""
+                format_hide_on_overlength "true"
+                format_precedence "rlc"
+                border_enabled  "false"
+                // hide_frame_for_single_pane "true" // XXX: bugged right now, wait for fix
+
+
+                // slant icons:  
+
+                // mode display
+                mode_normal           "#[bg=$green,fg=$base,bold] NORMAL #[fg=$green]"
+                // mode_locked            "#[bg=$text,fg=$base,bold] LOCKED  #[fg=$text]"
+                mode_locked            "#[bg=$text,fg=$base,bold]  #[fg=$text]"
+                // mode_locked        "#[bg=$overlay0,fg=$base,bold] LOCKED  #[fg=$overlay0]"
+                mode_resize             "#[bg=$red,fg=$base,bold] RESIZE #[fg=$red]"
+                mode_pane              "#[bg=$blue,fg=$base,bold] PANE #[fg=$blue]"
+                mode_tab              "#[bg=$mauve,fg=$base,bold] TAB #[fg=$mauve]"
+                mode_scroll          "#[bg=$yellow,fg=$base,bold] SCROLL #[fg=$yellow]"
+                mode_enter_search  "#[bg=$sapphire,fg=$base,bold] SEARCH #[fg=$sapphire]"
+                mode_search        "#[bg=$sapphire,fg=$base,bold] SEARCH #[fg=$sapphire]"
+                mode_rename_tab       "#[bg=$mauve,fg=$base,bold] RENAME #[fg=$mauve]"
+                mode_rename_pane       "#[bg=$blue,fg=$base,bold] RENAME #[fg=$blue]"
+                mode_session          "#[bg=$mauve,fg=$base,bold] SESSION #[fg=$mauve]"
+                mode_move         "#[bg=$rosewater,fg=$base,bold] MOVE #[fg=$rosewater]"
+                mode_prompt            "#[bg=$blue,fg=$base,bold] PROMPT #[fg=$blue]"
+                mode_tmux             "#[bg=$peach,fg=$base,bold] TMUX #[fg=$peach]"
+                mode_default_to_mode    "#[bg=$red,fg=$base,bold] ??? #[fg=$red]"
+
+
+                // formatting for the active tab
+                tab_normal              "#[fg=$blue]#[bg=$blue,fg=$base,bold]{index}#[fg=$blue,bg=$surface0]#[bg=$surface0,fg=$text] {name}{floating_indicator} #[fg=$surface0]"
+                tab_normal_fullscreen   "#[fg=$blue]#[bg=$blue,fg=$base,bold]{index}#[fg=$blue,bg=$surface0]#[bg=$surface0,fg=$text] {name}{fullscreen_indicator} #[fg=$surface0]"
+                tab_normal_sync         "#[fg=$blue]#[bg=$blue,fg=$base,bold]{index}#[fg=$blue,bg=$surface0]#[bg=$surface0,fg=$text] {name}{sync_indicator} #[fg=$surface0]"
+
+                // formatting for inactive tabs
+                tab_active              "#[fg=$peach]#[bg=$peach,fg=$base,bold]{index}#[fg=$peach,bg=$surface0]#[bg=$surface0,fg=$text] {name}{floating_indicator} #[fg=$surface0]"
+                tab_active_fullscreen   "#[fg=$peach]#[bg=$peach,fg=$base,bold]{index}#[fg=$peach,bg=$surface0]#[bg=$surface0,fg=$text] {name}{fullscreen_indicator} #[fg=$surface0]"
+                tab_active_sync         "#[fg=$peach]#[bg=$peach,fg=$base,bold]{index}#[fg=$peach,bg=$surface0]#[bg=$surface0,fg=$text] {name}{sync_indicator} #[fg=$surface0]"
+
+                // formatting for tabs being renamed
+                tab_rename "#[fg=$mauve]#[bg=$mauve,fg=$base,bold]{index}#[fg=$mauve,bg=$surface0]#[bg=$surface0,fg=$peach,bold,italic] {name}#[bg=$surface0,fg=$text] #[fg=$surface0]"
+
+                // seperator between tabs
+                tab_separator           ""
+
+                // indicators
+                tab_sync_indicator       " 󰑱"
+                tab_fullscreen_indicator " 󰊓"
+                tab_floating_indicator   " 󱟱"
+
+                // only display n tabs
+                tab_display_count "8"
+                tab_truncate_start_format "#[fg=$surface0]#[bg=$surface0,fg=$text,bold] +{count} #[fg=$surface0]"
+                tab_truncate_end_format   "#[fg=$surface0]#[bg=$surface0,fg=$text,bold] +{count} #[fg=$surface0]"
+
+                // swap layout indicator
+                swap_layout_format "{name} "
+                swap_layout_hide_if_empty "true"
+            }
+        }
+        children
+    }
+}

@@ -14,6 +14,7 @@ export alias j = just
 export alias rm = rm -I
 export def cd --env --wrapped [...args: directory] { __zoxide_z ...$args }
 export alias rm = rm -I
+export alias z = zellij
 
 # clear shorthands
 export alias c = clear
