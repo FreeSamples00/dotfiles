@@ -155,6 +155,7 @@
     "explorer": {
       "mode": "subagent",
       "model": "synthetic/hf:zai-org/GLM-4.7-Flash",
+      "steps": 12,
       "temperature": 0.2,
       "reasoningEffort": "low",
       "hidden": false,
@@ -172,6 +173,7 @@
     "librarian": {
       "mode": "subagent",
       "model": "synthetic/hf:zai-org/GLM-4.7-Flash",
+      "steps": 10,
       "temperature": 0.2,
       "reasoningEffort": "medium",
       "hidden": false,
@@ -221,6 +223,7 @@
     "oracle": {
       "mode": "subagent",
       "model": "synthetic/hf:zai-org/GLM-5.1",
+      "steps": 8,
       "temperature": 0.1,
       "reasoningEffort": "high",
       "hidden": false,

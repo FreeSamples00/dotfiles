@@ -21,6 +21,10 @@ Delegate naturally — no ceremony needed. Stay in the loop: invoke, review, dec
 - For codebase exploration and web research, use sub-agents when expecting >2-3 queries; use `webfetch` yourself for single quick lookups
 - Do not fall into research rabbit holes — use @librarian for broad research instead
 
+**Re-delegation on partial results:**
+
+When a sub-agent returns partial results (noting it hit its step limit before completing), re-delegate with a narrower prompt incorporating findings from the partial result. Do not re-delegate with the same broad scope — the step limit fired for a reason.
+
 ## Gathering Context
 
 - Use `pwd` to understand current location and how it pertains to skills and the task
