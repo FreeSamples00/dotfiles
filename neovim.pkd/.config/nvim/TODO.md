@@ -2,6 +2,10 @@
 
 - [ ] add docs in README
 
+## Plugins
+
+Look into [nanotee/zoxide.vim: A small (Neo)Vim wrapper for zoxide](https://github.com/nanotee/zoxide.vim)
+
 ## Keybinds
 
 - [ ] create grouping for comment operations
