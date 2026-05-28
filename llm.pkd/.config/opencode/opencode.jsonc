@@ -29,21 +29,22 @@
           "family": "GLM",
           "reasoning": true,
         },
-        "hf:openai/gpt-oss-120b": {
-          "name": "GPT OSS 120B",
+        "hf:zai-org/GLM-4.7-Flash": {
+          "name": "GLM-4.7-Flash",
           "limit": {
-            "context": 128000,
-            "output": 32768,
+            "context": 196608,
+            "output": 65536,
           },
           "cost": {
             "input": 0.1,
-            "output": 0.1,
+            "output": 0.5,
           },
-          "family": "gpt-oss",
+          "family": "GLM",
           "reasoning": true,
         },
-        "hf:zai-org/GLM-4.7-Flash": {
-          "name": "GLM-4.7-Flash",
+        "syn:small:text": {
+          "name": "GLM-4.7-Flash (no tools)",
+          "tool_call": false,
           "limit": {
             "context": 196608,
             "output": 65536,
@@ -261,7 +262,7 @@
       },
     },
     "compaction": {
-      "model": "synthetic/hf:openai/gpt-oss-120b",
+      "model": "synthetic/syn:small:text",
       "permission": {
         "*": "deny",
       },
