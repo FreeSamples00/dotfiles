@@ -111,6 +111,15 @@ autocmd("BufDelete", {
   end,
 })
 
+----- Image viewer buffers are render-only (snacks.image), never write -----
+autocmd("FileType", {
+  group = general,
+  pattern = "image",
+  callback = function()
+    vim.bo.buftype = "nowrite"
+  end,
+})
+
 ----- Highlight on yank -----
 autocmd("TextYankPost", {
   group = general,
