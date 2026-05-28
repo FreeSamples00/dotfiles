@@ -64,27 +64,9 @@ clipboard-trim-trailing-spaces = true
 # use icon file at ~/.config/ghostty/Ghostty.icns
 macos-icon = custom
 
-# --- KEYBINDS ---
-keybind = super+shift+,=reload_config
-keybind = ctrl+shift+d=write_screen_file:copy
-keybind = ctrl+shift+r=reset
-
 # --- QUICK TERMINAL ---
 keybind = super+e=toggle_quick_terminal
 quick-terminal-position = center
 quick-terminal-size = 60%,80%
 quick-terminal-autohide = true
 quick-terminal-animation-duration = 0.01
-
-
-# ----- TILING -----
-keybind = ctrl+\=new_split:auto
-keybind = ctrl+h=goto_split:left
-keybind = ctrl+j=goto_split:down
-keybind = ctrl+k=goto_split:up
-keybind = ctrl+l=goto_split:right
-keybind = ctrl+arrow_up=resize_split:up,10
-keybind = ctrl+arrow_down=resize_split:down,10
-keybind = ctrl+arrow_left=resize_split:left,10
-keybind = ctrl+arrow_right=resize_split:right,10
-split-divider-color = #B1BBD7
