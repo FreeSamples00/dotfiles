@@ -55,6 +55,23 @@
           "family": "GLM",
           "reasoning": true,
         },
+        "syn:large:vision": {
+          "name": "Kimi-K2.6 (vision)",
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"],
+          },
+          "limit": {
+            "context": 262144,
+            "output": 65536,
+          },
+          "cost": {
+            "input": 0.95,
+            "output": 4.0,
+          },
+          "family": "Kimi",
+          "reasoning": true,
+        },
       },
     },
   },
@@ -116,12 +133,14 @@
         "doom_loop": "ask",
         "external_directory": {
           "*": "ask",
+          "/tmp": "allow",
         },
         "task": {
           "*": "deny",
           "explorer": "allow",
           "librarian": "allow",
           "oracle": "allow",
+          "vision": "allow",
         },
       },
     },
@@ -245,6 +264,29 @@
       "model": "synthetic/hf:openai/gpt-oss-120b",
       "permission": {
         "*": "deny",
+      },
+    },
+    "vision": {
+      "mode": "subagent",
+      "model": "synthetic/syn:large:vision",
+      "steps": 5,
+      "temperature": 0.2,
+      "reasoningEffort": "medium",
+      "hidden": false,
+      "permission": {
+        "bash": {
+          "*": "deny",
+          "ls *": "allow",
+          "file *": "allow",
+        },
+        "read": {
+          "*": "allow",
+        },
+        "glob": "allow",
+        "list": "allow",
+        "external_directory": {
+          "/tmp": "allow",
+        },
       },
     },
   },

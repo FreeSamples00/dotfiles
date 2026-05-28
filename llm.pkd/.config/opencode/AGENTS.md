@@ -37,7 +37,14 @@ Use the `webfetch` tool first, only fall back to `curl` when precision is needed
 - **No emoji usage**: Do not use emojis unless contextually necessary
 - **Avoid `---` page breaks** — disrupts markdown rendering in the opencode harness
 
-## Tool Call Discipline — Anti-Loop Rules
+## Tool Call Discipline
+
+### Image Files
+
+- **Do NOT read images directly** — the Read tool claims image support but the main agent cannot interpret visual content
+- **ALWAYS delegate to the `@vision` subagent** for any image viewing, description, comparison, or verification task
+
+### Anti-Loop Rules
 
 Repeating the same or equivalent tool call expecting different results wastes tokens and provides no value.
 
