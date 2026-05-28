@@ -15,6 +15,8 @@ return {
     picker = {
       enabled = true,
       sources = {
+        files = { hidden = true },
+        grep = { hidden = true },
         buffers = {
           layout = { hidden = { "input" } }, -- browse-only
           win = {
