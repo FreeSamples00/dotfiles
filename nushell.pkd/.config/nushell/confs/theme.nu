@@ -112,6 +112,7 @@ $env.config.color_config = {
   } else {
     $theme.mauve
   } }
+  bool: {|| if $in { $theme.green } else { $theme.red } }
   shape_external: $scheme.unrecognized_command
   shape_internalcall: $scheme.recognized_command
   shape_external_resolved: $scheme.recognized_command
@@ -134,9 +135,8 @@ $env.config.color_config = {
   shape_globpattern: $scheme.filepath
   shape_int: $scheme.constant
   int: $scheme.constant
-  bool: $scheme.constant
   float: $scheme.constant
-  nothing: $scheme.constant
+  nothing: {fg: $theme.overlay1, attr: i}
   binary: $scheme.constant
   shape_nothing: $scheme.constant
   shape_bool: $scheme.constant
