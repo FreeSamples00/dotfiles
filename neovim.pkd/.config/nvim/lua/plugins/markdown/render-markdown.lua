@@ -5,6 +5,17 @@ return {
   "MeanderingProgrammer/render-markdown.nvim",
   lazy = true,
   ft = "markdown",
+  keys = {
+    {
+      "<leader>Mp",
+      function()
+        local cmd = vim.fn.has("mac") == 1 and "open" or "xdg-open"
+        vim.fn.jobstart({ cmd, "file://" .. vim.fn.expand("%:p") })
+      end,
+      desc = "Browser Preview",
+      ft = "markdown",
+    },
+  },
   dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-mini/mini.nvim" },
   init = function()
     vim.api.nvim_set_hl(0, "RenderMarkdownCheckedStrike", {
