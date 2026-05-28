@@ -4,6 +4,67 @@
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "Hyper Key: Caps Lock -> Mod Tap\n- Held: cmd + opt + ctrl\n- Tapped: escape",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "caps_lock",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "parameters": { "basic.to_if_alone_timeout_milliseconds": 200 },
+                                "to": [
+                                    {
+                                        "key_code": "left_control",
+                                        "modifiers": ["left_control", "left_option", "left_command"]
+                                    }
+                                ],
+                                "to_if_alone": [{ "key_code": "escape" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Additional macOS key access via high function keys\n- F24 -> mission control\n- F23 -> spotlight\n- F22 -> do not disturb",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "f24",
+                                    "modifiers": { "optional": ["shift", "control", "option", "command"] }
+                                },
+                                "to": [{"apple_vendor_keyboard_key_code": "mission_control"}],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "f23",
+                                    "modifiers": { "optional": ["shift", "control", "option", "command"] }
+                                },
+                                "to": [{"apple_vendor_keyboard_key_code": "spotlight"}],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "f22",
+                                    "modifiers": { "optional": ["shift", "control", "option", "command"] }
+                                },
+                                "to": [{"generic_desktop": "do_not_disturb"}],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Disable:\nCmd+H Hide",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "h",
+                                    "modifiers": { "mandatory": ["command"] }
+                                },
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Built-in keyboard:\nF-keys as media controls, fn+F-keys as standard F-keys",
                         "manipulators": [
                             {
@@ -381,38 +442,6 @@
                                     }
                                 },
                                 "to": [{ "key_code": "f12" }],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Disable:\nCmd+H Hide",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "h",
-                                    "modifiers": { "mandatory": ["command"] }
-                                },
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Hyper Key: Caps Lock -> Mod Tap\n- Held: cmd + opt + ctrl\n- Tapped: escape",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "caps_lock",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "parameters": { "basic.to_if_alone_timeout_milliseconds": 200 },
-                                "to": [
-                                    {
-                                        "key_code": "left_control",
-                                        "modifiers": ["left_control", "left_option", "left_command"]
-                                    }
-                                ],
-                                "to_if_alone": [{ "key_code": "escape" }],
                                 "type": "basic"
                             }
                         ]
