@@ -11,6 +11,7 @@ $env.NU_LIB_DIRS ++= [$env.nu_module_dir $env.nu_confs_dir]
 
 $env.config.buffer_editor = "nvim"
 $env.EDITOR = "nvim"
+$env.VISUAL = "nvim"
 
 $env.ZELLIJ_CONFIG_DIR = $"($env.XDG_CONFIG_HOME)/zellij"
 
