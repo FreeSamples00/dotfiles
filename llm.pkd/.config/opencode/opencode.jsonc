@@ -63,6 +63,7 @@
     "skill": "allow",
     "bash": {
       "*": "ask",
+      "nu *": "allow",
       "make *": "allow",
       "pwd *": "allow",
       "ls *": "allow",
