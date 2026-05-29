@@ -3,6 +3,9 @@
 
 default_shell "nushell"
 theme "catppuccin-mocha"
+welcome_screen false
+show_startup_tips false
+show_release_notes false
 
 default_layout "default"
 pane_frames false
@@ -278,7 +281,7 @@ plugins {
     strider location="zellij:strider"
     tab-bar location="zellij:tab-bar"
     welcome-screen location="zellij:session-manager" {
-        welcome_screen true
+        welcome_screen false
     }
 }
 
