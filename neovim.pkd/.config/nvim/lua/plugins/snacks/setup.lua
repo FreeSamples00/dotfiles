@@ -35,6 +35,32 @@ return {
         Snacks.toggle.indent():map("<leader>ug")
         Snacks.toggle.option("colorcolumn", { name = "Color Column", off = "", on = "80" }):map("<leader>uv")
 
+        -- readonly/modifiable toggle (safety lock; won't override natively read-only buffers)
+        Snacks.toggle
+          .new({
+            name = "Readonly",
+            get = function()
+              return vim.b.modifiable_locked == true
+            end,
+            set = function(state)
+              if vim.bo.readonly then
+                Snacks.notify.error("Can't toggle read-only", { title = "Readonly" })
+                return
+              end
+              if state then
+                vim.bo.modifiable = false
+                vim.b.modifiable_locked = true
+                Snacks.notify("Enabled **Readonly**", { title = "Readonly", level = vim.log.levels.INFO })
+              else
+                vim.bo.modifiable = true
+                vim.b.modifiable_locked = false
+                Snacks.notify("Disabled **Readonly**", { title = "Readonly", level = vim.log.levels.WARN })
+              end
+            end,
+            notify = false, -- custom notifications in set() for edge-case messages
+          })
+          :map("<leader>uR")
+
         -- git signs toggle
         Snacks.toggle
           .new({
