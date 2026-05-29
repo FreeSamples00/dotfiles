@@ -43,8 +43,8 @@
           "reasoning": true,
         },
         "syn:small:text": {
-          "name": "GLM-4.7-Flash (no tools)",
-          "tool_call": false,
+          "name": "syn:compact",
+          "tool_call": true,
           "limit": {
             "context": 196608,
             "output": 65536,
@@ -54,10 +54,10 @@
             "output": 0.5,
           },
           "family": "GLM",
-          "reasoning": true,
+          "reasoning": false,
         },
         "syn:large:vision": {
-          "name": "Kimi-K2.6 (vision)",
+          "name": "syn:vision",
           "modalities": {
             "input": ["text", "image"],
             "output": ["text"],
@@ -263,6 +263,7 @@
     },
     "compaction": {
       "model": "synthetic/syn:small:text",
+      "reasoningEffort": "none",
       "permission": {
         "*": "deny",
       },
