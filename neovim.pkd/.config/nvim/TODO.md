@@ -4,7 +4,9 @@
 
 ## Plugins
 
-Look into [nanotee/zoxide.vim: A small (Neo)Vim wrapper for zoxide](https://github.com/nanotee/zoxide.vim)
+- Look into [nanotee/zoxide.vim: A small (Neo)Vim wrapper for zoxide](https://github.com/nanotee/zoxide.vim)
+
+- look into switching from nvim-cmp to blink-cmp `ses_18f71555effePbM5dirf05m4Hl`
 
 ## Keybinds
 
