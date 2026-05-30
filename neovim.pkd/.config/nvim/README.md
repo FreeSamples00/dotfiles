@@ -16,7 +16,7 @@ All-in-one utility plugin providing:
 - **Words**: LSP reference highlighting with `]]`/`[[` navigation
 - **Bigfile**: Automatic handling of large files
 - **Quickfile**: Fast file loading
-- **Toggle mappings**: `<leader>u` prefix for spell, wrap, relativenumber, diagnostics, conceal, treesitter, inlay hints, indent
+- **Toggle mappings**: `<leader>u` prefix for spell, wrap, relativenumber, diagnostics, conceal, treesitter, inlay hints, indent, readonly
 
 ### Noice
 
@@ -58,7 +58,7 @@ Catppuccin-mocha (default) with transparent background. Also includes: gruvbox, 
 - **mini.move**: Move text with Alt+hjkl
 - **vim-sleuth**: Auto-detect indentation
 - **vim-surround**: Surround text objects with brackets/quotes
-- **minipairs**: Auto-pairing for brackets and quotes. Skips pairing after word characters (e.g., `foo"` won't add closing quote)
+- **minipairs**: Auto-pairing for brackets and quotes. Brackets pair only before space/EOL; quotes only open in whitespace contexts, close normally inside pairs
 - **which-key**: Keybind discovery popup with Helix preset. Press `<leader>?` to show all keymaps. Groups: `<leader>f` (File), `<leader>g` (Git), `<leader>h` (Harpoon), `<leader>s` (Search), `<leader>u` (UI), `<leader>l` (LSP), `<leader>d` (Dev Tools), `<leader>M` (Markdown)
 - **nvim-cmp**: Autocompletion with LSP, LuaSnip, buffer, path sources. Tab/S-Tab for navigation, CR to confirm
 - **Harpoon (v2)**: Quick file marking for fast switching
