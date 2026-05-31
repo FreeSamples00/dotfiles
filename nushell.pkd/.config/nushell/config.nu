@@ -57,7 +57,7 @@ $env.config = {
     trim: {methodology: "truncating", truncating_suffix: "…", wrapping_try_keep_words: true}
     header_on_separator: true # place column name in table border
     abbreviated_row_count: 15
-    missing_value_symbol: "——"
+    missing_value_symbol: "--"
   }
 
   # ----- Datetime Settings -----

@@ -1,12 +1,9 @@
-# Zellij auto-tab-rename module
-# Renames zellij tabs based on the running command or current directory
-# Requires: zellij >= 0.39.0 (for `action rename-tab`)
-#
-# Hooks injected via `export-env`:
-#   - pre_execution: rename tab to the command being run
-#   - pre_prompt:    rename tab to current directory basename (when back at prompt)
-#
-# Both hooks are gated on $env.ZELLIJ — no side-effects outside zellij
+# Module for integrating nushell and zellij
+# provides:
+#  - tab renaming hooks
+#  - helper command for quick usage
+
+# ========== Hooks ==========
 
 # Commands that don't make useful tab names (navigation / shell builtins)
 const skip_commands = [
@@ -65,4 +62,24 @@ export-env {
             $existing | append {|| pre-prompt-rename }
         })
     }
+}
+
+# ========== Helper Command ==========
+
+# Parse available zellij sessions
+def parse-sessions []: nothing -> table<name: string, created: datetime, live: bool> {
+  zellij ls -n
+  | parse --regex '(?<name>\S+) \[Created (?<created>.+)\] (?:\((?<live>\w+))?'
+  | upsert live {|row|
+    match $row.live {
+      "EXITED" => false
+      _ => true
+    }
+  }
+  | update created {|row| $row.created | date from-human}
+  | sort-by live created --reverse
+}
+
+export def z [] {
+  zellij
 }
