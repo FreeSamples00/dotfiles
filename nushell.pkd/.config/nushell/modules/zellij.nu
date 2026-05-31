@@ -66,9 +66,21 @@ export-env {
 
 # ========== Helper Command ==========
 
+# assert zellij session
+def assert-session [
+  state: bool # session state
+] {
+  if $state != ("ZELLIJ" in $env) {
+    error make (
+      if $state { "Must be in zellij session" } else { "Cannot be in zellij session" }
+    )
+  }
+}
+
 # Parse available zellij sessions
 def parse-sessions []: nothing -> table<name: string, created: datetime, live: bool> {
   zellij ls -n
+  | collect
   | parse --regex '(?<name>\S+) \[Created (?<created>.+)\] (?:\((?<live>\w+))?'
   | upsert live {|row|
     match $row.live {
@@ -80,6 +92,179 @@ def parse-sessions []: nothing -> table<name: string, created: datetime, live: b
   | sort-by live created --reverse
 }
 
-export def z [] {
-  zellij
+# complete for exited sessions
+def dead-sessions-completer [] {
+  parse-sessions
+  | where not live
+  | each {
+    {
+      value: $in.name
+      description: $"($in.created)"
+    }
+  }
+}
+
+# complete for running sessions
+def sessions-completer [] {
+  parse-sessions
+  | where live
+  | each {
+    {
+      value: $in.name
+      description: $"($in.created)"
+    }
+  }
+}
+
+# Zellij session manager.
+#
+# Quick commands for managing zellij sessions
+#
+# Example
+#
+#   Start a new zellij session:
+#   `z`
+#
+#   Start a named session:
+#   `z my-project`
+#
+# Subcommands
+#
+#   `z` - start a new session (this command)
+#   `z list` - list sessions
+#   `z attach` - attach to a running session
+#   `z recover` - recover a dead session
+#   `z kill` - kill a running session
+#   `z delete` - delete a dead session
+#   `z rename` - rename the current session
+export def z [
+  session?: string # new session name
+] {
+  assert-session false
+  if ($session | describe) == "string" {
+    zellij --session $session
+  } else {
+    zellij
+  }
+}
+
+# List zellij sessions.
+#
+# Shows running sessions by default. Use --all to include exited sessions.
+#
+# Example
+#
+#   List running sessions:
+#   `z list`
+#
+#   List all sessions including exited ones:
+#   `z list --all`
+export def "z list" [
+  --all (-a) # list dead sessions
+] {
+  assert-session false
+  parse-sessions
+  | if $all {
+    $in
+  } else {
+    $in
+    | where live
+    | select name created
+  }
+}
+
+# Attach to a running zellij session.
+#
+# Connects to an existing running session by name.
+#
+# Example
+#
+#   Attach to a session named "dev":
+#   `z attach dev`
+export def "z attach" [
+  session: string@sessions-completer # session name
+] {
+  assert-session false
+  zellij attach $session
+}
+
+# Recover an exited zellij session.
+#
+# Attaches to a previously exited session, restoring it.
+#
+# Example
+#
+#   Recover the session named "old-project":
+#   `z recover old-project`
+export def "z recover" [
+  session: string@dead-sessions-completer # session name
+] {
+  assert-session false
+  zellij attach $session
+}
+
+# Kill a running zellij session.
+#
+# Terminates a running session by name, or kills all sessions with --all.
+#
+# Example
+#
+#   Kill a session named "dev":
+#   `z kill dev`
+#
+#   Kill all running sessions:
+#   `z kill --all`
+export def "z kill" [
+  session?: string@sessions-completer # session name
+  --all (-a) # kill all sessions
+] {
+  assert-session false
+  if $all {
+    zellij kill-all-sessions
+  } else {
+    zellij kill-session $session
+  }
+}
+
+# Delete an exited zellij session.
+#
+# Permanently removes an exited session by name, or deletes all exited sessions with --all.
+#
+# Example
+#
+#   Delete an exited session named "old-project":
+#   `z delete old-project`
+#
+#   Delete all exited sessions:
+#   `z delete --all`
+export def "z delete" [
+  session?: string@dead-sessions-completer # session name
+  --all (-a) # delete all sessions
+] {
+  assert-session false
+  if $all {
+    zellij delete-all-sessions
+  } else {
+    zellij delete-session $session
+  }
+}
+
+# Rename the current zellij session.
+#
+# Changes the name of the session you are currently in. Must be run from inside a zellij session.
+#
+# Example
+#
+#   Rename the current session to "my-project":
+#   `z rename my-project`
+#
+#   Rename with multiple words:
+#   `z rename my cool project`
+export def "z rename" [
+  name: string # new session name
+  ...args: string
+] {
+  assert-session true
+  let name = ([$name] | append $args) | str join " "
+  zellij action rename-session $name
 }
