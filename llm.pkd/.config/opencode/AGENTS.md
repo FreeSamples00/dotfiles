@@ -58,3 +58,7 @@ Repeating the same or equivalent tool call expecting different results wastes to
 - **Read before calling again** — always consume results before making another call; do not fire multiple variations in parallel
 - **Change approach, not parameters** — if a search fails, switch tools or strategy, do not tweak the same tool's arguments
 - **Accept "not found"** — missing information is better than a token-burning loop. Report the gap and move on
+
+### File Editing
+
+- **NEVER** overwrite files instead of using the edit tool. Always edit via diffs, even if the change is large.
