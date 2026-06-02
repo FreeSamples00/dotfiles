@@ -5,7 +5,7 @@ def _jc-completer [spans: list<string>]: nothing -> table<string: any, string: a
   let span = $spans | last # last element
   let spans = $spans | drop 1 # rest
   ^jc --help
-  | parse -r '^\s*(?:-\w,?\s*)?(?<value>--[\w-]+)\s+(?<description>.+)$'
+  | parse -r '(?m)^\s*(?:(?<short>-\w),\s+)?(?<value>--\S+)\s+(?<description>.+)'
   | collect
   | where $it.value not-in $spans and $it.value =~ $span
 }
