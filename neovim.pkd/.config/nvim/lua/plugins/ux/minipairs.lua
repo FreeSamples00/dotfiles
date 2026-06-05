@@ -1,12 +1,19 @@
 --- mini.pairs: auto-pairing for brackets and quotes
---- Brackets: only pair when space/EOL follows cursor (prevents `(bar` -> `()bar`)
---- Quotes: custom keymap — close normally inside pairs, only open new pairs in whitespace contexts
+--- Brackets: pair when non-word, non-quote char follows cursor (prevents `(bar` -> `()bar`)
+--- Quotes: custom keymap — close normally inside pairs, only open new pairs in safe contexts
+
+local function in_ts_string()
+  local ok, node = pcall(vim.treesitter.get_node)
+  if not ok or not node then
+    return false
+  end
+  return node:type():match("string") ~= nil
+end
 
 local function quote_pair(char)
   return function()
     local line = vim.api.nvim_get_current_line()
     local col = vim.api.nvim_win_get_cursor(0)[2]
-    local before = col > 0 and line:sub(col, col) or "\r"
     local after_char = line:sub(col + 1, col + 1)
     if after_char == "" then
       after_char = "\n"
@@ -23,8 +30,20 @@ local function quote_pair(char)
       return "<Right>"
     end
 
-    -- Open: only if space/line-start before AND space/EOL after
-    if (before == " " or before == "\r") and (after_char == " " or after_char == "\n") then
+    -- Guard: don't open a new pair when there's an unmatched quote before cursor
+    -- (prevents "foo" → "foo"" at end of strings)
+    if count_before % 2 == 1 then
+      return char
+    end
+
+    -- Guard: don't open a new pair inside a treesitter string node
+    -- (catches escaped quotes that the count heuristic misses)
+    if in_ts_string() then
+      return char
+    end
+
+    -- Open: when char after cursor is safe (not word, not same quote, not backslash)
+    if not after_char:match("[%w\\]") and after_char ~= char then
       return char .. char .. "<Left>"
     end
 
@@ -39,14 +58,13 @@ return {
   opts = {
     modes = { insert = true, command = true, terminal = false },
     skip_next = [=[[%w%%%'%[%"%.%`%$]]=], -- skip pairing after word chars
-    skip_ts = { "string" }, -- skip inside treesitter strings
     skip_unbalanced = true,
     markdown = true,
     mappings = {
-      -- Brackets: pair only when space/EOL follows cursor (any char before is ok)
-      ["("] = { action = "open", pair = "()", neigh_pattern = ".[ \n]", register = { cr = false } },
-      ["["] = { action = "open", pair = "[]", neigh_pattern = ".[ \n]", register = { cr = false } },
-      ["{"] = { action = "open", pair = "{}", neigh_pattern = ".[ \n]", register = { cr = false } },
+      -- Brackets: pair when non-word, non-quote char follows cursor (any char before is ok)
+      ["("] = { action = "open", pair = "()", neigh_pattern = ".[^%w_\"'`]", register = { cr = false } },
+      ["["] = { action = "open", pair = "[]", neigh_pattern = ".[^%w_\"'`]", register = { cr = false } },
+      ["{"] = { action = "open", pair = "{}", neigh_pattern = ".[^%w_\"'`]", register = { cr = false } },
       -- Quotes: overridden by custom keymaps in config function below
       ['"'] = { action = "closeopen", pair = '""', neigh_pattern = "[^%w\\].", register = { cr = false } },
       ["'"] = { action = "closeopen", pair = "''", neigh_pattern = "[^%w\\].", register = { cr = false } },
@@ -55,7 +73,7 @@ return {
   },
   config = function(_, opts)
     require("mini.pairs").setup(opts)
-    -- Custom quote keymaps: close inside pairs, only open in whitespace contexts
+    -- Custom quote keymaps: close inside pairs, only open in safe contexts
     for _, char in ipairs({ '"', "'", "`" }) do
       vim.keymap.set("i", char, quote_pair(char), { expr = true, replace_keycodes = true })
     end
