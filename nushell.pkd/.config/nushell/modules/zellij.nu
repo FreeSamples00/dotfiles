@@ -5,6 +5,8 @@
 
 # ========== Hooks ==========
 
+const do_hooks = false
+
 # Commands that don't make useful tab names (navigation / shell builtins)
 const skip_commands = [
   "z"
@@ -52,7 +54,7 @@ def pre-prompt-rename [] {
 # export-env runs once when the module is loaded, appending our
 # hooks to any existing hooks without clobbering them.
 export-env {
-    if "ZELLIJ" in $env {
+    if "ZELLIJ" in $env and $do_hooks {
         $env.config = ($env.config | upsert hooks.pre_execution {|c|
             let existing = $c | get -o hooks.pre_execution | default []
             $existing | append {|| pre-exec-rename }
