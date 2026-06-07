@@ -11,7 +11,6 @@ default_layout "default"
 pane_frames false
 simplified_ui true
 scroll_buffer_size 50000
-copy_command "pbcopy"
 osc8_hyperlinks true
 mouse_click_through true
 
