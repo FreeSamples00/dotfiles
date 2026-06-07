@@ -75,6 +75,17 @@ map("n", "<leader>bd", "<cmd>bdelete<CR>", "Close")
 map("n", "<leader>br", "<cmd>edit!<CR>", "Revert")
 map("n", "<leader>ur", "<cmd>nohl<cr>", "Clear highlights")
 
+---- File ----
+
+map("n", "<leader>fp", function()
+  vim.notify(vim.api.nvim_buf_get_name(0), vim.log.levels.INFO, { title = "File Path" })
+end, "File Path")
+map("n", "<leader>fP", function()
+  local path = vim.api.nvim_buf_get_name(0)
+  vim.notify(path, vim.log.levels.INFO, { title = "File Path" })
+  vim.fn.setreg("+", path)
+end, "File Path (yank)")
+
 ---- Command-line Mode (Emacs-style) ----
 
 vim.keymap.set("c", "<C-a>", "<Home>")
