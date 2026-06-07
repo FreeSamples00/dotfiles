@@ -110,11 +110,15 @@ return {
             preview = "main", -- preview in main window
           },
           win = {
+            list = {
+              keys = {
+                ["p"] = "toggle_preview", -- both P and p toggle preview
+              },
+            },
             preview = {
               col = 0,
               row = 0,
-              max_width = 50,
-              max_height = 35,
+              max_width = 100,
               border = "rounded",
             },
           },
