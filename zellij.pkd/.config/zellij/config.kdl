@@ -1,7 +1,7 @@
 
 // Global Settings
 
-default_shell "nushell"
+default_shell "nu"
 theme "catppuccin-mocha"
 welcome_screen false
 show_startup_tips false
@@ -100,7 +100,7 @@ keybinds clear-defaults=true {
         bind "l" { GoToNextTab; }
         bind "n" { NewTab; }
         bind "r" { SwitchToMode "renametab"; TabNameInput 0; }
-        bind "s" { ToggleActiveSyncTab; }
+        // bind "s" { ToggleActiveSyncTab; }
         bind "x" { CloseTab; }
         bind "b" { BreakPane; }
         bind "[" { BreakPaneLeft; }

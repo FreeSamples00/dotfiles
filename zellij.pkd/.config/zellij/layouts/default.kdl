@@ -26,10 +26,8 @@ layout {
                 // global format
                 format_left   "{mode}{tabs}"
                 format_center ""
-                // format_right  "#[fg=$mauve]#[fg=$base,bg=$mauve]󰕮#[fg=$surface0,bg=$mauve]#[fg=$text,bg=$surface0] {session} "
-                // format_right  "#[fg=$mauve]#[fg=$base,bg=$mauve]#[fg=$base,bg=$mauve] {session} "
-                // format_right  "#[fg=$surface0]#[fg=$text,bg=$surface0] {session} #[fg=$mauve,bg=$surface0]#[fg=$base,bg=$mauve] 󰕮 "
-                format_right  "#[fg=$surface0]#[fg=$text,bg=$surface0] {session} #[fg=$mauve,bg=$surface0]#[fg=$base,bg=$mauve] {swap_layout}"
+                // format_right  "#[fg=$surface0]#[fg=$text,bg=$surface0] {session} #[fg=$mauve,bg=$surface0]#[fg=$base,bg=$mauve] {swap_layout}"
+                format_right  "#[fg=$surface0]#[fg=$text,bg=$surface0] {session} #[fg=$mauve,bg=$surface0]#[fg=$base,bg=$mauve] "
                 format_space  ""
                 format_hide_on_overlength "true"
                 format_precedence "rlc"
@@ -40,10 +38,8 @@ layout {
                 // slant icons:  
 
                 // mode display
-                mode_normal           "#[bg=$green,fg=$base,bold] NORMAL #[fg=$green]"
-                // mode_locked            "#[bg=$text,fg=$base,bold] LOCKED  #[fg=$text]"
+                mode_normal           "#[bg=$teal,fg=$base,bold] #[fg=$teal]"
                 mode_locked            "#[bg=$text,fg=$base,bold]  #[fg=$text]"
-                // mode_locked        "#[bg=$overlay0,fg=$base,bold] LOCKED  #[fg=$overlay0]"
                 mode_resize             "#[bg=$red,fg=$base,bold] RESIZE #[fg=$red]"
                 mode_pane              "#[bg=$blue,fg=$base,bold] PANE #[fg=$blue]"
                 mode_tab              "#[bg=$mauve,fg=$base,bold] TAB #[fg=$mauve]"
@@ -55,7 +51,7 @@ layout {
                 mode_session          "#[bg=$mauve,fg=$base,bold] SESSION #[fg=$mauve]"
                 mode_move         "#[bg=$rosewater,fg=$base,bold] MOVE #[fg=$rosewater]"
                 mode_prompt            "#[bg=$blue,fg=$base,bold] PROMPT #[fg=$blue]"
-                mode_tmux             "#[bg=$peach,fg=$base,bold] TMUX #[fg=$peach]"
+                mode_tmux             "#[bg=$peach,fg=$base,bold]  #[fg=$peach]"
                 mode_default_to_mode    "#[bg=$red,fg=$base,bold] ??? #[fg=$red]"
 
 
