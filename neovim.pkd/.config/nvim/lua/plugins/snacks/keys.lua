@@ -6,9 +6,9 @@ return {
     {
       "<leader><space>",
       function()
-        Snacks.picker.smart()
+        Snacks.picker.files()
       end,
-      desc = "Smart Find Files",
+      desc = "Find files",
     },
     {
       "L",
@@ -62,11 +62,11 @@ return {
       desc = "Find Config File",
     },
     {
-      "<leader>sf",
+      "<leader>ss",
       function()
-        Snacks.picker.files()
+        Snacks.picker.smart()
       end,
-      desc = "Files",
+      desc = "Smart serach",
     },
     {
       "<leader>fg",
