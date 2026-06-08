@@ -2,6 +2,7 @@
 --- hidden_search_options: DRY table for pickers that don't need a search input
 
 local wrap_options = require("helpers.utils").wrap_options
+local is_ssh = require("helpers.utils").is_ssh
 
 -- pickers that only browse/select (no text search needed)
 local hidden_search_options = {
@@ -17,6 +18,10 @@ return {
       sources = {
         files = { hidden = true },
         grep = { hidden = true },
+        smart = is_ssh() and {
+          multi = { "buffers", "recent", "files" },
+          matcher = { frecency = false, sort_empty = true, cwd_bonus = true },
+        } or nil,
         buffers = {
           layout = { hidden = { "input" } }, -- browse-only
           win = {
