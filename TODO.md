@@ -23,6 +23,10 @@ Consolidate configs into top-level groups, does not have to be all configs, just
 - GUI apps via integrated homebrew cask management
 - opencode session `ses_1c8110babffewSeWrxI02bMBNs`
 
+- look into nix-wide config options
+  - global catpuccin theme
+  - global terminal app opacity (ghostty, neovide)
+
 ## Documentation
 
 Create better documentation system than just readmes

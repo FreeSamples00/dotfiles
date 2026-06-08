@@ -87,6 +87,8 @@ y
 EOF
 ```
 
+_The `y` confirms overwriting the slot_
+
 2. Add `ssh-keygen -K` to the long touch slot.
 
 ```bash
