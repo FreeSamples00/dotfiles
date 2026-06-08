@@ -2,6 +2,12 @@
 
 local M = {}
 
+--- Check if running in an SSH session
+---@return boolean
+function M.is_ssh()
+  return not not (os.getenv("SSH_CONNECTION") or os.getenv("SSH_TTY"))
+end
+
 --- Window options for wrapped text (used in snacks notifications, picker preview, help windows)
 M.wrap_options = {
   wrap = true,

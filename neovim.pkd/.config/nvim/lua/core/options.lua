@@ -28,12 +28,9 @@ for opt, val in pairs(opts) do
 end
 
 -- OSC52 clipboard for SSH sessions
--- Zellij doesn't forward OSC 52 paste responses (github.com/zellij-org/zellij/issues/2647)
--- so when inside zellij we use OSC 52 for copy only and fall back to the default
--- register for paste. Use the terminal's native paste (e.g. Cmd+V) to paste from
--- the system clipboard instead.
 if os.getenv("SSH_CONNECTION") or os.getenv("SSH_TTY") then
   local osc52 = require("vim.ui.clipboard.osc52")
+  -- zellij blocks osc52 paste signals, default to yank only
   if os.getenv("ZELLIJ") then
     vim.g.clipboard = {
       name = "OSC 52 (copy-only, zellij)",

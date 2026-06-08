@@ -1,6 +1,8 @@
 --- Snacks.nvim: all-in-one utility plugin (dashboard, explorer, picker, indent, scroll, etc.)
 --- Sub-module specs are merged into one lazy spec via vim.tbl_deep_extend
 
+local is_ssh = require("helpers.utils").is_ssh
+
 return vim.tbl_deep_extend(
   "force",
   {
@@ -9,8 +11,8 @@ return vim.tbl_deep_extend(
     lazy = false,
     ---@type snacks.Config
     opts = {
-      image = { enabled = true, doc = { inline = false, float = false } }, -- image support, no inline display
-      animate = { enable = true },
+      image = { enabled = not is_ssh(), doc = { inline = false, float = false } }, -- image support, no inline display
+      animate = { enable = not is_ssh() },
       bigfile = { enabled = true }, -- disable features for large files
       explorer = { enabled = true },
       indent = {
@@ -21,7 +23,7 @@ return vim.tbl_deep_extend(
       notifier = { enabled = true },
       quickfile = { enabled = true }, -- fast loading for pre-read buffers
       scope = { enabled = true },
-      scroll = { enabled = true }, -- smooth scrolling
+      scroll = { enabled = not is_ssh() },
       statuscolumn = { enabled = true }, -- line numbers + signs + folds
       words = { enabled = true }, -- LSP reference highlighting
       styles = {
