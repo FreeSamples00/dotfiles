@@ -174,6 +174,7 @@ export def "z list" [
     | select name created
   }
 }
+export alias "z ls" = z list
 
 # Attach to a running zellij session.
 #
@@ -189,6 +190,7 @@ export def "z attach" [
   assert-session false
   zellij attach $session
 }
+export alias "z a" = z attach
 
 # Recover an exited zellij session.
 #
