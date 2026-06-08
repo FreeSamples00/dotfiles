@@ -23,9 +23,11 @@ end
 -- set leader before plugin loading (see helpers.keys.set_leaders)
 require("helpers.keys").set_leaders(" ", "\\")
 
+local is_ssh = require("helpers.utils").is_ssh
+
 lazy.setup("plugins", {
   checker = {
-    enabled = true, -- check for updates on startup
+    enabled = not is_ssh(), -- skip startup plugin update checks over SSH (adds latency)
     notify = false, -- don't spam notifications
   },
   ui = {
