@@ -51,7 +51,7 @@ layout {
                 mode_session          "#[bg=$mauve,fg=$base,bold] SESSION #[fg=$mauve]"
                 mode_move         "#[bg=$rosewater,fg=$base,bold] MOVE #[fg=$rosewater]"
                 mode_prompt            "#[bg=$blue,fg=$base,bold] PROMPT #[fg=$blue]"
-                mode_tmux             "#[bg=$peach,fg=$base,bold]  #[fg=$peach]"
+                mode_tmux             "#[bg=$peach,fg=$base,bold] HUB #[fg=$peach]"
                 mode_default_to_mode    "#[bg=$red,fg=$base,bold] ??? #[fg=$red]"
 
 
