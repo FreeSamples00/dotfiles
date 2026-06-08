@@ -81,9 +81,12 @@ autocmd("BufDelete", {
     end
 
     vim.schedule(function()
-      -- Already on a dashboard — nothing to do
-      if vim.bo.filetype == "snacks_dashboard" then
-        return
+      -- Skip if a dashboard already exists in any window
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        if vim.bo[buf].filetype == "snacks_dashboard" then
+          return
+        end
       end
 
       -- Check if any loaded, listed, named buffers remain
@@ -101,11 +104,24 @@ autocmd("BufDelete", {
       end
 
       if not has_real_buffer then
-        -- Open dashboard in current window (like on startup) so lualine stays visible
-        Snacks.dashboard.open({
-          win = vim.api.nvim_get_current_win(),
-          buf = vim.api.nvim_get_current_buf(),
-        })
+        -- Find a non-floating window that isn't showing special content
+        -- Avoids overriding help floats and other special windows
+        local target_win
+        for _, win in ipairs(vim.api.nvim_list_wins()) do
+          local cfg = vim.api.nvim_win_get_config(win)
+          if cfg.relative == "" then -- non-floating
+            local buf = vim.api.nvim_win_get_buf(win)
+            local ft = vim.bo[buf].filetype
+            if ft ~= "help" and ft ~= "man" and ft ~= "snacks_dashboard" then
+              target_win = win
+              break
+            end
+          end
+        end
+
+        if target_win then
+          Snacks.dashboard.open({ win = target_win })
+        end
       end
     end)
   end,
