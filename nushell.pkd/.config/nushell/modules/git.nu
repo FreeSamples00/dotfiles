@@ -2,6 +2,10 @@
 
 # USAGE: import with `use /path/to/git.nu *`
 
+# ---------- IMPORTS ----------
+
+use std-rfc/pb
+
 # ---------- INTERNAL HELPERS ----------
 
 # completer for connections types of git clone wrapper
@@ -84,8 +88,17 @@ export def gcl [
 
   let env_vars = if $con_type == https { {GIT_TERMINAL_PROMPT: "0"} } else { {} }
 
-  with-env $env_vars {
-    git clone $"($URL)($target | str replace --regex "^https://github.com/" "")" ...$args
+  try {
+    pb indeterminate
+    with-env $env_vars {
+      git clone $"($URL)($target | str replace --regex "^https://github.com/" "")" ...$args
+    }
+  } catch {|err|
+    pb error 100
+    sleep 0.5sec
+    error make $err
+  } finally {
+    pb clear
   }
 }
 
@@ -105,22 +118,31 @@ export def get-ignore [
 
 # Wrapper for ghgrab
 export def ghet [url?: string] {
-  print "Getting github token..."
-  let args = [
-    --cwd
-    --no-folder
-    --token
-    (pass-cli item view --item-title GitHub --field "Read-Only PAT")
-  ] | (if (($url | describe) != 'nothing') {
-          $in | append (if ($url | str starts-with "https://github.com/") {
-              $url
-            } else {
-              $"https://github.com/($url)"
-            }
-          )
-        } else {
-          $in
-        }
+  try {
+    pb indeterminate
+    let args = [
+      --cwd
+      --no-folder
+      --token
+      (pass-cli item view --item-title GitHub --field "Read-Only PAT")
+    ] | (if (($url | describe) != 'nothing') {
+      $in | append (if ($url | str starts-with "https://github.com/") {
+        $url
+      } else {
+        $"https://github.com/($url)"
+      }
       )
-  ghgrab ...$args
+    } else {
+      $in
+    }
+    )
+    pb clear
+    ghgrab ...$args
+  } catch {|err|
+    pb error
+    sleep 0.5sec
+    error make $err
+  } finally {
+    pb clear
+  }
 }
