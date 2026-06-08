@@ -28,16 +28,39 @@ for opt, val in pairs(opts) do
 end
 
 -- OSC52 clipboard for SSH sessions
+-- Zellij doesn't forward OSC 52 paste responses (github.com/zellij-org/zellij/issues/2647)
+-- so when inside zellij we use OSC 52 for copy only and fall back to the default
+-- register for paste. Use the terminal's native paste (e.g. Cmd+V) to paste from
+-- the system clipboard instead.
 if os.getenv("SSH_CONNECTION") or os.getenv("SSH_TTY") then
-  vim.g.clipboard = {
-    name = "OSC 52",
-    copy = {
-      ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
-      ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
-    },
-    paste = {
-      ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
-      ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
-    },
-  }
+  local osc52 = require("vim.ui.clipboard.osc52")
+  if os.getenv("ZELLIJ") then
+    vim.g.clipboard = {
+      name = "OSC 52 (copy-only, zellij)",
+      copy = {
+        ["+"] = osc52.copy("+"),
+        ["*"] = osc52.copy("*"),
+      },
+      paste = {
+        ["+"] = function()
+          return vim.split(vim.fn.getreg('"'), "\n")
+        end,
+        ["*"] = function()
+          return vim.split(vim.fn.getreg('"'), "\n")
+        end,
+      },
+    }
+  else
+    vim.g.clipboard = {
+      name = "OSC 52",
+      copy = {
+        ["+"] = osc52.copy("+"),
+        ["*"] = osc52.copy("*"),
+      },
+      paste = {
+        ["+"] = osc52.paste("+"),
+        ["*"] = osc52.paste("*"),
+      },
+    }
+  end
 end
