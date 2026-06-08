@@ -17,7 +17,6 @@ use clipboard.nu *
 use git.nu *
 use synthetic.nu
 use APIs.nu *
-use tmx.nu
 use dexcom.nu
 use zellij.nu *
 
