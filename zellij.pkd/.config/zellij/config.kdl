@@ -47,14 +47,14 @@ keybinds clear-defaults=true {
         bind "8" { GoToTab 8; SwitchToMode "normal"; }
         bind "9" { GoToTab 9; SwitchToMode "normal"; }
         // common operations
-        bind "n" { NewPane; }
-        bind "N" { NewTab; SwitchToMode "normal"; }
+        bind "n" { NewTab; SwitchToMode "normal"; }
+        bind "N" { NewPane "right"; }
         bind "x" { CloseFocus; }
         bind "f" { ToggleFocusFullscreen; SwitchToMode "normal"; }
         bind "w" { ToggleFloatingPanes; SwitchToMode "normal"; }
         bind "b" { BreakPane; SwitchToMode "normal"; }
         bind "d" { Detach; }
-        bind "q" { Quit; }
+        bind "Q" { Quit; }
         // mode dispatch
         bind "p" { SwitchToMode "pane"; }
         bind "t" { SwitchToMode "tab"; }
@@ -152,8 +152,6 @@ keybinds clear-defaults=true {
         bind "Ctrl Space" { SwitchToMode "tmux"; }
         // pane navigation
         bind "Alt h" { MoveFocusOrTab "left"; }
-        bind "Alt j" { MoveFocus "down"; }
-        bind "Alt k" { MoveFocus "up"; }
         bind "Alt l" { MoveFocusOrTab "right"; }
         bind "Alt left" { MoveFocusOrTab "left"; }
         bind "Alt down" { MoveFocus "down"; }
