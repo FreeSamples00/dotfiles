@@ -21,8 +21,10 @@ export def main [
   --stats # show opencode stats
 ] {
   if ($session | is-not-empty) {
-    opencode --continue
+    opencode --session $session
   } else if $stats {
     opencode stats
+  } else {
+    opencode
   }
 }
