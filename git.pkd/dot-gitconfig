@@ -20,7 +20,7 @@
 	conflictStyle=zdiff3
 
 [delta]
-	side-by-side=false
+	side-by-side=true
 	line-numbers=true
 	navigate=true
 	hyperlinks=true
