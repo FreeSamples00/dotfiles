@@ -18,6 +18,6 @@ use git.nu *
 use synthetic.nu
 use APIs.nu *
 use dexcom.nu
-use zellij.nu *
+use zj.nu *
 
 use (if $nu.os-info.name == 'macos' { 'macos.nu' }) *
