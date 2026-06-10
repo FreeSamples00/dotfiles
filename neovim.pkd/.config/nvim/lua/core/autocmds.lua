@@ -49,6 +49,17 @@ autocmd("VimEnter", {
   end,
 })
 
+----- Change cwd to git root on startup -----
+autocmd("VimEnter", {
+  group = general,
+  callback = function()
+    local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+    if vim.v.shell_error == 0 then
+      vim.fn.chdir(git_root)
+    end
+  end,
+})
+
 ----- Quit if only picker/explorer windows remain -----
 local autoclose_filetypes = globals.autoclose_filetypes
 autocmd("WinClosed", {
