@@ -66,7 +66,7 @@ return {
       function()
         Snacks.picker.smart()
       end,
-      desc = "Smart serach",
+      desc = "Smart Search",
     },
     {
       "<leader>fg",
