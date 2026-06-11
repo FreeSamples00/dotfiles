@@ -86,12 +86,10 @@ keybinds clear-defaults=true {
 
     // ── tab: tab management ──────────────────────────────────
     tab {
-        bind "h" { GoToPreviousTab; }
         bind "k" { GoToPreviousTab; }
         bind "j" { GoToNextTab; }
-        bind "l" { GoToNextTab; }
-        bind "H" { MoveTab "left"; }
-        bind "L" { MoveTab "right"; }
+        bind "K" { MoveTab "left"; }
+        bind "J" { MoveTab "right"; }
         bind "n" { NewTab; }
         bind "r" { SwitchToMode "renametab"; TabNameInput 0; }
         bind "x" { CloseTab; }
@@ -151,8 +149,8 @@ keybinds clear-defaults=true {
         // entry to hub
         bind "Ctrl Space" { SwitchToMode "tmux"; }
         // pane navigation
-        bind "Alt h" { MoveFocusOrTab "left"; }
-        bind "Alt l" { MoveFocusOrTab "right"; }
+        bind "Alt j" { MoveFocusOrTab "left"; }
+        bind "Alt k" { MoveFocusOrTab "right"; }
         bind "Alt left" { MoveFocusOrTab "left"; }
         bind "Alt down" { MoveFocus "down"; }
         bind "Alt up" { MoveFocus "up"; }

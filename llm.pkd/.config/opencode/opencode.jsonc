@@ -17,7 +17,7 @@
       },
       "models": {
         "hf:zai-org/GLM-5.1": {
-          "name": "GLM-5.1",
+          "name": "Lead",
           "limit": {
             "context": 196608,
             "output": 65536,
@@ -30,7 +30,7 @@
           "reasoning": true,
         },
         "hf:zai-org/GLM-4.7-Flash": {
-          "name": "GLM-4.7-Flash",
+          "name": "Analyst",
           "limit": {
             "context": 196608,
             "output": 65536,
@@ -43,7 +43,7 @@
           "reasoning": true,
         },
         "syn:small:text": {
-          "name": "syn:compact",
+          "name": "Compaction",
           "tool_call": true,
           "limit": {
             "context": 196608,
@@ -57,7 +57,7 @@
           "reasoning": false,
         },
         "syn:large:vision": {
-          "name": "syn:vision",
+          "name": "Vision",
           "modalities": {
             "input": ["text", "image"],
             "output": ["text"],
@@ -262,7 +262,7 @@
       },
     },
     "compaction": {
-      "model": "synthetic/syn:small:text",
+      "model": "Compaction",
       "reasoningEffort": "none",
       "permission": {
         "*": "deny",
