@@ -52,11 +52,11 @@ animationsEnabled = true                # bool
 defaultLayoutType = "niri"              # "niri" | "dwindle"
 hotkeysEnabled = true                   # bool
 hyperKeyHoldThresholdMilliseconds = 150 # int (ms before Hyper key triggers)
-hyperTrigger = "Unassigned"             # "Option" | "Left Option" | "Right Option" | "Shift" |
+hyperTrigger = "Left Option"            # "Option" | "Left Option" | "Right Option" | "Shift" |
 # "Control" | "Command" | "CapsLock" |
 # "Control+Option+Shift+Command" (System Hyper) |
 # "MouseButton2"+ | key name
-ipcEnabled = false          # bool
+ipcEnabled = true           # bool
 preventSleepEnabled = false # bool
 updateChecksEnabled = true  # bool
 
@@ -82,7 +82,7 @@ columnWidthPresets = [
   0.6666666666666666,
 ] # [double] 0.0–1.0
 defaultColumnWidth = 0.5 # double 0.0–1.0
-infiniteLoop = false # bool # TODO: not sure
+infiniteLoop = false # bool
 maxVisibleColumns = 3 # int
 singleWindowAspectRatio = "none" # "none" | "4:3" | "16:9" | "3:2" | "1:1"
 # TODO: how to handle this for both native and ultrawide
@@ -93,8 +93,8 @@ autoHide = false              # bool
 enabled = true                # bool
 heightPercent = 50.0          # double 0–100
 monitorMode = "focusedWindow" # "focusedWindow" | "mouse" | "main"
-opacity = 1.0                 # double 0.0–1.0
-position = "center"           # "top" | "bottom" | "left" | "right" | "center"
+opacity = 0.8                 # double 0.0–1.0
+position = "top"              # "top" | "bottom" | "left" | "right" | "center"
 widthPercent = 50.0           # double 0–100
 
 [statusBar]
@@ -321,7 +321,7 @@ binding = "Unassigned"
 id = "switchWorkspace.previous"
 
 [[hotkeys]]
-binding = "Control+Option+Command+j"
+binding = "Control+Option+Command+J"
 id = "focus.left"
 
 [[hotkeys]]
@@ -333,7 +333,7 @@ binding = "Unassigned"
 id = "focus.up"
 
 [[hotkeys]]
-binding = "Control+Option+Command+k"
+binding = "Control+Option+Command+K"
 id = "focus.right"
 
 [[hotkeys]]
