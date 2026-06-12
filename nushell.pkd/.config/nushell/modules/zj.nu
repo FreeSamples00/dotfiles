@@ -87,9 +87,6 @@ def sessions-completer [] {
 #   List running sessions:
 #   `zj -l`
 #
-#   List all sessions including exited:
-#   `zj -l --all`
-#
 #   Attach to a running session:
 #   `zj -a dev`
 #
@@ -110,7 +107,6 @@ def sessions-completer [] {
 export def main [
   session?: string # new session name (default action)
   --list (-l)     # list sessions
-  --all           # with --list: include exited sessions; ignored otherwise
   --attach (-a): string@sessions-completer  # attach to a running session
   --recover (-r): string@dead-sessions-completer  # recover an exited session
   --kill (-k): string@sessions-completer   # kill a running session
@@ -137,13 +133,6 @@ export def main [
   if $list {
     assert-session false
     parse-sessions
-    | if $all {
-      $in
-    } else {
-      $in
-      | where live
-      | select name created
-    }
   } else if ($attach | is-not-empty) {
     assert-session false
     zellij attach $attach
