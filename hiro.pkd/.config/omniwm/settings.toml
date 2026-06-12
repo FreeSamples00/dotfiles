@@ -1,166 +1,144 @@
-# MONITOR OVERRAYS (top-level arrays)
-monitorBarOverrides = [
-
-] # [{monitorDisplayId, monitorName, backgroundOpacity, windowLevel, xOffset, yOffset}]
-monitorDwindleOverrides = [] # per-monitor dwindle overrides
-monitorNiriOverrides = [] # per-monitor niri overrides
-monitorOrientationOverrides = [] # per-monitor orientation overrides
+monitorBarOverrides = []
+monitorDwindleOverrides = []
+monitorNiriOverrides = []
+monitorOrientationOverrides = []
 
 [appearance]
-mode = "dark" # "dark" | "light"
+mode = "dark"
 
 [borders]
-enabled = true # bool
-width = 1.0    # double (points)
+enabled = true
+width = 1.0
 
 [borders.color]
-alpha = 0.5 # 0.0–1.0
-blue = 1.0  # 0.0–1.0
-green = 1.0 # 0.0–1.0
-red = 1.0   # 0.0–1.0
+alpha = 0.5
+blue = 1.0
+green = 1.0
+red = 1.0
 
 [clipboard]
-historyEnabled = false   # bool
-maxItemBytes = 8388608   # int
-maxItems = 200           # int
-maxTotalBytes = 67108864 # int
+historyEnabled = false
+maxItemBytes = 8388608
+maxItems = 200
+maxTotalBytes = 67108864
 
 [dwindle]
-defaultSplitRatio = 1.0         # double
-moveToRootStable = true         # bool
-singleWindowAspectRatio = "4:3" # "none" | "4:3" | "16:9" | "3:2" | "1:1"
-smartSplit = false              # bool
-splitWidthMultiplier = 1.0      # double
-useGlobalGaps = true            # bool
+defaultSplitRatio = 1.0
+moveToRootStable = true
+singleWindowAspectRatio = "4:3"
+smartSplit = false
+splitWidthMultiplier = 1.0
+useGlobalGaps = true
 
 [focus]
-followsMouse = false            # bool
-followsWindowToMonitor = false  # bool
-moveMouseToFocusedWindow = true # bool
+followsMouse = false
+followsWindowToMonitor = false
+moveMouseToFocusedWindow = false
 
 [gaps]
-size = 8.0 # double (inner gap, points)
+size = 8.0
 
 [gaps.outer]
-bottom = 0.0 # double
-left = 0.0   # double
-right = 0.0  # double
-top = 30.0   # double
+bottom = 0.0
+left = 0.0
+right = 0.0
+top = 30.0
 
 [general]
-animationsEnabled = true                # bool
-defaultLayoutType = "niri"              # "niri" | "dwindle"
-hotkeysEnabled = true                   # bool
-hyperKeyHoldThresholdMilliseconds = 150 # int (ms before Hyper key triggers)
-hyperTrigger = "Left Option"            # "Option" | "Left Option" | "Right Option" | "Shift" |
-# "Control" | "Command" | "CapsLock" |
-# "Control+Option+Shift+Command" (System Hyper) |
-# "MouseButton2"+ | key name
-ipcEnabled = true           # bool
-preventSleepEnabled = false # bool
-updateChecksEnabled = true  # bool
+animationsEnabled = true
+defaultLayoutType = "niri"
+hotkeysEnabled = true
+hyperKeyHoldThresholdMilliseconds = 150
+hyperTrigger = "Left Option"
+ipcEnabled = true
+preventSleepEnabled = false
+updateChecksEnabled = true
 
 [gestures]
-fingerCount = 4                   # 2 | 3 | 4
-invertDirection = true            # bool
-mouseResizeModifierKey = "option" # "option" | "optionShift"
-scrollEnabled = true              # bool
-scrollModifierKey = "optionShift" # "option" | "optionShift" | "control" | "controlShift" | "command"
-scrollSensitivity = 5.0           # double 1.0–10.0
+fingerCount = 4
+invertDirection = true
+mouseResizeModifierKey = "option"
+scrollEnabled = true
+scrollModifierKey = "optionShift"
+scrollSensitivity = 5.0
 
 [mouseWarp]
-axis = "horizontal" # "horizontal" | "vertical"
-margin = 1          # int
-monitorOrder = []   # [string] display names
+axis = "horizontal"
+margin = 1
+monitorOrder = []
 
 [niri]
-alwaysCenterSingleColumn = true                   # bool
-centerFocusedColumn = "never"                     # "never" | "on-focus" | "always"
-columnWidthPresets = [0.3333333333333333, 0.5, 1] # [double] 0.0–1.0
-defaultColumnWidth = 0.5                          # double 0.0–1.0
-infiniteLoop = false                              # bool
-maxVisibleColumns = 3                             # int
-singleWindowAspectRatio = "none"                  # "none" | "4:3" | "16:9" | "3:2" | "1:1"
-# TODO: how to handle this for both native and ultrawide
+alwaysCenterSingleColumn = true
+centerFocusedColumn = "never"
+columnWidthPresets = [0.3333333333333333, 0.5, 1.0]
+defaultColumnWidth = 0.5
+infiniteLoop = false
+maxVisibleColumns = 3
+singleWindowAspectRatio = "none"
 
 [quakeTerminal]
-animationDuration = 0.2       # double (seconds)
-autoHide = false              # bool
-enabled = true                # bool
-heightPercent = 50.0          # double 0–100
-monitorMode = "focusedWindow" # "focusedWindow" | "mouse" | "main"
-opacity = 0.8                 # double 0.0–1.0
-position = "top"              # "top" | "bottom" | "left" | "right" | "center"
-widthPercent = 50.0           # double 0–100
+animationDuration = 0.2
+autoHide = false
+enabled = true
+heightPercent = 50.0
+monitorMode = "focusedWindow"
+opacity = 0.8
+position = "top"
+widthPercent = 50.0
 
 [statusBar]
-showAppNames = false      # bool
-showWorkspaceName = false # bool
-useWorkspaceId = false    # bool
+showAppNames = false
+showWorkspaceName = false
+useWorkspaceId = false
 
 [workspaceBar]
-backgroundOpacity = 0.1         # double 0.0–1.0
-deduplicateAppIcons = false     # bool
-enabled = true                  # bool
-height = 24.0                   # double
-hideEmptyWorkspaces = false     # bool
-labelFontSize = 12.0            # double
-notchAware = true               # bool
-position = "overlappingMenuBar" # "overlappingMenuBar" | "belowMenuBar" | "top" | "bottom" | "left" | "right"
-reserveLayoutSpace = false      # bool
-showFloatingWindows = false     # bool
-showLabels = true               # bool
-windowLevel = "popup"           # "popup" | "floating"
-xOffset = 0.0                   # double
-yOffset = 0.0                   # double
-# Optional: [workspaceBar.accentColor] / [workspaceBar.textColor]
-#   red, green, blue, alpha — double 0.0–1.0
+backgroundOpacity = 0.1
+deduplicateAppIcons = false
+enabled = true
+height = 24.0
+hideEmptyWorkspaces = false
+labelFontSize = 12.0
+notchAware = true
+position = "overlappingMenuBar"
+reserveLayoutSpace = false
+showFloatingWindows = false
+showLabels = true
+windowLevel = "popup"
+xOffset = 0.0
+yOffset = 0.0
 
-# APP RULES — fields: bundleId (req), id (req), layout, assignToWorkspace, minWidth, minHeight,
-#   appNameSubstring, titleSubstring, titleRegex, axRole, axSubrole, alwaysFloat (legacy), manage
-#   layout: "auto" | "tile" | "float"
-#   assignToWorkspace: workspace raw name string
-#   manage: "auto"
-#   NOTE: All [[appRules]] entries are at the end of this file (after workspaces)
+[[appRules]]
+bundleId = "app.zen-browser.zen"
+id = "1CF39647-F30D-4E76-9686-79B551F1B094"
+minHeight = 495.0
+minWidth = 500.0
 
-# HOTKEYS — binding: "Modifier+Modifier+Key" | "Hyper+Key" | "Unassigned"
-#   Modifiers: Control, Option, Shift, Command, Hyper
-#   Sequences: "Leader, Hyper+A"
-#   Scheme: Control+Option+Command (= cmd+alt+ctrl from Aerospace)
-#   Keys: A-Z, 0-9, Return, Tab, Space, Equal, Minus, Grave, Comma, Period, Slash,
-#         Backslash, Left/Right/Up/Down Arrow, Home, End, Page Up, Page Down,
-#         F1-F20, Delete, Escape, Left/Right Bracket, Semicolon, Quote, CapsLock,
-#         KP0-KP9, KP+, KP-, KP*, KP/, KP., KPClear, KPEnter, KP=
-#   Action IDs: switchWorkspace.0-.8, moveToWorkspace.0-.8, workspaceBackAndForth,
-#     switchWorkspace.next/.previous, focus.left/down/up/right, focusPrevious,
-#     focusDownOrLeft, focusUpOrRight, focusColumn.0-.8, focusColumnFirst/Last,
-#     focusWindowInColumn.1-.9, focusWindowTop/Bottom, focusWindowDownOrTop,
-#     focusWindowUpOrBottom, focusWindowOrWorkspaceDown/Up, centerColumn,
-#     centerVisibleColumns, move.left/down/up/right, moveWindowDown/Up,
-#     moveWindowDownOrToWorkspaceDown/Up, consumeOrExpelWindowLeft/Right,
-#     consumeWindowIntoColumn, expelWindowFromColumn, focusMonitorNext/Previous/Last,
-#     toggleFullscreen, toggleNativeFullscreen, moveColumn.left/right,
-#     moveColumnToFirst/Last, moveColumnToIndex.1-.9, toggleColumnTabbed,
-#     cycleColumnWidthForward/Backward, cycleWindowWidthForward/Backward,
-#     cycleWindowHeightForward/Backward, toggleColumnFullWidth,
-#     expandColumnToAvailableWidth, resetWindowHeight,
-#     setColumnWidth.decrease10Percent/increase10Percent,
-#     setWindowWidth.decrease10Percent/increase10Percent,
-#     setWindowHeight.decrease10Percent/increase10Percent,
-#     balanceSizes, moveToRoot, toggleSplit, swapSplit, toggleWorkspaceLayout,
-#     resizeGrow.left/right/up/down, resizeShrink.left/right/up/down,
-#     preselect.left/right/up/down, preselectClear, openCommandPalette,
-#     raiseAllFloatingWindows, rescueOffscreenWindows, toggleFocusedWindowFloating,
-#     assignFocusedWindowToScratchpad, toggleScratchpadWindow, openMenuAnywhere,
-#     toggleWorkspaceBarVisibility, toggleHiddenBar, toggleQuakeTerminal, toggleOverview,
-#     moveWindowToWorkspaceUp/Down, moveColumnToWorkspace.0-.8/Up/Down
+[[appRules]]
+bundleId = "com.hnc.Discord"
+id = "AF752D95-8497-4844-BE20-4C93E73BAEF2"
+minHeight = 500.0
+minWidth = 800.0
+
+[[appRules]]
+bundleId = "com.microsoft.Outlook"
+id = "8ECAB78B-BCDD-4245-BC25-1609A49B1C86"
+layout = "float"
+minHeight = 650.0
+minWidth = 930.0
+
+[[appRules]]
+bundleId = "com.apple.MobileSMS"
+id = "552FB77D-BF0E-4737-90A6-B5BC6986C579"
+layout = "float"
+minHeight = 600.0
+minWidth = 800.0
 
 [[hotkeys]]
 binding = "Control+Option+Command+1"
 id = "switchWorkspace.0"
 
 [[hotkeys]]
-binding = "Control+Option+Command+Shift+1"
+binding = "Control+Option+Shift+Command+1"
 id = "moveToWorkspace.0"
 
 [[hotkeys]]
@@ -168,7 +146,7 @@ binding = "Control+Option+Command+2"
 id = "switchWorkspace.1"
 
 [[hotkeys]]
-binding = "Control+Option+Command+Shift+2"
+binding = "Control+Option+Shift+Command+2"
 id = "moveToWorkspace.1"
 
 [[hotkeys]]
@@ -176,7 +154,7 @@ binding = "Control+Option+Command+3"
 id = "switchWorkspace.2"
 
 [[hotkeys]]
-binding = "Control+Option+Command+Shift+3"
+binding = "Control+Option+Shift+Command+3"
 id = "moveToWorkspace.2"
 
 [[hotkeys]]
@@ -184,7 +162,7 @@ binding = "Control+Option+Command+4"
 id = "switchWorkspace.3"
 
 [[hotkeys]]
-binding = "Control+Option+Command+Shift+4"
+binding = "Control+Option+Shift+Command+4"
 id = "moveToWorkspace.3"
 
 [[hotkeys]]
@@ -192,7 +170,7 @@ binding = "Control+Option+Command+5"
 id = "switchWorkspace.4"
 
 [[hotkeys]]
-binding = "Control+Option+Command+Shift+5"
+binding = "Control+Option+Shift+Command+5"
 id = "moveToWorkspace.4"
 
 [[hotkeys]]
@@ -200,7 +178,7 @@ binding = "Control+Option+Command+6"
 id = "switchWorkspace.5"
 
 [[hotkeys]]
-binding = "Control+Option+Command+Shift+6"
+binding = "Control+Option+Shift+Command+6"
 id = "moveToWorkspace.5"
 
 [[hotkeys]]
@@ -208,7 +186,7 @@ binding = "Control+Option+Command+7"
 id = "switchWorkspace.6"
 
 [[hotkeys]]
-binding = "Control+Option+Command+Shift+7"
+binding = "Control+Option+Shift+Command+7"
 id = "moveToWorkspace.6"
 
 [[hotkeys]]
@@ -216,7 +194,7 @@ binding = "Control+Option+Command+8"
 id = "switchWorkspace.7"
 
 [[hotkeys]]
-binding = "Control+Option+Command+Shift+8"
+binding = "Control+Option+Shift+Command+8"
 id = "moveToWorkspace.7"
 
 [[hotkeys]]
@@ -224,7 +202,7 @@ binding = "Control+Option+Command+9"
 id = "switchWorkspace.8"
 
 [[hotkeys]]
-binding = "Control+Option+Command+Shift+9"
+binding = "Control+Option+Shift+Command+9"
 id = "moveToWorkspace.8"
 
 [[hotkeys]]
@@ -304,11 +282,11 @@ binding = "Unassigned"
 id = "moveWindowToWorkspaceDown"
 
 [[hotkeys]]
-binding = "Control+Option+Command+Shift+Page Up"
+binding = "Control+Option+Shift+Command+Page Up"
 id = "moveColumnToWorkspaceUp"
 
 [[hotkeys]]
-binding = "Control+Option+Command+Shift+Page Down"
+binding = "Control+Option+Shift+Command+Page Down"
 id = "moveColumnToWorkspaceDown"
 
 [[hotkeys]]
@@ -348,19 +326,19 @@ binding = "Unassigned"
 id = "moveColumnToWorkspace.8"
 
 [[hotkeys]]
-binding = "Control+Option+Command+Shift+Left Arrow"
+binding = "Control+Option+Shift+Command+Left Arrow"
 id = "move.left"
 
 [[hotkeys]]
-binding = "Control+Option+Command+Shift+Down Arrow"
+binding = "Control+Option+Shift+Command+Down Arrow"
 id = "move.down"
 
 [[hotkeys]]
-binding = "Control+Option+Command+Shift+Up Arrow"
+binding = "Control+Option+Shift+Command+Up Arrow"
 id = "move.up"
 
 [[hotkeys]]
-binding = "Control+Option+Command+Shift+Right Arrow"
+binding = "Control+Option+Shift+Command+Right Arrow"
 id = "move.right"
 
 [[hotkeys]]
@@ -576,7 +554,7 @@ binding = "Unassigned"
 id = "cycleWindowHeightBackward"
 
 [[hotkeys]]
-binding = "Control+Option+Command+Shift+F"
+binding = "Control+Option+Shift+Command+F"
 id = "toggleColumnFullWidth"
 
 [[hotkeys]]
@@ -604,15 +582,15 @@ binding = "Unassigned"
 id = "setWindowWidth.increase10Percent"
 
 [[hotkeys]]
-binding = "Control+Option+Command+Shift+Minus"
+binding = "Control+Option+Shift+Command+Minus"
 id = "setWindowHeight.decrease10Percent"
 
 [[hotkeys]]
-binding = "Control+Option+Command+Shift+Equal"
+binding = "Control+Option+Shift+Command+Equal"
 id = "setWindowHeight.increase10Percent"
 
 [[hotkeys]]
-binding = "Control+Option+Command+Shift+B"
+binding = "Control+Option+Shift+Command+B"
 id = "balanceSizes"
 
 [[hotkeys]]
@@ -684,7 +662,7 @@ binding = "Control+Option+Command+Space"
 id = "openCommandPalette"
 
 [[hotkeys]]
-binding = "Control+Option+Command+Shift+R"
+binding = "Control+Option+Shift+Command+R"
 id = "raiseAllFloatingWindows"
 
 [[hotkeys]]
@@ -720,16 +698,12 @@ binding = "Control+Option+Command+Grave"
 id = "toggleQuakeTerminal"
 
 [[hotkeys]]
-binding = "Control+Option+Command+Shift+L"
+binding = "Control+Option+Shift+Command+L"
 id = "toggleWorkspaceLayout"
 
 [[hotkeys]]
-binding = "Control+Option+Command+Shift+O"
+binding = "Control+Option+Shift+Command+O"
 id = "toggleOverview"
-
-# WORKSPACES — fields: id (req, UUID), name (req, raw name for IPC/app rules),
-#   displayName (opt, emoji/label for workspace bar), layoutType: "niri" | "dwindle" | "default"
-#   [workspaces.monitorAssignment] type: "main" | "secondary" | display ID string
 
 [[workspaces]]
 id = "AD36F001-C57E-41A5-AC1D-DF5249D007F0"
