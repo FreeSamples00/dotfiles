@@ -133,11 +133,10 @@ cmd-alt-ctrl-s = "exec-and-forget open -a messages"
 cmd-alt-ctrl-w = "exec-and-forget open -na zen"
 
 # MAIL
-# cmd-alt-ctrl-shift-m = 'exec-and-forget open -na ghostty.app --args -e env XDG_CONFIG_HOME=~/.config aerc -C ~/.config/aerc/aerc.conf -A ~/.config/aerc/accounts.conf -B ~/.config/aerc/binds.conf'
 cmd-alt-ctrl-m = 'exec-and-forget open -a "proton mail"'
 cmd-alt-ctrl-shift-m = 'exec-and-forget open -a "microsoft outlook"'
 
-# PASSWORDS
+# PROTON PASS
 cmd-alt-ctrl-p = 'exec-and-forget open -a "proton pass"'
 
 # VPN
@@ -173,21 +172,12 @@ cmd-alt-ctrl-r = [
 cmd-alt-ctrl-shift-r = ["reload-config", "exec-and-forget sketchybar --reload"]
 
 # ========== focus ==========
-cmd-alt-ctrl-h = "focus left"
-cmd-alt-ctrl-j = "focus down"
-cmd-alt-ctrl-k = "focus up"
-cmd-alt-ctrl-l = "focus right"
+cmd-alt-ctrl-j = "focus left"
+cmd-alt-ctrl-k = "focus right"
 
 # ========== move windows ==========
-cmd-alt-ctrl-shift-h = "move left"
-cmd-alt-ctrl-shift-j = "move down"
-cmd-alt-ctrl-shift-k = "move up"
-cmd-alt-ctrl-shift-l = "move right"
-
-cmd-alt-ctrl-left = "join-with left"
-cmd-alt-ctrl-down = "join-with down"
-cmd-alt-ctrl-up = "join-with up"
-cmd-alt-ctrl-right = "join-with right"
+cmd-alt-ctrl-shift-j = "move left"
+cmd-alt-ctrl-shift-k = "move right"
 
 # ========== resize windows ==========
 cmd-alt-ctrl-minus = "resize smart -50"
