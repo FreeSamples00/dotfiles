@@ -2,6 +2,10 @@
 
 - [ ] add docs in README
 
+- [ ] binding + ui for new file
+  - [ ] snacks pick dir + enter filename
+  - [ ] plugin?
+
 ## Plugins
 
 - Look into [nanotee/zoxide.vim: A small (Neo)Vim wrapper for zoxide](https://github.com/nanotee/zoxide.vim)
