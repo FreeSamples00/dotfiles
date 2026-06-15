@@ -262,7 +262,7 @@
       },
     },
     "compaction": {
-      "model": "Compaction",
+      "model": "synthetic/syn:small:text",
       "reasoningEffort": "none",
       "permission": {
         "*": "deny",
