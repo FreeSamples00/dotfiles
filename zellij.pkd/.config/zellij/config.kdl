@@ -88,8 +88,8 @@ keybinds clear-defaults=true {
     tab {
         bind "k" { GoToPreviousTab; }
         bind "j" { GoToNextTab; }
-        bind "K" { MoveTab "left"; }
-        bind "J" { MoveTab "right"; }
+        bind "K" { MoveTab "right"; }
+        bind "J" { MoveTab "left"; }
         bind "n" { NewTab; }
         bind "r" { SwitchToMode "renametab"; TabNameInput 0; }
         bind "x" { CloseTab; }
