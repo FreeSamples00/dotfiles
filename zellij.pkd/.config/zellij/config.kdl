@@ -55,6 +55,7 @@ keybinds clear-defaults=true {
         bind "b" { BreakPane; SwitchToMode "normal"; }
         bind "d" { Detach; }
         bind "Q" { Quit; }
+        bind "R" { SwitchToMode "renametab"; TabNameInput 0; }
         // mode dispatch
         bind "p" { SwitchToMode "pane"; }
         bind "t" { SwitchToMode "tab"; }
