@@ -49,14 +49,44 @@ autocmd("VimEnter", {
   end,
 })
 
------ Change cwd to git root on startup -----
+----- Change cwd intelligently on startup -----
 autocmd("VimEnter", {
   group = general,
   callback = function()
-    local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
-    if vim.v.shell_error == 0 then
-      vim.fn.chdir(git_root)
+    -- Priority 1: if nvim was opened with an explicit directory argument, use that
+    for _, arg in ipairs(vim.fn.argv()) do
+      local resolved = vim.fn.fnamemodify(arg, ":p")
+      if vim.fn.isdirectory(resolved) == 1 then
+        vim.fn.chdir(resolved)
+        return
+      end
     end
+
+    -- Priority 2: if inside a git repo, walk up from cwd toward git root
+    local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+    if vim.v.shell_error ~= 0 then
+      return -- not in a git repo, keep cwd
+    end
+
+    -- Walk from cwd upward; stop at first directory matching a stop pattern
+    local current = vim.fn.getcwd()
+    while current ~= git_root do
+      local basename = vim.fn.fnamemodify(current, ":t")
+      for _, pattern in ipairs(globals.cwd_stop_patterns) do
+        if basename:match(pattern) then
+          vim.fn.chdir(current)
+          return
+        end
+      end
+      local parent = vim.fn.fnamemodify(current, ":h")
+      if parent == current then
+        break -- reached filesystem root
+      end
+      current = parent
+    end
+
+    -- No stop pattern matched → fall back to git root
+    vim.fn.chdir(git_root)
   end,
 })
 

@@ -36,6 +36,13 @@ M.autoclose_filetypes = {
   "snacks_layout_box",
 }
 
+---@type string[] Lua patterns matching directory basenames that act as cwd stop points
+---When inside a git repo, walk from shell cwd upward toward git root;
+---first matching directory becomes the cwd. No match → git root (original behavior).
+M.cwd_stop_patterns = {
+  "%.pkd$", -- dotfiles package dirs: neovim.pkd, ghostty.pkd, etc.
+}
+
 ---@type table<string, string> Diagnostic icons (used in lualine)
 M.lsp_icons = {
   error = " ",
