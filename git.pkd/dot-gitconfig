@@ -17,7 +17,15 @@
 	branch = auto
 
 [merge]
-	conflictStyle=zdiff3
+	tool = nvim
+	conflictStyle = zdiff3
+
+[mergetool]
+	keepBackup = false
+	prompt = false
+
+[mergetool "nvim"]
+	cmd = "MERGED=\"$MERGED\" nvim -d -c \"wincmd l\" -c \"norm! ]c\" \"$LOCAL\" \"$MERGED\" \"$REMOTE\""
 
 [delta]
 	side-by-side=true

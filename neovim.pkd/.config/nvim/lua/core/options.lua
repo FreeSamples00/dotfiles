@@ -27,6 +27,11 @@ for opt, val in pairs(opts) do
   vim.opt[opt] = val
 end
 
+-- diff mode options
+vim.opt.diffopt:append("inline:char") -- char-level DiffText highlighting
+vim.opt.diffopt:append("linematch:60") -- align similar lines across buffers
+vim.opt.diffopt:append("context:3") -- 3 lines of context around changes
+
 -- OSC52 clipboard for SSH sessions
 if os.getenv("SSH_CONNECTION") or os.getenv("SSH_TTY") then
   local osc52 = require("vim.ui.clipboard.osc52")

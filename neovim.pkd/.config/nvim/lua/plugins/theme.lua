@@ -60,6 +60,13 @@ return {
             GitSignsDeleteVirtLn = { bg = "#2d2429" },
             GitSignsDeleteVirtLnInLine = { bg = "#5e1e2a" },
             GitSignsVirtLnum = { fg = "#5c4555" },
+
+            -- diff mode overrides (mergetool, :diffsplit, etc.)
+            DiffAdd = { bg = "#1e3a1e" },
+            DiffChange = { bg = "#3a3a1e" },
+            DiffDelete = { bg = "#3a1e1e" },
+            DiffText = { fg = colors.peach, bg = colors.surface0 },
+            DiffTextAdd = { fg = colors.green, bg = colors.surface0 },
           }
         end,
       },
