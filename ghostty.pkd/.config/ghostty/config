@@ -27,6 +27,7 @@ macos-titlebar-proxy-icon = hidden
 macos-window-buttons = hidden
 background-opacity = 0.85
 background-blur = true
+window-padding-balance = true
 
 # --- COLORS ---
 theme = Apple System Colors
