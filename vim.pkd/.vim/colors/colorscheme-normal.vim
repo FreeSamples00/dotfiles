@@ -7,23 +7,23 @@ if exists('syntax on')
     syntax reset
 endif
 
-let g:colors_name='catppuccin'
+let g:colors_name='colorscheme-normal'
 set t_Co=256
 
-let s:rosewater = "#F5E0DC"
-let s:flamingo = "#F2CDCD"
-let s:pink = "#F5C2E7"
-let s:mauve = "#CBA6F7"
-let s:red = "#F38BA8"
-let s:maroon = "#EBA0AC"
-let s:peach = "#FAB387"
-let s:yellow = "#F9E2AF"
-let s:green = "#A6E3A1"
-let s:teal = "#94E2D5"
-let s:sky = "#89DCEB"
-let s:sapphire = "#74C7EC"
-let s:blue = "#89B4FA"
-let s:lavender = "#B4BEFE"
+let s:rosewater = "#F3B8B0"
+let s:flamingo = "#F0AAAA"
+let s:pink = "#EE9DD4"
+let s:mauve = "#C490F0"
+let s:red = "#EE668C"
+let s:maroon = "#E67C92"
+let s:peach = "#F59A64"
+let s:yellow = "#F0D57C"
+let s:green = "#8AE28E"
+let s:teal = "#6ADDCA"
+let s:sky = "#6CD2EA"
+let s:sapphire = "#67C0EA"
+let s:blue = "#7AACF9"
+let s:lavender = "#A29FFB"
 
 let s:text = "#CDD6F4"
 let s:subtext1 = "#BAC2DE"

@@ -11,7 +11,7 @@
 
 " ==================== Colors ====================
 set termguicolors                    " enable true color support
-colorscheme catppuccin               " set colorscheme
+colorscheme colorscheme-normal       " set colorscheme
 
 " ==================== Settings ====================
 syntax on                            " enable syntax highlighting

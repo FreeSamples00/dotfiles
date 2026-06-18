@@ -22,23 +22,23 @@ gui:
       - ⠏
   theme:
     activeBorderColor:
-      - "#fab387"
+      - "#f59a64" # orange-normal
       - bold
     inactiveBorderColor:
-      - "#a6adc8"
+      - "#a6adc8" # fg-muted
     optionsTextColor:
-      - "#89b4fa"
+      - "#7aacf9" # blue-normal
     selectedLineBgColor:
-      - "#313244"
+      - "#313244" # surface-sunken
     cherryPickedCommitBgColor:
-      - "#45475a"
+      - "#45475a" # surface
     cherryPickedCommitFgColor:
-      - "#fab387"
+      - "#f59a64" # orange-normal
     unstagedChangesColor:
-      - "#f38ba8"
+      - "#ee668c" # red-normal
     defaultFgColor:
-      - "#cdd6f4"
+      - "#cdd6f4" # fg
     searchingActiveBorderColor:
-      - "#f9e2af"
+      - "#f0d57c" # yellow-normal
   authorColors:
-    "*": "#b4befe"
+    "*": "#a29ffb" # lilac-normal

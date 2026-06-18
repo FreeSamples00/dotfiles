@@ -1,0 +1,27 @@
+# Colorscheme normal tier
+# See ~/dotfiles/docs/colorscheme.md
+# ANSI palette: normal tier for 0-7, bright tier for 8-15
+
+background = #1E1E2E
+foreground = #cdd6f4
+cursor-color = #CBD6F7
+cursor-text = #1E1E1E
+selection-background = #45475a
+selection-foreground = #cdd6f4
+
+palette = 0=#313244
+palette = 1=#ee668c
+palette = 2=#8ae28e
+palette = 3=#f0d57c
+palette = 4=#7aacf9
+palette = 5=#ee9dd4
+palette = 6=#6addca
+palette = 7=#cdd6f4
+palette = 8=#45475a
+palette = 9=#e84070
+palette = 10=#6de07a
+palette = 11=#e8c84a
+palette = 12=#6aa4f8
+palette = 13=#e878c0
+palette = 14=#40d8c0
+palette = 15=#bac2de

@@ -1,33 +1,33 @@
-# Catppuccin Mocha color palette
-# https://catppuccin.com/palette/mocha
+# Colorscheme normal tier
+# See ~/dotfiles/docs/colorscheme.md
 
 let theme = {
-  rosewater: "#f5e0dc"
-  flamingo: "#f2cdcd"
-  pink: "#f5c2e7"
-  mauve: "#cba6f7"
-  red: "#f38ba8"
-  maroon: "#eba0ac"
-  peach: "#fab387"
-  yellow: "#f9e2af"
-  green: "#a6e3a1"
-  teal: "#94e2d5"
-  sky: "#89dceb"
-  sapphire: "#74c7ec"
-  blue: "#89b4fa"
-  lavender: "#b4befe"
-  text: "#cdd6f4"
-  subtext1: "#bac2de"
-  subtext0: "#a6adc8"
-  overlay2: "#9399b2"
-  overlay1: "#7f849c"
-  overlay0: "#6c7086"
-  surface2: "#585b70"
-  surface1: "#45475a"
-  surface0: "#313244"
-  base: "#1E1E1E" # custom bg for transparency
-  mantle: "#141414" # custom bg for transparency
-  crust: "#0A0A0A" # custom bg for transparency
+  rosewater: "#f3b8b0" # coral
+  flamingo: "#f0aaaa" # salmon
+  pink: "#ee9dd4" # pink
+  mauve: "#c490f0" # purple
+  red: "#ee668c" # red
+  maroon: "#e67c92" # red-soft
+  peach: "#f59a64" # orange
+  yellow: "#f0d57c" # yellow
+  green: "#8ae28e" # green
+  teal: "#6addca" # teal
+  sky: "#6cd2ea" # cyan
+  sapphire: "#67c0ea" # azure
+  blue: "#7aacf9" # blue
+  lavender: "#a29ffb" # lilac
+  text: "#cdd6f4" # fg
+  subtext1: "#bac2de" # fg-secondary
+  subtext0: "#a6adc8" # fg-muted
+  overlay2: "#9399b2" # fg-faint
+  overlay1: "#7f849c" # border
+  overlay0: "#6c7086" # border-muted
+  surface2: "#585b70" # surface-raised
+  surface1: "#45475a" # surface
+  surface0: "#313244" # surface-sunken
+  base: "#1E1E1E" # bg (transparency)
+  mantle: "#141414" # bg-secondary (transparency)
+  crust: "#0A0A0A" # bg-deep (transparency)
 }
 
 let scheme = {

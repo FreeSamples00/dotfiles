@@ -1,4 +1,5 @@
---- Catppuccin theme (mocha) with transparent background + fallback bg.nvim
+--- Colorscheme normal tier with transparent background + fallback bg.nvim
+--- See ~/dotfiles/docs/colorscheme.md
 
 return {
   "typicode/bg.nvim",
@@ -33,7 +34,23 @@ return {
       },
       color_overrides = {
         mocha = {
-          base = "#1E1E1E", -- match terminal bg
+          -- accent colors: normal tier
+          rosewater = "#f3b8b0",
+          flamingo = "#f0aaaa",
+          pink = "#ee9dd4",
+          mauve = "#c490f0",
+          red = "#ee668c",
+          maroon = "#e67c92",
+          peach = "#f59a64",
+          yellow = "#f0d57c",
+          green = "#8ae28e",
+          teal = "#6addca",
+          sky = "#6cd2ea",
+          sapphire = "#67c0ea",
+          blue = "#7aacf9",
+          lavender = "#a29ffb",
+          -- background colors: transparency override
+          base = "#1E1E1E",
           mantle = "#1E1E1E",
           crust = "#000000",
         },

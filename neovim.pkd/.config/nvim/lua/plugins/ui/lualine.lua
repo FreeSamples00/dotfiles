@@ -70,11 +70,11 @@ return {
         lualine_x = {
           {
             macro_indicator,
-            color = { fg = "#f38ba8", bg = nil, gui = "bold" },
+            color = { fg = "#e84070", bg = nil, gui = "bold" }, -- red-bright
           },
           {
             ssh_indicator,
-            color = { fg = "#f9e2af", bg = nil, gui = "bold" },
+            color = { fg = "#e8c84a", bg = nil, gui = "bold" }, -- yellow-bright
           },
           {
             "diagnostics",

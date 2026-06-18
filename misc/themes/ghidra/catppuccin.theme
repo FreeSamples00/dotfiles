@@ -1,23 +1,24 @@
 // General Theme Info
-name = Catppuccin Mocha
+name = Colorscheme Normal
 lookAndFeel = Flat Dark
 useDarkDefaults = true
 
-// Catppuccin Mocha Color Palette
-color.catppuccin.rosewater = #f5e0dc
-color.catppuccin.flamingo = #f2cdcd
-color.catppuccin.pink = #f5c2e7
-color.catppuccin.mauve = #cba6f7
-color.catppuccin.red = #f38ba8
-color.catppuccin.maroon = #eba0ac
-color.catppuccin.peach = #fab387
-color.catppuccin.yellow = #f9e2af
-color.catppuccin.green = #a6e3a1
-color.catppuccin.teal = #94e2d5
-color.catppuccin.sky = #89dceb
-color.catppuccin.sapphire = #74c7ec
-color.catppuccin.blue = #89b4fa
-color.catppuccin.lavender = #b4befe
+// Colorscheme Normal Tier Palette
+// See ~/dotfiles/docs/colorscheme.md
+color.catppuccin.rosewater = #f3b8b0
+color.catppuccin.flamingo = #f0aaaa
+color.catppuccin.pink = #ee9dd4
+color.catppuccin.mauve = #c490f0
+color.catppuccin.red = #ee668c
+color.catppuccin.maroon = #e67c92
+color.catppuccin.peach = #f59a64
+color.catppuccin.yellow = #f0d57c
+color.catppuccin.green = #8ae28e
+color.catppuccin.teal = #6addca
+color.catppuccin.sky = #6cd2ea
+color.catppuccin.sapphire = #67c0ea
+color.catppuccin.blue = #7aacf9
+color.catppuccin.lavender = #a29ffb
 color.catppuccin.white = #cdd6f4
 color.catppuccin.text = #cdd6f4
 color.catppuccin.subtext1 = #bac2de

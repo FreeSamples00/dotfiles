@@ -7,22 +7,22 @@
 # 25%: 0x40
 
 const theme = {
-  name: "catppuccin-mocha"
+  name: "colorscheme-normal"
   colors: {
     transparent: "0x00ffffff"
     light_gray: "0xFFa6adc8"
     white: "0xFFcdd6f4"
-    red: "0xFFf38ba8"
-    yellow: "0xFFf9e2af"
-    blue: "0xFF89b4fa"
-    green: "0xFFa6e3a1"
-    magenta: "0xFFf5c2e7"
-    cyan: "0xFF89dceb"
-    orange: "0xFFfab387"
-    tangerine: "0xFFeba0ac"
-    purple: "0xFF8b6baf"
-    black: "0xFF171723"
-    black_75: "0xBF171723"
+    red: "0xFFee668c"
+    yellow: "0xFFf0d57c"
+    blue: "0xFF7aacf9"
+    green: "0xFF8ae28e"
+    magenta: "0xFFee9dd4"
+    cyan: "0xFF6cd2ea"
+    orange: "0xFFf59a64"
+    tangerine: "0xFFe67c92"
+    purple: "0xFFc490f0"
+    black: "0xFF1e1e1e"
+    black_75: "0xBF1e1e1e"
   }
 }
 

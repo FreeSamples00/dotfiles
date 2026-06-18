@@ -41,14 +41,14 @@
 	minus-style="syntax #660000"
 	plus-style="syntax #0e2e1e"
 	zero-style="syntax"
-	file-style="#cba6f7"
+	file-style="#c490f0"
 	file-decoration-style=""
-	hunk-header-style="#cba6f7 bold"
+	hunk-header-style="#c490f0 bold"
 	hunk-header-decoration-style=""
-	inline-hint-style="#cba6f7"
+	inline-hint-style="#c490f0"
 	blame-palette="#6e5d80 #5e4e73 #504267 #43365c #382b52"
 	blame-code-style="syntax"
-	blame-separator-style="#cba6f7"
+	blame-separator-style="#c490f0"
 	blame-separator-format="{n:^4} │"
 [init]
 	defaultBranch = main

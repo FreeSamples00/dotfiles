@@ -171,20 +171,20 @@ style = "bold red"
 # ==================== Colors ====================
 
 [palettes.catppuccin_mocha]
-spacer_color = "#45475a"
-timer_color = "#e8c84a"
-dir_color = "#6aa4f8"
-clock_color = "#5ab8e8"
-memory_color = "#f2cecf"
-nix_color = "#cba6f7"
+spacer_color = "#45475a" # surface (structural)
+timer_color = "#e8c84a"  # yellow-bright
+dir_color = "#6aa4f8"    # blue-bright
+clock_color = "#5ab8e8"  # azure-bright
+memory_color = "#ee8888" # salmon-bright
+nix_color = "#b080f0"    # purple-bright
 
-git_orange = "#f06040"
-git_state_color = "#f5906a"
-git_modified = "yellow"
-git_untracked = "blue"
-git_ahead_behind = "green"
-git_staged = "green"
-git_unstaged = "blue"
-git_stashed = "purple"
-git_conflicted = "red"
-git_deleted = "red"
+git_orange = "#f06040"       # derived: git-branch
+git_state_color = "#f5906a"  # derived: git-state
+git_modified = "#e8c84a"     # yellow-bright
+git_untracked = "#6aa4f8"    # blue-bright
+git_ahead_behind = "#6de07a" # green-bright
+git_staged = "#6de07a"       # green-bright
+git_unstaged = "#6aa4f8"     # blue-bright
+git_stashed = "#b080f0"      # purple-bright
+git_conflicted = "#e84070"   # red-bright
+git_deleted = "#e84070"      # red-bright
