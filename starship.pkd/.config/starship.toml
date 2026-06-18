@@ -23,7 +23,7 @@ add_newline = true
 # Wait 10 milliseconds for starship to check files under the current directory.
 scan_timeout = 10
 
-palette = "default_colors"
+palette = "catppuccin_mocha"
 
 # ==================== Prompt ====================
 
@@ -32,13 +32,15 @@ $directory\
 $git_branch\
 $git_status\
 $git_state\
+$nix_shell\
 \
 $fill \
+\
 $status\
-$custom\
 $hostname\
 $cmd_duration\
 $sudo\
+$memory_usage\
 $time\
 \
 $line_break\
@@ -56,21 +58,17 @@ symbol = "─"
 
 [character]
 disabled = false
-success_symbol = " [➔](bold green)"
-error_symbol = " [➔](bold red)"
-vimcmd_symbol = "[](bold green)"
-vimcmd_visual_symbol = "[](bold yellow)"
-vimcmd_replace_symbol = "[](bold purple)"
-vimcmd_replace_one_symbol = "[](bold purple)"
+success_symbol = "  [➔](bold green)"
+error_symbol = "  [➔](bold red)"
 
 # ========== Files and Directories ==========
 
 [directory]
 disabled = false
 truncation_length = 1
-truncation_symbol = "../"
+truncation_symbol = ""
 style = "dir_color"
-format = "[ $path]($style) "
+format = " [ $path]($style) "
 
 # ========== Git ==========
 
@@ -108,6 +106,15 @@ format = """
 # shows state of any git operations (rebase, merge, etc)
 [git_state]
 disabled = false
+style = "git_state_color"
+format = "[─](spacer_color) [󰚖 $state ($progress_current/$progress_total)]($style) "
+rebase = "REBASE"
+merge = "MERGE"
+revert = "REVERT"
+cherry_pick = "CHERRY"
+bisect = "BISECT"
+am = "AM"
+am_or_rebase = "AM/REBASE"
 
 # ========== Time ==========
 
@@ -120,9 +127,26 @@ format = "[󰔛 $duration]($style) [─](spacer_color) "
 disabled = false
 style = "clock_color"
 time_format = "%I:%M:%S"
-format = "[ $time]($style)"
+format = "[ $time]($style) "
 
 # ========== Conditional Information ==========
+
+[nix_shell]
+disabled = false
+symbol = "󱄅"
+style = "nix_color"
+pure_msg = "pure"
+impure_msg = "impure"
+unknown_msg = "dev"
+heuristic = true                                                      # checks for /nix/store in $path, disable if too many false positives
+format = "[─](spacer_color) [$symbol $name \\[$state\\]](nix_color) "
+
+[memory_usage]
+disabled = false
+threshold = 70
+symbol = ""
+style = "memory_color"
+format = "[$symbol $ram_pct]($style) [─](spacer_color) "
 
 [status]
 disabled = false
@@ -130,7 +154,6 @@ style = "red"
 symbol = ""
 recognize_signal_code = false
 format = "[$symbol $status]($style) [─](spacer_color) "
-# format = "[$symbol $common_meaning$signal_name$maybe_int]($style) [─](spacer_color) "
 
 [hostname]
 disabled = false
@@ -147,14 +170,16 @@ style = "bold red"
 
 # ==================== Colors ====================
 
-[palettes.default_colors]
-spacer_color = "#464646"
-timer_color = "#ADA81D"
-dir_color = "#099EF4"
-clock_color = "#1A6DBF"
-tmux_color = "#32D74B"
+[palettes.catppuccin_mocha]
+spacer_color = "#45475a"
+timer_color = "#e8c84a"
+dir_color = "#6aa4f8"
+clock_color = "#5ab8e8"
+memory_color = "#f2cecf"
+nix_color = "#cba6f7"
 
-git_orange = "#F05233"
+git_orange = "#f06040"
+git_state_color = "#f5906a"
 git_modified = "yellow"
 git_untracked = "blue"
 git_ahead_behind = "green"
