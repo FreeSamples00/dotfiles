@@ -30,7 +30,7 @@ background-blur = true
 window-padding-balance = true
 
 # --- COLORS ---
-theme = Apple System Colors
+theme = Catppuccin Mocha
 cursor-color = #CBD6F7
 cursor-text = #1E1E1E
 bold-color = bright
