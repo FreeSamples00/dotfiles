@@ -21,8 +21,9 @@
 # ========================= GLOBAL SETTINGS =========================
 
 after-startup-command = [
-  "exec-and-forget borders",    # for focused windows highligtinh
-  "exec-and-forget sketchybar", # for custom menubar
+  # kill all sketchybar instances, respawn one
+  "exec-and-forget pgrep -i 'sketchybar' | xargs kill",
+  "exec-and-forget nohup sketchybar &>/dev/null &",
 ]
 
 # ========== auto-start ==========
