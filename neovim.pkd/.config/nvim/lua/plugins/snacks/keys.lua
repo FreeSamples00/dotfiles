@@ -129,7 +129,12 @@ return {
     {
       "<leader>gg",
       function()
-        Snacks.lazygit()
+        Snacks.lazygit({
+          args = {
+            "--screen-mode",
+            "half",
+          },
+        })
       end,
       desc = "Lazygit",
     },
