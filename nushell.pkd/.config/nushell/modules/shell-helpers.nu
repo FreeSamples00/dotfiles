@@ -57,6 +57,24 @@ export def e --env --wrapped [
 #   `--stats` post transfer summary
 export alias rsync = rsync --archive --compress --crtimes --stats
 
+# Rsync selected files (piped as filename strings) to a destination
+#
+# Filenames must be relative to the source directory.
+# Uses rsync's --files-from=- to read the file list from stdin.
+#
+# Usage:
+#   ls -l | sort-by modified -r | first 287 | get name | rsync-pick . /dest/
+#   ls /src/ | get name | path basename | rsync-pick /src/ /dest/ --dry-run
+#   ls | where size > 1mb | get name | rsync-pick . /dest/ -v
+#
+export def rsync-pick [
+  source: path          # Source directory (base for relative paths in file list)
+  destination: path     # Destination path
+  ...rest: string       # Additional rsync flags (e.g. --dry-run, --delete, -v)
+]: list<string> -> nothing {
+  $in | to text | ^rsync --archive --compress --crtimes --stats --files-from=- $source $destination ...$rest
+}
+
 # ---------- FUNCTIONS ----------
 
 # Reload shell configuration
