@@ -1,12 +1,28 @@
 # https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md
 notARepository: "quit"
+disableStartupPopups: true
+promptToReturnFromSubprocess: false
 git:
   autoFetch: false
   disableForcePushing: true
+  pagers:
+    - pager: "delta --paging=never"
 os:
   editPreset: "nvim"
   editAtLine: "nvim {{filename}} +{{line}}"
+  openDirInEditor: "nvim {{filename}}"
 gui:
+  expandFocusedSidePanel: true
+  tabWidth: 2
+  enlargedSideViewLocation: top
+  showRootItemInFileTree: false
+  fileTreeSortOrder: foldersFirst
+  showBottomLine: false
+  showCommandLog: false
+  nerdFontsVersion: "3"
+  showDivergenceFromBaseBranch: onlyArrow
+  border: rounded
+  statusPanelView: allBranchesLog
   spinner:
     rate: 100
     frames:
@@ -42,3 +58,10 @@ gui:
       - "#f0d57c" # yellow-normal
   authorColors:
     "*": "#a29ffb" # lilac-normal
+
+
+# TODO:
+# Keybindings.
+# Each binding can be a single key or a list of keys; see
+# https://github.com/jesseduffield/lazygit/blob/master/docs/keybindings/Custom_Keybindings.md
+# for the syntax
