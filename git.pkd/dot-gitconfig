@@ -6,7 +6,7 @@
 # Settings
 [core]
 	excludesfile = ~/.gitignore
-	pager = delta
+	pager = delta -s
 	editor = nvim
 [pull]
 	rebase = false
@@ -28,7 +28,6 @@
 	cmd = "MERGED=\"$MERGED\" nvim -d -c \"wincmd l\" -c \"norm! ]c\" \"$LOCAL\" \"$MERGED\" \"$REMOTE\""
 
 [delta]
-	side-by-side=true
 	line-numbers=true
 	navigate=true
 	hyperlinks=true
@@ -37,18 +36,27 @@
 	word-diff=true
 	true-color=always
 	width=variable
-	syntax-theme=Dracula
+	syntax-theme=Catppuccin Mocha
 	minus-style="syntax #660000"
+	minus-emph-style="syntax #8b3030"
 	plus-style="syntax #0e2e1e"
+	plus-emph-style="syntax #1a4a2a"
 	zero-style="syntax"
-	file-style="#c490f0"
+	line-numbers-minus-style="#ee668c"
+	line-numbers-plus-style="#8ae28e"
+	line-numbers-zero-style="#7f849c"
+	commit-style="#f59a64 bold"
+	commit-decoration-style="#45475a ol"
+	file-style="#7aacf9"            # blue-normal (diff-file)
 	file-decoration-style=""
-	hunk-header-style="#c490f0 bold"
+	hunk-header-style="#f0d57c bold" # yellow-normal (diff-hunk)
 	hunk-header-decoration-style=""
-	inline-hint-style="#c490f0"
-	blame-palette="#6e5d80 #5e4e73 #504267 #43365c #382b52"
+	hunk-header-file-style="#7aacf9" # blue-normal (diff-file)
+	hunk-header-line-number-style="#f0d57c" # yellow-normal (diff-hunk)
+	inline-hint-style="#9399b2"     # fg-faint (diff-hint)
+	blame-palette="#3d3d4d #383846 #34343f #303038 #2c2c31"
 	blame-code-style="syntax"
-	blame-separator-style="#c490f0"
+	blame-separator-style="#7f849c"  # border (diff-separator)
 	blame-separator-format="{n:^4} │"
 [init]
 	defaultBranch = main

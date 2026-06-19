@@ -61,20 +61,26 @@ Source: <https://catppuccin.com/palette/mocha>
 
 Tool-specific values named by purpose. Not generated from accent tiers.
 
-| Name         | Hex       | Purpose                              |
-| ------------ | --------- | ------------------------------------ |
-| cursor       | `#CBD6F7` | Ghostty terminal cursor              |
-| git-branch   | `#f06040` | Starship git branch indicator        |
-| diff-minus   | `#660000` | Delta deletion background            |
-| diff-plus    | `#0e2e1e` | Delta addition background            |
-| diff-blame-1 | `#6e5d80` | Delta blame gradient (lightest)      |
-| diff-blame-2 | `#5e4e73` | Delta blame gradient                 |
-| diff-blame-3 | `#504267` | Delta blame gradient                 |
-| diff-blame-4 | `#43365c` | Delta blame gradient                 |
-| diff-blame-5 | `#382b52` | Delta blame gradient (darkest)       |
-| focus-dnd    | `#6d7cff` | Focus mode: Do Not Disturb indicator |
-| focus-sleep  | `#14b6a4` | Focus mode: Sleep indicator          |
-| focus-reduce | `#db34f2` | Focus mode: Reduce Interruptions     |
+| Name            | Hex       | Purpose                              |
+| --------------- | --------- | ------------------------------------ |
+| cursor          | `#CBD6F7` | Ghostty terminal cursor              |
+| git-branch      | `#f06040` | Starship git branch indicator        |
+| diff-file       | `#7aacf9` | Delta file path header               |
+| diff-hunk       | `#f0d57c` | Delta hunk header                    |
+| diff-hint       | `#9399b2` | Delta inline hints                   |
+| diff-separator  | `#7f849c` | Delta blame separator                |
+| diff-minus      | `#660000` | Delta deletion background            |
+| diff-minus-emph | `#8b3030` | Delta deletion emphasis background   |
+| diff-plus       | `#0e2e1e` | Delta addition background            |
+| diff-plus-emph  | `#1a4a2a` | Delta addition emphasis background   |
+| diff-blame-1    | `#3d3d4d` | Delta blame gradient (lightest)      |
+| diff-blame-2    | `#383846` | Delta blame gradient                 |
+| diff-blame-3    | `#34343f` | Delta blame gradient                 |
+| diff-blame-4    | `#303038` | Delta blame gradient                 |
+| diff-blame-5    | `#2c2c31` | Delta blame gradient (darkest)       |
+| focus-dnd       | `#6d7cff` | Focus mode: Do Not Disturb indicator |
+| focus-sleep     | `#14b6a4` | Focus mode: Sleep indicator          |
+| focus-reduce    | `#db34f2` | Focus mode: Reduce Interruptions     |
 
 ## Catppuccin Mocha Mapping
 
