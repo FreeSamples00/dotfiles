@@ -20,14 +20,14 @@
 
 # ========================= GLOBAL SETTINGS =========================
 
+# ========== startup ==========
+start-at-login = true
+
 after-startup-command = [
   # kill all sketchybar instances, respawn one
   "exec-and-forget pgrep -i 'sketchybar' | xargs kill",
   "exec-and-forget nohup sketchybar &>/dev/null &",
 ]
-
-# ========== auto-start ==========
-start-at-login = true
 
 # ========== Normalizations ==========
 enable-normalization-flatten-containers = true
@@ -41,7 +41,7 @@ accordion-padding = 30
 default-root-container-layout = "tiles"
 
 # horizontal|vertical|auto
-default-root-container-orientation = "auto"
+default-root-container-orientation = "horizontal"
 
 # ========== disable macos hide behavior ==========
 automatically-unhide-macos-hidden-apps = true
@@ -90,7 +90,7 @@ run = "layout floating"
 
 # non-native
 [[on-window-detected]]
-if.app-name-regex-substring = "discord|crossover|steam|proton *|outlook|discord*"
+if.app-name-regex-substring = "discord|crossover|steam|proton *|outlook|discord*|shottr"
 run = "layout floating"
 
 # ========================= MAIN BINDINGS =========================
@@ -117,7 +117,7 @@ run = "layout floating"
 # - otherwise saves to /tmp from GUI
 # - space cycles between area and window selection mode
 # NOTE: abt once a year will need to remove and re-add aerospace to screen capture perms
-cmd-alt-ctrl-shift-s = 'exec-and-forget screencapture -diu -J "window" "/tmp/"'
+# cmd-alt-ctrl-shift-s = 'exec-and-forget screencapture -diu -J "window" "/tmp/"'
 
 # ========================= APPLICATION HOTKEYS =========================
 
