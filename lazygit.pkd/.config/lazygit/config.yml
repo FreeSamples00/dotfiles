@@ -14,13 +14,15 @@ os:
 gui:
   expandFocusedSidePanel: true
   tabWidth: 2
-  enlargedSideViewLocation: top
+  enlargedSideViewLocation: left
+  sidePanelWidth: 0.25
+  expandedSidePanelWeight: 3
   showRootItemInFileTree: false
   fileTreeSortOrder: foldersFirst
   showBottomLine: false
   showCommandLog: false
   nerdFontsVersion: "3"
-  showDivergenceFromBaseBranch: onlyArrow
+  showDivergenceFromBaseBranch: arrowAndNumber
   border: rounded
   statusPanelView: allBranchesLog
   spinner:
@@ -56,6 +58,18 @@ gui:
       - "#cdd6f4" # fg
     searchingActiveBorderColor:
       - "#f0d57c" # yellow-normal
+    inactiveViewSelectedLineBgColor:
+      - "#585b70" # surface-raised
+    markedBaseCommitFgColor:
+      - "#c490f0" # purple-normal
+    markedBaseCommitBgColor:
+      - "#45475a" # surface
+  branchColorPatterns:
+    "^(main|master)$": "#7aacf9" # blue-normal
+    "^develop$": "#6addca" # teal-normal
+    "^(feat|feature)/": "#8ae28e" # green-normal
+    "^fix/": "#f59a64" # orange-normal
+    "^(chore|docs|refactor|test|ci)/": "#c490f0" # purple-normal
   authorColors:
     "*": "#a29ffb" # lilac-normal
 
