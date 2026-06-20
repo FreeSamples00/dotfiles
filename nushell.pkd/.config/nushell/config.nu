@@ -19,7 +19,7 @@ $env.config = {
 
   # ----- Commandline Editor Settings -----
   buffer_editor: ["nvim"] # add arguments as other elements
-  edit_mode: "vi" # emacs or vi
+  edit_mode: "emacs" # emacs or vi
   cursor_shape: {emacs: "block", vi_insert: "line", vi_normal: "block"}
 
   # ----- History Settings -----
