@@ -17,6 +17,11 @@ $env.ZELLIJ_CONFIG_DIR = $"($env.XDG_CONFIG_HOME)/zellij"
 
 $env.OPENCODE_ENABLE_EXA = 1
 
+# Restore COLORTERM over SSH (Ghostty sets this locally but it's not forwarded)
+if ($env.TERM | str contains "ghostty") and ($env.COLORTERM? | is-empty) {
+  $env.COLORTERM = "truecolor"
+}
+
 # ----- External Configs -----
 $env.dependencies = [
   starship
