@@ -145,24 +145,50 @@ autocmd("BufDelete", {
       end
 
       if not has_real_buffer then
-        -- Find a non-floating window that isn't showing special content
-        -- Avoids overriding help floats and other special windows
-        local target_win
-        for _, win in ipairs(vim.api.nvim_list_wins()) do
-          local cfg = vim.api.nvim_win_get_config(win)
-          if cfg.relative == "" then -- non-floating
-            local buf = vim.api.nvim_win_get_buf(win)
-            local ft = vim.bo[buf].filetype
-            if ft ~= "help" and ft ~= "man" and ft ~= "snacks_dashboard" then
-              target_win = win
-              break
-            end
+        -- Close any open buffer/explorer picker first. Their preview = "main"
+        -- would otherwise override the dashboard buffer in the main window,
+        -- and closing defers window cleanup (see keys.lua for the same pattern),
+        -- so we open the dashboard after the picker's scheduled close settles.
+        for _, source in ipairs({ "buffers", "explorer" }) do
+          for _, p in ipairs(Snacks.picker.get({ source = source })) do
+            p:close()
           end
         end
+        vim.schedule(function()
+          -- Re-check for a dashboard after the picker's deferred close runs,
+          -- since picker windows can transiently remain during their teardown.
+          for _, win in ipairs(vim.api.nvim_list_wins()) do
+            local buf = vim.api.nvim_win_get_buf(win)
+            if vim.bo[buf].filetype == "snacks_dashboard" then
+              return
+            end
+          end
 
-        if target_win then
-          Snacks.dashboard.open({ win = target_win })
-        end
+          -- Find a non-floating window that isn't showing special content.
+          -- Excludes help/man/dashboard and picker-managed windows
+          -- (snacks_layout flag + picker filetypes) so the dashboard
+          -- never opens into a picker's own window, which would race
+          -- the picker's teardown and leave the dashboard's self.win stale.
+          local target_win
+          for _, win in ipairs(vim.api.nvim_list_wins()) do
+            local cfg = vim.api.nvim_win_get_config(win)
+            if cfg.relative == "" then -- non-floating
+              local buf = vim.api.nvim_win_get_buf(win)
+              local ft = vim.bo[buf].filetype
+              if ft ~= "help" and ft ~= "man" and ft ~= "snacks_dashboard" then
+                -- skip picker-managed windows
+                if not vim.w[win].snacks_layout and not vim.tbl_contains(autoclose_filetypes, ft) then
+                  target_win = win
+                  break
+                end
+              end
+            end
+          end
+
+          if target_win then
+            pcall(Snacks.dashboard.open, { win = target_win })
+          end
+        end)
       end
     end)
   end,

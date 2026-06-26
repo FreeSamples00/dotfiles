@@ -33,6 +33,7 @@ M.ignored_filetypes = {
 M.autoclose_filetypes = {
   "snacks_picker_input",
   "snacks_picker_list",
+  "snacks_picker_preview",
   "snacks_layout_box",
 }
 
