@@ -18,6 +18,7 @@ return {
         files = { hidden = true },
         grep = { hidden = true },
         buffers = {
+          format = "file", -- icon + path:line (no buf nr/flags)
           layout = { hidden = { "input" } }, -- browse-only
           win = {
             list = {

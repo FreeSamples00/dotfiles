@@ -13,9 +13,43 @@ return {
     {
       "L",
       function()
-        Snacks.picker.buffers()
+        -- Close explorer if open (mutual exclusivity)
+        for _, p in ipairs(Snacks.picker.get({ source = "explorer" })) do
+          p:close()
+        end
+        -- Defer open: explorer cleanup is scheduled in p:close(),
+        -- so we queue after it to avoid window event races
+        vim.schedule(function()
+          Snacks.picker.buffers({
+            layout = { preset = "sidebar", preview = "main", hidden = {} }, -- show input bar with title/chrome
+            auto_close = false, -- stay open when focusing main window
+            jump = { close = false }, -- stay open after selecting a buffer
+            focus = "list", -- start in list; press / or a to focus search
+            win = {
+              list = {
+                keys = {
+                  ["a"] = "focus_input", -- press a to jump to search bar
+                },
+              },
+            },
+            on_show = function(picker)
+              -- Refresh on buffer add/delete/wipe so the list stays live.
+              -- Events are scoped to the picker's list window augroup,
+              -- so they're cleaned up automatically when the picker closes.
+              picker.list.win:on({ "BufAdd", "BufDelete", "BufWipeout" }, function()
+                if not picker.closed then
+                  vim.schedule(function()
+                    if not picker.closed then
+                      picker:find()
+                    end
+                  end)
+                end
+              end)
+            end,
+          })
+        end)
       end,
-      desc = "Buffers",
+      desc = "Buffers (sidebar)",
     },
     {
       "<leader>/",
@@ -41,7 +75,15 @@ return {
     {
       "<leader>e",
       function()
-        Snacks.explorer()
+        -- Close buffer sidebar if open (mutual exclusivity)
+        for _, p in ipairs(Snacks.picker.get({ source = "buffers" })) do
+          p:close()
+        end
+        -- Defer open: buffer sidebar cleanup is scheduled in p:close(),
+        -- so we queue after it to avoid window event races
+        vim.schedule(function()
+          Snacks.explorer()
+        end)
       end,
       desc = "File Explorer",
     },
