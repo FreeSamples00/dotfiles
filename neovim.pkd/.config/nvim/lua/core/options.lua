@@ -21,6 +21,8 @@ local opts = {
   ignorecase = true, -- case-insensitive search
   smartcase = true, -- case-sensitive when uppercase present
   cursorline = true, -- highlight current line
+  mouse = "a",
+  mousemodel = "extend",
 }
 
 for opt, val in pairs(opts) do
