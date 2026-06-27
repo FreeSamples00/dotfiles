@@ -7,14 +7,14 @@ Personal dotfiles and system configuration managed with GNU Stow.
 ```
 dotfiles/
 ├── *.pkd/          Configuration packages (stow-compatible)
-├── _dumps/         Exported configs (Brewfile, Cronjobs)
+├── data/           Exported configs (Brewfile, Cronjobs, keychron)
 ├── dot             Dotfiles manager script (wraps GNU Stow)
 ├── docs/           Documentation
 └── misc/           Themes and wallpapers
 ```
 
 - `*.pkd/` - Stow packages containing application configurations
-- `_dumps/` - Exported system configurations for backup
+- `data/` - Exported system configurations for backup
 - `dot` - Convenience wrapper around GNU Stow for managing symlinks
 - `docs/` - Detailed setup and usage documentation
 - `misc/` - Visual assets (themes, wallpapers)

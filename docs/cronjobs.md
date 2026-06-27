@@ -1,6 +1,6 @@
 # Cronjobs
 
-Cronjobs are dumped into `dotfiles/_dumps/Cronjobs`.
+Cronjobs are dumped into `dotfiles/data/Cronjobs`.
 
 ## Exporting Cronjobs
 
@@ -13,7 +13,7 @@ To export your current crontab:
 Or manually:
 
 ```bash
-crontab -l > ~/dotfiles/_dumps/Cronjobs
+crontab -l > ~/dotfiles/data/Cronjobs
 ```
 
 ## Restoring Cronjobs
@@ -21,5 +21,5 @@ crontab -l > ~/dotfiles/_dumps/Cronjobs
 To restore cronjobs:
 
 ```bash
-crontab ~/dotfiles/_dumps/Cronjobs
+crontab ~/dotfiles/data/Cronjobs
 ```

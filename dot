@@ -217,7 +217,7 @@ function cmd_stow() {
 
 function cmd_dump() {
   # filepaths
-  STORAGE_DIR="$DOT_DIR/_dumps"
+  STORAGE_DIR="$DOT_DIR/data"
   BREW_PATH="${STORAGE_DIR}/Brewfile"
   CRON_PATH="${STORAGE_DIR}/Cronjobs"
 

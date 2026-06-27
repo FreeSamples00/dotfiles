@@ -81,5 +81,5 @@ Export current configurations:
 
 This creates:
 
-- `_dumps/Brewfile` - List of brew packages
-- `_dumps/Cronjobs` - Crontab settings
+- `data/Brewfile` - List of brew packages
+- `data/Cronjobs` - Crontab settings
