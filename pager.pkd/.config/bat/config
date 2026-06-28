@@ -1,0 +1,14 @@
+# bat configuration
+# See ~/dotfiles/docs/colorscheme.md for palette reference
+
+# Custom Catppuccin Mocha-derived theme matching personal palette
+--theme="colorscheme"
+
+# Clean interface: no filename, line numbers, grid, or UI decorations
+--style="plain"
+
+# Wrap long lines instead of chopping them
+--wrap="auto"
+
+# Page only when content exceeds terminal height (cat-like for short files)
+--paging="auto"

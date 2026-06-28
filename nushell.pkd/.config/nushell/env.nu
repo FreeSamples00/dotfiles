@@ -2,6 +2,11 @@
 
 $env.LESS = "-R -f"
 
+if not (which bat | is-empty) {
+  $env.PAGER = "bat"
+  $env.MANPAGER = "sh -c 'col -bx | bat -l man -p'"
+}
+
 $env.XDG_CONFIG_HOME = $"($env.home)/.config"
 $env.XDG_CACHE_HOME = $"($env.home)/.cache"
 $env.nu_config_dir = $"($env.XDG_CONFIG_HOME)"

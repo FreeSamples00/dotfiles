@@ -10,6 +10,7 @@ def nvim-completer [] {
 
 # ---------- ALIASES ----------
 
+export alias cat = bat
 export alias j = just
 export alias rm = rm -I
 export def cd --env --wrapped [...args: directory] { __zoxide_z ...$args }

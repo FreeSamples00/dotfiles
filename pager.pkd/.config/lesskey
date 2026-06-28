@@ -1,0 +1,24 @@
+# lesskey - key bindings for less
+# Applies to all less usage: bat, manpages, delta/git diffs, direct less
+#
+# Key mappings:
+#   j/k, arrows    → 3 lines per press (via extra-string chaining)
+#   space/PgDn/PgUp → half-page scroll
+#   /search, n, N  → preserved (less highlights all matches by default)
+#   gg, G, %, q    → preserved from less defaults
+
+#command
+
+# j/k and arrows: 3 lines per press
+# Uses lesskey extra-string: action runs, then the extra chars are parsed
+# as if typed. 'e' = forw-line, 'y' = back-line, so 'ee'/'yy' = 2 more.
+j    forw-line ee
+k    back-line yy
+\kd  forw-line ee
+\ku  back-line yy
+
+# Half-page scrolling
+# forw-scroll/back-scroll default to half the screen size
+\40  forw-scroll
+\kD  forw-scroll
+\kU  back-scroll
