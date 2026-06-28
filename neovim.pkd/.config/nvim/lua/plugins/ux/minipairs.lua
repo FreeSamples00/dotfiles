@@ -42,6 +42,13 @@ local function quote_pair(char)
       return char
     end
 
+    -- Don't open a new pair when extending a run of the same quote
+    -- (e.g., markdown ``` fence shouldn't become ````)
+    local before_char = line:sub(col, col)
+    if before_char == char then
+      return char
+    end
+
     -- Open: when char after cursor is safe (not word, not same quote, not backslash)
     if not after_char:match("[%w\\]") and after_char ~= char then
       return char .. char .. "<Left>"
@@ -59,7 +66,6 @@ return {
     modes = { insert = true, command = true, terminal = false },
     skip_next = [=[[%w%%%'%[%"%.%`%$]]=], -- skip pairing after word chars
     skip_unbalanced = true,
-    markdown = true,
     mappings = {
       -- Brackets: pair when non-word, non-quote char follows cursor (any char before is ok)
       ["("] = { action = "open", pair = "()", neigh_pattern = ".[^%w_\"'`]", register = { cr = false } },
