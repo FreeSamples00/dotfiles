@@ -1,7 +1,7 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "syn:large:text",
-  "small_model": "syn:small:text",
+  "model": "synthetic/hf:zai-org/GLM-5.1",
+  "small_model": "synthetic/hf:zai-org/GLM-4.7-Flash",
   "default_agent": "plan",
   "share": "disabled",
   "plugin": [
@@ -16,20 +16,20 @@
         "baseURL": "https://api.synthetic.new/openai/v1",
       },
       "models": {
-        "syn:large:text": {
+        "hf:zai-org/GLM-5.1": {
           "name": "Max",
           "limit": {
-            "context": 524288,
+            "context": 196608,
             "output": 65536,
           },
           "cost": {
-            "input": 1.4,
-            "output": 4.4,
+            "input": 1,
+            "output": 3,
           },
           "family": "GLM",
           "reasoning": true,
         },
-        "syn:small:text": {
+        "hf:zai-org/GLM-4.7-Flash": {
           "name": "Lite",
           "limit": {
             "context": 196608,
@@ -104,6 +104,8 @@
     "plan": {
       "mode": "primary",
       "color": "primary",
+      "model": "synthetic/hf:zai-org/GLM-5.1",
+      "reasoningEffort": "high",
       "permission": {
         "read": {
           "*": "allow",
@@ -134,6 +136,8 @@
     "build": {
       "mode": "primary",
       "color": "secondary",
+      "model": "synthetic/hf:zai-org/GLM-5.1",
+      "reasoningEffort": "medium",
       "permission": {
         "read": {
           "*": "allow",
@@ -161,7 +165,7 @@
     },
     "explorer": {
       "mode": "subagent",
-      "model": "synthetic/syn:small:text",
+      "model": "synthetic/hf:zai-org/GLM-4.7-Flash",
       "steps": 12,
       "temperature": 0.2,
       "reasoningEffort": "low",
@@ -179,7 +183,7 @@
     },
     "librarian": {
       "mode": "subagent",
-      "model": "synthetic/syn:small:text",
+      "model": "synthetic/hf:zai-org/GLM-4.7-Flash",
       "steps": 10,
       "temperature": 0.2,
       "reasoningEffort": "medium",
@@ -192,7 +196,7 @@
     },
     "documenter": {
       "mode": "subagent",
-      "model": "synthetic/syn:small:text",
+      "model": "synthetic/hf:zai-org/GLM-4.7-Flash",
       "steps": 10,
       "temperature": 0.2,
       "reasoningEffort": "medium",
@@ -212,7 +216,7 @@
     },
     "fixer": {
       "mode": "subagent",
-      "model": "synthetic/syn:small:text",
+      "model": "synthetic/hf:zai-org/GLM-4.7-Flash",
       "steps": 14,
       "temperature": 0.2,
       "reasoningEffort": "medium",
@@ -231,7 +235,7 @@
     },
     "oracle": {
       "mode": "subagent",
-      "model": "synthetic/syn:large:text",
+      "model": "synthetic/hf:zai-org/GLM-5.1",
       "steps": 8,
       "temperature": 0.1,
       "reasoningEffort": "high",
@@ -250,7 +254,7 @@
       },
     },
     "compaction": {
-      "model": "synthetic/syn:large:text",
+      "model": "synthetic/hf:zai-org/GLM-4.7-Flash",
       "reasoningEffort": "high",
       "permission": {
         "*": "deny",
