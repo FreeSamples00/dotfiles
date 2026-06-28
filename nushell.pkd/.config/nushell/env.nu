@@ -4,7 +4,14 @@ $env.LESS = "-R -f"
 
 if not (which bat | is-empty) {
   $env.PAGER = "bat"
-  $env.MANPAGER = "sh -c 'col -bx | bat -l man -p'"
+  $env.MANPAGER = if $nu.os-info.name == 'macos' {
+    # macOS: BSD nroff emits backspace-overstrike; col -bx strips it before bat
+    "sh -c 'col -bx | bat -l man -p'"
+  } else {
+    # Linux: GNU groff -Tutf8 emits ANSI SGR (no overstrike); col strips ESC and
+    # mangles it (4mBAT24m), so strip SGR with sed and let bat apply the theme
+    "sh -c 'sed \"s/\\x1b\\[[0-9;]*m//g\" | bat -l man -p'"
+  }
 }
 
 $env.XDG_CONFIG_HOME = $"($env.home)/.config"
