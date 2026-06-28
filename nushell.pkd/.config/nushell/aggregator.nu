@@ -20,5 +20,6 @@ use APIs.nu *
 use dexcom.nu
 use zj.nu *
 use ai.nu *
+use archive.nu
 
 use (if $nu.os-info.name == 'macos' { 'macos.nu' }) *
