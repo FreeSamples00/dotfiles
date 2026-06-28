@@ -29,7 +29,7 @@ export def cls [
 export alias fg = job unfreeze (job list | reverse | where type == frozen | first | (if $in == null {null} else {$in.id}))
 
 # ----- EXTERNAL COMMANDS -----
-export alias tree = tree -aC -I .git -I .venv -I target -I "*.rs.bk" -I .direnv -I .idea -I .vscode -I "._*"
+export alias tree = tree -aC -I .git -I .venv -I .direnv -I .idea -I .vscode -I "._*"
 export alias diff = diff -u
 
 # neovim shorthand
