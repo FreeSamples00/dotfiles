@@ -64,8 +64,16 @@ export alias cwd = do {pwd | clip copy}
 #   `open data.json | copy -f nuon`       # Convert JSON file to NUON and copy
 export def copy [
   --format (-f): string@to-completer # Convert to this format before copying
+  --color (-c)                       # preserve ansi formatting
 ]: any -> nothing {
   let data = $in
+  | if not $color {
+    $in
+    | if ($in | describe) == "string" {
+      $in | ansi strip
+    } else $in
+  } else $in
+
   let converter = if $format != null {
     match $format {
       csv => {|| to csv }
@@ -82,6 +90,7 @@ export def copy [
       text => {|| to text }
       toml => {||
         
+
         # toml expects a record, this wraps tables for compatability
         let d = $in
         if ($d | describe | str starts-with "record") {
@@ -120,6 +129,7 @@ export def copy [
 #   `paste -f nuon | to json | save out.json`  # Convert NUON to JSON file
 export def paste [
   --format (-f): string@from-completer # Convert from this format before pasting
+  --color (-c)                         # preserve ansi formatting
 ]: nothing -> any {
   let converter = if $format != null {
     match $format {
@@ -151,5 +161,11 @@ export def paste [
   } else {
     {|| $in }
   }
-  clip paste | do $converter
+  clip paste
+  | do $converter
+  | if not $color {
+    if ($in | describe) == "string" {
+      $in | ansi strip
+    } else $in
+  } else $in
 }
