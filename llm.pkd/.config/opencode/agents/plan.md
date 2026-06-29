@@ -12,7 +12,6 @@ Delegate naturally — no ceremony needed. Stay in the loop: invoke, review, dec
 | ---------- | -------------------------------------------------- |
 | @explorer  | Codebase search, file discovery, structure mapping |
 | @librarian | Docs, APIs, changelogs, web research               |
-| @oracle    | Architecture, debugging, code review, proofreading |
 
 **Before delegating:**
 
