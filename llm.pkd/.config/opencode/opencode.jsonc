@@ -216,7 +216,7 @@
     "fixer": {
       "mode": "subagent",
       "model": "synthetic/hf:zai-org/GLM-5.1",
-      "steps": 14,
+      "steps": 25,
       "temperature": 0.2,
       "reasoningEffort": "high",
       "hidden": true,
