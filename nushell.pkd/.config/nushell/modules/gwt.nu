@@ -59,6 +59,15 @@ def get-worktree-path [branch: string] {
     $match.worktree.0
 }
 
+# Run .setup.sh in a worktree if it exists
+def run-setup [wt_dir: string] {
+    if ($"($wt_dir)/.setup.sh" | path exists) {
+        print "  Running .setup.sh..."
+        cd $wt_dir
+        sh .setup.sh
+    }
+}
+
 def new-branch-completer [] {
     git branch --list | lines
     | where { |line| not ($line | str starts-with '+') }
@@ -90,6 +99,7 @@ export def add [
 ] {
   let dir = ($dir | default ($branch | str replace "/" "-"))
   git worktree add $dir -- $branch
+  run-setup $dir
 }
 
 # Create new branch + worktree
@@ -97,7 +107,9 @@ export def new [
   branch: string # new branch name
   --base (-b): string@branch-completer = "main" # branch to base off of
 ] {
-  git worktree add ($branch | str replace "/" "-") $base -b $branch
+  let dir = ($branch | str replace "/" "-")
+  git worktree add $dir $base -b $branch
+  run-setup $dir
 }
 
 # Prune old references
@@ -159,7 +171,9 @@ export def clone [
 # growing trees
     $branch | append $main | uniq | each {|b|
       print $"Adding ($b)..."
-      add $b
+      let wt_dir = ($b | str replace "/" "-")
+      git worktree add $wt_dir --checkout -- $b
+      run-setup $wt_dir
     }
   } catch {|err|
     pb error
