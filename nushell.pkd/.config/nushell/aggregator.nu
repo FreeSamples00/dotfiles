@@ -15,6 +15,7 @@ use shell-helpers.nu *
 use grep.nu
 use clipboard.nu *
 use git.nu *
+use gwt.nu
 use synthetic.nu
 use APIs.nu *
 use dexcom.nu
