@@ -67,10 +67,14 @@ def parse-worktrees [] {
 }
 
 # Find the repo root from any worktree.
-# git-common-dir points to .bare; its parent is the repo root.
+# The bare worktree entry in `git worktree list --porcelain` always uses
+# absolute paths, so taking dirname of its worktree field yields the repo
+# root reliably regardless of PWD or git version.
 def get-repo-root [] {
-  git rev-parse --git-common-dir
-  | path expand
+  parse-worktrees
+  | where bare? == true
+  | get worktree
+  | first
   | path dirname
 }
 
