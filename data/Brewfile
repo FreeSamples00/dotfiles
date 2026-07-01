@@ -1,140 +1,259 @@
-tap "barutsrb/tap"
-tap "dart-lang/dart"
-tap "felixkratz/formulae"
+tap "barutsrb/tap", "https://github.com/BarutSRB/homebrew-tap"
+tap "domcyrus/rustnet"
+tap "felixkratz/formulae", "https://github.com/FelixKratz/homebrew-formulae"
 tap "homebrew-zathura/zathura"
 tap "homebrew/bundle"
 tap "jackielii/tap"
-tap "karinushka/paneru"
-tap "neur0map/tap"
 tap "nikitabobko/tap"
+tap "oven-sh/bun"
 tap "philocalyst/tap"
 tap "protonpass/tap"
-tap "sass/sass"
-tap "scarvalhojr/tap"
-brew "python@3.14"
-brew "aerc"
+# Next-generation aircrack with lots of new features
 brew "aircrack-ng"
+# Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
+# GNU binary tools for native development
 brew "binutils"
+# 7-Zip (high compression file archiver) implementation
 brew "p7zip"
+# Searches a binary image for embedded files and executable code
 brew "binwalk"
+# Resource monitor. C++ version and continuation of bashtop and bpytop
 brew "btop"
+# Multi-shell multi-command argument completer
 brew "carapace"
+# Insanely fast image printing in your terminal
 brew "catimg"
+# GNU File, Shell, and Text utilities
 brew "coreutils"
+# Get a file from an HTTP, HTTPS or FTP server
 brew "curl"
+# More intuitive version of du in rust
 brew "dust"
+# Read, write, modify, and display EXIF data on the command-line
 brew "exif"
+# Modern, maintained replacement for ls
 brew "eza"
-brew "fastfetch"
+# Simple, fast and user-friendly alternative to find
 brew "fd"
+# Banner-like program prints strings as ASCII art
 brew "figlet"
+# Command-line fuzzy finder written in Go
 brew "fzf"
+# GNU compiler collection
 brew "gcc"
+# GitHub command-line tool
+brew "gh"
+# Multi-platform software reverse engineering framework
 brew "ghidra"
+# Distributed revision control system
 brew "git"
+# Syntax-highlighting pager for git and diff output
 brew "git-delta"
+# Render markdown on the CLI
 brew "glow"
+# Open source programming language to build simple/reliable/efficient software
 brew "go"
+# World's fastest and most advanced password recovery utility
 brew "hashcat"
+# Agent multiplexer that lives in your terminal
+brew "herdr"
+# Configurable static site generator
 brew "hugo"
+# Command-line benchmarking tool
 brew "hyperfine"
+# Tools and libraries to manipulate images in select formats
 brew "imagemagick"
+# Synchronize a maildir with an IMAP server
 brew "isync"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.14"
+# Serializes the output of command-line tools to structured JSON output
 brew "jc"
+# Enhanced version of john, a UNIX password cracker
 brew "john-jumbo"
+# Lightweight and flexible command-line JSON processor
 brew "jq"
+# Handy way to save and run project-specific commands
 brew "just"
+# Simple terminal UI for git commands
 brew "lazygit"
-brew "lf"
+# Provides library functionality for FIDO U2F & FIDO 2.0, including USB
 brew "libfido2"
+# Extended crypt library for descrypt, md5crypt, bcrypt, and others
 brew "libxcrypt"
+# Next-gen compiler infrastructure
 brew "llvm"
+# Rainbows and unicorns in your console!
 brew "lolcat"
+# TUI macOS cleaner that scans caches/logs and lets you select what to delete
+brew "mac-cleanup-go"
+# Moscow ML
 brew "mosml"
+# Media player based on MPlayer and mplayer2
 brew "mpv"
+# Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
+# Port scanning utility for large networks
 brew "nmap"
+# Open-source, cross-platform JavaScript runtime environment
 brew "node"
+# Finds secrets and sensitive information in textual data and Git history
 brew "noseyparker"
+# Modern shell for the GitHub era
 brew "nushell"
+# Search tool like grep and The Silver Searcher
 brew "ripgrep"
+# AI coding agent, built for the terminal
 brew "opencode"
+# Development kit for the Java programming language
 brew "openjdk"
+# OpenBSD freely-licensed SSH connectivity tools
 brew "openssh"
+# Microsoft Windows password cracker using rainbow tables
 brew "ophcrack"
+# Swiss-army knife of markup format conversion
 brew "pandoc"
+# Utility to choose one option from a set of choices
 brew "pick"
+# Execute binaries from Python packages in isolated environments
 brew "pipx"
+# Paste PNG into files
 brew "pngpaste"
+# PDF rendering library (based on the xpdf-3.0 code base)
 brew "poppler"
+# Framework for managing multi-language pre-commit hooks
 brew "pre-commit"
+# Code formatter for JavaScript, CSS, JSON, GraphQL, Markdown, YAML
 brew "prettier"
+# Monitor data's progress through a pipe
 brew "pv"
+# Generic syntax highlighter
 brew "pygments"
+# Python Language Server for the Language Server Protocol
 brew "python-lsp-server"
+# Interpreted, interactive, object-oriented programming language
 brew "python@3.13"
+# Utility that provides fast incremental file transfer
 brew "rsync"
+# Safe, concurrent, practical language
 brew "rust"
+# Experimental Rust compiler front-end for IDEs
 brew "rust-analyzer"
+# Rust toolchain installer
 brew "rustup"
+# Static analysis and lint tool, for (ba)sh scripts
 brew "shellcheck"
+# Cross-shell prompt for astronauts
 brew "starship"
+# Organize software neatly under a single directory tree (e.g. /usr/local)
 brew "stow"
+# Opinionated Lua code formatter
 brew "stylua"
+# TOML toolkit written in Rust
 brew "taplo"
+# User interface to the TELNET protocol
 brew "telnet"
+# Terminal multiplexer
 brew "tmux"
+# Upgrade all the things
 brew "topgrade"
-brew "transmission-cli", restart_service: :changed
+# Lightweight BitTorrent client
+brew "transmission-cli"
+# Display directories as trees (with optional color/HTML output)
 brew "tree"
+# Parser generator tool
 brew "tree-sitter-cli"
+# Find and verify credentials
 brew "trufflehog"
+# Digital clock in ncurses
 brew "tty-clock"
+# Extremely fast Python package installer and resolver, written in Rust
 brew "uv"
+# Vi 'workalike' with many additional features
 brew "vim"
+# Pager/text based browser
 brew "w3m"
+# Internet file retriever
 brew "wget"
+# Lookup tool for domain names and other internet resources
 brew "whois"
+# Network analyzer and capture tool - without graphical user interface
 brew "wireshark"
+# Access X11 clipboards from the command-line
 brew "xclip"
+# Hackable, minimal, fast TUI file explorer
+brew "xplr"
+# Tool for managing your YubiKey configuration
 brew "ykman"
+# Command-line tool for the YubiKey PIV application
 brew "yubico-piv-tool"
+# Pluggable terminal workspace, with terminal multiplexer as the base feature
+brew "zellij"
+# Flexible and fast Zsh plugin manager
 brew "zinit"
+# Shell extension to navigate your filesystem faster
 brew "zoxide"
-brew "felixkratz/formulae/borders"
-brew "felixkratz/formulae/sketchybar"
-brew "neur0map/tap/gpk"
-brew "philocalyst/tap/caligula"
-brew "protonpass/tap/pass-cli"
-brew "sass/sass/sass"
-cask "nikitabobko/tap/aerospace"
+# High-performance, cross-platform network monitoring tool with TUI
+brew "domcyrus/rustnet/rustnet", trusted: true
+# A window border system for macOS
+brew "felixkratz/formulae/borders", trusted: true
+# Custom macOS statusbar with shell plugin, interaction and graph support
+brew "felixkratz/formulae/sketchybar", trusted: true
+# User-friendly, lightweight TUI for disk imaging
+brew "philocalyst/tap/caligula", trusted: true
+# Proton Pass CLI - Command-line interface for Proton Pass
+brew "protonpass/tap/pass-cli", trusted: true
+# AeroSpace is an i3-like tiling window manager for macOS
+cask "nikitabobko/tap/aerospace", trusted: true
+# Utility to add Dynamic Island like features to notch area
 cask "alcove"
+# Inspect application bundles
 cask "apparency"
+# Display management tool
 cask "betterdisplay"
+# Utility that prevents the system from going to sleep
 cask "caffeine"
+# Voice and text chat software
 cask "discord"
+# App to build and share containerised applications and microservices
 cask "docker-desktop"
 cask "font-jetbrains-mono-nerd-font"
 cask "font-sketchybar-app-font"
 cask "font-space-mono-nerd-font"
+# Terminal emulator that uses platform-native UI and GPU acceleration
 cask "ghostty"
+# Chromium-based web browser
 cask "helium-browser"
+# Keyboard customiser
 cask "karabiner-elements"
+# Full TeX Live distribution without GUI applications
 cask "mactex-no-gui"
+# Knowledge base that works on top of a local folder of plain text Markdown files
 cask "obsidian"
+# Client for Proton Mail and Proton Calendar
 cask "proton-mail"
-cask "proton-mail-bridge"
+# Desktop client for Proton Pass
 cask "proton-pass"
+# VPN client focusing on security
 cask "protonvpn"
+# Imaging utility to install operating systems to a microSD card
 cask "raspberry-pi-imager"
+# Control your tools with a few keystrokes
 cask "raycast"
+# Screenshot measurement and annotation tool
+cask "shottr"
+# Open-source media center
 cask "stremio"
+# Multimedia player
 cask "vlc"
+# Network protocol analyzer
 cask "wireshark-app"
-cask "xquartz"
+# Full-featured companion app to the YubiKey
 cask "yubico-authenticator"
+# Gecko based web browser
 cask "zen"
+go "golang.org/dl/go1.27rc1"
 cargo "cargo-update"
 cargo "ghgrab"
 cargo "metapac"
@@ -142,3 +261,6 @@ cargo "nu-lint"
 cargo "nufmt"
 cargo "rusty-hook"
 cargo "tdf-viewer"
+npm "neovim"
+npm "ocx"
+npm "vercel"
