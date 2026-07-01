@@ -3,6 +3,25 @@
 
 local globals = require("helpers.globals")
 
+local filename_comp = {
+  "filename",
+  file_status = true,
+  newfile_status = true,
+  path = 0, -- relative path
+  shorting_target = 20,
+  symbols = {
+    modified = "󰏫",
+    readonly = "󰍁",
+    unnamed = "[Unnamed]",
+    newfile = "",
+  },
+}
+
+local git_branch_comp = {
+  "branch",
+  icon = "",
+}
+
 return {
   "nvim-lualine/lualine.nvim",
   event = "VeryLazy",
@@ -49,24 +68,10 @@ return {
       sections = {
         -- left: mode → filename → diff
         lualine_a = { "mode" },
-        lualine_b = {
-          {
-            "filename",
-            file_status = true,
-            newfile_status = true,
-            path = 0, -- relative path
-            shorting_target = 20,
-            symbols = {
-              modified = "󰏫",
-              readonly = "󰍁",
-              unnamed = "[Unnamed]",
-              newfile = "",
-            },
-          },
-        },
+        lualine_b = { filename_comp },
         lualine_c = { "diff" },
 
-        -- right: macro → SSH → diagnostics → progress → clock
+        -- right: macro → SSH → diagnostics → branch → clock
         lualine_x = {
           {
             macro_indicator,
@@ -84,15 +89,17 @@ return {
             always_visible = false,
           },
         },
-        lualine_y = { "progress" },
+        lualine_y = {
+          git_branch_comp,
+        },
         lualine_z = { get_time },
       },
 
       inactive_sections = {
         lualine_a = {},
         lualine_b = {},
-        lualine_c = { "filename" },
-        lualine_x = { "location" },
+        lualine_c = { filename_comp },
+        lualine_x = { git_branch_comp },
         lualine_y = {},
         lualine_z = {},
       },
