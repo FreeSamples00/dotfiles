@@ -122,14 +122,21 @@ def add-worktree [
 
 # ── Public commands ─────────────────────────────────────────────────────────
 
-# Show available commands
-export def main [] {
-  scope commands
-  | where name starts-with "gwt " and name != "gwt main"
-  | update name { $in | str replace "gwt " "" }
-  | select name description
-  | rename command description
-  | table -e
+# Show available commands, or switch to a worktree (shorthand for 'gwt switch')
+export def --env main [
+  worktree?: string@worktree-completer  # worktree to switch to
+] {
+  if $worktree != null {
+    let path = (get-worktree-path $worktree)
+    cd $path
+  } else {
+    scope commands
+    | where name starts-with "gwt " and name != "gwt main"
+    | update name { $in | str replace "gwt " "" }
+    | select name description
+    | rename command description
+    | table -e
+  }
 }
 
 # Fetch from origin
