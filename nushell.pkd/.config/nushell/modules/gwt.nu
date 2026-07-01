@@ -11,24 +11,25 @@ def connection-completer [] {
 }
 
 def branch-completer [] {
-    git branch --list | lines
-    | where { |line| not ($line | str starts-with '+') }
-    | each { |line|
-        let name = ($line | str replace -r '^[\*\+]?\s+' '')
+  git branch --list
+  | lines
+  | where {|line| not ($line | str starts-with '+') }
+  | each { |line|
+        let name = $line | str replace -r '^[\*\+]?\s+' ''
         { value: $name, description: $"branch ($name)" }
     }
 }
 
 # Parse git worktree list --porcelain into structured records
 def parse-worktrees [] {
-    git worktree list --porcelain
-    | lines
-    | split list ""
-    | each { |group|
+  git worktree list --porcelain
+  | lines
+  | split list ""
+  | each { |group|
         $group
         | reduce -f {} { |line, acc|
             if ($line | str contains " ") {
-                let parts = ($line | split row " " -n 2)
+                let parts = $line | split row " " -n 2
                 $acc | upsert $parts.0 $parts.1
             } else if not ($line | is-empty) {
                 $acc | upsert $line true
@@ -37,42 +38,54 @@ def parse-worktrees [] {
             }
         }
     }
-    | where worktree? != null
+  | where worktree? != null
 }
 
 def worktree-completer [] {
-    parse-worktrees
-    | where bare? != true and branch? != null
-    | each { |rec|
-        let name = ($rec.branch | str replace "refs/heads/" "")
+  parse-worktrees
+  | where bare? != true and branch? != null
+  | each { |rec|
+        let name = $rec.branch | str replace "refs/heads/" ""
         { value: $name, description: $"worktree ($name)" }
     }
 }
 
 # Look up filesystem path for a branch's worktree
 def get-worktree-path [branch: string] {
-    let records = (parse-worktrees)
-    let match = ($records | where branch? == $"refs/heads/($branch)")
-    if ($match | is-empty) {
-        error make { msg: $"No worktree found for branch '($branch)'" }
-    }
-    $match.worktree.0
+  let records = (parse-worktrees)
+  let match = $records | where branch? == $"refs/heads/($branch)"
+  if ($match | is-empty) {
+    error make {msg: $"No worktree found for branch '($branch)'"}
+  }
+  $match.worktree.0
 }
 
-# Run .setup.sh in a worktree if it exists
-def run-setup [wt_dir: string] {
-    if ($"($wt_dir)/.setup.sh" | path exists) {
-        print "  Running .setup.sh..."
-        cd $wt_dir
-        sh .setup.sh
-    }
+# Add worktree with standard directory naming and setup
+def add-worktree [
+  branch: string        # branch name
+  --dir (-d): string    # override directory name (default: branch with / → -)
+  --base (-b): string   # base ref for creating a new branch (omit to checkout existing)
+] {
+  let dir = $dir | default ($branch | str replace "/" "-")
+  if $base != null {
+    git worktree add $dir $base -b $branch
+  } else {
+    git worktree add $dir -- $branch
+  }
+  cd $dir
+  ln -s ../.shared .shared
+  if ("./.setup.sh" | path exists) {
+    print "  Running .setup.sh..."
+    sh .setup.sh
+  }
 }
 
 def new-branch-completer [] {
-    git branch --list | lines
-    | where { |line| not ($line | str starts-with '+') }
-    | each { |line|
-        let name = ($line | str replace -r '^\*?\s+' '')
+  git branch --list
+  | lines
+  | where {|line| not ($line | str starts-with '+') }
+  | each { |line|
+        let name = $line | str replace -r '^\*?\s+' ''
         { value: $name, description: $"branch ($name)" }
     }
 }
@@ -97,19 +110,16 @@ export def add [
   branch: string@new-branch-completer # branch to create worktree for
   --dir (-d): string # override directory name (default: branch with / → -)
 ] {
-  let dir = ($dir | default ($branch | str replace "/" "-"))
-  git worktree add $dir -- $branch
-  run-setup $dir
+  add-worktree $branch --dir $dir
 }
 
 # Create new branch + worktree
 export def new [
   branch: string # new branch name
   --base (-b): string@branch-completer = "main" # branch to base off of
+  --dir (-d): string # override directory name (default: branch with / → -)
 ] {
-  let dir = ($branch | str replace "/" "-")
-  git worktree add $dir $base -b $branch
-  run-setup $dir
+  add-worktree $branch --base $base --dir $dir
 }
 
 # Prune old references
@@ -141,39 +151,39 @@ export def clone [
   --dir (-d):string # name of dir to clone into
 ] {
   try {
-# create full URI
+    # create full URI
     pb set 0
     let scheme_domain = match $connection {
-      "ssh" => $"git@($forge):"
-      "http" => $"http://($forge)/"
-      "https" => $"https://($forge)/"
+      ssh => $"git@($forge):"
+      http => $"http://($forge)/"
+      https => $"https://($forge)/"
       _ => (error make {msg: "invalid connection type"})
     }
     let link = $"($scheme_domain)($owner)/($repo)"
-# create new dir
+    # create new dir
     pb set 25
     let dir = $dir | default $repo
-    if ($dir | path exists) {error make $"directory '($dir)' already exists"}
+    if ($dir | path exists) { error make $"directory '($dir)' already exists" }
     mkdir $dir
     cd $dir
-# clone operation
+    # clone operation
     pb indeterminate
     print "Cloning..."
     git clone --bare $link .bare
-# configuring
+    # configuring
     pb set 50
     "gitdir: ./.bare" | save .git
     git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
-# fetching
+    # fetching
     pb indeterminate
     print "Fetching..."
     git fetch origin
-# growing trees
+    # growing trees
+    mkdir "./.shared"
+    ".shared" | save --append "./.bare/info/exclude"
     $branch | append $main | uniq | each {|b|
       print $"Adding ($b)..."
-      let wt_dir = ($b | str replace "/" "-")
-      git worktree add $wt_dir --checkout -- $b
-      run-setup $wt_dir
+      add-worktree $b
     }
   } catch {|err|
     pb error
@@ -186,27 +196,27 @@ export def clone [
 
 # List worktrees
 export def ls [] {
-    let records = (parse-worktrees)
-    let bare = ($records | where bare? == true)
-    let root = if ($bare | is-empty) {
-        $records | get worktree | first
-    } else {
-        $bare | get worktree | first
-    }
-    let root = ($root | path expand | path dirname)
-    $records
-    | where bare? != true
-    | each { |rec|
+  let records = (parse-worktrees)
+  let bare = $records | where bare? == true
+  let root = if ($bare | is-empty) {
+    $records | get worktree | first
+  } else {
+    $bare | get worktree | first
+  }
+  let root = $root | path expand | path dirname
+  $records
+  | where bare? != true
+  | each { |rec|
         let name = if ($rec | get -o detached) == true {
             "(detached HEAD)"
         } else {
             $rec.branch | str replace "refs/heads/" ""
         }
-        let commit = ($rec | get -o HEAD | default "unknown")
-        let short = ($commit | str substring 0..7)
-        let full_path = ($rec.worktree | path expand)
-        let path = ($full_path | path relative-to $root)
-        let message = (git log --oneline -1 $commit | str replace -r '^[a-f0-9]+\s+' '')
+        let commit = $rec | get -o HEAD | default "unknown"
+        let short = $commit | str substring 0..7
+        let full_path = $rec.worktree | path expand
+        let path = $full_path | path relative-to $root
+        let message = git log --oneline -1 $commit | str replace -r '^[a-f0-9]+\s+' ''
         let locked = if ($rec | get -o locked) != null { " locked" } else { "" }
         let prunable = if ($rec | get -o prunable) != null { " prunable" } else { "" }
         {
