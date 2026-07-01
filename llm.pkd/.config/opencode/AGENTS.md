@@ -62,3 +62,30 @@ Repeating the same or equivalent tool call expecting different results wastes to
 ### File Editing
 
 - **NEVER** overwrite files instead of using the edit tool. Always edit via diffs, even if the change is large.
+
+### Temporary Files
+
+Choose the right location based on persistence and scope:
+
+| | `.shared/` | `/tmp/.opencode/` |
+|---|---|---|
+| **Scope** | Project repo (worktree) | System-wide |
+| **Persistence** | Survives across sessions until cleaned | Ephemeral, lost on reboot |
+| **Visibility** | Shared across worktrees via symlink | Local to this machine |
+| **Use for** | Progress docs, state dumps, agent reference files | Scratch output, test dumps, one-shot data |
+
+**`.shared/`** — project-scoped, cross-worktree reference files
+
+- Path: `<project-root>/.shared/` (symlink, not git-tracked)
+- **Not guaranteed to exist** — check with `ls .shared/` before writing; skip if absent
+- Add a header block inside the file with timestamp and branch — e.g.:
+  ```
+  <!-- 2026-06-30 | branch: main -->
+  ```
+- Clean up files you created at the end of the session or task
+
+**`/tmp/.opencode/`** — ephemeral scratch space
+
+- Path: `/tmp/.opencode/` — create with `mkdir -p` if needed
+- Use for output that only matters within a single operation (test dumps, pipe targets, etc.)
+- No cleanup required — OS handles it
