@@ -18,7 +18,6 @@ def connection-completer [] {
 def branch-completer [] {
   git branch --list
   | lines
-  | where {|line| not ($line | str starts-with '+') }
   | each { |line|
         let name = $line | str replace -r '^[\*\+]?\s+' ''
         { value: $name, description: $"branch ($name)" }
@@ -30,7 +29,7 @@ def new-branch-completer [] {
   | lines
   | where {|line| not ($line | str starts-with '+') }
   | each { |line|
-        let name = $line | str replace -r '^\*?\s+' ''
+        let name = $line | str replace -r '^[\*\+]?\s+' ''
         { value: $name, description: $"branch ($name)" }
     }
 }
@@ -67,6 +66,14 @@ def parse-worktrees [] {
   | where worktree? != null
 }
 
+# Find the repo root from any worktree.
+# git-common-dir points to .bare; its parent is the repo root.
+def get-repo-root [] {
+  git rev-parse --git-common-dir
+  | path expand
+  | path dirname
+}
+
 # Look up filesystem path for a branch's worktree
 def get-worktree-path [branch: string] {
   let records = (parse-worktrees)
@@ -88,16 +95,18 @@ def add-worktree [
   --base (-b): string   # base ref for creating a new branch (omit to checkout existing)
 ] {
   let dir = $dir | default ($branch | str replace "/" "-")
+  let root = get-repo-root
+  let worktree_path = [$root $dir] | path join
 
   # Create the worktree (new branch from base, or checkout existing)
   if $base != null {
-    git worktree add $dir $base -b $branch
+    git worktree add $worktree_path $base -b $branch
   } else {
-    git worktree add $dir -- $branch
+    git worktree add $worktree_path -- $branch
   }
 
   # Link shared config dir and exclude it from git
-  cd $dir
+  cd $worktree_path
   ln -s ../.shared .shared
 
   # Run project setup script if present
@@ -226,15 +235,7 @@ export def clone [
 # List worktrees with branch, commit, and path info
 export def ls [] {
   let records = (parse-worktrees)
-
-  # Determine repo root (bare repo dir or first worktree)
-  let bare = $records | where bare? == true
-  let root = if ($bare | is-empty) {
-    $records | get worktree | first
-  } else {
-    $bare | get worktree | first
-  }
-  let root = $root | path expand | path dirname
+  let root = get-repo-root
 
   # Format each non-bare worktree
   $records
