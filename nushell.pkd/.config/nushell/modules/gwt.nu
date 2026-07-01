@@ -166,15 +166,14 @@ export def clone [
     if ($dir | path exists) { error make $"directory '($dir)' already exists" }
     mkdir $dir
     cd $dir
-    # clone operation
-    pb indeterminate
-    print "Cloning..."
-    git clone --bare $link .bare
-    # configuring
-    pb set 50
+    # init bare repo
+    git init --bare .bare
     "gitdir: ./.bare" | save .git
+    # configure remote
+    git remote add origin $link
     git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
-    # fetching
+    git config --add remote.origin.fetch "+refs/tags/*:refs/tags/*"
+    # fetch (single auth touch)
     pb indeterminate
     print "Fetching..."
     git fetch origin
