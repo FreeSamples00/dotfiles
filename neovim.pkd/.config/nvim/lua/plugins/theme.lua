@@ -61,6 +61,7 @@ return {
             ["@markup.italic"] = { fg = colors.yellow, style = { "italic" } },
             ["@markup.raw"] = { fg = colors.mauve }, -- inline `code` → purple
             ["@markup.raw.block"] = { fg = colors.mauve }, -- fenced ``` code blocks → purple
+            SnacksDashboardHeader = { fg = colors.lavender },
             CursorLineNr = { fg = colors.peach, style = { "bold" } },
             PmenuSel = { bg = colors.surface0, fg = colors.peach, style = { "bold" } },
             CursorLine = { bg = colors.surface0 },

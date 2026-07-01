@@ -77,6 +77,22 @@ return {
     dashboard = {
       enabled = true,
       preset = {
+        header = (function()
+          local dir = vim.fn.stdpath("config") .. "/art/"
+          local files = vim.tbl_filter(function(f)
+            return f:match("%.header$")
+          end, vim.fn.readdir(dir))
+          if #files == 0 then
+            return nil
+          end
+          math.randomseed(vim.uv.hrtime())
+          local f = io.open(dir .. files[math.random(#files)], "r")
+          local art = f and f:read("*a") or nil
+          if f then
+            f:close()
+          end
+          return art
+        end)(),
         keys = {
           { key = "q", action = ":qa", hidden = true },
           { key = "l", action = ":Lazy", hidden = true },

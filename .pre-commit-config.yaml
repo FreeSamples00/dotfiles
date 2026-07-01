@@ -51,4 +51,4 @@ repos:
     hooks:
       - id: taplo-format
 
-exclude: ^.*\.(spl|lock)|\.git/|lazy-lock\.json|.*\.nu$
+exclude: ^.*\.(spl|lock)|\.git/|lazy-lock\.json|.*\.nu$|.*art/
