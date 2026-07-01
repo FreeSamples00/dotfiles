@@ -1,6 +1,11 @@
 # Git worktree helper
+#
+# Manage bare-repo worktrees: clone, add, switch, remove.
+# Worktrees are linked to a shared .bare repo with a .shared config dir.
 
 use std-rfc/pb
+
+# ── Completers ──────────────────────────────────────────────────────────────
 
 def connection-completer [] {
   [
@@ -20,7 +25,28 @@ def branch-completer [] {
     }
 }
 
-# Parse git worktree list --porcelain into structured records
+def new-branch-completer [] {
+  git branch --list
+  | lines
+  | where {|line| not ($line | str starts-with '+') }
+  | each { |line|
+        let name = $line | str replace -r '^\*?\s+' ''
+        { value: $name, description: $"branch ($name)" }
+    }
+}
+
+def worktree-completer [] {
+  parse-worktrees
+  | where bare? != true and branch? != null
+  | each { |rec|
+        let name = $rec.branch | str replace "refs/heads/" ""
+        { value: $name, description: $"worktree ($name)" }
+    }
+}
+
+# ── Internal utilities ──────────────────────────────────────────────────────
+
+# Parse `git worktree list --porcelain` into structured records
 def parse-worktrees [] {
   git worktree list --porcelain
   | lines
@@ -41,15 +67,6 @@ def parse-worktrees [] {
   | where worktree? != null
 }
 
-def worktree-completer [] {
-  parse-worktrees
-  | where bare? != true and branch? != null
-  | each { |rec|
-        let name = $rec.branch | str replace "refs/heads/" ""
-        { value: $name, description: $"worktree ($name)" }
-    }
-}
-
 # Look up filesystem path for a branch's worktree
 def get-worktree-path [branch: string] {
   let records = (parse-worktrees)
@@ -60,37 +77,39 @@ def get-worktree-path [branch: string] {
   $match.worktree.0
 }
 
-# Add worktree with standard directory naming and setup
+# Add worktree with standard directory naming and setup.
+# Creates the worktree, links .shared, and runs .setup.sh if present.
+#
+# --base:  create a new branch off the given ref before adding the worktree
+# --dir:   override the directory name (default: branch with / → -)
 def add-worktree [
   branch: string        # branch name
   --dir (-d): string    # override directory name (default: branch with / → -)
   --base (-b): string   # base ref for creating a new branch (omit to checkout existing)
 ] {
   let dir = $dir | default ($branch | str replace "/" "-")
+
+  # Create the worktree (new branch from base, or checkout existing)
   if $base != null {
     git worktree add $dir $base -b $branch
   } else {
     git worktree add $dir -- $branch
   }
+
+  # Link shared config dir and exclude it from git
   cd $dir
   ln -s ../.shared .shared
+
+  # Run project setup script if present
   if ("./.setup.sh" | path exists) {
     print "  Running .setup.sh..."
     sh .setup.sh
   }
 }
 
-def new-branch-completer [] {
-  git branch --list
-  | lines
-  | where {|line| not ($line | str starts-with '+') }
-  | each { |line|
-        let name = $line | str replace -r '^\*?\s+' ''
-        { value: $name, description: $"branch ($name)" }
-    }
-}
+# ── Public commands ─────────────────────────────────────────────────────────
 
-# Git worktree helper
+# Show available commands
 export def main [] {
   scope commands
   | where name starts-with "gwt " and name != "gwt main"
@@ -100,7 +119,7 @@ export def main [] {
   | table -e
 }
 
-# Fetch remote
+# Fetch from origin
 export def fetch [] {
   git fetch origin
 }
@@ -108,50 +127,53 @@ export def fetch [] {
 # Create worktree from existing branch
 export def add [
   branch: string@new-branch-completer # branch to create worktree for
-  --dir (-d): string # override directory name (default: branch with / → -)
+  --dir (-d): string                   # override directory name (default: branch with / → -)
 ] {
   add-worktree $branch --dir $dir
 }
 
 # Create new branch + worktree
 export def new [
-  branch: string # new branch name
+  branch: string                       # new branch name
   --base (-b): string@branch-completer = "main" # branch to base off of
-  --dir (-d): string # override directory name (default: branch with / → -)
+  --dir (-d): string                   # override directory name (default: branch with / → -)
 ] {
   add-worktree $branch --base $base --dir $dir
 }
 
-# Prune old references
+# Prune stale worktree references
 export def prune [] {
   git worktree prune
 }
 
-# Remove a worktree
+# Remove a worktree (and optionally its branch)
 export def rm [
-  branch: string@worktree-completer # branch to remove worktree from
-  --force (-f) # delete branch as well (even if unmerged)
+  branch: string@worktree-completer # branch whose worktree to remove
+  --force (-f)                       # also delete the branch (even if unmerged)
 ] {
   let path = (get-worktree-path $branch)
   git worktree remove $path
+
   if $force {
     git branch -D $branch
   }
+
   git worktree prune
 }
 
-# Create worktree repo via clone
+# Create a bare worktree repo from a remote.
+# Uses `git init --bare` + single fetch to minimize hardware-token auth touches.
 export def clone [
-  owner:string # user or org
-  repo:string # repo name
+  owner:string                              # user or org
+  repo:string                               # repo name
   --connection (-c):string@connection-completer = "ssh" # connection type
   --forge (-f):string@["github.com", "gitlab.com"] = "github.com" # git host
-  --main (-m):string = "main" # name of 'main' branch
-  --branch (-b):list<string> # branches (as list)
-  --dir (-d):string # name of dir to clone into
+  --main (-m):string = "main"              # name of main branch
+  --branch (-b):list<string>               # additional branches to add as worktrees
+  --dir (-d):string                        # override directory name (default: repo name)
 ] {
   try {
-    # create full URI
+    # Resolve remote URI
     pb set 0
     let scheme_domain = match $connection {
       ssh => $"git@($forge):"
@@ -160,30 +182,38 @@ export def clone [
       _ => (error make {msg: "invalid connection type"})
     }
     let link = $"($scheme_domain)($owner)/($repo)"
-    # create new dir
+
+    # Initialize repo directory
     pb set 25
+    print $"Initializing ($repo)..."
     let dir = $dir | default $repo
     if ($dir | path exists) { error make $"directory '($dir)' already exists" }
     mkdir $dir
     cd $dir
-    # init bare repo
     git init --bare .bare
     "gitdir: ./.bare" | save .git
-    # configure remote
+
+    # Configure remote refspecs before the single fetch
     git remote add origin $link
     git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
     git config --add remote.origin.fetch "+refs/tags/*:refs/tags/*"
-    # fetch (single auth touch)
+
+    # Fetch all refs in a single auth touch
     pb indeterminate
-    print "Fetching..."
+    print "Fetching from origin..."
     git fetch origin
-    # growing trees
+
+    # Create shared config dir and grow worktrees
+    pb set 75
     mkdir "./.shared"
     ".shared" | save --append "./.bare/info/exclude"
+
     $branch | append $main | uniq | each {|b|
       print $"Adding ($b)..."
       add-worktree $b
     }
+
+    pb set 100
   } catch {|err|
     pb error
     sleep 0.5sec
@@ -193,9 +223,11 @@ export def clone [
   }
 }
 
-# List worktrees
+# List worktrees with branch, commit, and path info
 export def ls [] {
   let records = (parse-worktrees)
+
+  # Determine repo root (bare repo dir or first worktree)
   let bare = $records | where bare? == true
   let root = if ($bare | is-empty) {
     $records | get worktree | first
@@ -203,6 +235,8 @@ export def ls [] {
     $bare | get worktree | first
   }
   let root = $root | path expand | path dirname
+
+  # Format each non-bare worktree
   $records
   | where bare? != true
   | each { |rec|
