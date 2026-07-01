@@ -1,5 +1,5 @@
 _default:
-    just --unsorted --list
+    @just --unsorted --list skbar
 
 _kill:
     pgrep -i "sketchybar" | xargs kill

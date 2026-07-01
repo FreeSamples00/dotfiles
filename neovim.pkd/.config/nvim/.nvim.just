@@ -1,5 +1,5 @@
 _default:
-    @just --unsorted --list
+    @just --unsorted --list nvim
 
 # Check Lua formatting with stylua
 check:
