@@ -38,6 +38,26 @@ Exceptions — stop and wait:
 - The next todo has different scope requiring user confirmation
 - You asked a question and have not received an answer
 
+## Escalation
+
+When you hit a non-mechanical issue, triage by impact before acting.
+
+**Resolve directly** — mechanical work that doesn't need decisions:
+- Syntax errors, missing imports, obvious type mismatches
+- Matching existing patterns already in the codebase
+- Delegating scoped implementation to @fixer (provide files, pattern, validation command)
+
+**Quick decision** — small, reversible, local to the current todo:
+- Ask the user via `question` with 2-3 concrete options
+- Continue on the answer; don't stop the session
+
+**Re-planning** — the decision changes more than the current todo:
+- Affects other todos, changes approach, breaks plan assumptions, or adds scope
+- Stop. Tell the user this needs a planning decision and recommend switching to `plan`
+- Do not attempt architectural calls at low reasoning — cheap poor decisions cost more downstream than a plan revision
+
+**Threshold:** if the decision changes more than the current todo, it goes to plan. Otherwise it's a quick question.
+
 ## User Clarification
 
 Use the question tool for multiple-choice input. Use `multiple: false` for single-select, `multiple: true` for multi-select. Keep labels concise (1-5 words), headers short (max 12 chars). Mark recommended options with `(Recommended)`. Ask before implementing, not during. Custom text input is automatically available — do not manually add "Other".

@@ -1,7 +1,7 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "synthetic/hf:zai-org/GLM-5.1",
-  "small_model": "synthetic/hf:zai-org/GLM-4.7-Flash",
+  "model": "synthetic/syn:large:text",
+  "small_model": "synthetic/syn:small:text",
   "default_agent": "plan",
   "share": "disabled",
   "plugin": [
@@ -16,20 +16,20 @@
         "baseURL": "https://api.synthetic.new/openai/v1",
       },
       "models": {
-        "hf:zai-org/GLM-5.1": {
+        "syn:large:text": {
           "name": "Max",
           "limit": {
-            "context": 196608,
+            "context": 524288,
             "output": 65536,
           },
           "cost": {
-            "input": 1,
-            "output": 3,
+            "input": 1.4,
+            "output": 4.4,
           },
           "family": "GLM",
           "reasoning": true,
         },
-        "hf:zai-org/GLM-4.7-Flash": {
+        "syn:small:text": {
           "name": "Lite",
           "limit": {
             "context": 196608,
@@ -104,8 +104,8 @@
     "plan": {
       "mode": "primary",
       "color": "primary",
-      "model": "synthetic/hf:zai-org/GLM-5.1",
-      "reasoningEffort": "high",
+      "model": "synthetic/syn:large:text",
+      "reasoningEffort": "medium",
       "permission": {
         "read": {
           "*": "allow",
@@ -135,8 +135,8 @@
     "build": {
       "mode": "primary",
       "color": "secondary",
-      "model": "synthetic/hf:zai-org/GLM-5.1",
-      "reasoningEffort": "medium",
+      "model": "synthetic/syn:large:text",
+      "reasoningEffort": "low",
       "permission": {
         "read": {
           "*": "allow",
@@ -156,6 +156,7 @@
         "doom_loop": "ask",
         "external_directory": {
           "*": "ask",
+          "/tmp": "allow",
         },
         "task": {
           "*": "allow",
@@ -164,7 +165,7 @@
     },
     "explorer": {
       "mode": "subagent",
-      "model": "synthetic/hf:zai-org/GLM-4.7-Flash",
+      "model": "synthetic/syn:small:text",
       "steps": 12,
       "temperature": 0.2,
       "reasoningEffort": "low",
@@ -182,7 +183,7 @@
     },
     "librarian": {
       "mode": "subagent",
-      "model": "synthetic/hf:zai-org/GLM-4.7-Flash",
+      "model": "synthetic/syn:small:text",
       "steps": 10,
       "temperature": 0.2,
       "reasoningEffort": "medium",
@@ -195,7 +196,7 @@
     },
     "documenter": {
       "mode": "subagent",
-      "model": "synthetic/hf:zai-org/GLM-4.7-Flash",
+      "model": "synthetic/syn:small:text",
       "steps": 10,
       "temperature": 0.2,
       "reasoningEffort": "medium",
@@ -215,10 +216,10 @@
     },
     "fixer": {
       "mode": "subagent",
-      "model": "synthetic/hf:zai-org/GLM-5.1",
+      "model": "synthetic/syn:large:text",
       "steps": 25,
       "temperature": 0.2,
-      "reasoningEffort": "high",
+      "reasoningEffort": "low",
       "hidden": true,
       "permission": {
         "bash": {
@@ -248,8 +249,9 @@
       },
     },
     "compaction": {
-      "model": "synthetic/hf:zai-org/GLM-5.1",
-      "reasoningEffort": "medium",
+      "model": "synthetic/syn:large:text",
+      "reasoningEffort": "low",
+      "hidden": true,
       "permission": {
         "*": "deny",
       },
@@ -259,7 +261,7 @@
       "model": "synthetic/syn:large:vision",
       "steps": 5,
       "temperature": 0.2,
-      "reasoningEffort": "medium",
+      "reasoningEffort": "low",
       "hidden": false,
       "permission": {
         "bash": {
