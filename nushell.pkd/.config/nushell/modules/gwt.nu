@@ -104,9 +104,9 @@ def add-worktree [
 
   # Create the worktree (new branch from base, or checkout existing)
   if $base != null {
-    git worktree add $worktree_path $base -b $branch
+    git worktree add --relative-paths $worktree_path $base -b $branch
   } else {
-    git worktree add $worktree_path -- $branch
+    git worktree add --relative-paths $worktree_path -- $branch
   }
 
   # Link shared config dir and exclude it from git
@@ -166,6 +166,13 @@ export def prune [] {
   git worktree prune
 }
 
+# Fix worktree links after moving the repo, or convert existing worktrees to relative paths
+export def repair [] {
+  git config worktree.useRelativePaths true
+  print "Converting worktree paths to relative..."
+  git worktree repair --relative-paths
+}
+
 # Remove a worktree (and optionally its branch)
 export def rm [
   branch: string@worktree-completer # branch whose worktree to remove
@@ -217,6 +224,7 @@ export def clone [
     git remote add origin $link
     git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
     git config --add remote.origin.fetch "+refs/tags/*:refs/tags/*"
+    git config worktree.useRelativePaths true
 
     # Fetch all refs in a single auth touch
     pb indeterminate
