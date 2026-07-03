@@ -122,7 +122,7 @@ def add-worktree [
 
 # ── Public commands ─────────────────────────────────────────────────────────
 
-# Show available commands, or switch to a worktree (shorthand for 'gwt switch')
+# Show available commands, or switch to a worktree (shorthand for 'gt switch')
 export def --env main [
   worktree?: string@worktree-completer  # worktree to switch to
 ] {
@@ -131,8 +131,8 @@ export def --env main [
     cd $path
   } else {
     scope commands
-    | where name starts-with "gwt " and name != "gwt main"
-    | update name { $in | str replace "gwt " "" }
+    | where name starts-with "gt " and name != "gt main"
+    | update name { $in | str replace "gt " "" }
     | select name description
     | rename command description
     | table -e
