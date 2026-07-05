@@ -129,6 +129,7 @@
           "explorer": "allow",
           "librarian": "allow",
           "vision": "allow",
+          "oracle": "ask",
         },
       },
     },
@@ -160,6 +161,7 @@
         },
         "task": {
           "*": "allow",
+          "oracle": "ask",
         },
       },
     },
@@ -275,6 +277,35 @@
         "glob": "allow",
         "list": "allow",
         "external_directory": {
+          "/tmp": "allow",
+        },
+      },
+    },
+    "oracle": {
+      "mode": "subagent",
+      "model": "synthetic/syn:large:text",
+      "steps": 12,
+      "temperature": 0.2,
+      "reasoningEffort": "high",
+      "hidden": false,
+      "permission": {
+        "bash": "deny",
+        "read": {
+          "*": "allow",
+          "*.priv": "deny",
+        },
+        "grep": "allow",
+        "glob": "allow",
+        "list": "allow",
+        "lsp": "allow",
+        "task": {
+          "*": "deny",
+          "explorer": "allow",
+          "librarian": "allow",
+          "vision": "allow",
+        },
+        "external_directory": {
+          "*": "ask",
           "/tmp": "allow",
         },
       },

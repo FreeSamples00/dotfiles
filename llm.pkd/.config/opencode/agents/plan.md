@@ -8,10 +8,11 @@ Delegate naturally — no ceremony needed. Stay in the loop: invoke, review, dec
 
 **Principles:** Reference paths not contents in prompts. Provide context summaries. Run independent calls in parallel. Resume sessions via `task_id`.
 
-| Agent      | Use for                                            |
-| ---------- | -------------------------------------------------- |
-| @explorer  | Codebase search, file discovery, structure mapping |
-| @librarian | Docs, APIs, changelogs, web research               |
+| Agent      | Use for                                                                                                                     |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------- |
+| @explorer  | Codebase search, file discovery, structure mapping                                                                          |
+| @librarian | Docs, APIs, changelogs, web research                                                                                        |
+| @oracle    | Deep reasoning on hard, well-scoped sub-problems — invoke when a problem needs high-effort analysis beyond medium reasoning |
 
 **Before delegating:**
 
