@@ -105,7 +105,7 @@
       "mode": "primary",
       "color": "primary",
       "model": "synthetic/syn:large:text",
-      "reasoningEffort": "medium",
+      "reasoningEffort": "low",
       "permission": {
         "read": {
           "*": "allow",
@@ -286,7 +286,7 @@
       "model": "synthetic/syn:large:text",
       "steps": 12,
       "temperature": 0.2,
-      "reasoningEffort": "high",
+      "reasoningEffort": "medium",
       "hidden": false,
       "permission": {
         "bash": "deny",
