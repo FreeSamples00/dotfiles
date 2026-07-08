@@ -71,7 +71,9 @@ vim.keymap.set("n", "xx", "yydd", {
 
 ---- Interface ----
 
-map("n", "<leader>bd", "<cmd>bdelete<CR>", "Close")
+map("n", "<leader>bd", function()
+  Snacks.bufdelete.delete()
+end, "Close")
 map("n", "<leader>br", "<cmd>edit!<CR>", "Revert")
 map("n", "<leader>ur", "<cmd>nohl<cr>", "Clear highlights")
 

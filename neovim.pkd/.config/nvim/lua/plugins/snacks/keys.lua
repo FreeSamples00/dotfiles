@@ -22,14 +22,19 @@ return {
         vim.schedule(function()
           Snacks.picker.buffers({
             layout = { preset = "sidebar", preview = "main", hidden = {} }, -- show input bar with title/chrome
-            auto_close = false, -- stay open when focusing main window
-            jump = { close = false }, -- stay open after selecting a buffer
             focus = "list", -- start in list; press / or a to focus search
             win = {
               list = {
                 keys = {
                   ["a"] = "focus_input", -- press a to jump to search bar
+                  ["p"] = "toggle_preview", -- toggle buffer preview (matches explorer)
                 },
+              },
+              preview = { -- match explorer sidebar preview style
+                col = 0,
+                row = 0,
+                max_width = 100,
+                border = "rounded",
               },
             },
             on_show = function(picker)
