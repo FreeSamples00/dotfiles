@@ -286,7 +286,7 @@
       "model": "synthetic/syn:large:text",
       "steps": 12,
       "temperature": 0.2,
-      "reasoningEffort": "medium",
+      "reasoningEffort": "high",
       "hidden": false,
       "permission": {
         "bash": "deny",
