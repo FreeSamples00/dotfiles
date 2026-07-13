@@ -60,10 +60,12 @@ on-focused-monitor-changed = "move-mouse monitor-lazy-center"
 1 = "main"
 2 = "main"
 3 = "main"
+4 = "main"
 
-4 = "secondary"
 5 = "secondary"
 6 = "secondary"
+7 = "secondary"
+8 = "secondary"
 
 # ========== keyboard layout ==========
 [key-mapping]
@@ -191,6 +193,8 @@ cmd-alt-ctrl-3 = "workspace 3"
 cmd-alt-ctrl-4 = "workspace 4"
 cmd-alt-ctrl-5 = "workspace 5"
 cmd-alt-ctrl-6 = "workspace 6"
+cmd-alt-ctrl-7 = "workspace 7"
+cmd-alt-ctrl-8 = "workspace 8"
 
 cmd-alt-ctrl-shift-1 = [
   "move-node-to-workspace 1",
@@ -214,6 +218,14 @@ cmd-alt-ctrl-shift-5 = [
 ]
 cmd-alt-ctrl-shift-6 = [
   "move-node-to-workspace 6",
+  "exec-and-forget sketchybar --trigger aerospace_workspace_change",
+]
+cmd-alt-ctrl-shift-7 = [
+  "move-node-to-workspace 7",
+  "exec-and-forget sketchybar --trigger aerospace_workspace_change",
+]
+cmd-alt-ctrl-shift-8 = [
+  "move-node-to-workspace 8",
   "exec-and-forget sketchybar --trigger aerospace_workspace_change",
 ]
 
