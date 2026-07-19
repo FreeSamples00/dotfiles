@@ -20,7 +20,7 @@ return {
       desc = "Harpoon Add",
     },
     {
-      "H",
+      "<leader>H",
       function()
         require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
       end,
