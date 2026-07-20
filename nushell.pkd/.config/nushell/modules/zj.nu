@@ -1,20 +1,22 @@
 # Module for integrating nushell and zellij
 # provides:
 #  - tab renaming hooks
-#  - session manager command with flag-based actions
+#  - session manager sub-commands
 #
 # Usage:
 #   `use zj.nu`
-#   `zj`              # start new session
-#   `zj my-project`   # start named session
-#   `zj -l`           # list running sessions
-#   `zj -l --all`     # list all sessions (including exited)
-#   `zj -a dev`       # attach to "dev"
-#   `zj -r old`       # recover exited "old" session
-#   `zj -k dev`       # kill "dev"
-#   `zj -K`           # kill all running sessions
-#   `zj -d old`       # delete exited "old" session
-#   `zj -D`           # delete all exited sessions
+#   `zj`              # show help table
+#   `zj dev`          # attach to running "dev" (shorthand for `zj attach`)
+#   `zj new`          # start new auto-named session
+#   `zj new my-proj`   # start named session
+#   `zj ls`           # list running sessions
+#   `zj ls --all`     # list all sessions (including exited)
+#   `zj attach dev`   # attach to running "dev"
+#   `zj recover old`  # recover exited "old"
+#   `zj kill dev`     # kill running "dev"
+#   `zj kill --all`   # kill all running sessions
+#   `zj delete old`   # delete exited "old"
+#   `zj delete --all` # delete all exited sessions
 #   `zj rename foo`   # rename current session
 
 # ========== Internal Helpers ==========
@@ -71,94 +73,111 @@ def sessions-completer [] {
 
 # ========== Exported Commands ==========
 
-# Zellij session manager.
-#
-# Start a new zellij session by default. Use flags for other actions.
-# Only one action flag may be used at a time.
+# Show available commands, or attach to a running session (shorthand for `zj attach`).
+export def main [
+  session?: string@sessions-completer  # running session to attach to
+] {
+  if $session != null {
+    assert-session false
+    zellij attach $session
+  } else {
+    scope commands
+    | where name starts-with "zj " and name != "zj main"
+    | update name { $in | str replace "zj " "" }
+    | select name description
+    | %rename command description
+    | table -e
+  }
+}
+
+# Start a new zellij session.
 #
 # Examples
 #
-#   Start a new session:
-#   `zj`
-#
-#   Start a named session:
-#   `zj my-project`
-#
-#   List running sessions:
-#   `zj -l`
-#
-#   Attach to a running session:
-#   `zj -a dev`
-#
-#   Recover an exited session:
-#   `zj -r old-project`
-#
-#   Kill a running session:
-#   `zj -k dev`
-#
-#   Kill all running sessions:
-#   `zj -K`
-#
-#   Delete an exited session:
-#   `zj -d old-project`
-#
-#   Delete all exited sessions:
-#   `zj -D`
-export def main [
-  session?: string # new session name (default action)
-  --list (-l)     # list sessions
-  --attach (-a): string@sessions-completer  # attach to a running session
-  --recover (-r): string@dead-sessions-completer  # recover an exited session
-  --kill (-k): string@sessions-completer   # kill a running session
-  --kill-all (-K) # kill all running sessions
-  --delete (-d): string@dead-sessions-completer  # delete an exited session
-  --delete-all (-D) # delete all exited sessions
+#   `zj new`          # auto-named session
+#   `zj new my-proj`  # named session
+export def new [
+  session?: string  # optional session name
 ] {
-  # count action flags to enforce mutual exclusivity
-  let action_count = [
-    $list
-    ($attach | is-not-empty)
-    ($recover | is-not-empty)
-    ($kill | is-not-empty)
-    $kill_all
-    ($delete | is-not-empty)
-    $delete_all
-  ] | where {|it| $it } | length
-
-  if $action_count > 1 {
-    error make "Only one action flag allowed at a time"
+  assert-session false
+  if ($session | describe) == "string" {
+    zellij --session $session
+  } else {
+    zellij
   }
+}
 
-  # dispatch based on which flag was provided
-  if $list {
-    assert-session false
-    parse-sessions
-  } else if ($attach | is-not-empty) {
-    assert-session false
-    zellij attach $attach
-  } else if ($recover | is-not-empty) {
-    assert-session false
-    zellij attach $recover
-  } else if ($kill | is-not-empty) {
-    assert-session false
-    zellij kill-session $kill
-  } else if $kill_all {
-    assert-session false
+# List zellij sessions.
+#
+# `zj ls` shows running sessions only.
+# `zj ls --all` includes exited sessions.
+export def ls [
+  --all (-a)  # include exited sessions
+] {
+  assert-session false
+  let sessions = (parse-sessions)
+  if $all { $sessions } else {
+    $sessions | where live
+  }
+}
+
+# Attach to a running session.
+export def attach [
+  name: string@sessions-completer  # running session to attach to
+] {
+  assert-session false
+  zellij attach $name
+}
+
+# Recover an exited session.
+export def recover [
+  name: string@dead-sessions-completer  # exited session to recover
+] {
+  assert-session false
+  zellij attach $name
+}
+
+# Kill running session(s).
+#
+# Examples
+#
+#   `zj kill dev`   # kill one running session
+#   `zj kill --all` # kill all running sessions
+export def kill [
+  session?: string@sessions-completer  # running session to kill
+  --all (-a)                            # kill all running sessions
+] {
+  assert-session false
+  # exactly one of [session, --all] required
+  if ($all and $session != null) or (not $all and $session == null) {
+    error make "Specify either a session name or --all"
+  }
+  if $all {
     zellij kill-all-sessions
-  } else if ($delete | is-not-empty) {
-    assert-session false
-    zellij delete-session $delete
-  } else if $delete_all {
-    assert-session false
+  } else {
+    zellij kill-session $session
+  }
+}
+
+# Delete exited session(s).
+#
+# Examples
+#
+#   `zj delete old`   # delete one exited session
+#   `zj delete --all` # delete all exited sessions
+export def delete [
+  session?: string@dead-sessions-completer  # exited session to delete
+  --all (-a)                                # delete all exited sessions
+] {
+  assert-session false
+  # exactly one of [session, --all] required
+  if ($all and $session != null) or (not $all and $session == null) {
+    error make "Specify either a session name or --all"
+  }
+  if $all {
     zellij delete-all-sessions
   } else {
-    # default: start a new session
-    assert-session false
-    if ($session | describe) == "string" {
-      zellij --session $session
-    } else {
-      zellij
-    }
+    zellij delete-session $session
   }
 }
 
@@ -173,7 +192,7 @@ export def main [
 #
 #   Rename with multiple words:
 #   `zj rename my cool project`
-export def "zj rename" [
+export def rename [
   name: string # new session name
   ...args: string
 ] {

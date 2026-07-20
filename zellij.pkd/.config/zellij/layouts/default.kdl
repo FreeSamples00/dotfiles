@@ -41,19 +41,9 @@ layout {
                 // mode display
                 mode_normal           "#[bg=$teal,fg=$base,bold] #[fg=$teal]"
                 mode_locked            "#[bg=$text,fg=$base,bold]  #[fg=$text]"
-                mode_resize             "#[bg=$red,fg=$base,bold] RESIZE #[fg=$red]"
-                mode_pane              "#[bg=$blue,fg=$base,bold] PANE #[fg=$blue]"
-                mode_tab              "#[bg=$mauve,fg=$base,bold] TAB #[fg=$mauve]"
                 mode_scroll          "#[bg=$yellow,fg=$base,bold] SCROLL #[fg=$yellow]"
-                mode_enter_search  "#[bg=$sapphire,fg=$base,bold] SEARCH #[fg=$sapphire]"
-                mode_search        "#[bg=$sapphire,fg=$base,bold] SEARCH #[fg=$sapphire]"
                 mode_rename_tab       "#[bg=$mauve,fg=$base,bold] RENAME #[fg=$mauve]"
-                mode_rename_pane       "#[bg=$blue,fg=$base,bold] RENAME #[fg=$blue]"
-                mode_session          "#[bg=$mauve,fg=$base,bold] SESSION #[fg=$mauve]"
-                mode_move         "#[bg=$rosewater,fg=$base,bold] MOVE #[fg=$rosewater]"
-                mode_prompt            "#[bg=$blue,fg=$base,bold] PROMPT #[fg=$blue]"
                 mode_tmux             "#[bg=$peach,fg=$base,bold] HUB #[fg=$peach]"
-                mode_default_to_mode    "#[bg=$red,fg=$base,bold] ??? #[fg=$red]"
 
 
                 // formatting for the active tab

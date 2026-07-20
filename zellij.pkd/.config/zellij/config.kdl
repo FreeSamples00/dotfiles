@@ -28,92 +28,34 @@ keybinds clear-defaults=true {
         bind "Ctrl g" { SwitchToMode "normal"; }
     }
 
-    // ── tmux: landing pad / command hub ──────────────────────
+    // ── tmux: landing pad / command hub (sticky) ─────────────
     tmux {
-        // navigation
-        bind "h" { MoveFocus "left"; }
-        bind "j" { MoveFocus "down"; }
-        bind "k" { MoveFocus "up"; }
-        bind "l" { MoveFocus "right"; }
-        bind "[" { GoToPreviousTab; }
-        bind "]" { GoToNextTab; }
-        bind "1" { GoToTab 1; SwitchToMode "normal"; }
-        bind "2" { GoToTab 2; SwitchToMode "normal"; }
-        bind "3" { GoToTab 3; SwitchToMode "normal"; }
-        bind "4" { GoToTab 4; SwitchToMode "normal"; }
-        bind "5" { GoToTab 5; SwitchToMode "normal"; }
-        bind "6" { GoToTab 6; SwitchToMode "normal"; }
-        bind "7" { GoToTab 7; SwitchToMode "normal"; }
-        bind "8" { GoToTab 8; SwitchToMode "normal"; }
-        bind "9" { GoToTab 9; SwitchToMode "normal"; }
-        // common operations
-        bind "n" { NewTab; SwitchToMode "normal"; }
+        // tab navigation
+        bind "j" { GoToNextTab; }
+        bind "k" { GoToPreviousTab; }
+        bind "1" { GoToTab 1; }
+        bind "2" { GoToTab 2; }
+        bind "3" { GoToTab 3; }
+        bind "4" { GoToTab 4; }
+        bind "5" { GoToTab 5; }
+        bind "6" { GoToTab 6; }
+        bind "7" { GoToTab 7; }
+        bind "8" { GoToTab 8; }
+        bind "9" { GoToTab 9; }
+        // tab + pane ops
+        bind "n" { NewTab; }
         bind "N" { NewPane "right"; }
         bind "x" { CloseFocus; }
-        bind "f" { ToggleFocusFullscreen; SwitchToMode "normal"; }
-        bind "w" { ToggleFloatingPanes; SwitchToMode "normal"; }
-        bind "b" { BreakPane; SwitchToMode "normal"; }
+        bind "w" { ToggleFloatingPanes; }
+        // session
         bind "d" { Detach; }
         bind "Q" { Quit; }
-        bind "R" { SwitchToMode "renametab"; TabNameInput 0; }
         // mode dispatch
-        bind "p" { SwitchToMode "pane"; }
-        bind "t" { SwitchToMode "tab"; }
-        bind "r" { SwitchToMode "resize"; }
+        bind "r" { SwitchToMode "renametab"; TabNameInput 0; }
         bind "s" { SwitchToMode "scroll"; }
-        bind "S" {
-            LaunchOrFocusPlugin "session-manager" {
-                floating true
-                move_to_focused_tab true
-            };
-            SwitchToMode "normal";
-        }
         // exit / lock
         bind "esc" { SwitchToMode "normal"; }
         bind "Ctrl g" { SwitchToMode "locked"; }
-    }
-
-    // ── pane: pane management ────────────────────────────────
-    pane {
-        bind "h" { MoveFocus "left"; }
-        bind "j" { MoveFocus "down"; }
-        bind "k" { MoveFocus "up"; }
-        bind "l" { MoveFocus "right"; }
-        bind "n" { NewPane; }
-        bind "f" { ToggleFocusFullscreen; SwitchToMode "normal"; }
-        bind "w" { ToggleFloatingPanes; }
-        bind "x" { CloseFocus; }
-    }
-
-    // ── tab: tab management ──────────────────────────────────
-    tab {
-        bind "k" { GoToPreviousTab; }
-        bind "j" { GoToNextTab; }
-        bind "K" { MoveTab "right"; }
-        bind "J" { MoveTab "left"; }
-        bind "n" { NewTab; }
-        bind "r" { SwitchToMode "renametab"; TabNameInput 0; }
-        bind "x" { CloseTab; }
-    }
-
-    // ── resize: pane resizing ────────────────────────────────
-    // Note: arrow keys retained here; future consideration for removal
-    resize {
-        bind "h" { Resize "Increase left"; }
-        bind "j" { Resize "Increase down"; }
-        bind "k" { Resize "Increase up"; }
-        bind "l" { Resize "Increase right"; }
-        bind "left" { Resize "Increase left"; }
-        bind "down" { Resize "Increase down"; }
-        bind "up" { Resize "Increase up"; }
-        bind "right" { Resize "Increase right"; }
-        bind "H" { Resize "Decrease left"; }
-        bind "J" { Resize "Decrease down"; }
-        bind "K" { Resize "Decrease up"; }
-        bind "L" { Resize "Decrease right"; }
-        bind "+" { Resize "Increase"; }
-        bind "-" { Resize "Decrease"; }
-        bind "=" { Resize "Increase"; }
     }
 
     // ── scroll: scrollback navigation ───────────────────────
@@ -136,8 +78,8 @@ keybinds clear-defaults=true {
     // ═══════════════════════════════════════════════════════════
 
     renametab {
-        bind "enter" { SwitchToMode "tab"; }
-        bind "esc" { UndoRenameTab; SwitchToMode "tab"; }
+        bind "enter" { SwitchToMode "tmux"; }
+        bind "esc" { UndoRenameTab; SwitchToMode "tmux"; }
         bind "Ctrl c" { UndoRenameTab; SwitchToMode "normal"; }
     }
 
@@ -149,13 +91,9 @@ keybinds clear-defaults=true {
     shared_except "locked" {
         // entry to hub
         bind "Ctrl Space" { SwitchToMode "tmux"; }
-        // pane navigation
+        // pane / tab navigation
         bind "Alt j" { MoveFocusOrTab "left"; }
         bind "Alt k" { MoveFocusOrTab "right"; }
-        bind "Alt left" { MoveFocusOrTab "left"; }
-        bind "Alt down" { MoveFocus "down"; }
-        bind "Alt up" { MoveFocus "up"; }
-        bind "Alt right" { MoveFocusOrTab "right"; }
         // tab navigation
         bind "Alt 1" { GoToTab 1; }
         bind "Alt 2" { GoToTab 2; }
@@ -166,8 +104,6 @@ keybinds clear-defaults=true {
         bind "Alt 7" { GoToTab 7; }
         bind "Alt 8" { GoToTab 8; }
         bind "Alt 9" { GoToTab 9; }
-        bind "Alt [" { GoToPreviousTab; }
-        bind "Alt ]" { GoToNextTab; }
         // lock
         bind "Ctrl g" { SwitchToMode "locked"; }
     }
@@ -177,16 +113,10 @@ keybinds clear-defaults=true {
         bind "Ctrl c" { SwitchToMode "normal"; }
     }
 
-    // Esc: soft exit → tmux hub (from any primary sub-mode)
-    shared_among "pane" "tab" "resize" "scroll" {
+    // Esc: soft exit → tmux hub (from scroll sub-mode)
+    shared_among "scroll" {
         bind "esc" { SwitchToMode "tmux"; }
     }
-}
-
-// Plugin aliases - can be used to change the implementation of Zellij
-// changing these requires a restart to take effect
-plugins {
-    session-manager location="zellij:session-manager"
 }
 
 // Plugins to load in the background when a new session starts

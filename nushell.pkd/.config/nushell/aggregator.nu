@@ -19,7 +19,7 @@ use gt.nu
 use synthetic.nu
 use APIs.nu *
 use dexcom.nu
-use zj.nu *
+use zj.nu
 use ai.nu *
 use archive.nu
 
