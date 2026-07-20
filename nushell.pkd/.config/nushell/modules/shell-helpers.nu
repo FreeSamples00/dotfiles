@@ -29,6 +29,18 @@ export def cls [
 # unfreeze first job
 export alias fg = job unfreeze (job list | reverse | where type == frozen | first | (if $in == null {null} else {$in.id}))
 
+export def --wrapped xxd [
+  ...rest: string
+] {
+  let max_size = 32
+  let chunkbytes = 1
+  let reserved = (10 + 11)
+  let termcols = (term size | get columns)
+  let num_chunks = [32, (($termcols - $reserved) / (($chunkbytes * 3) + 1))] | math min | math floor
+  let args = [-autoskip -u -R always -groupsize $chunkbytes -cols $num_chunks]
+  ^xxd ...$args ...$rest
+}
+
 # ----- EXTERNAL COMMANDS -----
 export alias tree = tree -aC -I .git -I .venv -I .direnv -I .idea -I .vscode -I "._*"
 export alias diff = diff -u
