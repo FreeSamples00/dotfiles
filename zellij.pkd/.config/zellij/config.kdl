@@ -19,13 +19,13 @@ mouse_click_through true
 keybinds clear-defaults=true {
     // ═══════════════════════════════════════════════════════════
     // MODES — sticky (no auto-return), bare keys, Esc exits
-    // Flow: normal → Ctrl+Space → tmux (hub) → single key → sub-modes
+    // Flow: normal → Alt Space → tmux (hub) → single key → sub-modes
     // Esc:  sub-modes → tmux, tmux → normal
     // Ctrl+c: any mode → normal (hard abort)
     // ═══════════════════════════════════════════════════════════
 
     locked {
-        bind "Ctrl g" { SwitchToMode "normal"; }
+        bind "Alt g" { SwitchToMode "normal"; }
     }
 
     // ── tmux: landing pad / command hub (sticky) ─────────────
@@ -58,7 +58,7 @@ keybinds clear-defaults=true {
         bind "s" { SwitchToMode "scroll"; }
         // exit / lock
         bind "esc" { SwitchToMode "normal"; }
-        bind "Ctrl g" { SwitchToMode "locked"; }
+        bind "Alt g" { SwitchToMode "locked"; }
     }
 
     // ── scroll: scrollback navigation ───────────────────────
@@ -93,7 +93,7 @@ keybinds clear-defaults=true {
     // normal mode: Alt binds (pass-through, only Alt keys intercepted)
     shared_except "locked" {
         // entry to hub
-        bind "Ctrl Space" { SwitchToMode "tmux"; }
+        bind "Alt Space" { SwitchToMode "tmux"; }
         // tab navigation
         bind "Alt 1" { GoToTab 1; }
         bind "Alt 2" { GoToTab 2; }
@@ -105,7 +105,7 @@ keybinds clear-defaults=true {
         bind "Alt 8" { GoToTab 8; }
         bind "Alt 9" { GoToTab 9; }
         // lock
-        bind "Ctrl g" { SwitchToMode "locked"; }
+        bind "Alt g" { SwitchToMode "locked"; }
     }
 
     // Ctrl+c: universal hard abort → normal (from any mode)
