@@ -30,9 +30,12 @@ keybinds clear-defaults=true {
 
     // ── tmux: landing pad / command hub (sticky) ─────────────
     tmux {
+        // pane navigation
+        bind "j" { MoveFocus "left"; }
+        bind "k" { MoveFocus "right"; }
         // tab navigation
-        bind "j" { GoToNextTab; }
-        bind "k" { GoToPreviousTab; }
+        bind "J" { GoToNextTab; }
+        bind "K" { GoToPreviousTab; }
         bind "1" { GoToTab 1; }
         bind "2" { GoToTab 2; }
         bind "3" { GoToTab 3; }
@@ -44,7 +47,7 @@ keybinds clear-defaults=true {
         bind "9" { GoToTab 9; }
         // tab + pane ops
         bind "n" { NewTab; }
-        bind "N" { NewPane "right"; }
+        bind "|" { NewPane "right"; }
         bind "x" { CloseFocus; }
         bind "w" { ToggleFloatingPanes; }
         // session
@@ -91,9 +94,6 @@ keybinds clear-defaults=true {
     shared_except "locked" {
         // entry to hub
         bind "Ctrl Space" { SwitchToMode "tmux"; }
-        // pane / tab navigation
-        bind "Alt j" { MoveFocusOrTab "left"; }
-        bind "Alt k" { MoveFocusOrTab "right"; }
         // tab navigation
         bind "Alt 1" { GoToTab 1; }
         bind "Alt 2" { GoToTab 2; }
