@@ -64,6 +64,33 @@ return {
       desc = "Grep",
     },
     {
+      "<leader>?",
+      function()
+        local pickers = Snacks.picker.get({ source = "grep" })
+        if #pickers > 0 then
+          local p = pickers[1]
+          -- Focus list (not input): normal mode for j/k navigation,
+          -- avoids the input window's BufEnter → startinsert! autocmd
+          p:focus("list")
+          -- Re-enable preview if it was disabled when focus moved to main
+          -- after a jump (auto_close = false). The WinEnter autocmd's
+          -- is_float() guard skips re-enable for floating child windows
+          -- in split layouts, so we restore it explicitly here.
+          if p.preview and p.preview.main and not p.preview.win:valid() then
+            p:toggle("preview", { enable = true })
+          end
+          return
+        end
+        Snacks.picker.grep({
+          layout = { preset = "ivy", layout = { position = "bottom" }, preview = "main" },
+          main = { current = true },
+          auto_close = false,
+          jump = { close = false },
+        })
+      end,
+      desc = "Grep (persistent)",
+    },
+    {
       "<leader>:",
       function()
         Snacks.picker.command_history()

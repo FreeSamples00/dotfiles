@@ -3,9 +3,6 @@
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",
-  keys = {
-    { "<leader>?", "<cmd>WhichKey<CR>", desc = "Keybind Popup", mode = { "n", "v" } },
-  },
   opts = {
     preset = "helix", -- Helix-style popup layout
     notify = true,
