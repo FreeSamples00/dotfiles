@@ -104,7 +104,7 @@ return {
         git_log_file = hidden_search_options,
         git_diff = hidden_search_options,
         explorer = {
-          ignored = true,
+          ignored = false,
           hidden = true,
           layout = {
             preset = "sidebar",
