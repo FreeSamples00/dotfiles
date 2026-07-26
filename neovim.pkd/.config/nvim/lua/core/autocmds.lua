@@ -62,31 +62,106 @@ autocmd("VimEnter", {
       end
     end
 
-    -- Priority 2: if inside a git repo, walk up from cwd toward git root
+    -- Priority 2: unified anchor walk (single-pass, priority-ordered buckets)
+    local anchors = globals.cwd_anchors
+
+    -- Resolve git context once
     local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
-    if vim.v.shell_error ~= 0 then
-      return -- not in a git repo, keep cwd
+    local in_git = vim.v.shell_error == 0
+    local git_entry_index = nil
+    for i, entry in ipairs(anchors) do
+      if entry.type == "git" and git_entry_index == nil then
+        git_entry_index = i
+      end
     end
 
-    -- Walk from cwd upward; stop at first directory matching a stop pattern
-    local current = vim.fn.getcwd()
-    while current ~= git_root do
-      local basename = vim.fn.fnamemodify(current, ":t")
-      for _, pattern in ipairs(globals.cwd_stop_patterns) do
-        if basename:match(pattern) then
-          vim.fn.chdir(current)
-          return
+    -- Determine ceiling
+    local ceiling
+    if in_git and git_entry_index ~= nil then
+      ceiling = git_root
+    else
+      local home = vim.env.HOME
+      local cwd = vim.fn.getcwd()
+      if home and cwd:sub(1, #home) == home then
+        ceiling = home
+      else
+        ceiling = cwd -- outside ~: don't walk (avoid permission issues)
+      end
+    end
+
+    -- Pre-validate ALL patterns upfront; notify once per invalid entry
+    local invalid = {}
+    for i, entry in ipairs(anchors) do
+      if entry.type ~= "git" then
+        local ok = pcall(function()
+          return (""):match(entry.value)
+        end)
+        if not ok then
+          invalid[i] = true
+          vim.notify("cwd_anchors[" .. i .. "]: invalid Lua pattern: " .. tostring(entry.value), vim.log.levels.WARN)
         end
+      end
+    end
+
+    -- Build active[i] array
+    local active = {}
+    for i, entry in ipairs(anchors) do
+      if entry.type == "git" then
+        active[i] = in_git and i <= git_entry_index
+      elseif in_git and git_entry_index ~= nil and i > git_entry_index then
+        active[i] = false -- below git entry, inert while in a repo
+      else
+        active[i] = not (entry.git_only == true and not in_git)
+      end
+    end
+
+    -- Walk up from cwd to ceiling (inclusive), collecting nearest match per entry
+    local matches = {} -- matches[i] = nearest level_path, or nil
+    local current = vim.fn.getcwd()
+    while true do
+      local basename = vim.fn.fnamemodify(current, ":t")
+      local children = nil -- lazy: only readdir if a "child" entry needs it
+      for i, entry in ipairs(anchors) do
+        if active[i] and not invalid[i] and matches[i] == nil then
+          if entry.type == "dir" then
+            if basename:match(entry.value) then
+              matches[i] = current
+            end
+          elseif entry.type == "child" then
+            if children == nil then
+              children = vim.fn.readdir(current)
+            end
+            for _, child_name in ipairs(children) do
+              if child_name:match(entry.value) then
+                matches[i] = current
+                break
+              end
+            end
+          elseif entry.type == "git" then
+            if current == git_root then
+              matches[i] = current
+            end
+          end
+        end
+      end
+      if current == ceiling then
+        break
       end
       local parent = vim.fn.fnamemodify(current, ":h")
       if parent == current then
-        break -- reached filesystem root
-      end
+        break
+      end -- filesystem root safety
       current = parent
     end
 
-    -- No stop pattern matched → fall back to git root
-    vim.fn.chdir(git_root)
+    -- Select winner (priority order, no sort)
+    for i = 1, #anchors do
+      if matches[i] then
+        vim.fn.chdir(matches[i])
+        return
+      end
+    end
+    -- No match -> keep shell cwd
   end,
 })
 

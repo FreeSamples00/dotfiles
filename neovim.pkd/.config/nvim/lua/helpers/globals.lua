@@ -37,11 +37,19 @@ M.autoclose_filetypes = {
   "snacks_layout_box",
 }
 
----@type string[] Lua patterns matching directory basenames that act as cwd stop points
----When inside a git repo, walk from shell cwd upward toward git root;
----first matching directory becomes the cwd. No match → git root (original behavior).
-M.cwd_stop_patterns = {
-  "%.pkd$", -- dotfiles package dirs: neovim.pkd, ghostty.pkd, etc.
+---Cwd anchor list, walked up from shell cwd on VimEnter.
+---List order = priority: first entry with a match wins (nearest on ties).
+---`git` entry sets a ceiling at git_root; entries below it are inert in a repo.
+---`git_only` entries are skipped when not in a repo.
+---No match -> keep cwd. Bad pattern -> vim.notify once.
+---@class cwd_anchor
+---@field type "dir" | "child" | "git"  -- "dir"=own basename, "child"=any child entry name, "git"=repo root
+---@field value string                 -- Lua pattern; ignored for "git"
+---@field git_only? boolean            -- default false; ignored for "git"
+M.cwd_anchors = {
+  { type = "child", value = "^%.obsidian$" }, -- Obsidian vault root
+  { type = "dir", value = "%.pkd$", git_only = true }, -- dotfiles package dirs (git repos only)
+  { type = "git" }, -- git repo root (fallback inside repo)
 }
 
 ---@type table<string, string> Diagnostic icons (used in lualine)
