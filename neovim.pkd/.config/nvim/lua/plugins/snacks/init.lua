@@ -31,6 +31,7 @@ return vim.tbl_deep_extend(
           wo = require("helpers.utils").wrap_options, -- wrapped text in notifications
           width = { min = 20, max = 60 },
           height = { min = 1, max = 10 },
+          focusable = false, -- skip <C-w> hjklw navigation to notification pop-ups
         },
       },
     },
