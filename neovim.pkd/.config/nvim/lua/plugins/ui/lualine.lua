@@ -7,8 +7,10 @@ local filename_comp = {
   "filename",
   file_status = true,
   newfile_status = true,
-  path = 0, -- relative path
-  shorting_target = 20,
+  path = 0, -- filename
+  shorting_target = function()
+    return math.floor(vim.o.columns * 0.8)
+  end,
   symbols = {
     modified = "󰏫",
     readonly = "󰍁",
