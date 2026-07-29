@@ -10,7 +10,10 @@ def validate-gzip [file: path] {
   return ((gzip -t $file | complete).exit_code == 0)
 }
 
-# Create tar archive
+# Handle tar archives
+# 
+# `archive` -> create
+# `archive extract` -> extract
 export def main [
   target: path        # target to archive
   destination: string # basename of resulting tgz file
