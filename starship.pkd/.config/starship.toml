@@ -126,7 +126,7 @@ format = "[󰔛 $duration]($style) [─](spacer_color) "
 [time]
 disabled = false
 style = "clock_color"
-time_format = "%I:%M:%S"
+time_format = "%I:%M%P"
 format = "[ $time]($style) "
 
 # ========== Conditional Information ==========
