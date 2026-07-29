@@ -14,10 +14,11 @@ Host *
 ## Nushell auto-detect
 
 To automatically enter nushell over ssh, add the following to each host that may have nushell installed.
+`sh -lc` is required to pick up any important env vars from the remote profile.
 
 ```sshconfig
 Host <shorthand>
   ...
-  RemoteCommand if (command -v nu > /dev/null); then exec nu; fi
+  RemoteCommand sh -lc 'if command -v nu >/dev/null 2>&1; then exec nu; else exec $SHELL; fi'
   RequestTTY yes
 ```
