@@ -6,27 +6,23 @@ _kill:
 
 # Launch sketchybar
 [group('Running')]
-start:
-    just _kill
+start: _kill
     nohup sketchybar &>/dev/null &
 
 # Stop sketchybar
 [group('Running')]
-stop:
-    just _kill
+stop: _kill
 
 # Test w/ output
 [group('Testing')]
-test:
-    just _kill
+test: _kill
     sketchybar
 
 # Test w/ output - exits after launch
 [group('Testing')]
-test-auto timeout="2":
-    just _kill
+test-auto timeout="2": _kill
     sketchybar & sleep {{ timeout }}
-    just _kill
+    just skbar _kill
 
 # Apply executable permissions to all files
 [group('Dev')]
