@@ -50,8 +50,9 @@ export alias grmc = git rm --cached
 export alias gb = git branch
 export alias gbs = git switch
 export alias gco = git checkout
-export alias lg = lazygit
+export alias gd = git diff
 
+export alias lg = lazygit
 alias gi = get-ignore
 
 # ---------- FUNCTIONS ----------
