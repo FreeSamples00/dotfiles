@@ -21,7 +21,7 @@ in {
       scan_timeout = 10;
       palette = "catppuccin_mocha";
 
-      format = "$directory$git_branch$git_status$git_state$nix_shell$fill $status$hostname$cmd_duration$sudo$memory_usage$time$line_break$character";
+      format = " $directory$git_branch$git_status$git_state$nix_shell$fill $status$hostname$cmd_duration$sudo$memory_usage$time $line_break  $character";
 
       fill = {
         disabled = false;
@@ -31,8 +31,8 @@ in {
 
       character = {
         disabled = false;
-        success_symbol = "  [➔](bold green)";
-        error_symbol = "  [➔](bold red)";
+        success_symbol = "[➔](bold green)";
+        error_symbol = "[➔](bold red)";
       };
 
       directory = {
@@ -40,13 +40,13 @@ in {
         truncation_length = 1;
         truncation_symbol = "";
         style = "dir_color";
-        format = " [ $path]($style) ";
+        format = "[ $path]($style) ";
       };
 
       git_branch = {
         disabled = false;
-        symbol = "󰊢";
         style = "git_orange";
+        symbol = "󰊢";
         format = "[─](spacer_color) [$symbol $branch]($style) ";
       };
 
@@ -67,7 +67,8 @@ in {
       git_state = {
         disabled = false;
         style = "git_state_color";
-        format = "[─](spacer_color) [󰚖 $state ($progress_current/$progress_total)]($style) ";
+        symbol = "󰚖";
+        format = "[─](spacer_color) [$symbol $state ($progress_current/$progress_total)]($style) ";
         rebase = "REBASE";
         merge = "MERGE";
         revert = "REVERT";
@@ -87,7 +88,7 @@ in {
         disabled = false;
         style = "clock_color";
         time_format = "%I:%M%P";
-        format = "[ $time]($style) ";
+        format = "[󰔛 $time]($style)";
       };
 
       nix_shell = {
@@ -104,7 +105,7 @@ in {
       memory_usage = {
         disabled = false;
         threshold = 70;
-        symbol = "";
+        symbol = "";
         style = "memory_color";
         format = "[$symbol $ram_pct]($style) [─](spacer_color) ";
       };
@@ -112,7 +113,7 @@ in {
       status = {
         disabled = false;
         style = "red";
-        symbol = "";
+        symbol = "";
         recognize_signal_code = false;
         format = "[$symbol $status]($style) [─](spacer_color) ";
       };
@@ -128,7 +129,6 @@ in {
       sudo = {
         disabled = false;
         format = "[SUDO]($style) [─](spacer_color) ";
-        symbol = "";
         style = "bold red";
       };
 
