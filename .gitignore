@@ -20,3 +20,6 @@ lazy-lock.json
 
 ## Neovim spell binary
 en.utf-8.add.spl
+
+## nix artifacts
+result
