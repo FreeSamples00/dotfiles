@@ -1,5 +1,5 @@
 {
-  description = "Home Manager test flake — git only";
+  description = "Home Manager flake";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
@@ -27,6 +27,7 @@
           programs.home-manager.enable = true;
         })
         ./nix/home/git.nix
+        ./nix/home/starship.nix
       ];
     };
   };
