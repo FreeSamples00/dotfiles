@@ -103,6 +103,14 @@ return {
             return
           end
 
+          -- Image file: delegate to snacks' built-in image previewer (snacks.image)
+          -- Must check BEFORE the binary branch, since image files contain control
+          -- bytes and would otherwise be classified as binary -> xxd dump.
+          -- Mirrors snacks' own ordering at preview.lua:118-120.
+          if Snacks.image.supports_file(path) and Snacks.image.config.enabled ~= false then
+            return orig_preview_file(ctx)
+          end
+
           -- Binary file: xxd in terminal buffer (ft=nil => term=true => ANSI colors render)
           -- NOTE: M.cmd passes cmd to jobstart, which expects cmd[1] to be the executable.
           if is_binary_file(path) then
@@ -120,7 +128,10 @@ return {
         local orig_jump = Snacks.picker.actions.jump
         Snacks.picker.actions.jump = function(picker, item, action)
           local path = item and Snacks.picker.util.path(item)
-          if path and is_binary_file(path) then
+          -- Skip xxd for image files: let the original jump handle them.
+          -- Image files are binary (control bytes) but should not open as hex.
+          local is_image = Snacks.image.supports_file(path) and Snacks.image.config.enabled ~= false
+          if path and is_binary_file(path) and not is_image then
             picker:close()
             vim.schedule(function()
               -- :terminal opens in current window, replacing the buffer
