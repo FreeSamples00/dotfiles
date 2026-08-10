@@ -2,6 +2,7 @@
 --- Uses helpers.globals for ignored_filetypes and lsp_icons
 
 local globals = require("helpers.globals")
+local palette = require("colorscheme.palette")
 
 local filename_comp = {
   "filename",
@@ -77,11 +78,11 @@ return {
         lualine_x = {
           {
             macro_indicator,
-            color = { fg = "#e84070", bg = nil, gui = "bold" }, -- red-bright
+            color = { fg = palette.accent.bright.red, bg = nil, gui = "bold" }, -- red-bright
           },
           {
             ssh_indicator,
-            color = { fg = "#e8c84a", bg = nil, gui = "bold" }, -- yellow-bright
+            color = { fg = palette.accent.bright.yellow, bg = nil, gui = "bold" }, -- yellow-bright
           },
           {
             "diagnostics",

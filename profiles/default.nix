@@ -5,14 +5,12 @@
     ./minimal.nix
     ../nix/home/starship.nix
     ../nix/home/lazygit.nix
-    ../nix/home/cargo.nix
-    # TODO: ../nix/home/neovim.nix
+    ../nix/home/neovim.nix
     # TODO: ../nix/home/nushell.nix
   ];
 
   home.packages = with pkgs; [
     # Editor + deps
-    neovim
     python3
     nodejs
     gcc

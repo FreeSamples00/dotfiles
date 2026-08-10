@@ -1,5 +1,8 @@
 --- Colorscheme normal tier with transparent background + fallback bg.nvim
 --- See ~/dotfiles/docs/colorscheme.md
+--- Color values sourced from Nix-generated palette (nvim/lua/colorscheme/palette.lua)
+
+local palette = require("colorscheme.palette")
 
 return {
   "typicode/bg.nvim",
@@ -34,25 +37,25 @@ return {
       },
       color_overrides = {
         mocha = {
-          -- accent colors: normal tier
-          rosewater = "#f3b8b0",
-          flamingo = "#f0aaaa",
-          pink = "#ee9dd4",
-          mauve = "#c490f0",
-          red = "#ee668c",
-          maroon = "#e67c92",
-          peach = "#f59a64",
-          yellow = "#f0d57c",
-          green = "#8ae28e",
-          teal = "#6addca",
-          sky = "#6cd2ea",
-          sapphire = "#67c0ea",
-          blue = "#7aacf9",
-          lavender = "#a29ffb",
+          -- accent colors: normal tier (from Nix colorscheme)
+          rosewater = palette.accent.normal.coral,
+          flamingo = palette.accent.normal.salmon,
+          pink = palette.accent.normal.pink,
+          mauve = palette.accent.normal.purple,
+          red = palette.accent.normal.red,
+          maroon = palette.accent.normal["red-soft"],
+          peach = palette.accent.normal.orange,
+          yellow = palette.accent.normal.yellow,
+          green = palette.accent.normal.green,
+          teal = palette.accent.normal.teal,
+          sky = palette.accent.normal.cyan,
+          sapphire = palette.accent.normal.azure,
+          blue = palette.accent.normal.blue,
+          lavender = palette.accent.normal.lilac,
           -- background colors: transparency override
-          base = "#1E1E1E",
-          mantle = "#1E1E1E",
-          crust = "#000000",
+          base = palette.background.bg,
+          mantle = palette.background["bg-secondary"],
+          crust = palette.background["bg-deep"],
         },
       },
       highlight_overrides = {
