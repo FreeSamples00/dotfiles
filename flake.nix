@@ -28,6 +28,7 @@
         })
         ./nix/home/git.nix
         ./nix/home/starship.nix
+        ./nix/home/lazygit.nix
       ];
     };
   };
