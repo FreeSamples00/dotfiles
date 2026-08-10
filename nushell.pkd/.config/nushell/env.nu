@@ -1,5 +1,8 @@
 # ----- Env Variables -----
 
+# Nix profile — prepend so Nix-managed packages take priority
+$env.PATH = ($env.PATH | prepend $"($env.home)/.nix-profile/bin")
+
 $env.LESS = "-R -f"
 
 if not (which bat | is-empty) {
