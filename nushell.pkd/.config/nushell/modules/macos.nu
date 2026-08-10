@@ -15,9 +15,6 @@ def application_completer [] {
 # open pwd in finder
 export alias ofd = ^open -R (pwd)
 
-# copy pwd
-export alias cwd = do {use std/clip; pwd | clip copy}
-
 # render markdown in browser
 export alias 2pdf = ^open -a helium
 

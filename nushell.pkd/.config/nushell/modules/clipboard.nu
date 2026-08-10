@@ -2,10 +2,6 @@
 
 # USAGE: import with `use /path/to/clipboard.nu *`
 
-# ---------- IMPORTS ----------
-
-use std/clip
-
 # ---------- INTERNAL HELPERS ----------
 
 # completer and type lister for copy
