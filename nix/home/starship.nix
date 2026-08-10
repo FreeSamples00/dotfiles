@@ -67,8 +67,7 @@ in {
       git_state = {
         disabled = false;
         style = "git_state_color";
-        symbol = "󰚖";
-        format = "[─](spacer_color) [$symbol $state ($progress_current/$progress_total)]($style) ";
+        format = "[─](spacer_color) [󰚖 $state ($progress_current/$progress_total)]($style) ";
         rebase = "REBASE";
         merge = "MERGE";
         revert = "REVERT";
