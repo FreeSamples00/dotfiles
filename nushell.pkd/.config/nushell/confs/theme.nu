@@ -1,34 +1,8 @@
 # Colorscheme normal tier
 # See ~/dotfiles/docs/colorscheme.md
+# Color values sourced from Nix-generated colors (confs/colors.nu)
 
-let theme = {
-  rosewater: "#f3b8b0" # coral
-  flamingo: "#f0aaaa" # salmon
-  pink: "#ee9dd4" # pink
-  mauve: "#c490f0" # purple
-  red: "#ee668c" # red
-  maroon: "#e67c92" # red-soft
-  peach: "#f59a64" # orange
-  yellow: "#f0d57c" # yellow
-  green: "#8ae28e" # green
-  teal: "#6addca" # teal
-  sky: "#6cd2ea" # cyan
-  sapphire: "#67c0ea" # azure
-  blue: "#7aacf9" # blue
-  lavender: "#a29ffb" # lilac
-  text: "#cdd6f4" # fg
-  subtext1: "#bac2de" # fg-secondary
-  subtext0: "#a6adc8" # fg-muted
-  overlay2: "#9399b2" # fg-faint
-  overlay1: "#7f849c" # border
-  overlay0: "#6c7086" # border-muted
-  surface2: "#585b70" # surface-raised
-  surface1: "#45475a" # surface
-  surface0: "#313244" # surface-sunken
-  base: "#1E1E1E" # bg (transparency)
-  mantle: "#141414" # bg-secondary (transparency)
-  crust: "#0A0A0A" # bg-deep (transparency)
-}
+source colors.nu
 
 let scheme = {
   recognized_command: $theme.blue

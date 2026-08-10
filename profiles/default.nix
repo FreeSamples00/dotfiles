@@ -6,7 +6,7 @@
     ../nix/home/starship.nix
     ../nix/home/lazygit.nix
     ../nix/home/neovim.nix
-    # TODO: ../nix/home/nushell.nix
+    ../nix/home/nushell.nix
   ];
 
   home.packages = with pkgs; [
@@ -26,9 +26,6 @@
     prettier
 
     # Shell tools
-    nushell
-    carapace
-    zoxide
     just
 
     # Search / fs

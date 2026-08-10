@@ -35,23 +35,11 @@ if ($env.TERM | str contains "ghostty") and ($env.COLORTERM? | is-empty) {
 }
 
 # ----- External Configs -----
-$env.dependencies = [
-  starship
-  zoxide
-  carapace
-]
+# starship, zoxide, carapace integrations handled by Home Manager modules
+# just completions generated here (no HM module exists)
 
 mkdir ~/.cache/nushell
 
-if not (which starship | is-empty) {
-  starship init nu | save -f ~/.cache/nushell/starship.nu
-}
-if not (which zoxide | is-empty) {
-  zoxide init nushell --no-cmd | save -f ~/.cache/nushell/zoxide.nu
-}
-if not (which carapace | is-empty) {
-  carapace _carapace nushell | save -f ~/.cache/nushell/carapace.nu
-}
 if not (which just | is-empty) {
   $env.JUST_COMPLETE_ALIASES = 'true'
   $env.JUST_COMMAND_COLOR = 'black'
