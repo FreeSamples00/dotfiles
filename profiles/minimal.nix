@@ -1,9 +1,6 @@
 # Util profile — barebones POSIX (SSH servers, containers, rescue)
 # Works on any Unix system with just a shell and basic tools
-
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   imports = [
     ./base.nix
     ../nix/home/git.nix

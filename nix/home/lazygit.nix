@@ -1,10 +1,13 @@
 # Home Manager module: Lazygit config
 # Translates lazygit.pkd/.config/lazygit/config.yml into programs.lazygit settings
 # Theme colors injected from nix/colors.nix (accent.normal.*, structural.*)
-
-{ config, lib, pkgs, colors, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  colors,
+  ...
+}: let
   h = colors.withHash;
   a = colors.accent.normal;
   s = colors.structural;
@@ -21,7 +24,7 @@ in {
         autoFetch = false;
         disableForcePushing = true;
         diffRenderers = [
-          { command = "delta --paging=never"; }
+          {command = "delta --paging=never";}
         ];
       };
 
@@ -49,23 +52,32 @@ in {
         spinner = {
           rate = 100;
           frames = [
-            "⠋" "⠙" "⠹" "⠸" "⠼" "⠴" "⠦" "⠧" "⠇" "⠏"
+            "⠋"
+            "⠙"
+            "⠹"
+            "⠸"
+            "⠼"
+            "⠴"
+            "⠦"
+            "⠧"
+            "⠇"
+            "⠏"
           ];
         };
 
         theme = {
-          activeBorderColor = [ (h a.orange) "bold" ];
-          inactiveBorderColor = [ (h s.fg-muted) ];
-          optionsTextColor = [ (h a.blue) ];
-          selectedLineBgColor = [ (h s.surface-sunken) ];
-          cherryPickedCommitBgColor = [ (h s.surface) ];
-          cherryPickedCommitFgColor = [ (h a.orange) ];
-          unstagedChangesColor = [ (h a.red) ];
-          defaultFgColor = [ (h s.fg) ];
-          searchingActiveBorderColor = [ (h a.yellow) ];
-          inactiveViewSelectedLineBgColor = [ (h s.surface-raised) ];
-          markedBaseCommitFgColor = [ (h a.purple) ];
-          markedBaseCommitBgColor = [ (h s.surface) ];
+          activeBorderColor = [(h a.orange) "bold"];
+          inactiveBorderColor = [(h s.fg-muted)];
+          optionsTextColor = [(h a.blue)];
+          selectedLineBgColor = [(h s.surface-sunken)];
+          cherryPickedCommitBgColor = [(h s.surface)];
+          cherryPickedCommitFgColor = [(h a.orange)];
+          unstagedChangesColor = [(h a.red)];
+          defaultFgColor = [(h s.fg)];
+          searchingActiveBorderColor = [(h a.yellow)];
+          inactiveViewSelectedLineBgColor = [(h s.surface-raised)];
+          markedBaseCommitFgColor = [(h a.purple)];
+          markedBaseCommitBgColor = [(h s.surface)];
         };
 
         branchColorPatterns = {

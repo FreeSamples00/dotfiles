@@ -1,10 +1,13 @@
 # Home Manager module: Starship prompt
 # Translates starship.pkd/.config/starship.toml into programs.starship settings
 # Palette colors injected from nix/colors.nix (accent.bright.*, structural.*, derived.*)
-
-{ config, lib, pkgs, colors, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  colors,
+  ...
+}: let
   h = colors.withHash;
   b = colors.accent.bright;
   s = colors.structural;
@@ -140,7 +143,7 @@ in {
         nix_color = h b.purple;
 
         git_orange = h d.git-branch;
-        git_state_color = "#f5906a";  # hand-tuned, not in colorscheme
+        git_state_color = "#f5906a"; # hand-tuned, not in colorscheme
         git_modified = h b.yellow;
         git_untracked = h b.blue;
         git_ahead_behind = h b.green;

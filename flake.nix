@@ -7,8 +7,11 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { home-manager, nixpkgs, ... }:
-  let
+  outputs = {
+    home-manager,
+    nixpkgs,
+    ...
+  }: let
     system = "aarch64-darwin";
     pkgs = nixpkgs.legacyPackages.${system};
     colors = import ./nix/colors.nix;
@@ -16,20 +19,20 @@
     homeConfigurations = {
       "scc-minimal" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = { inherit colors; };
-        modules = [ ./profiles/minimal.nix ];
+        extraSpecialArgs = {inherit colors;};
+        modules = [./profiles/minimal.nix];
       };
 
       "scc-default" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = { inherit colors; };
-        modules = [ ./profiles/default.nix ];
+        extraSpecialArgs = {inherit colors;};
+        modules = [./profiles/default.nix];
       };
 
       "scc-macos" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = { inherit colors; };
-        modules = [ ./profiles/macos.nix ];
+        extraSpecialArgs = {inherit colors;};
+        modules = [./profiles/macos.nix];
       };
     };
   };

@@ -1,10 +1,7 @@
 # macOS profile — macOS desktop with services
 # Imports default, adds ghostty, aerospace, sketchybar, jankyborders, karabiner, opencode
 # Requires nix-darwin (added later)
-
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   imports = [
     ./default.nix
     # TODO: ../nix/home/ghostty.nix

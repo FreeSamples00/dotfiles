@@ -1,9 +1,6 @@
 # Shared base module — imported by all profiles
 # Settings here apply to every profile (util, core, macos)
-
-{ config, ... }:
-
-{
+{config, ...}: {
   home = {
     username = "scc";
     homeDirectory = "/Users/scc";

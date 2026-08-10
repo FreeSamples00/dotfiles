@@ -1,9 +1,6 @@
 # Default profile — dev workstation (Linux or macOS)
 # Imports minimal, adds neovim, nushell, starship, lazygit, btop, zellij, bat, etc.
-
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   imports = [
     ./minimal.nix
     ../nix/home/starship.nix
