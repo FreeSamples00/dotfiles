@@ -299,6 +299,7 @@ M.tool_to_nullls = {
     stylua = { source = "stylua", provider = "builtin" },
     ["tex-fmt"] = { source = "tex_fmt", provider = "extras" },
     nufmt = { source = "nufmt", provider = "local" },
+    alejandra = { source = "alejandra", provider = "builtin" },
   },
 }
 

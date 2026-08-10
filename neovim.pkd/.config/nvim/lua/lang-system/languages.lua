@@ -32,6 +32,7 @@ M.languages = {
       "json",
       "toml",
       "yaml",
+      "nix",
     },
     treesitter = {
       "ini",
@@ -293,6 +294,17 @@ M.languages = {
     treesitter = "just",
     lsp = {
       name = "just-lsp",
+    },
+  },
+
+  nix = {
+    filetypes = { "nix" },
+    treesitter = "nix",
+    lsp = {
+      name = "nil_ls",
+    },
+    formatter = {
+      name = "alejandra",
     },
   },
 }
