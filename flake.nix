@@ -14,16 +14,16 @@
     colors = import ./nix/colors.nix;
   in {
     homeConfigurations = {
-      "scc-util" = home-manager.lib.homeManagerConfiguration {
+      "scc-minimal" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = { inherit colors; };
-        modules = [ ./profiles/util.nix ];
+        modules = [ ./profiles/minimal.nix ];
       };
 
-      "scc-core" = home-manager.lib.homeManagerConfiguration {
+      "scc-default" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = { inherit colors; };
-        modules = [ ./profiles/core.nix ];
+        modules = [ ./profiles/default.nix ];
       };
 
       "scc-macos" = home-manager.lib.homeManagerConfiguration {

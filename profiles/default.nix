@@ -1,11 +1,11 @@
-# Core profile — dev workstation (Linux or macOS)
-# Imports util, adds neovim, nushell, starship, lazygit, btop, zellij, bat, etc.
+# Default profile — dev workstation (Linux or macOS)
+# Imports minimal, adds neovim, nushell, starship, lazygit, btop, zellij, bat, etc.
 
 { pkgs, ... }:
 
 {
   imports = [
-    ./util.nix
+    ./minimal.nix
     ../nix/home/starship.nix
     ../nix/home/lazygit.nix
     # TODO: ../nix/home/neovim.nix

@@ -13,7 +13,7 @@ stow *args='':
 
 # Deploy home manager configs
 [group('nix')]
-deploy profile='core':
+deploy profile='default':
     home-manager switch --flake ".#scc-{{ profile }}" -b backup
 
 # Neovim configuration tasks
