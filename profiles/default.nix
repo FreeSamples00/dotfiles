@@ -19,14 +19,13 @@
     nodejs
     gcc
     go
-    rustc
+    rustup
     stylua
     shellcheck
     jq
     pandoc
     shfmt
     lua-language-server
-    rust-analyzer
     taplo
     prettier
 
