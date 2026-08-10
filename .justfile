@@ -11,6 +11,11 @@ dump:
 stow *args='':
     ./dot stow {{ args }}
 
+# Deploy home manager configs
+[group('nix')]
+deploy profile='core':
+    home-manager switch --flake ".#scc-{{ profile }}" -b backup
+
 # Neovim configuration tasks
 [group: 'tools']
 mod nvim 'neovim.pkd/.config/nvim/.nvim.just'
