@@ -101,6 +101,12 @@ rec {
     focus-reduce = "db34f2"; # Focus mode: Reduce Interruptions
   };
 
+  # Opacity settings (for terminals that support it)
+  opacity = {
+    background = 1;
+    cursor = 0.85;
+  };
+
   # Format helpers
   withHash = v: "#${v}";
   with0x = v: "0xff${v}";
