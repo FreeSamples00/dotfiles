@@ -8,7 +8,7 @@ layout {
 
                 // colorscheme normal tier
                 // see ~/dotfiles/docs/colorscheme.md
-                color_base       "#1E1E1E"
+                color_base       "#1e1e2e"
                 color_text       "#cdd6f4"
                 color_overlay0   "#6c7086"
                 color_surface0   "#313244"
