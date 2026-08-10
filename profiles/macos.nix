@@ -9,6 +9,7 @@
     ../nix/home/aerospace.nix
     ../nix/home/karabiner.nix
     ../nix/home/opencode.nix
+    ../nix/home/sketchybar.nix
   ];
 
   home.packages = with pkgs; [
@@ -18,9 +19,6 @@
     yubico-piv-tool
     libfido2
   ];
-
-  # Sketchybar — raw source (complex multi-file, no theme injection)
-  # TODO: ../nix/home/sketchybar.nix
 
   # nix-darwin modules (system-level, added later):
   # - nix/darwin/brew.nix (casks + formulae)
