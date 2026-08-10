@@ -11,25 +11,26 @@
   let
     system = "aarch64-darwin";
     pkgs = nixpkgs.legacyPackages.${system};
-    username = "scc";
-    homeDirectory = "/Users/${username}";
-    stateVersion = "25.05";
-
-    # Import colorscheme
     colors = import ./nix/colors.nix;
   in {
-    homeConfigurations."${username}-test" = home-manager.lib.homeManagerConfiguration {
-      inherit pkgs;
-      extraSpecialArgs = { inherit colors; };
-      modules = [
-        ({ config, ... }: {
-          home = { inherit username homeDirectory stateVersion; };
-          programs.home-manager.enable = true;
-        })
-        ./nix/home/git.nix
-        ./nix/home/starship.nix
-        ./nix/home/lazygit.nix
-      ];
+    homeConfigurations = {
+      "scc-util" = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        extraSpecialArgs = { inherit colors; };
+        modules = [ ./profiles/util.nix ];
+      };
+
+      "scc-core" = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        extraSpecialArgs = { inherit colors; };
+        modules = [ ./profiles/core.nix ];
+      };
+
+      "scc-macos" = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        extraSpecialArgs = { inherit colors; };
+        modules = [ ./profiles/macos.nix ];
+      };
     };
   };
 }

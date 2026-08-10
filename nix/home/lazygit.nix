@@ -20,8 +20,8 @@ in {
       git = {
         autoFetch = false;
         disableForcePushing = true;
-        pagers = [
-          { pager = "delta --paging=never"; }
+        diffRenderers = [
+          { command = "delta --paging=never"; }
         ];
       };
 

@@ -5,8 +5,8 @@ promptToReturnFromSubprocess: false
 git:
   autoFetch: false
   disableForcePushing: true
-  pagers:
-    - pager: "delta --paging=never"
+  diffRenderers:
+    - command: "delta --paging=never"
 os:
   editPreset: "nvim"
   editAtLine: "nvim {{filename}} +{{line}}"
@@ -72,7 +72,6 @@ gui:
     "^(chore|docs|refactor|test|ci)/": "#c490f0" # purple-normal
   authorColors:
     "*": "#a29ffb" # lilac-normal
-
 
 # TODO:
 # Keybindings.
