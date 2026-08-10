@@ -1,10 +1,13 @@
 # Home Manager module: Neovim
 # Deploys entire nvim config from source, generates palette.lua from nix/colors.nix
 # Source-filter excludes the generated palette.lua path to avoid conflicts
-
-{ config, lib, pkgs, colors, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  colors,
+  ...
+}: let
   h = colors.withHash;
   a = colors.accent;
   s = colors.structural;
@@ -19,7 +22,7 @@ let
 in {
   programs.neovim = {
     enable = true;
-    vimAlias = true;
+    vimAlias = false;
     defaultEditor = true;
     withRuby = false;
     withPython3 = false;
