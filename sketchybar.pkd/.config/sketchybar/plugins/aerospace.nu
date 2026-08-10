@@ -1,11 +1,13 @@
 #!/usr/bin/env nu -n
 
+use ../core/aerospace.nu aero
+
 def workspace_status [workspace: string] {
-  let focused = ^aerospace list-workspaces --focused | complete | get stdout | str trim
+  let focused = aero [list-workspaces --focused]
   if $workspace == $focused {
     return "active"
   } else {
-    let windows = ^aerospace list-windows --workspace $workspace | complete | get stdout | lines | length
+    let windows = aero [list-windows --workspace $workspace] | lines | length
     if $windows > 0 {
       return "full"
     } else {

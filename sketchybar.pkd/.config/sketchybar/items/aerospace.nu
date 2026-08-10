@@ -1,7 +1,9 @@
 #!/usr/bin/env nu -n
 
+use ../core/aerospace.nu aero
+
 def workspaces [] {
-  ^aerospace list-workspaces --all | lines
+  aero [list-workspaces --all] | lines
 }
 
 def main [] {
