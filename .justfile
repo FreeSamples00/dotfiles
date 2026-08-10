@@ -16,6 +16,11 @@ stow *args='':
 deploy profile='default':
     home-manager switch --flake ".#scc-{{ profile }}" -b backup
 
+# Deploy nix-darwin system config (macOS only)
+[group('nix')]
+darwin:
+    darwin-rebuild switch --flake ".#scc-mac"
+
 # Neovim configuration tasks
 [group: 'tools']
 mod nvim 'neovim.pkd/.config/nvim/.nvim.just'

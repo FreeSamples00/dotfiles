@@ -23,12 +23,6 @@
 # ========== startup ==========
 start-at-login = true
 
-after-startup-command = [
-  # kill all sketchybar instances, respawn one
-  "exec-and-forget pgrep -i 'sketchybar' | xargs kill",
-  "exec-and-forget nohup sketchybar &>/dev/null &",
-]
-
 # ========== Normalizations ==========
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
