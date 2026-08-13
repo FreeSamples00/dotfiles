@@ -146,7 +146,7 @@ cmd-alt-ctrl-d = 'exec-and-forget open -a "Discord"'
 cmd-alt-ctrl-f = 'exec-and-forget open -a "Finder"'
 
 # BTOP
-cmd-alt-ctrl-t = "exec-and-forget open -na ghostty.app --args -e /usr/local/bin/nushell -c btop"
+cmd-alt-ctrl-t = "exec-and-forget sh -c 'open -na ghostty.app --args -e $HOME/.local/bin/nushell -c btop'"
 
 # ACTIVITY MONITOR
 cmd-alt-ctrl-shift-t = 'exec-and-forget open -a "activity monitor"'
