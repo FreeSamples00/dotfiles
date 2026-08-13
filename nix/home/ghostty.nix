@@ -17,7 +17,7 @@ in {
 
     # --- SHELL ---
     shell-integration-features = ssh-env, no-cursor, sudo, ssh-terminfo
-    command = "/usr/local/bin/nushell --login"
+    command = "~/.local/bin/nushell --login"
 
     # --- TEXT ---
     font-family = "JetBrainsMono Nerd Font Mono"

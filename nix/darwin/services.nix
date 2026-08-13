@@ -1,27 +1,26 @@
 # nix-darwin launchd services
 # Manages sketchybar, aerospace, jankyborders, and obsidian as launchd agents
-{
-  config,
-  pkgs,
-  ...
-}: let
+
+{ config, pkgs, username, homeDirectory, ... }:
+
+let
   # PATH for service processes — includes Nix profile and Homebrew
-  servicePath = "/Users/scc/.nix-profile/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin";
+  servicePath = "${homeDirectory}/.nix-profile/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin";
 in {
   launchd.user.agents = {
     # Sketchybar — custom macOS status bar
     sketchybar = {
       serviceConfig = {
         Label = "io.github.felixkratz.sketchybar";
-        ProgramArguments = ["/opt/homebrew/bin/sketchybar"];
+        ProgramArguments = [ "/opt/homebrew/bin/sketchybar" ];
         RunAtLoad = true;
         KeepAlive = true;
         EnvironmentVariables = {
           PATH = servicePath;
-          HOME = "/Users/scc";
+          HOME = homeDirectory;
         };
-        StandardOutPath = "/Users/scc/Library/Logs/sketchybar.log";
-        StandardErrorPath = "/Users/scc/Library/Logs/sketchybar.err";
+        StandardOutPath = "${homeDirectory}/Library/Logs/sketchybar.log";
+        StandardErrorPath = "${homeDirectory}/Library/Logs/sketchybar.err";
       };
     };
 
@@ -29,15 +28,15 @@ in {
     aerospace = {
       serviceConfig = {
         Label = "com.github.nikitabobko.aerospace";
-        ProgramArguments = ["/Applications/AeroSpace.app/Contents/MacOS/aerospace"];
+        ProgramArguments = [ "/Applications/AeroSpace.app/Contents/MacOS/aerospace" ];
         RunAtLoad = true;
         KeepAlive = true;
         EnvironmentVariables = {
           PATH = servicePath;
-          HOME = "/Users/scc";
+          HOME = homeDirectory;
         };
-        StandardOutPath = "/Users/scc/Library/Logs/aerospace.log";
-        StandardErrorPath = "/Users/scc/Library/Logs/aerospace.err";
+        StandardOutPath = "${homeDirectory}/Library/Logs/aerospace.log";
+        StandardErrorPath = "${homeDirectory}/Library/Logs/aerospace.err";
       };
     };
 
@@ -45,15 +44,15 @@ in {
     jankyborders = {
       serviceConfig = {
         Label = "io.github.felixkratz.borders";
-        ProgramArguments = ["/opt/homebrew/bin/borders"];
+        ProgramArguments = [ "/opt/homebrew/bin/borders" ];
         RunAtLoad = true;
         KeepAlive = true;
         EnvironmentVariables = {
           PATH = servicePath;
-          HOME = "/Users/scc";
+          HOME = homeDirectory;
         };
-        StandardOutPath = "/Users/scc/Library/Logs/borders.log";
-        StandardErrorPath = "/Users/scc/Library/Logs/borders.err";
+        StandardOutPath = "${homeDirectory}/Library/Logs/borders.log";
+        StandardErrorPath = "${homeDirectory}/Library/Logs/borders.err";
       };
     };
 
@@ -61,12 +60,12 @@ in {
     obsidian = {
       serviceConfig = {
         Label = "md.obsidian";
-        ProgramArguments = ["/Applications/Obsidian.app/Contents/MacOS/Obsidian"];
+        ProgramArguments = [ "/Applications/Obsidian.app/Contents/MacOS/Obsidian" ];
         RunAtLoad = true;
         KeepAlive = false; # don't restart if user quits
         EnvironmentVariables = {
           PATH = servicePath;
-          HOME = "/Users/scc";
+          HOME = homeDirectory;
         };
       };
     };

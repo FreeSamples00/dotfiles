@@ -17,27 +17,30 @@
   }: let
     system = "aarch64-darwin";
     pkgs = nixpkgs.legacyPackages.${system};
+    username = "scc";
+    homeDirectory = "/Users/${username}";
     colors = import ./nix/colors.nix;
     models = import ./nix/shared/models.nix;
   in {
     # Standalone Home Manager profiles (for non-macOS or quick HM-only updates)
     homeConfigurations = {
-      "scc-minimal" = home-manager.lib.homeManagerConfiguration {
+      "${username}-minimal" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = {inherit colors models;};
+        extraSpecialArgs = {inherit colors models username homeDirectory;};
         modules = [./profiles/minimal.nix];
       };
 
-      "scc-default" = home-manager.lib.homeManagerConfiguration {
+      "${username}-default" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = {inherit colors models;};
+        extraSpecialArgs = {inherit colors models username homeDirectory;};
         modules = [./profiles/default.nix];
       };
     };
 
     # nix-darwin configuration (macOS — services + Homebrew + HM macos profile)
-    darwinConfigurations."scc-mac" = nix-darwin.lib.darwinSystem {
+    darwinConfigurations."${username}-mac" = nix-darwin.lib.darwinSystem {
       inherit system;
+      specialArgs = { inherit username homeDirectory; };
       modules = [
         ./nix/darwin/system.nix
         ./nix/darwin/brew.nix
@@ -46,12 +49,12 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = {inherit colors models;};
-          home-manager.users.scc = {pkgs, ...}: {
+          home-manager.extraSpecialArgs = {inherit colors models username homeDirectory;};
+          home-manager.users.${username} = {pkgs, ...}: {
             imports = [./profiles/macos.nix];
             home = {
-              username = "scc";
-              homeDirectory = nixpkgs.lib.mkForce "/Users/scc";
+              inherit username;
+              homeDirectory = nixpkgs.lib.mkForce homeDirectory;
               stateVersion = "25.05";
             };
           };

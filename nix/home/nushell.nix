@@ -37,6 +37,18 @@ in {
     enableNushellIntegration = true;
   };
 
+  # Deploy nushell launcher script (sets PATH before exec-ing nu)
+  # Referenced by: nix-darwin user shell, ghostty config, aerospace btop shortcut
+  home.file.".local/bin/nushell" = {
+    text = ''
+      #!/bin/sh -l
+      export XDG_CONFIG_HOME="$HOME/.config"
+      export PATH="$HOME/.nix-profile/bin:/opt/homebrew/bin:$PATH"
+      exec nu "$@"
+    '';
+    executable = true;
+  };
+
   # Deploy entire nushell tree EXCEPT the generated colors file
   xdg.configFile."nushell" = {
     source = nushellSource;

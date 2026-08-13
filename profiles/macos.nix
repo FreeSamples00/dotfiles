@@ -1,6 +1,5 @@
 # macOS profile — macOS desktop with services
 # Imports default, adds ghostty, aerospace, sketchybar, jankyborders, karabiner, opencode
-# nix-darwin integration (services, Brewfile) added later
 {pkgs, ...}: {
   imports = [
     ./default.nix
@@ -17,11 +16,7 @@
     pngpaste
     yubikey-manager
     yubico-piv-tool
+    opencode
     libfido2
   ];
-
-  # nix-darwin modules (system-level, added later):
-  # - nix/darwin/brew.nix (casks + formulae)
-  # - nix/darwin/services.nix (launchd agents)
-  # - nix/darwin/system.nix (macOS settings)
 }

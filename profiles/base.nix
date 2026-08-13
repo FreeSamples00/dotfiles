@@ -1,9 +1,11 @@
 # Shared base module — imported by all profiles
-# Settings here apply to every profile (util, core, macos)
-{config, ...}: {
+# Settings here apply to every profile (minimal, default, macos)
+
+{ config, username, homeDirectory, ... }:
+
+{
   home = {
-    username = "scc";
-    homeDirectory = "/Users/scc";
+    inherit username homeDirectory;
     stateVersion = "25.05";
   };
 

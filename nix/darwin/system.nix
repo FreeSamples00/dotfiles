@@ -1,7 +1,7 @@
 # nix-darwin system configuration
 # macOS system settings, nix settings, user configuration
 
-{ pkgs, ... }:
+{ pkgs, username, homeDirectory, ... }:
 
 {
   # Nix settings
@@ -10,11 +10,17 @@
     auto-optimise-store = true;
   };
 
+  # nix-darwin version (set once, don't change)
+  system.stateVersion = 7;
+
+  # Primary user for user-level system options (homebrew, launchd, defaults)
+  system.primaryUser = username;
+
   # Enable Touch ID for sudo
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   # User shell
-  users.users.scc.shell = /usr/local/bin/nushell;
+  users.users.${username}.shell = "${homeDirectory}/.local/bin/nushell";
 
   # ---- macOS System Defaults ----
   system.defaults = {

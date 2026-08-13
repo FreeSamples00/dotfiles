@@ -99,7 +99,6 @@
       "binutils"
 
       # Libraries/build tools
-      "libfido2"
       "libxcrypt"
       "llvm"
       "imagemagick"
