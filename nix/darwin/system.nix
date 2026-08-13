@@ -4,11 +4,8 @@
 { pkgs, username, homeDirectory, ... }:
 
 {
-  # Nix settings
-  nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
-    auto-optimise-store = true;
-  };
+  # Determinate manages Nix, not nix-darwin
+  nix.enable = false;
 
   # nix-darwin version (set once, don't change)
   system.stateVersion = 7;
