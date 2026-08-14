@@ -2,12 +2,16 @@
 
 def get_focus [] {
   use ../core/icons.nu *
-  let mode = ^($env.FILE_PWD | path join "getfocus")
+  # getfocus requires Full Disk Access to read ~/Library/DoNotDisturb/DB/
+  # Without it, the binary exits 1 and writes to stderr. The try/catch
+  # prevents the script from aborting, and the "error" match arm shows
+  # a warning triangle so the user knows something is wrong.
+  let mode = try { ^($env.FILE_PWD | path join "getfocus") } catch { "error" }
   return (match ($mode) {
     "Do Not Disturb" => {
       {
         icon: (icons widget "focus_dnd")
-        color: "0xFF6D7CFF", 
+        color: "0xFF6D7CFF"
         draw: "on"
       }
     }
@@ -25,18 +29,25 @@ def get_focus [] {
         draw: "on"
       }
     }
+    "error" => {
+      {
+        icon: (icons widget "warning")
+        color: "0xFFf0d57c"
+        draw: "on"
+      }
+    }
     "None" => {
       {
-        icon: "", 
-        color: "0xFF6D7CFF", 
+        icon: ""
+        color: "0xFF6D7CFF"
         draw: "off"
       }
     }
     $focus => {
-      print $"Unkown focus mode: '($focus)'"
+      print $"Unknown focus mode: '($focus)'"
       {
-        icon: "", 
-        color: "0xFF6D7CFF", 
+        icon: ""
+        color: "0xFF6D7CFF"
         draw: "off"
       }
     }

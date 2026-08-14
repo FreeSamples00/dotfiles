@@ -479,6 +479,7 @@ def widget_icon [
     focus_dnd => "󰤄"
     focus_sleep => "󰿒"
     focus_reduce => "󱏬"
+    warning => ""
     _ => ""
   }
 }
