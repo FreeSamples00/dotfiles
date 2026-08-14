@@ -11,6 +11,10 @@ let
 in {
   launchd.user.agents = {
     # Sketchybar — custom macOS status bar
+    # NOTE: Sketchybar (and the getfocus plugin for focus mode detection) requires
+    # Full Disk Access to read ~/Library/DoNotDisturb/DB/Assertions.json.
+    # Grant via System Settings > Privacy & Security > Full Disk Access > sketchybar.
+    # Without it, getfocus exits 1 and the focus notifier shows a warning triangle.
     sketchybar = {
       serviceConfig = {
         Label = "io.github.felixkratz.sketchybar";

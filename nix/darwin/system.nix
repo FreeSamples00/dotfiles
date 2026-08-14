@@ -77,6 +77,5 @@
 
   # System packages (nix-darwin managed, available system-wide)
   environment.systemPackages = with pkgs; [
-    darwin-rebuild
   ];
 }

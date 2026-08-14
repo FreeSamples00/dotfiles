@@ -1,7 +1,8 @@
 # Home Manager module: Nushell
 # Deploys entire nushell config from source, generates colors.nu from nix/colors.nix
 # Source-filter excludes the generated colors.nu path to avoid conflicts
-# Also handles starship/zoxide/carapace integrations via HM modules
+# Shell integrations (starship/zoxide/carapace) handled manually in env.nu
+# because source-deployed nushell config overrides HM's extraConfig injection
 
 { config, lib, pkgs, colors, ... }:
 
@@ -22,20 +23,11 @@ in {
     enable = true;
   };
 
-  # Starship integration (replaces manual `starship init nu` in env.nu)
-  programs.starship.enableNushellIntegration = true;
-
-  # Zoxide integration (replaces manual `zoxide init nushell` in env.nu)
-  programs.zoxide = {
-    enable = true;
-    enableNushellIntegration = true;
-  };
-
-  # Carapace integration (replaces manual `carapace _carapace nushell` in env.nu)
-  programs.carapace = {
-    enable = true;
-    enableNushellIntegration = true;
-  };
+  # Shell integrations handled manually in env.nu (cache file approach)
+  # HM's enableNushellIntegration doesn't work with source-deployed nushell config
+  programs.starship.enableNushellIntegration = false;
+  programs.zoxide.enableNushellIntegration = false;
+  programs.carapace.enableNushellIntegration = false;
 
   # Deploy nushell launcher script (sets PATH before exec-ing nu)
   # Referenced by: nix-darwin user shell, ghostty config, aerospace btop shortcut
