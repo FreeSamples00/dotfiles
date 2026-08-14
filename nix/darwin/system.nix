@@ -77,6 +77,6 @@
 
   # System packages (nix-darwin managed, available system-wide)
   environment.systemPackages = with pkgs; [
-    # Core tools that should be available even outside HM
+    darwin-rebuild
   ];
 }

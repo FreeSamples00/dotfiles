@@ -4,8 +4,10 @@
 { config, pkgs, username, homeDirectory, ... }:
 
 let
-  # PATH for service processes — includes Nix profile and Homebrew
-  servicePath = "${homeDirectory}/.nix-profile/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin";
+  # PATH for service processes — includes both Nix profile paths and Homebrew
+  # ~/.local/state/nix/profiles/home-manager/home-path/bin: nix-darwin embedded HM
+  # ~/.nix-profile/bin: standalone HM
+  servicePath = "${homeDirectory}/.local/state/nix/profiles/home-manager/home-path/bin:${homeDirectory}/.nix-profile/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin";
 in {
   launchd.user.agents = {
     # Sketchybar — custom macOS status bar

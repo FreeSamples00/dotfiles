@@ -11,15 +11,9 @@ dump:
 stow *args='':
     ./dot stow {{ args }}
 
-# Deploy home manager configs
+# Nix commands (deploy, build, rollback, etc.)
 [group('nix')]
-deploy profile='default':
-    home-manager switch --flake ".#scc-{{ profile }}" -b backup
-
-# Deploy nix-darwin system config (macOS only)
-[group('nix')]
-darwin:
-    darwin-rebuild switch --flake ".#scc-mac"
+mod nix 'nix/nix.just'
 
 # Neovim configuration tasks
 [group: 'tools']
