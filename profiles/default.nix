@@ -50,7 +50,4 @@
     uv
     pre-commit
   ];
-
-  # TODO: vim raw source deployment
-  # TODO: bash raw source deployment
 }

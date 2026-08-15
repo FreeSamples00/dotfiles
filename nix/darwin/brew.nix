@@ -64,9 +64,6 @@
       "felixkratz/formulae/sketchybar"
       "felixkratz/formulae/borders"
 
-      # Still needed during migration
-      "stow"
-
       # General tools
       "gh"
       "hugo"
