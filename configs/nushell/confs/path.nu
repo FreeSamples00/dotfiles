@@ -1,6 +1,5 @@
 let path_additions = [
   "~/.cargo/bin"
-  "~/dotfiles/scripts/in_path"
   "~/Library/TinyTeX/bin/universal-darwin"
 ]
 

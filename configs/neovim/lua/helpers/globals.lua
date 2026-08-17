@@ -48,7 +48,6 @@ M.autoclose_filetypes = {
 ---@field git_only? boolean            -- default false; ignored for "git"
 M.cwd_anchors = {
   { type = "child", value = "^%.obsidian$" }, -- Obsidian vault root
-  { type = "dir", value = "%.pkd$", git_only = true }, -- dotfiles package dirs (git repos only)
   { type = "git" }, -- git repo root (fallback inside repo)
 }
 
