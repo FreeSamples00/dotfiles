@@ -34,7 +34,7 @@
       NSAutomaticPeriodSubstitutionEnabled = false;
       NSAutomaticSpellingCorrectionEnabled = false;
       NSAutomaticInlinePredictionEnabled = false;
-      _HIHideMenuBar = false; # menu bar always visible
+      _HIHideMenuBar = true; # menu bar hidden
     };
 
     # Finder
