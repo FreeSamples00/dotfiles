@@ -1,9 +1,12 @@
 # nix-darwin launchd services
 # Manages sketchybar, aerospace, jankyborders, and obsidian as launchd agents
-
-{ config, pkgs, username, homeDirectory, ... }:
-
-let
+{
+  config,
+  pkgs,
+  username,
+  homeDirectory,
+  ...
+}: let
   # PATH for service processes — includes both Nix profile paths and Homebrew
   # ~/.local/state/nix/profiles/home-manager/home-path/bin: nix-darwin embedded HM
   # ~/.nix-profile/bin: standalone HM
@@ -18,7 +21,7 @@ in {
     sketchybar = {
       serviceConfig = {
         Label = "io.github.felixkratz.sketchybar";
-        ProgramArguments = [ "/opt/homebrew/bin/sketchybar" ];
+        ProgramArguments = ["/opt/homebrew/bin/sketchybar"];
         RunAtLoad = true;
         KeepAlive = true;
         EnvironmentVariables = {
@@ -34,7 +37,7 @@ in {
     aerospace = {
       serviceConfig = {
         Label = "com.github.nikitabobko.aerospace";
-        ProgramArguments = [ "/Applications/AeroSpace.app/Contents/MacOS/aerospace" ];
+        ProgramArguments = ["/Applications/AeroSpace.app/Contents/MacOS/aerospace"];
         RunAtLoad = true;
         KeepAlive = true;
         EnvironmentVariables = {
@@ -50,7 +53,7 @@ in {
     jankyborders = {
       serviceConfig = {
         Label = "io.github.felixkratz.borders";
-        ProgramArguments = [ "/opt/homebrew/bin/borders" ];
+        ProgramArguments = ["/opt/homebrew/bin/borders"];
         RunAtLoad = true;
         KeepAlive = true;
         EnvironmentVariables = {
@@ -68,7 +71,7 @@ in {
     obsidian = {
       serviceConfig = {
         Label = "md.obsidian";
-        ProgramArguments = [ "/Applications/Obsidian.app/Contents/MacOS/Obsidian" ];
+        ProgramArguments = ["/Applications/Obsidian.app/Contents/MacOS/Obsidian"];
         RunAtLoad = true;
         KeepAlive = false;
         EnvironmentVariables = {

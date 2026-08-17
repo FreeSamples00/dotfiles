@@ -1,10 +1,13 @@
 # Home Manager module: Ghostty terminal
 # Generated config + theme file (colors from nix/colors.nix)
 # Raw source for shaders and icns
-
-{ config, lib, pkgs, colors, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  colors,
+  ...
+}: let
   h = colors.withHash;
   a = colors.accent;
   s = colors.structural;

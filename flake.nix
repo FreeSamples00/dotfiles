@@ -21,7 +21,7 @@
     homeDirectory = "/Users/${username}";
     colors = import ./nix/colors.nix;
   in {
-    # Standalone Home Manager profiles (for non-macOS or quick HM-only updates)
+    # Standalone Home Manager profiles
     homeConfigurations = {
       "${username}-minimal" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
@@ -42,10 +42,10 @@
       };
     };
 
-    # nix-darwin configuration (macOS — services + Homebrew + HM macos profile)
+    # nix-darwin configuration
     darwinConfigurations."${username}-mac" = nix-darwin.lib.darwinSystem {
       inherit system;
-      specialArgs = { inherit username homeDirectory; };
+      specialArgs = {inherit username homeDirectory;};
       modules = [
         ./nix/darwin/system.nix
         ./nix/darwin/brew.nix

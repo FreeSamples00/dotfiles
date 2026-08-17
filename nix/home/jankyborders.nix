@@ -1,9 +1,6 @@
 # Home Manager module: Jankyborders (window borders)
 # Generated bordersrc with ARGB colors from nix/colors.nix
-
-{ colors, ... }:
-
-let
+{colors, ...}: let
   to0x = colors.with0x;
 in {
   xdg.configFile."borders/bordersrc".text = ''

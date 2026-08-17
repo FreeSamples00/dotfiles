@@ -3,10 +3,13 @@
 # Source-filter excludes the generated colors.nu path to avoid conflicts
 # Shell integrations (starship/zoxide/carapace) handled manually in env.nu
 # because source-deployed nushell config overrides HM's extraConfig injection
-
-{ config, lib, pkgs, colors, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  colors,
+  ...
+}: let
   h = colors.withHash;
   a = colors.accent.normal;
   s = colors.structural;

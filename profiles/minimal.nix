@@ -1,9 +1,12 @@
 # Minimal profile — barebones POSIX (SSH servers, containers, rescue)
 # Works on any Unix system with just a shell and basic tools
-
-{ config, pkgs, username, homeDirectory, ... }:
-
 {
+  config,
+  pkgs,
+  username,
+  homeDirectory,
+  ...
+}: {
   # ---- Shared base (inlined from former base.nix) ----
   home = {
     inherit username homeDirectory;

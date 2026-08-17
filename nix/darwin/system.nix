@@ -1,9 +1,11 @@
 # nix-darwin system configuration
 # macOS system settings, nix settings, user configuration
-
-{ pkgs, username, homeDirectory, ... }:
-
 {
+  pkgs,
+  username,
+  homeDirectory,
+  ...
+}: {
   # Determinate manages Nix, not nix-darwin
   nix.enable = false;
 

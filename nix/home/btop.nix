@@ -1,10 +1,13 @@
 # Home Manager module: btop
 # Source-filter (exclude generated theme file) + generated catppuccin.theme from nix/colors.nix
 # btop.conf stays as raw source (just references theme by name)
-
-{ config, lib, pkgs, colors, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  colors,
+  ...
+}: let
   h = colors.withHash;
   a = colors.accent.normal;
   s = colors.structural;
