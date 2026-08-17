@@ -34,6 +34,12 @@
         extraSpecialArgs = {inherit colors username homeDirectory;};
         modules = [./profiles/default.nix];
       };
+
+      "${username}-security" = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        extraSpecialArgs = {inherit colors username homeDirectory;};
+        modules = [./profiles/security.nix];
+      };
     };
 
     # nix-darwin configuration (macOS — services + Homebrew + HM macos profile)

@@ -16,14 +16,12 @@ dotfiles/
 ├── nix/
 │   ├── colors.nix             # Global colorscheme attrset
 │   ├── nix.just               # Justfile module for nix commands
-│   ├── shared/
-│   │   └── models.nix         # Opencode model definitions
 │   ├── home/                  # HM modules (one per tool)
 │   └── darwin/                # nix-darwin modules (system, services, brew)
 ├── profiles/                  # Profile composition
-│   ├── base.nix               # Shared base (xdg.configHome fix)
-│   ├── minimal.nix            # Barebones POSIX
+│   ├── minimal.nix            # Barebones POSIX (base inlined)
 │   ├── default.nix            # Dev workstation
+│   ├── security.nix           # Security/forensics toolkit
 │   └── macos.nix              # macOS desktop
 ├── configs/                   # Raw source config files (per tool)
 └── docs/                      # Documentation
@@ -31,11 +29,12 @@ dotfiles/
 
 ## Profiles
 
-| Profile   | Target                           | Deployment                                  |
-| --------- | -------------------------------- | ------------------------------------------- |
-| `minimal` | SSH servers, containers, rescue  | `home-manager switch --flake .#scc-minimal` |
-| `default` | Dev workstation (Linux or macOS) | `home-manager switch --flake .#scc-default` |
-| `macos`   | macOS desktop (full system)      | `darwin-rebuild switch --flake .#scc-mac`   |
+| Profile    | Target                           | Deployment                                   |
+| ---------- | -------------------------------- | -------------------------------------------- |
+| `minimal`  | SSH servers, containers, rescue  | `home-manager switch --flake .#scc-minimal`  |
+| `default`  | Dev workstation (Linux or macOS) | `home-manager switch --flake .#scc-default`  |
+| `security` | Security/forensics toolkit       | `home-manager switch --flake .#scc-security` |
+| `macos`    | macOS desktop (full system)      | `darwin-rebuild switch --flake .#scc-mac`    |
 
 ## Deploy Commands
 

@@ -58,4 +58,3 @@ Grant Karabiner input monitoring permission on first launch:
 
 - [Dotfiles Management](./dotfiles-nix.md) - Deploy commands, config editing, rollback
 - [Colorscheme](./colorscheme.md) - Color palette reference
-- [Nix Migration Reference](../nix-migration.md) - Full architecture details

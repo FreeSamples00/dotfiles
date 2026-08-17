@@ -44,7 +44,6 @@ repos:
     hooks:
       - id: prettier
         types_or: [yaml, json, markdown]
-        exclude: ^.*\.pkd/
 
   - repo: https://github.com/ComPWA/taplo-pre-commit
     rev: v0.9.3

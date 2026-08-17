@@ -1,5 +1,6 @@
 # nix-darwin Homebrew configuration
-# Full Brewfile migration — declares all casks and formulae
+# Declares casks and formulae that cannot be managed by Nix
+# (GUI apps, tapped formulae, tools not in nixpkgs or broken on darwin)
 # cleanup = "none" means manual brew installs are not removed
 {...}: {
   homebrew = {
@@ -13,17 +14,12 @@
 
     # ---- Taps ----
     taps = [
-      "barutsrb/tap"
       "domcyrus/rustnet"
       "felixkratz/formulae"
-      "homebrew-zathura/zathura"
       "homebrew/bundle"
-      "jackielii/tap"
       "nikitabobko/tap"
-      "oven-sh/bun"
       "philocalyst/tap"
       "protonpass/tap"
-      "scarvalhojr/tap"
     ];
 
     # ---- Casks (GUI apps) ----
@@ -35,9 +31,6 @@
       "caffeine"
       "discord"
       "docker-desktop"
-      "font-jetbrains-mono-nerd-font"
-      "font-sketchybar-app-font"
-      "font-space-mono-nerd-font"
       "ghostty"
       "helium-browser"
       "karabiner-elements"
@@ -56,56 +49,32 @@
       "zen"
     ];
 
-    # ---- Formulae (CLI tools NOT managed by Nix) ----
-    # These are tools that are either not in nixpkgs, have complex deps,
-    # or are security/forensics tools that don't belong in HM profiles.
+    # ---- Formulae (CLI tools NOT in nixpkgs or broken on darwin) ----
     brews = [
-      # Service-related (felixkratz tap)
+      # Service-related (felixkratz tap — not in nixpkgs)
       "felixkratz/formulae/sketchybar"
       "felixkratz/formulae/borders"
 
-      # General tools
-      "gh"
-      "hugo"
-      "mpv"
-      "poppler"
-      "pv"
-      "pygments"
-      "jc"
-      "exif"
-      "catimg"
-      "lolcat"
-
-      # Network tools
-      "openssh"
+      # Network tools (not in nixpkgs or macOS-specific issues)
       "telnet"
       "whois"
       "wireshark"
-      "nmap"
 
-      # Security/forensics tools
-      "aircrack-ng"
+      # Security/forensics tools (not in nixpkgs or broken on darwin)
       "hashcat"
       "ghidra"
-      "john-jumbo"
       "ophcrack"
-      "noseyparker"
-      "trufflehog"
       "binwalk"
-      "p7zip"
-      "binutils"
 
       # Libraries/build tools
       "libxcrypt"
-      "llvm"
-      "imagemagick"
+      "binutils"
       "isync"
 
-      # Other
-      "transmission-cli"
-      "pipx"
+      # Other (fails to build on darwin)
+      "poppler"
 
-      # Tapped formulae
+      # Tapped formulae (not in nixpkgs)
       "domcyrus/rustnet/rustnet"
       "philocalyst/tap/caligula"
       "protonpass/tap/pass-cli"
