@@ -20,19 +20,18 @@
     username = "scc";
     homeDirectory = "/Users/${username}";
     colors = import ./nix/colors.nix;
-    models = import ./nix/shared/models.nix;
   in {
     # Standalone Home Manager profiles (for non-macOS or quick HM-only updates)
     homeConfigurations = {
       "${username}-minimal" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = {inherit colors models username homeDirectory;};
+        extraSpecialArgs = {inherit colors username homeDirectory;};
         modules = [./profiles/minimal.nix];
       };
 
       "${username}-default" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = {inherit colors models username homeDirectory;};
+        extraSpecialArgs = {inherit colors username homeDirectory;};
         modules = [./profiles/default.nix];
       };
     };
@@ -49,7 +48,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = {inherit colors models username homeDirectory;};
+          home-manager.extraSpecialArgs = {inherit colors username homeDirectory;};
           home-manager.users.${username} = {pkgs, ...}: {
             imports = [./profiles/macos.nix];
             home = {
