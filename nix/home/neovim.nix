@@ -15,7 +15,7 @@
 
   # Filter out the generated palette.lua from the source tree
   nvimSource = lib.cleanSourceWith {
-    src = ../../neovim.pkd/.config/nvim;
+    src = ../../configs/neovim;
     filter = path: _type:
       !(lib.hasSuffix "/lua/colorscheme/palette.lua" path);
   };

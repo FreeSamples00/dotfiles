@@ -1,5 +1,5 @@
 # Home Manager module: Starship prompt
-# Translates starship.pkd/.config/starship.toml into programs.starship settings
+# Translates starship config into programs.starship settings
 # Palette colors injected from nix/colors.nix (accent.bright.*, structural.*, derived.*)
 {
   config,

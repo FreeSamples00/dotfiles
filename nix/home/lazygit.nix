@@ -1,5 +1,5 @@
 # Home Manager module: Lazygit config
-# Translates lazygit.pkd/.config/lazygit/config.yml into programs.lazygit settings
+# Translates lazygit config into programs.lazygit settings
 # Theme colors injected from nix/colors.nix (accent.normal.*, structural.*)
 {
   config,

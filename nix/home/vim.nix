@@ -5,8 +5,8 @@
 
 {
   # .vimrc
-  home.file.".vimrc".source = ../../vim.pkd/dot-vimrc;
+  home.file.".vimrc".source = ../../configs/vim/vimrc;
 
   # Colorscheme
-  home.file.".vim/colors".source = ../../vim.pkd/.vim/colors;
+  home.file.".vim/colors".source = ../../configs/vim/colors;
 }

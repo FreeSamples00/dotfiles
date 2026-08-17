@@ -5,11 +5,11 @@
 
 {
   # bat config + custom theme
-  xdg.configFile."bat/config".source = ../../pager.pkd/.config/bat/config;
-  xdg.configFile."bat/themes/colorscheme.tmTheme".source = ../../pager.pkd/.config/bat/themes/colorscheme.tmTheme;
+  xdg.configFile."bat/config".source = ../../configs/bat/config;
+  xdg.configFile."bat/themes/colorscheme.tmTheme".source = ../../configs/bat/themes/colorscheme.tmTheme;
 
   # lesskey config
-  xdg.configFile."lesskey".source = ../../pager.pkd/.config/lesskey;
+  xdg.configFile."lesskey".source = ../../configs/bat/lesskey;
 
   # Build bat cache after deployment so the custom theme is available
   home.activation.buildBatCache = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

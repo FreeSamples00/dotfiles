@@ -12,7 +12,7 @@ let
 
   # Filter out the generated theme file from source tree
   btopSource = lib.cleanSourceWith {
-    src = ../../btop.pkd/.config/btop;
+    src = ../../configs/btop;
     filter = path: _type:
       !(lib.hasSuffix "/themes/catppuccin.theme" path);
   };

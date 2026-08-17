@@ -1,30 +1,61 @@
 # Setup
 
-## Homebrew
+## Nix (Determinate Nix installer)
 
-To install [Homebrew](https://brew.sh/) packages:
-
-1. Install brew (linux or macos): `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
-2. Install brew packages: `brew bundle --file=~/dotfiles/data/Brewfile`
-
-## Touch ID Sudo
-
-To enable touch ID for _sudo_, run:
+Install Nix using the [Determinate Nix installer](https://github.com/DeterminateSystems/nix-installer):
 
 ```bash
-sed "s/^#auth/auth/" /etc/pam.d/sudo_local.template | sudo tee /etc/pam.d/sudo_local
+curl --proto '=https' --tlsv1.2 -sSf -L \
+  https://install.determinate.systems/nix | sh -s -- install
 ```
 
-## Nushell
+This installs Nix with flakes enabled and adds `~/.nix-profile/bin` to PATH via `/etc/paths.d/nix`.
 
-To set nushell as a login shell a custom script is needed to properly set the `XDG_CONFIG_HOME` environment variable, allowing nushell to access configs in `~/.config/nushell`
+## nix-darwin
 
-1. Create a symlink: `sudo ln -s /Users/scc/dotfiles/nushell.pkd/nushell-launcher.sh /usr/local/bin/nushell`
-2. Add this script to allowed shells:
-   a. `sudo vim /etc/shells`
-   b. add `/usr/local/bin/nushell` to the end of the list
-3. Change the shell: `chsh -s /usr/local/bin/nushell`
+Install `darwin-rebuild` (bootstrap tool, not declared in the flake):
+
+```bash
+nix profile install nix-darwin
+```
+
+## Deploy
+
+```bash
+# Build first to verify everything compiles
+just nix build mac
+
+# Deploy the full system (services + casks + dotfiles)
+just nix deploy mac
+```
+
+This activates:
+
+- macOS system defaults (dark mode, dock settings, finder, trackpad, screenshots)
+- Touch ID for sudo
+- Nushell as login shell (via `~/.local/bin/nushell` launcher)
+- launchd services (sketchybar, aerospace, jankyborders, obsidian)
+- Homebrew casks and formulae
+- All dotfiles via Home Manager
+
+## Post-Deploy
+
+### Sketchybar Full Disk Access
+
+Sketchybar's getfocus plugin requires Full Disk Access to read `~/Library/DoNotDisturb/DB/Assertions.json`:
+
+1. System Settings > Privacy & Security > Full Disk Access
+2. Add `sketchybar` (at `/opt/homebrew/bin/sketchybar`)
+
+### Karabiner-Elements
+
+Grant Karabiner input monitoring permission on first launch:
+
+1. System Settings > Privacy & Security > Input Monitoring
+2. Enable Karabiner-Elements
 
 ## Next Steps
 
-After completing initial setup, see [Dotfiles Management](./dotfiles-stow.md) to install your configuration files.
+- [Dotfiles Management](./dotfiles-nix.md) - Deploy commands, config editing, rollback
+- [Colorscheme](./colorscheme.md) - Color palette reference
+- [Nix Migration Reference](../nix-migration.md) - Full architecture details

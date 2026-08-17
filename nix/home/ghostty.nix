@@ -109,10 +109,10 @@ in {
 
   # Raw source: shaders
   xdg.configFile."ghostty/shaders" = {
-    source = ../../ghostty.pkd/.config/ghostty/shaders;
+    source = ../../configs/ghostty/shaders;
     recursive = true;
   };
 
   # Raw source: app icon
-  xdg.configFile."ghostty/Ghostty.icns".source = ../../ghostty.pkd/.config/ghostty/Ghostty.icns;
+  xdg.configFile."ghostty/Ghostty.icns".source = ../../configs/ghostty/Ghostty.icns;
 }

@@ -5,7 +5,7 @@
 
 {
   xdg.configFile."karabiner" = {
-    source = ../../karabiner.pkd/.config/karabiner;
+    source = ../../configs/karabiner;
     recursive = true;
   };
 }

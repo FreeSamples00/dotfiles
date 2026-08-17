@@ -5,5 +5,5 @@
 
 {
   # AeroSpace config lives at ~/.aerospace.toml (not XDG)
-  home.file.".aerospace.toml".source = ../../aerospace.pkd/dot-aerospace.toml;
+  home.file.".aerospace.toml".source = ../../configs/aerospace/aerospace.toml;
 }

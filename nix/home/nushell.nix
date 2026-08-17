@@ -14,7 +14,7 @@ let
 
   # Filter out the generated colors.nu from the source tree
   nushellSource = lib.cleanSourceWith {
-    src = ../../nushell.pkd/.config/nushell;
+    src = ../../configs/nushell;
     filter = path: _type:
       !(lib.hasSuffix "/confs/colors.nu" path);
   };

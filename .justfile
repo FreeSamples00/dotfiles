@@ -7,8 +7,8 @@ mod nix 'nix/nix.just'
 
 # Neovim configuration tasks
 [group: 'tools']
-mod nvim 'neovim.pkd/.config/nvim/.nvim.just'
+mod nvim 'configs/neovim/.nvim.just'
 
 # Sketchybar configuration tasks
 [group: 'tools']
-mod skbar 'sketchybar.pkd/.config/sketchybar/.sketchybar.just'
+mod skbar 'configs/sketchybar/.sketchybar.just'

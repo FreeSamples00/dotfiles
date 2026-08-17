@@ -5,7 +5,7 @@
 
 {
   xdg.configFile."zellij" = {
-    source = ../../zellij.pkd/.config/zellij;
+    source = ../../configs/zellij;
     recursive = true;
   };
 }

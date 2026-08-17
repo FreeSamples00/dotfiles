@@ -1,6 +1,6 @@
 ## Messy stuff
 *.bak
-.DS_Store
+**/.DS_Store
 
 ## large / unneeded tool files
 **/update-notifier-*

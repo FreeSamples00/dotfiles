@@ -133,17 +133,17 @@ Home Manager errors when deploying a recursive directory AND a specific file wit
 
 ## Config Edits Made to Source Files
 
-| File                                            | Edit                                                                                                             |
-| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `neovim.pkd/.../lua/plugins/theme.lua`          | Added `require("colorscheme.palette")`, replaced hex in `color_overrides.mocha`                                  |
-| `neovim.pkd/.../lua/plugins/ui/lualine.lua`     | Added `require("colorscheme.palette")`, replaced 2 hex values                                                    |
-| `nushell.pkd/.config/nushell/confs/theme.nu`    | Replaced `let theme` + `let scheme` blocks with `source colors.nu`                                               |
-| `nushell.pkd/.config/nushell/env.nu`            | Removed starship/zoxide/carapace init, `$env.dependencies`, `mkdir`. Added PATH setup + shell tool init blocks.  |
-| `nushell.pkd/.config/nushell/login.nu`          | Removed dependency on external scripts                                                                           |
-| `nushell.pkd/.config/nushell/aggregator.nu`     | Sources cache files for shell tools (starship, zoxide, carapace)                                                 |
-| `zellij.pkd/.config/zellij/layouts/default.kdl` | Fixed `color_base` from `#1E1E1E` to `#1e1e2e`                                                                   |
-| `bash.pkd/dot-bashrc`                           | Removed `git config --global` calls (now managed by HM `programs.git`)                                           |
-| `aerospace.pkd/.aerospace.toml`                 | Removed `after-startup-command` (sketchybar kill/respawn — launchd handles it now). Used `$HOME` trick for btop. |
+| File                                        | Edit                                                                                                             |
+| ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `configs/neovim/lua/plugins/theme.lua`      | Added `require("colorscheme.palette")`, replaced hex in `color_overrides.mocha`                                  |
+| `configs/neovim/lua/plugins/ui/lualine.lua` | Added `require("colorscheme.palette")`, replaced 2 hex values                                                    |
+| `configs/nushell/confs/theme.nu`            | Replaced `let theme` + `let scheme` blocks with `source colors.nu`                                               |
+| `configs/nushell/env.nu`                    | Removed starship/zoxide/carapace init, `$env.dependencies`, `mkdir`. Added PATH setup + shell tool init blocks.  |
+| `configs/nushell/login.nu`                  | Removed dependency on external scripts                                                                           |
+| `configs/nushell/aggregator.nu`             | Sources cache files for shell tools (starship, zoxide, carapace)                                                 |
+| `configs/zellij/layouts/default.kdl`        | Fixed `color_base` from `#1E1E1E` to `#1e1e2e`                                                                   |
+| `configs/bash/bashrc`                       | Removed `git config --global` calls (now managed by HM `programs.git`)                                           |
+| `configs/aerospace/aerospace.toml`          | Removed `after-startup-command` (sketchybar kill/respawn — launchd handles it now). Used `$HOME` trick for btop. |
 
 ## bat Cache
 
@@ -188,27 +188,40 @@ Forced to `~/.config/` in `profiles/base.nix` to prevent Home Manager from deplo
 │   │   ├── nushell.nix                # source-filter + colors.nu + launcher
 │   │   ├── ghostty.nix                # generated config + theme
 │   │   ├── jankyborders.nix           # generated bordersrc
-│   │   ├── aerospace.nix             # raw source
-│   │   ├── karabiner.nix             # raw source
-│   │   ├── opencode.nix              # source-filter + generated jsonc
-│   │   ├── sketchybar.nix            # raw source
-│   │   ├── bat.nix                   # raw source + activation hook
-│   │   ├── btop.nix                  # source-filter + generated theme
-│   │   ├── zellij.nix               # raw source
-│   │   ├── vim.nix                   # raw source
-│   │   └── bash.nix                  # raw source
+│   │   ├── aerospace.nix              # raw source
+│   │   ├── karabiner.nix              # raw source
+│   │   ├── opencode.nix               # source-filter + generated jsonc
+│   │   ├── sketchybar.nix             # raw source
+│   │   ├── bat.nix                    # raw source + activation hook
+│   │   ├── btop.nix                   # source-filter + generated theme
+│   │   ├── zellij.nix                 # raw source
+│   │   ├── vim.nix                    # raw source
+│   │   └── bash.nix                   # raw source
 │   └── darwin/
-│       ├── brew.nix                  # Homebrew casks/formulae/taps
-│       ├── services.nix             # launchd user agents
-│       └── system.nix               # macOS defaults, Touch ID, user shell
+│       ├── brew.nix                   # Homebrew casks/formulae/taps
+│       ├── services.nix               # launchd user agents
+│       └── system.nix                 # macOS defaults, Touch ID, user shell
 ├── profiles/
-│   ├── base.nix                     # shared base (xdg.configHome fix)
-│   ├── minimal.nix                  # minimal profile
-│   ├── default.nix                   # default profile
-│   └── macos.nix                     # macos profile
-├── *.pkd/                           # source config directories
-└── data/
-    └── Brewfile                     # historical reference (now migrated to brew.nix)
+│   ├── base.nix                       # shared base (xdg.configHome fix)
+│   ├── minimal.nix                    # minimal profile
+│   ├── default.nix                    # default profile
+│   └── macos.nix                      # macos profile
+├── configs/                           # raw source config files (per tool)
+│   ├── aerospace/
+│   ├── bash/
+│   ├── bat/
+│   ├── btop/
+│   ├── ghostty/
+│   ├── git/
+│   ├── karabiner/
+│   ├── neovim/
+│   ├── nushell/
+│   ├── opencode/
+│   ├── sketchybar/
+│   ├── vim/
+│   └── zellij/
+├── docs/                              # documentation
+└── misc/                              # wallpapers and themes
 ```
 
 ## Activation

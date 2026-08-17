@@ -10,7 +10,7 @@ in {
   # Deploy entire opencode tree EXCEPT the generated jsonc
   xdg.configFile."opencode" = {
     source = lib.cleanSourceWith {
-      src = ../../llm.pkd/.config/opencode;
+      src = ../../configs/opencode;
       filter = path: _type:
         !(lib.hasSuffix "/opencode.jsonc" path);
     };

@@ -4,6 +4,6 @@
 { ... }:
 
 {
-  home.file.".bashrc".source = ../../bash.pkd/dot-bashrc;
-  home.file.".hushlogin".source = ../../bash.pkd/.hushlogin;
+  home.file.".bashrc".source = ../../configs/bash/bashrc;
+  home.file.".hushlogin".source = ../../configs/bash/hushlogin;
 }

@@ -1,5 +1,5 @@
 # Home Manager module: Git configuration
-# Translates git.pkd/dot-gitconfig into programs.git options
+# Translates git config into programs.git options
 # Delta colors injected from nix/colors.nix (derived.*, accent.normal.*, structural.*)
 {
   config,
@@ -94,7 +94,7 @@ in {
   };
 
   # Deploy .gitignore (not managed by programs.git.ignores since it's a global file)
-  home.file.".gitignore".source = ../../git.pkd/dot-gitignore;
+  home.file.".gitignore".source = ../../configs/git/gitignore;
 
   # Install delta
   home.packages = [pkgs.delta];

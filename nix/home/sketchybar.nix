@@ -6,7 +6,7 @@
 
 {
   xdg.configFile."sketchybar" = {
-    source = ../../sketchybar.pkd/.config/sketchybar;
+    source = ../../configs/sketchybar;
     recursive = true;
   };
 }
