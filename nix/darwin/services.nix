@@ -62,13 +62,20 @@ in {
       };
     };
 
-    # Obsidian — note-taking app, auto-launch at login
+    # Obsidian — note-taking app with background sync
+    # Uses a wrapper that checks if Obsidian is already running before launching.
+    # This prevents the window from popping up during darwin-rebuild switch.
+    # KeepAlive.SuccessfulExit = false: restart on crash (non-zero exit), but not on clean exit (user quit).
     obsidian = {
       serviceConfig = {
         Label = "md.obsidian";
-        ProgramArguments = [ "/Applications/Obsidian.app/Contents/MacOS/Obsidian" ];
+        ProgramArguments = [
+          "/bin/sh"
+          "-c"
+          "pgrep -x Obsidian > /dev/null 2>&1 || exec /Applications/Obsidian.app/Contents/MacOS/Obsidian"
+        ];
         RunAtLoad = true;
-        KeepAlive = false; # don't restart if user quits
+        KeepAlive.SuccessfulExit = false;
         EnvironmentVariables = {
           PATH = servicePath;
           HOME = homeDirectory;
