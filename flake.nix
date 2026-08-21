@@ -15,34 +15,43 @@
     nixpkgs,
     ...
   }: let
-    system = "aarch64-darwin";
+    vars = import ./nix/variables.nix;
+    system = vars.system;
     pkgs = nixpkgs.legacyPackages.${system};
-    username = "scc";
-    homeDirectory = "/Users/${username}";
+    username = vars.username;
+    homeDirectory =
+      if pkgs.stdenv.hostPlatform.isDarwin
+      then "/Users/${username}"
+      else "/home/${username}";
     colors = import ./nix/colors.nix;
+    specialArgs = {
+      inherit colors username homeDirectory;
+      gitName = vars.gitName;
+      gitEmail = vars.gitEmail;
+    };
   in {
     # Standalone Home Manager profiles
     homeConfigurations = {
       "${username}-minimal" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = {inherit colors username homeDirectory;};
+        extraSpecialArgs = specialArgs;
         modules = [./profiles/minimal.nix];
       };
 
       "${username}-default" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = {inherit colors username homeDirectory;};
+        extraSpecialArgs = specialArgs;
         modules = [./profiles/default.nix];
       };
 
       "${username}-security" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = {inherit colors username homeDirectory;};
+        extraSpecialArgs = specialArgs;
         modules = [./profiles/security.nix];
       };
     };
 
-    # nix-darwin configuration
+    # nix-darwin configuration (macOS only — only builds when system is darwin)
     darwinConfigurations."${username}-mac" = nix-darwin.lib.darwinSystem {
       inherit system;
       specialArgs = {inherit username homeDirectory;};
@@ -54,7 +63,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = {inherit colors username homeDirectory;};
+          home-manager.extraSpecialArgs = specialArgs;
           home-manager.users.${username} = {pkgs, ...}: {
             imports = [./profiles/macos.nix];
             home = {

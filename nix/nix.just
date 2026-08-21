@@ -31,7 +31,7 @@ generations profile='default':
 # Update flake inputs
 [group('maintenance')]
 update:
-    nix flake update ..
+    nix flake update --flake ..
 
 # Garbage collect old generations (keep last N days)
 [group('maintenance')]
@@ -46,4 +46,4 @@ eval expr:
 # Check flake for errors
 [group('dev')]
 check:
-    nix flake check ..
+    nix flake check --flake ..

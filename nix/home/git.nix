@@ -1,11 +1,14 @@
 # Home Manager module: Git configuration
 # Translates git config into programs.git options
 # Delta colors injected from nix/colors.nix (derived.*, accent.normal.*, structural.*)
+# Identity (gitName, gitEmail) from nix/variables.nix via specialArgs
 {
   config,
   lib,
   pkgs,
   colors,
+  gitName,
+  gitEmail,
   ...
 }: let
   h = colors.withHash;
@@ -19,8 +22,8 @@ in {
 
     settings = {
       user = {
-        name = "Spencer Christensen";
-        email = "134820811+FreeSamples00@users.noreply.github.com";
+        name = gitName;
+        email = gitEmail;
       };
 
       init.defaultBranch = "main";

@@ -35,12 +35,15 @@ in {
   # Deploy nushell launcher script (sets PATH before exec-ing nu)
   # Referenced by: nix-darwin user shell, ghostty config, aerospace btop shortcut
   home.file.".local/bin/nushell" = {
-    text = ''
-      #!/bin/sh -l
-      export XDG_CONFIG_HOME="$HOME/.config"
-      export PATH="$HOME/.local/state/nix/profiles/home-manager/home-path/bin:$HOME/.nix-profile/bin:/opt/homebrew/bin:$PATH"
-      exec nu --experimental-options='native-clip' "$@"
-    '';
+    text =
+      let
+        brewPath = lib.optionalString pkgs.stdenv.hostPlatform.isDarwin ":/opt/homebrew/bin";
+      in ''
+        #!/bin/sh -l
+        export XDG_CONFIG_HOME="$HOME/.config"
+        export PATH="$HOME/.local/state/nix/profiles/home-manager/home-path/bin:$HOME/.nix-profile/bin${brewPath}:$PATH"
+        exec nu --experimental-options='native-clip' "$@"
+      '';
     executable = true;
   };
 
