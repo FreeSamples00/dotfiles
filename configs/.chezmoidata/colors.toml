@@ -1,7 +1,8 @@
 # Central colorscheme derived from Catppuccin Mocha.
 # All template files reference these values via {{ .colors.* }}
+# The [colors] wrapper ensures chezmoi exposes data as .colors.accent.*, etc.
 
-[accent.dimmed]
+[colors.accent.dimmed]
 coral = "f5e0dc"
 salmon = "f2cdcd"
 pink = "f5c2e7"
@@ -17,7 +18,7 @@ azure = "74c7ec"
 blue = "89b4fa"
 lilac = "b4befe"
 
-[accent.normal]
+[colors.accent.normal]
 coral = "f3b8b0"
 salmon = "f0aaaa"
 pink = "ee9dd4"
@@ -33,7 +34,7 @@ azure = "67c0ea"
 blue = "7aacf9"
 lilac = "a29ffb"
 
-[accent.bright]
+[colors.accent.bright]
 coral = "f09898"
 salmon = "ee8888"
 pink = "e878c0"
@@ -49,7 +50,7 @@ azure = "5ab8e8"
 blue = "6aa4f8"
 lilac = "9080f8"
 
-[structural]
+[colors.structural]
 fg = "cdd6f4"
 "fg-secondary" = "bac2de"
 "fg-muted" = "a6adc8"
@@ -60,17 +61,17 @@ border = "7f849c"
 surface = "45475a"
 "surface-sunken" = "313244"
 
-[background.catppuccin]
+[colors.background.catppuccin]
 base = "1e1e2e"
 mantle = "181825"
 crust = "11111b"
 
-[background.override]
+[colors.background.override]
 base = "1E1E1E"
 mantle = "141414"
 crust = "0A0A0A"
 
-[derived]
+[colors.derived]
 cursor = "CBD6F7"
 "git-branch" = "f06040"
 "git-state" = "f5906a"       # hand-tuned, not from Catppuccin base palette
@@ -91,6 +92,6 @@ cursor = "CBD6F7"
 "focus-sleep" = "14b6a4"
 "focus-reduce" = "db34f2"
 
-[opacity]
+[colors.opacity]
 background = 1
 cursor = 0.85
