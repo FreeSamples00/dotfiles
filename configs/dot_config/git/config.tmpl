@@ -1,0 +1,63 @@
+[user]
+    name = {{ .gitName }}
+    email = {{ .gitEmail }}
+
+[init]
+    defaultBranch = main
+
+[core]
+    excludesfile = ~/.gitignore
+    pager = delta -s
+    editor = nvim
+
+[pull]
+    rebase = false
+
+[color]
+    ui = auto
+    status = auto
+    diff = auto
+    branch = auto
+
+[merge]
+    tool = nvim
+    conflictStyle = zdiff3
+
+[mergetool]
+    keepBackup = false
+    prompt = false
+
+[mergetool "nvim"]
+    cmd = "MERGED=\"$MERGED\" nvim -d -c \"wincmd l\" -c \"norm! ]c\" \"$LOCAL\" \"$MERGED\" \"$REMOTE\""
+
+[delta]
+    line-numbers = true
+    navigate = true
+    hyperlinks = true
+    paging = auto
+    dark = true
+    word-diff = true
+    true-color = always
+    width = variable
+    syntax-theme = Catppuccin Mocha
+    minus-style = "syntax #{{ index .colors.derived "diff-minus" }}"
+    minus-emph-style = "syntax #{{ index .colors.derived "diff-minus-emph" }}"
+    plus-style = "syntax #{{ index .colors.derived "diff-plus" }}"
+    plus-emph-style = "syntax #{{ index .colors.derived "diff-plus-emph" }}"
+    zero-style = "syntax"
+    line-numbers-minus-style = #{{ .colors.accent.normal.red }}
+    line-numbers-plus-style = #{{ .colors.accent.normal.green }}
+    line-numbers-zero-style = #{{ .colors.structural.border }}
+    commit-style = "#{{ .colors.accent.normal.orange }} bold"
+    commit-decoration-style = "#{{ .colors.structural.surface }} ol"
+    file-style = #{{ index .colors.derived "diff-file" }}
+    file-decoration-style = ""
+    hunk-header-style = "#{{ index .colors.derived "diff-hunk" }} bold"
+    hunk-header-decoration-style = ""
+    hunk-header-file-style = #{{ index .colors.derived "diff-file" }}
+    hunk-header-line-number-style = #{{ index .colors.derived "diff-hunk" }}
+    inline-hint-style = #{{ index .colors.derived "diff-hint" }}
+    blame-palette = "{{ index .colors.derived "diff-blame-1" }} {{ index .colors.derived "diff-blame-2" }} {{ index .colors.derived "diff-blame-3" }} {{ index .colors.derived "diff-blame-4" }} {{ index .colors.derived "diff-blame-5" }}"
+    blame-code-style = "syntax"
+    blame-separator-style = #{{ index .colors.derived "diff-separator" }}
+    blame-separator-format = "{n:^4} │"

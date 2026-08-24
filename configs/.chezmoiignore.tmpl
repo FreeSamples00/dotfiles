@@ -1,0 +1,9 @@
+{{ if not (eq .chezmoi.os "darwin") }}
+dot_aerospace.toml
+dot_config/karabiner/
+dot_config/sketchybar/
+dot_config/borders/
+{{ end }}
+
+# Always ignore: machine-specific backups, not configs
+dot_config/karabiner/automatic_backups/

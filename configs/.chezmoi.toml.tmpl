@@ -1,0 +1,8 @@
+{{- $username := promptString "username" -}}
+{{- $gitName := promptString "gitName" "Spencer Christensen" -}}
+{{- $gitEmail := promptString "gitEmail" "134820811+FreeSamples00@users.noreply.github.com" -}}
+
+[data]
+    username = {{ $username | quote }}
+    gitName = {{ $gitName | quote }}
+    gitEmail = {{ $gitEmail | quote }}

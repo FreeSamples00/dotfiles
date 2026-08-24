@@ -1,22 +1,22 @@
 # === Nix Commands ===
 
 _default:
-    @just --unsorted --list nix
+    @just --unsorted --list pack
 
 # Dry-build: list build results
 [group('build')]
 dry profile='default':
-    {{ if profile == 'mac' { 'nix build "../#darwinConfigurations.scc-mac.system" --dry-run --no-link' } else { 'nix build "../#homeConfigurations.scc-' + profile + '.activationPackage" --dry-run --no-link' } }}
+    {{ if profile == 'mac' { 'nix build "./#darwinConfigurations.scc-mac.system" --dry-run --no-link' } else { 'nix build "./#homeConfigurations.scc-' + profile + '.activationPackage" --dry-run --no-link' } }}
 
 # Build: build, no switch
 [group('build')]
 build profile='default':
-    {{ if profile == 'mac' { 'sudo darwin-rebuild build --flake "../#scc-mac"' } else { 'home-manager build --flake "../#scc-{{ profile }}"' } }}
+    {{ if profile == 'mac' { 'sudo darwin-rebuild build --flake "./#scc-mac"' } else { 'home-manager build --flake "./#scc-{{ profile }}"' } }}
 
 # Deploy: build and switch
 [group('deploy')]
 deploy profile='default':
-    {{ if profile == 'mac' { 'sudo darwin-rebuild switch --flake "../#scc-mac"' } else { 'home-manager switch --flake "../#scc-{{ profile }}" -b backup' } }}
+    {{ if profile == 'mac' { 'sudo darwin-rebuild switch --flake "./#scc-mac"' } else { 'home-manager switch --flake "./#scc-{{ profile }}" -b backup' } }}
 
 # Rollback to previous generation
 [group('deploy')]
@@ -31,7 +31,7 @@ generations profile='default':
 # Update flake inputs
 [group('maintenance')]
 update:
-    nix flake update --flake ..
+    nix flake update .
 
 # Garbage collect old generations (keep last N days)
 [group('maintenance')]
@@ -46,4 +46,4 @@ eval expr:
 # Check flake for errors
 [group('dev')]
 check:
-    nix flake check --flake ..
+    nix flake check .

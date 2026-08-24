@@ -1,14 +1,22 @@
 _default:
     @just --unsorted --list
 
-# Nix commands (deploy, build, rollback, etc.)
-[group('nix')]
-mod nix 'nix/nix.just'
+# Dotfiles: deploy configs via chezmoi
+[group('dot')]
+mod dot 'dot.just'
+
+# Packages: Nix commands (deploy, build, rollback, etc.)
+[group('pack')]
+mod pack 'nix/nix.just'
+
+# Brew: fallback package installation
+[group('pack')]
+mod brew 'brew.just'
 
 # Neovim configuration tasks
 [group: 'tools']
-mod nvim 'configs/neovim/.nvim.just'
+mod nvim 'configs/dot_config/nvim/.nvim.just'
 
 # Sketchybar configuration tasks
 [group: 'tools']
-mod skbar 'configs/sketchybar/.sketchybar.just'
+mod skbar 'configs/dot_config/sketchybar/.sketchybar.just'

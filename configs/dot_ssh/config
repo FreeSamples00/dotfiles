@@ -1,0 +1,4 @@
+Host *
+  SendEnv COLORTERM
+  IdentityFile ~/.ssh/keys/yubikey_ssh
+  IdentityAgent none
