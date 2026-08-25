@@ -24,7 +24,7 @@ disabled = false
 truncation_length = 1
 truncation_symbol = ""
 style = "dir_color"
-format = "[ $path]($style) "
+format = "[ $path]($style) "
 
 [git_branch]
 disabled = false
@@ -81,14 +81,14 @@ format = "[─](spacer_color) [$symbol $name \\[$state\\]](nix_color) "
 [memory_usage]
 disabled = false
 threshold = 70
-symbol = ""
+symbol = ""
 style = "memory_color"
 format = "[$symbol $ram_pct]($style) [─](spacer_color) "
 
 [status]
 disabled = false
 style = "red"
-symbol = ""
+symbol = ""
 recognize_signal_code = false
 format = "[$symbol $status]($style) [─](spacer_color) "
 
@@ -121,3 +121,5 @@ git_unstaged = "#{{ .colors.accent.bright.blue }}"
 git_stashed = "#{{ .colors.accent.bright.purple }}"
 git_conflicted = "#{{ .colors.accent.bright.red }}"
 git_deleted = "#{{ .colors.accent.bright.red }}"
+
+# vim: set filetype=toml :
