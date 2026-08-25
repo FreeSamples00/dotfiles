@@ -3,7 +3,7 @@ _default:
 
 # Apply configs (deploy all dotfiles via chezmoi)
 apply:
-    chezmoi apply --source ~/dotfiles/configs
+    chezmoi apply --source ~/dotfiles/configs --force --keep-going
 
 # Edit chezmoi source files
 edit:
