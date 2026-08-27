@@ -8,6 +8,7 @@
     python3Packages.pygments delta
     nerd-fonts.jetbrains-mono nerd-fonts.space-mono sketchybar-app-font
     glow hyperfine figlet uv pre-commit
+    starship zoxide carapace
   ];
 
   fonts.fontconfig.enable = true;

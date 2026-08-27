@@ -7,5 +7,6 @@
 
   home.packages = with pkgs; [
     vim git bash coreutils curl wget tree less rsync openssh chezmoi
+    nushell
   ];
 }
