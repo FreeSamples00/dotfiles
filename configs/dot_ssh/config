@@ -1,3 +1,5 @@
+Include ~/.ssh/config.local
+
 Host *
   SendEnv COLORTERM
   IdentityFile ~/.ssh/keys/yubikey_ssh
