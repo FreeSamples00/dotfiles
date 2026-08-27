@@ -53,6 +53,17 @@ brew "rustnet"
 brew "caligula"
 brew "pass-cli"
 
+# Shell (from Nix profiles — nushell + shell tools for non-Nix fallback)
+brew "nushell"
+brew "starship"
+brew "zoxide"
+brew "carapace"
+
+# Fonts (Nerd Fonts for terminal icons — from Nix profiles)
+brew "font-jetbrains-mono-nerd-font"
+brew "font-space-mono-nerd-font"
+brew "font-sketchybar-app-font"
+
 # CLI tools (from Nix profiles — for non-Nix fallback)
 brew "vim"
 brew "git"
