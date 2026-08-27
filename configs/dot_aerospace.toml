@@ -126,7 +126,7 @@ cmd-alt-ctrl-c = "exec-and-forget open -a calculator"
 # MESSAGES
 cmd-alt-ctrl-s = "exec-and-forget open -a messages"
 
-# ZEN
+# BROWSER
 cmd-alt-ctrl-w = "exec-and-forget open -na zen"
 
 # MAIL
