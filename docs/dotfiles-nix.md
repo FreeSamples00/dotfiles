@@ -1,114 +1,115 @@
 # Dotfiles Management
 
-Configuration files are managed with [Nix](https://nixos.org/) (nix-darwin + Home Manager). All config deployment, package installation, and service management is declarative.
+Configuration files are deployed with **chezmoi** (Go templates + colorscheme system). Packages are managed with **Nix** (nix-darwin + Home Manager) or **brew** as fallback. Config deployment and package management are fully decoupled.
 
 ## Architecture
 
-- **nix-darwin**: System-level — macOS defaults, Homebrew casks/formulae, launchd services
-- **Home Manager**: User-level — dotfiles, packages, shell config, colorscheme generation
-- **Flake-based**: Single `flake.nix` with multiple profile outputs
+- **chezmoi**: Config deployment only — templates in `configs/` deployed to `~/.config/` and `~/`
+- **Nix (Home Manager)**: Packages only — no config files, no activation hooks. Profiles in `nix/profiles/`
+- **nix-darwin**: macOS system settings, launchd services, brew management. Modules in `nix/darwin/`
+- **Brew (Brewfile)**: Fallback package installation for machines without Nix (e.g., university Linux)
 
 ## Directory Structure
 
 ```
 dotfiles/
-├── flake.nix                  # Flake entry point (nix-darwin + HM)
+├── configs/                    # Chezmoi source dir
+│   ├── .chezmoidata/colors.toml # Active theme (swappable via `just dot theme`)
+│   ├── themes/                  # Theme files (catppuccin-mocha, circadia-dark-classic)
+│   ├── dot_config/              # Tool configs (*.tmpl for templated files)
+│   └── *.tmpl                   # Go templates with color substitution
 ├── nix/
-│   ├── colors.nix             # Global colorscheme attrset
-│   ├── nix.just               # Justfile module for nix commands
-│   ├── home/                  # HM modules (one per tool)
-│   └── darwin/                # nix-darwin modules (system, services, brew)
-├── profiles/                  # Profile composition
-│   ├── minimal.nix            # Barebones POSIX (base inlined)
-│   ├── default.nix            # Dev workstation
-│   ├── security.nix           # Security/forensics toolkit
-│   └── macos.nix              # macOS desktop
-├── configs/                   # Raw source config files (per tool)
-└── docs/                      # Documentation
+│   ├── flake.nix                # Flake entry point (HM profiles + nix-darwin)
+│   ├── variables.nix           # Username + system platform
+│   ├── profiles/               # Package profiles (packages only, no configs)
+│   │   ├── minimal.nix          # Barebones POSIX + nushell
+│   │   ├── default.nix          # Dev workstation
+│   │   ├── security.nix         # Security/forensics toolkit
+│   │   └── macos.nix            # macOS desktop (darwin profile)
+│   ├── darwin/                  # nix-darwin modules (system, services, brew)
+│   └── nix.just                 # Justfile module for Nix commands
+├── data/Brewfile               # Fallback package list
+├── dot.just                    # Chezmoi commands
+├── brew.just                   # Brew commands
+└── docs/                       # Documentation
 ```
 
 ## Profiles
 
-| Profile    | Target                           | Deployment                                   |
-| ---------- | -------------------------------- | -------------------------------------------- |
-| `minimal`  | SSH servers, containers, rescue  | `home-manager switch --flake .#scc-minimal`  |
-| `default`  | Dev workstation (Linux or macOS) | `home-manager switch --flake .#scc-default`  |
-| `security` | Security/forensics toolkit       | `home-manager switch --flake .#scc-security` |
-| `macos`    | macOS desktop (full system)      | `darwin-rebuild switch --flake .#scc-mac`    |
+| Profile    | Target                           | Deployment                  |
+| ---------- | -------------------------------- | --------------------------- |
+| `minimal`  | SSH servers, containers, rescue  | `just pack deploy minimal`  |
+| `default`  | Dev workstation (Linux or macOS) | `just pack deploy default`  |
+| `security` | Security/forensics toolkit       | `just pack deploy security` |
+| `macos`    | macOS desktop (full system)      | `just pack deploy mac`      |
 
 ## Deploy Commands
 
-All commands are wrapped with `just`:
+### Configs (chezmoi — works on all platforms)
 
 ```bash
-# Deploy macOS (full system: services + casks + dotfiles)
-just nix deploy mac
-
-# Deploy standalone HM (default profile)
-just nix deploy
-
-# Deploy minimal profile
-just nix deploy minimal
-
-# Dry-run build (no activation)
-just nix build mac
-
-# Rollback to previous generation
-just nix rollback mac
-
-# List generations
-just nix generations mac
-
-# Update flake inputs
-just nix update
-
-# Garbage collect old generations (keep last 5 days)
-just nix gc
+just dot apply          # Deploy configs via chezmoi
+just dot diff           # Show diff between source and applied
+just dot edit           # Open chezmoi source for editing
+just dot update         # Git pull + reapply
+just dot theme <name>   # Switch colorscheme theme
 ```
 
-## Config Deployment Methods
+### Packages (Nix)
 
-Each tool's config is deployed via one of three methods, defined in its HM module (`nix/home/<tool>.nix`):
+```bash
+# Deploy macOS (full system: packages + system settings + services)
+just pack deploy mac
 
-| Method              | How it works                                                                       | Examples                                                               |
-| ------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| **Full Nix module** | Config generated entirely from Nix attrsets                                        | `git`, `starship`, `lazygit`                                           |
-| **Source-filter**   | Raw source files deployed, with generated files excluded via `lib.cleanSourceWith` | `neovim`, `nushell`, `btop`, `opencode`                                |
-| **Raw source**      | Entire config directory deployed as-is                                             | `aerospace`, `bash`, `sketchybar`, `karabiner`, `vim`, `zellij`, `bat` |
+# Deploy standalone HM profile
+just pack deploy default
+just pack deploy minimal
 
-## Colorscheme Generation
+# Dry-run build
+just pack dry mac
 
-All theme colors come from `nix/colors.nix`. The HM modules generate per-tool theme files:
+# Rollback
+just pack rollback mac
 
-- neovim: `nvim/lua/colorscheme/palette.lua`
-- nushell: `nushell/confs/colors.nu`
-- btop: `btop/themes/catppuccin.theme`
-- ghostty: `ghostty/config` + `ghostty/themes/colorscheme-normal`
-- jankyborders: `borders/bordersrc`
-- git, starship, lazygit: colors injected directly into module settings
+# List generations
+just pack generations
 
-See [colorscheme.md](./colorscheme.md) for the full palette reference.
+# Update flake inputs
+just pack update
+
+# Garbage collect (keep last 5 days)
+just pack gc
+```
+
+### Packages (Brew fallback — for non-Nix machines)
+
+```bash
+just brew install       # Install from Brewfile
+just brew update        # Update brew packages
+just brew list          # List installed packages
+```
+
+## Colorscheme System
+
+Theme colors come from `configs/.chezmoidata/colors.toml` (the active theme). Chezmoi templates reference `.colors.*` tokens. Switching themes swaps this file and re-applies:
+
+```bash
+just dot theme catppuccin-mocha
+just dot theme circadia-dark-classic
+```
+
+Theme files live in `configs/themes/`. See [colorscheme.md](./colorscheme.md) for the full token reference.
 
 ## Editing Configs
 
-Raw source configs live in `configs/<tool>/`. After editing:
+Configs live in `configs/dot_config/<tool>/`. Template files use `.tmpl` extension with Go template syntax. After editing:
 
 ```bash
-# Rebuild and activate
-just nix deploy mac
-
-# Or just build first to check for errors
-just nix build mac
+just dot apply    # Re-deploy
 ```
 
-For Nix-ified tools (git, starship, lazygit), edit the HM module in `nix/home/<tool>.nix` directly.
-
-## Rollback
+For Nix packages, edit `nix/profiles/<profile>.nix` and redeploy:
 
 ```bash
-# nix-darwin
-just nix rollback mac
-
-# Home Manager (standalone)
-just nix rollback
+just pack deploy <profile>
 ```

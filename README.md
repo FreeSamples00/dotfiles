@@ -1,46 +1,75 @@
 # My Configuration
 
-Personal dotfiles and system configuration managed with Nix (nix-darwin + Home Manager).
+Personal dotfiles using a decoupled architecture: **chezmoi** for config deployment with colorscheme templating, **Nix** (nix-darwin + Home Manager) for packages and macOS system settings, and **brew** as a fallback for machines without Nix.
 
 ## File Structure
 
 ```
 dotfiles/
-├── flake.nix                  # Flake entry point (nix-darwin + HM)
-├── nix/                       # Nix configuration logic
-│   ├── colors.nix             # Global colorscheme attrset
-│   ├── nix.just               # Justfile module for nix commands
-│   ├── shared/                # Shared Nix data (model definitions)
-│   ├── home/                  # Home Manager modules (one per tool)
-│   └── darwin/                # nix-darwin modules (system, services, brew)
-├── profiles/                  # Profile composition (minimal, default, macos)
-├── configs/                   # Raw source config files (per tool)
-├── docs/                      # Documentation
-└── misc/                      # Wallpapers and themes
+├── configs/                # Chezmoi source dir (config files + templates)
+│   ├── .chezmoidata/       # Static data (colors.toml — active theme)
+│   ├── themes/             # Theme files (catppuccin-mocha, circadia-dark-classic)
+│   ├── dot_config/         # Tool configs (nvim, nushell, ghostty, git, etc.)
+│   └── *.tmpl             # Go templates with color/theme substitution
+├── nix/                    # Nix flake + profiles (packages only)
+│   ├── flake.nix           # Flake entry point (HM + nix-darwin)
+│   ├── variables.nix       # Username + system platform
+│   ├── profiles/           # Package profiles (minimal, default, security, macos)
+│   ├── darwin/             # nix-darwin modules (system, services, brew)
+│   └── nix.just            # Justfile module for Nix commands
+├── data/
+│   └── Brewfile            # Fallback package list for non-Nix machines
+├── docs/                   # Documentation
+└── misc/                   # Wallpapers and visual assets
 ```
 
-- `nix/` — Nix modules that define how configs are generated and deployed
-- `profiles/` — Controls what gets installed on each machine type
-- `configs/` — Raw config files deployed to `~/.config/` by Home Manager
-- `docs/` — Setup guides and reference documentation
-- `misc/` — Visual assets (wallpapers, third-party themes)
+- `configs/` — Config files deployed to `~/.config/` by chezmoi (not Nix)
+- `nix/profiles/` — Package lists for each machine type (no config deployment)
+- `nix/darwin/` — macOS system settings, launchd services, brew management
+- `data/Brewfile` — Install packages via brew when Nix is unavailable
 
 ## Quick Start
 
-```bash
-# Deploy macOS (full system)
-just nix deploy mac
+### macOS (Nix)
 
-# Edit a config, then redeploy
-just nix deploy mac
+```bash
+# Deploy full macOS system (packages + system settings + configs)
+just pack deploy mac    # Nix packages + system settings
+just dot apply          # Chezmoi configs
 ```
+
+### Linux with Nix
+
+```bash
+# Deploy packages via Home Manager
+just pack deploy default
+just dot apply
+```
+
+### Linux without Nix (e.g., university machine)
+
+```bash
+# Install packages via Linuxbrew
+just brew install
+# Deploy configs via chezmoi
+just dot apply
+```
+
+## Commands
+
+| Command                      | Description                      |
+| ---------------------------- | -------------------------------- |
+| `just dot apply`             | Deploy configs via chezmoi       |
+| `just dot theme <name>`      | Switch colorscheme theme         |
+| `just pack deploy mac`       | Deploy macOS system via Nix      |
+| `just pack deploy <profile>` | Deploy packages via Home Manager |
+| `just brew install`          | Install packages from Brewfile   |
 
 ## Documentation
 
-- [Setup](./docs/setup.md) - Initial installation (Nix, nix-darwin, first deploy)
+- [Setup](./docs/setup.md) - Initial installation
+- [Colorscheme](./docs/colorscheme.md) - Color palette reference and theme switching
 - [Dotfiles Management](./docs/dotfiles-nix.md) - Deploy commands, editing, rollback
-- [Colorscheme](./docs/colorscheme.md) - Color palette reference
-- [Nix Migration Reference](./nix-migration.md) - Full architecture details
-- [Cronjobs](./docs/cronjobs.md) - Scheduled tasks
+- [Migration to Chezmoi](./docs/migration-to-chezmoi.md) - Architecture details
 - [Yubikey](./docs/yubikey.md) - Yubikey setup and SSH usage
 - [TDF](./docs/pdf-viewer.md) - TUI pdf viewer
