@@ -20,3 +20,8 @@ update:
 # Initialize chezmoi on a new machine
 init:
     chezmoi init --source ~/dotfiles/configs
+
+# Switch colorscheme theme (e.g., just dot theme catppuccin-mocha)
+theme name:
+    cp ~/dotfiles/configs/themes/{{name}}.toml ~/dotfiles/configs/.chezmoidata/colors.toml
+    just dot apply

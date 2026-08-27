@@ -4,73 +4,96 @@
 
 local M = {}
 
-M.accent = {
-  dimmed = {
-    coral    = "#{{ .colors.accent.dimmed.coral }}",
-    salmon   = "#{{ .colors.accent.dimmed.salmon }}",
-    pink     = "#{{ .colors.accent.dimmed.pink }}",
-    purple   = "#{{ .colors.accent.dimmed.purple }}",
-    red      = "#{{ .colors.accent.dimmed.red }}",
-    ["red-soft"] = "#{{ index .colors.accent.dimmed "red-soft" }}",
-    orange   = "#{{ .colors.accent.dimmed.orange }}",
-    yellow   = "#{{ .colors.accent.dimmed.yellow }}",
-    green    = "#{{ .colors.accent.dimmed.green }}",
-    teal     = "#{{ .colors.accent.dimmed.teal }}",
-    cyan     = "#{{ .colors.accent.dimmed.cyan }}",
-    azure    = "#{{ .colors.accent.dimmed.azure }}",
-    blue     = "#{{ .colors.accent.dimmed.blue }}",
-    lilac    = "#{{ .colors.accent.dimmed.lilac }}",
-  },
-  normal = {
-    coral    = "#{{ .colors.accent.normal.coral }}",
-    salmon   = "#{{ .colors.accent.normal.salmon }}",
-    pink     = "#{{ .colors.accent.normal.pink }}",
-    purple   = "#{{ .colors.accent.normal.purple }}",
-    red      = "#{{ .colors.accent.normal.red }}",
-    ["red-soft"] = "#{{ index .colors.accent.normal "red-soft" }}",
-    orange   = "#{{ .colors.accent.normal.orange }}",
-    yellow   = "#{{ .colors.accent.normal.yellow }}",
-    green    = "#{{ .colors.accent.normal.green }}",
-    teal     = "#{{ .colors.accent.normal.teal }}",
-    cyan     = "#{{ .colors.accent.normal.cyan }}",
-    azure    = "#{{ .colors.accent.normal.azure }}",
-    blue     = "#{{ .colors.accent.normal.blue }}",
-    lilac    = "#{{ .colors.accent.normal.lilac }}",
-  },
-  bright = {
-    coral    = "#{{ .colors.accent.bright.coral }}",
-    salmon   = "#{{ .colors.accent.bright.salmon }}",
-    pink     = "#{{ .colors.accent.bright.pink }}",
-    purple   = "#{{ .colors.accent.bright.purple }}",
-    red      = "#{{ .colors.accent.bright.red }}",
-    ["red-soft"] = "#{{ index .colors.accent.bright "red-soft" }}",
-    orange   = "#{{ .colors.accent.bright.orange }}",
-    yellow   = "#{{ .colors.accent.bright.yellow }}",
-    green    = "#{{ .colors.accent.bright.green }}",
-    teal     = "#{{ .colors.accent.bright.teal }}",
-    cyan     = "#{{ .colors.accent.bright.cyan }}",
-    azure    = "#{{ .colors.accent.bright.azure }}",
-    blue     = "#{{ .colors.accent.bright.blue }}",
-    lilac    = "#{{ .colors.accent.bright.lilac }}",
-  },
+-- Semantic tokens (for direct use by lualine, etc.)
+M.ui = {
+  bg = "#{{ .colors.ui.bg }}",
+  bg_alt = "#{{ .colors.ui.bg_alt }}",
+  bg_deep = "#{{ .colors.ui.bg_deep }}",
+  fg = "#{{ .colors.ui.fg }}",
+  fg_secondary = "#{{ .colors.ui.fg_secondary }}",
+  fg_muted = "#{{ .colors.ui.fg_muted }}",
+  fg_faint = "#{{ .colors.ui.fg_faint }}",
+  border = "#{{ .colors.ui.border }}",
+  border_muted = "#{{ .colors.ui.border_muted }}",
+  surface = "#{{ .colors.ui.surface }}",
+  surface_raised = "#{{ .colors.ui.surface_raised }}",
+  surface_sunken = "#{{ .colors.ui.surface_sunken }}",
+  accent = "#{{ .colors.ui.accent }}",
+  cursor = "#{{ .colors.ui.cursor }}",
 }
 
-M.structural = {
-  fg             = "#{{ .colors.structural.fg }}",
-  ["fg-secondary"]   = "#{{ index .colors.structural "fg-secondary" }}",
-  ["fg-muted"]       = "#{{ index .colors.structural "fg-muted" }}",
-  ["fg-faint"]       = "#{{ index .colors.structural "fg-faint" }}",
-  border         = "#{{ .colors.structural.border }}",
-  ["border-muted"]   = "#{{ index .colors.structural "border-muted" }}",
-  ["surface-raised"] = "#{{ index .colors.structural "surface-raised" }}",
-  surface        = "#{{ .colors.structural.surface }}",
-  ["surface-sunken"] = "#{{ index .colors.structural "surface-sunken" }}",
+M.syntax = {
+  keyword = "#{{ .colors.syntax.keyword }}",
+  type = "#{{ .colors.syntax.type }}",
+  function_name = "#{{ .colors.syntax.function }}",
+  property = "#{{ .colors.syntax.property }}",
+  variable = "#{{ .colors.syntax.variable }}",
+  string = "#{{ .colors.syntax.string }}",
+  number = "#{{ .colors.syntax.number }}",
+  tag = "#{{ .colors.syntax.tag }}",
+  comment = "#{{ .colors.syntax.comment }}",
+  operator = "#{{ .colors.syntax.operator }}",
+  punctuation = "#{{ .colors.syntax.punctuation }}",
+  constant = "#{{ .colors.syntax.constant }}",
 }
 
-M.background = {
-  bg           = "#{{ .colors.background.override.base }}",
-  ["bg-secondary"] = "#{{ .colors.background.override.mantle }}",
-  ["bg-deep"]      = "#{{ .colors.background.override.crust }}",
+M.diagnostic = {
+  error = "#{{ .colors.diagnostic.error }}",
+  warning = "#{{ .colors.diagnostic.warning }}",
+  info = "#{{ .colors.diagnostic.info }}",
+  hint = "#{{ .colors.diagnostic.hint }}",
+}
+
+M.git = {
+  branch = "#{{ .colors.git.branch }}",
+  modified = "#{{ .colors.git.modified }}",
+  untracked = "#{{ .colors.git.untracked }}",
+  staged = "#{{ .colors.git.staged }}",
+  deleted = "#{{ .colors.git.deleted }}",
+}
+
+M.diff = {
+  add_bg = "#{{ .colors.diff.nvim_add_bg }}",
+  change_bg = "#{{ .colors.diff.nvim_change_bg }}",
+  delete_bg = "#{{ .colors.diff.nvim_delete_bg }}",
+  gitsigns_change_bg = "#{{ .colors.diff.gitsigns_change_bg }}",
+  gitsigns_delete_bg = "#{{ .colors.diff.gitsigns_delete_bg }}",
+  gitsigns_delete_virt = "#{{ .colors.diff.gitsigns_delete_virt }}",
+  gitsigns_virt_lnum = "#{{ .colors.diff.gitsigns_virt_lnum }}",
+}
+
+-- Catppuccin compat: maps semantic tokens to catppuccin's 27 internal names.
+-- Used by theme.lua for catppuccin color_overrides.
+M.catppuccin = {
+  -- accents (14)
+  rosewater = "#{{ .colors.palette.coral }}",
+  flamingo  = "#{{ .colors.palette.salmon }}",
+  pink      = "#{{ .colors.palette.pink }}",
+  mauve     = "#{{ .colors.palette.purple }}",
+  red       = "#{{ .colors.palette.red }}",
+  maroon    = "#{{ .colors.palette.red_soft }}",
+  peach     = "#{{ .colors.palette.orange }}",
+  yellow    = "#{{ .colors.palette.yellow }}",
+  green     = "#{{ .colors.palette.green }}",
+  teal      = "#{{ .colors.palette.teal }}",
+  sky       = "#{{ .colors.palette.cyan }}",
+  sapphire  = "#{{ .colors.palette.azure }}",
+  blue      = "#{{ .colors.palette.blue }}",
+  lavender  = "#{{ .colors.palette.lilac }}",
+  -- backgrounds (3)
+  base      = "#{{ .colors.ui.bg }}",
+  mantle    = "#{{ .colors.ui.bg_alt }}",
+  crust     = "#{{ .colors.ui.bg_deep }}",
+  -- text/surfaces (10)
+  text      = "#{{ .colors.ui.fg }}",
+  subtext1  = "#{{ .colors.ui.fg_secondary }}",
+  subtext0  = "#{{ .colors.ui.fg_muted }}",
+  overlay2  = "#{{ .colors.ui.fg_faint }}",
+  overlay1  = "#{{ .colors.ui.border }}",
+  overlay0  = "#{{ .colors.ui.border_muted }}",
+  surface2  = "#{{ .colors.ui.surface_raised }}",
+  surface1  = "#{{ .colors.ui.surface }}",
+  surface0  = "#{{ .colors.ui.surface_sunken }}",
 }
 
 return M

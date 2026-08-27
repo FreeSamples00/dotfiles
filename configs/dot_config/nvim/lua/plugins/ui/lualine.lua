@@ -78,11 +78,11 @@ return {
         lualine_x = {
           {
             macro_indicator,
-            color = { fg = palette.accent.bright.red, bg = nil, gui = "bold" }, -- red-bright
+            color = { fg = palette.diagnostic.error, bg = nil, gui = "bold" }, -- red
           },
           {
             ssh_indicator,
-            color = { fg = palette.accent.bright.yellow, bg = nil, gui = "bold" }, -- yellow-bright
+            color = { fg = palette.diagnostic.warning, bg = nil, gui = "bold" }, -- yellow
           },
           {
             "diagnostics",

@@ -48,37 +48,37 @@ gui:
 
   theme:
     activeBorderColor:
-      - "#{{ .colors.accent.normal.orange }}"
+      - "#{{ .colors.syntax.number }}"
       - bold
     inactiveBorderColor:
-      - "#{{ index .colors.structural "fg-muted" }}"
+      - "#{{ .colors.ui.fg_muted }}"
     optionsTextColor:
-      - "#{{ .colors.accent.normal.blue }}"
+      - "#{{ .colors.syntax.function }}"
     selectedLineBgColor:
-      - "#{{ index .colors.structural "surface-sunken" }}"
+      - "#{{ .colors.ui.surface_sunken }}"
     cherryPickedCommitBgColor:
-      - "#{{ .colors.structural.surface }}"
+      - "#{{ .colors.ui.surface }}"
     cherryPickedCommitFgColor:
-      - "#{{ .colors.accent.normal.orange }}"
+      - "#{{ .colors.syntax.number }}"
     unstagedChangesColor:
-      - "#{{ .colors.accent.normal.red }}"
+      - "#{{ .colors.diagnostic.error }}"
     defaultFgColor:
-      - "#{{ .colors.structural.fg }}"
+      - "#{{ .colors.ui.fg }}"
     searchingActiveBorderColor:
-      - "#{{ .colors.accent.normal.yellow }}"
+      - "#{{ .colors.syntax.type }}"
     inactiveViewSelectedLineBgColor:
-      - "#{{ index .colors.structural "surface-raised" }}"
+      - "#{{ .colors.ui.surface_raised }}"
     markedBaseCommitFgColor:
-      - "#{{ .colors.accent.normal.purple }}"
+      - "#{{ .colors.syntax.keyword }}"
     markedBaseCommitBgColor:
-      - "#{{ .colors.structural.surface }}"
+      - "#{{ .colors.ui.surface }}"
 
   branchColorPatterns:
-    "^(main|master)$": "#{{ .colors.accent.normal.blue }}"
-    "^develop$": "#{{ .colors.accent.normal.teal }}"
-    "^(feat|feature)/": "#{{ .colors.accent.normal.green }}"
-    "^fix/": "#{{ .colors.accent.normal.orange }}"
-    "^(chore|docs|refactor|test|ci)/": "#{{ .colors.accent.normal.purple }}"
+    "^(main|master)$": "#{{ .colors.syntax.function }}"
+    "^develop$": "#{{ .colors.syntax.property }}"
+    "^(feat|feature)/": "#{{ .colors.syntax.string }}"
+    "^fix/": "#{{ .colors.syntax.number }}"
+    "^(chore|docs|refactor|test|ci)/": "#{{ .colors.syntax.keyword }}"
 
   authorColors:
-    "*": "#{{ .colors.accent.normal.lilac }}"
+    "*": "#{{ .colors.palette.lilac }}"

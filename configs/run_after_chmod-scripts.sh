@@ -6,6 +6,7 @@
 chmod +x "$HOME/.local/bin/nushell" 2>/dev/null
 
 # Sketchybar scripts
+chmod +x "$HOME/.config/sketchybar/config.nu" 2>/dev/null
 chmod +x "$HOME/.config/sketchybar/sketchybarrc" 2>/dev/null
 chmod +x "$HOME/.config/sketchybar/items/"*.nu 2>/dev/null
 chmod +x "$HOME/.config/sketchybar/plugins/"*.nu 2>/dev/null

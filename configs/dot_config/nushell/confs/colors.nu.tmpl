@@ -2,31 +2,117 @@
 # Do not edit — changes will be overwritten
 # See docs/colorscheme.md for reference
 
-let theme = {
-    rosewater: "#{{ .colors.accent.normal.coral }}"
-    flamingo: "#{{ .colors.accent.normal.salmon }}"
-    pink: "#{{ .colors.accent.normal.pink }}"
-    mauve: "#{{ .colors.accent.normal.purple }}"
-    red: "#{{ .colors.accent.normal.red }}"
-    maroon: "#{{ index .colors.accent.normal "red-soft" }}"
-    peach: "#{{ .colors.accent.normal.orange }}"
-    yellow: "#{{ .colors.accent.normal.yellow }}"
-    green: "#{{ .colors.accent.normal.green }}"
-    teal: "#{{ .colors.accent.normal.teal }}"
-    sky: "#{{ .colors.accent.normal.cyan }}"
-    sapphire: "#{{ .colors.accent.normal.azure }}"
-    blue: "#{{ .colors.accent.normal.blue }}"
-    lavender: "#{{ .colors.accent.normal.lilac }}"
-    text: "#{{ .colors.structural.fg }}"
-    subtext1: "#{{ index .colors.structural "fg-secondary" }}"
-    subtext0: "#{{ index .colors.structural "fg-muted" }}"
-    overlay2: "#{{ index .colors.structural "fg-faint" }}"
-    overlay1: "#{{ .colors.structural.border }}"
-    overlay0: "#{{ index .colors.structural "border-muted" }}"
-    surface2: "#{{ index .colors.structural "surface-raised" }}"
-    surface1: "#{{ .colors.structural.surface }}"
-    surface0: "#{{ index .colors.structural "surface-sunken" }}"
-    base: "#{{ .colors.background.override.base }}"
-    mantle: "#{{ .colors.background.override.mantle }}"
-    crust: "#{{ .colors.background.override.crust }}"
+# Catppuccin Mocha color scheme for nushell
+# https://github.com/catppuccin/nushell
+
+let catppuccin_mocha = {
+    rosewater: "#{{ .colors.palette.coral }}"
+    flamingo: "#{{ .colors.palette.salmon }}"
+    pink: "#{{ .colors.palette.pink }}"
+    mauve: "#{{ .colors.palette.purple }}"
+    red: "#{{ .colors.palette.red }}"
+    maroon: "#{{ .colors.palette.red_soft }}"
+    peach: "#{{ .colors.palette.orange }}"
+    yellow: "#{{ .colors.palette.yellow }}"
+    green: "#{{ .colors.palette.green }}"
+    teal: "#{{ .colors.palette.teal }}"
+    sky: "#{{ .colors.palette.cyan }}"
+    sapphire: "#{{ .colors.palette.azure }}"
+    blue: "#{{ .colors.palette.blue }}"
+    lavender: "#{{ .colors.palette.lilac }}"
+    text: "#{{ .colors.ui.fg }}"
+    subtext1: "#{{ .colors.ui.fg_secondary }}"
+    subtext0: "#{{ .colors.ui.fg_muted }}"
+    overlay2: "#{{ .colors.ui.fg_faint }}"
+    overlay1: "#{{ .colors.ui.border }}"
+    overlay0: "#{{ .colors.ui.border_muted }}"
+    surface2: "#{{ .colors.ui.surface_raised }}"
+    surface1: "#{{ .colors.ui.surface }}"
+    surface0: "#{{ .colors.ui.surface_sunken }}"
+    base: "#{{ .colors.ui.bg }}"
+    mantle: "#{{ .colors.ui.bg_alt }}"
+    crust: "#{{ .colors.ui.bg_deep }}"
+}
+
+$env.config.color_config = {
+    separator: $catppuccin_mocha.overlay2
+    leading_trailing_space_bg: $catppuccin_mocha.surface1
+    header: $catppuccin_mocha.blue
+    empty: $catppuccin_mocha.lavender
+    bool: $catppuccin_mocha.peach
+    int: $catppuccin_mocha.peach
+    filesize: $catppuccin_mocha.peach
+    duration: $catppuccin_mocha.peach
+    date: $catppuccin_mocha.blue
+    range: $catppuccin_mocha.pink
+    float: $catppuccin_mocha.peach
+    string: $catppuccin_mocha.green
+    nothing: $catppuccin_mocha.peach
+    binary: $catppuccin_mocha.peach
+    cell-path: $catppuccin_mocha.lavender
+    row_index: $catppuccin_mocha.peach
+    record: $catppuccin_mocha.text
+    list: $catppuccin_mocha.text
+    block: $catppuccin_mocha.text
+    hints: $catppuccin_mocha.overlay1
+
+    shapes: {
+        binary: $catppuccin_mocha.peach
+        bool: $catppuccin_mocha.peach
+        cell_path: $catppuccin_mocha.lavender
+        closure: $catppuccin_mocha.text
+        custom: $catppuccin_mocha.blue
+        duration: $catppuccin_mocha.peach
+        external: $catppuccin_mocha.blue
+        external_resolved: $catppuccin_mocha.blue
+        external_command: $catppuccin_mocha.blue
+        directory: $catppuccin_mocha.blue
+        date: $catppuccin_mocha.blue
+        expression: $catppuccin_mocha.text
+        float: $catppuccin_mocha.peach
+        glob: $catppuccin_mocha.blue
+        int: $catppuccin_mocha.peach
+        keyword: $catppuccin_mocha.mauve
+        list: $catppuccin_mocha.text
+        literal: $catppuccin_mocha.blue
+        nothing: $catppuccin_mocha.peach
+        operator: $catppuccin_mocha.text
+        range: $catppuccin_mocha.pink
+        record: $catppuccin_mocha.text
+        string: $catppuccin_mocha.green
+        variable: $catppuccin_mocha.text
+        var_decl: $catppuccin_mocha.mauve
+        vardeval: $catppuccin_mocha.text
+    }
+
+    cursor_shape: {
+        emacs: line
+        vi_insert: line
+        vi_normal: block
+    }
+
+    completion: {
+        menu: {
+            text: $catppuccin_mocha.text
+            selected_text: $catppuccin_mocha.base
+            description_text: $catppuccin_mocha.overlay2
+            selected_description_text: $catppuccin_mocha.base
+            marker: $catppuccin_mocha.mauve
+            border: $catppuccin_mocha.surface1
+        }
+    }
+
+    table: {
+        split: $catppuccin_mocha.overlay1
+        cursor: $catppuccin_mocha.surface2
+        line_head_top: $catppuccin_mocha.surface1
+        line_head_bottom: $catppuccin_mocha.surface1
+        line_shift: $catppuccin_mocha.surface1
+        line_index: $catppuccin_mocha.surface1
+    }
+
+    error: {
+        background: $catppuccin_mocha.base
+        label: $catppuccin_mocha.red
+    }
 }

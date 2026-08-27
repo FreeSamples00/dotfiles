@@ -1,161 +1,253 @@
 # Colorscheme
 
-Personal color palette derived from Catppuccin Mocha.
+Palette-based theming system inspired by [Omarchy](https://github.com/basecamp/omarchy) and [Circadia](https://tanmaymanojgandhi.github.io/circadia/).
 
-Evolution:
-Catppuccin Mocha (dimmed tier)
-→ RGB midpoint with perceptual tuning (normal tier)
-→ Boosted saturation, same hue family (bright tier)
-→ Generic color names (tool-agnostic)
-→ Swap values from Nix, no tool config changes needed
+A single file (`.chezmoidata/colors.toml`) defines all colors. All tool configs reference semantic tokens from this file via chezmoi templates. To switch themes, swap the file and reapply.
 
-Accents use color identity names with optional
-`-dimmed` / `-bright` suffix (unsuffixed = normal).
-Structural and background colors use purpose names.
-Derived colors use purpose names for tool-specific values.
+## Theme Switching
 
-Source: <https://catppuccin.com/palette/mocha>
+Theme files live in `configs/themes/`. Each is a complete `colors.toml` with all sections filled in.
 
-## Accent Colors
+```bash
+just dot theme catppuccin-mocha
+```
 
-| Name     | dimmed    | normal    | bright    |
-| -------- | --------- | --------- | --------- |
-| coral    | `#f5e0dc` | `#f3b8b0` | `#f09898` |
-| salmon   | `#f2cdcd` | `#f0aaaa` | `#ee8888` |
-| pink     | `#f5c2e7` | `#ee9dd4` | `#e878c0` |
-| purple   | `#cba6f7` | `#c490f0` | `#b080f0` |
-| red      | `#f38ba8` | `#ee668c` | `#e84070` |
-| red-soft | `#eba0ac` | `#e67c92` | `#e05878` |
-| orange   | `#fab387` | `#f59a64` | `#f08040` |
-| yellow   | `#f9e2af` | `#f0d57c` | `#e8c84a` |
-| green    | `#a6e3a1` | `#8ae28e` | `#6de07a` |
-| teal     | `#94e2d5` | `#6addca` | `#40d8c0` |
-| cyan     | `#89dceb` | `#6cd2ea` | `#50c8e8` |
-| azure    | `#74c7ec` | `#67c0ea` | `#5ab8e8` |
-| blue     | `#89b4fa` | `#7aacf9` | `#6aa4f8` |
-| lilac    | `#b4befe` | `#a29ffb` | `#9080f8` |
+This copies the theme file over `.chezmoidata/colors.toml` and runs `chezmoi apply`.
 
-## Structural Colors
+To create a new theme, copy an existing theme file and modify the hex values.
 
-| Name           | Hex       |
-| -------------- | --------- |
-| fg             | `#cdd6f4` |
-| fg-secondary   | `#bac2de` |
-| fg-muted       | `#a6adc8` |
-| fg-faint       | `#9399b2` |
-| border         | `#7f849c` |
-| border-muted   | `#6c7086` |
-| surface-raised | `#585b70` |
-| surface        | `#45475a` |
-| surface-sunken | `#313244` |
+## Token Structure
 
-## Background Colors (Transparency Override)
+### Base palette (`[colors.palette]`)
 
-| Name         | Catppuccin | Override  |
-| ------------ | ---------- | --------- |
-| bg           | `#1e1e2e`  | `#1E1E1E` |
-| bg-secondary | `#181825`  | `#141414` |
-| bg-deep      | `#11111b`  | `#0A0A0A` |
+14 raw color hues — the source of truth for all accent colors. Used by catppuccin compat, btop graphs, and ANSI palette.
 
-## Derived Colors
+| Key      | Hex       |
+| -------- | --------- |
+| coral    | `#f3b8b0` |
+| salmon   | `#f0aaaa` |
+| pink     | `#ee9dd4` |
+| purple   | `#c490f0` |
+| red      | `#ee668c` |
+| red_soft | `#e67c92` |
+| orange   | `#f59a64` |
+| yellow   | `#f0d57c` |
+| green    | `#8ae28e` |
+| teal     | `#6addca` |
+| cyan     | `#6cd2ea` |
+| azure    | `#67c0ea` |
+| blue     | `#7aacf9` |
+| lilac    | `#a29ffb` |
 
-Tool-specific values named by purpose. Not generated from accent tiers.
+### Core UI (`[colors.ui]`)
 
-| Name            | Hex       | Purpose                              |
-| --------------- | --------- | ------------------------------------ |
-| cursor          | `#CBD6F7` | Ghostty terminal cursor              |
-| git-branch      | `#f06040` | Starship git branch indicator        |
-| diff-file       | `#7aacf9` | Delta file path header               |
-| diff-hunk       | `#f0d57c` | Delta hunk header                    |
-| diff-hint       | `#9399b2` | Delta inline hints                   |
-| diff-separator  | `#7f849c` | Delta blame separator                |
-| diff-minus      | `#660000` | Delta deletion background            |
-| diff-minus-emph | `#8b3030` | Delta deletion emphasis background   |
-| diff-plus       | `#0e2e1e` | Delta addition background            |
-| diff-plus-emph  | `#1a4a2a` | Delta addition emphasis background   |
-| diff-blame-1    | `#3d3d4d` | Delta blame gradient (lightest)      |
-| diff-blame-2    | `#383846` | Delta blame gradient                 |
-| diff-blame-3    | `#34343f` | Delta blame gradient                 |
-| diff-blame-4    | `#303038` | Delta blame gradient                 |
-| diff-blame-5    | `#2c2c31` | Delta blame gradient (darkest)       |
-| focus-dnd       | `#6d7cff` | Focus mode: Do Not Disturb indicator |
-| focus-sleep     | `#14b6a4` | Focus mode: Sleep indicator          |
-| focus-reduce    | `#db34f2` | Focus mode: Reduce Interruptions     |
+Backgrounds, foregrounds, borders, surfaces, accent, cursor. Maps to Neovim highlight groups (Normal, CursorLine, Pmenu, etc.) and terminal UI elements.
 
-## Catppuccin Mocha Mapping
+| Key            | Hex       | Purpose                       |
+| -------------- | --------- | ----------------------------- |
+| bg             | `#1E1E1E` | Main background               |
+| bg_alt         | `#141414` | Sidebars, inactive panes      |
+| bg_deep        | `#0A0A0A` | Popups, cursor line           |
+| bg_catppuccin  | `#1e1e2e` | Ghostty terminal background   |
+| fg             | `#cdd6f4` | Primary text                  |
+| fg_secondary   | `#bac2de` | Secondary text                |
+| fg_muted       | `#a6adc8` | Line numbers, status bar      |
+| fg_faint       | `#9399b2` | Whitespace, fold guides       |
+| border         | `#7f849c` | Split borders                 |
+| border_muted   | `#6c7086` | Dimmer borders                |
+| surface        | `#45475a` | Selection bg, raised elements |
+| surface_raised | `#585b70` | Inactive selected line        |
+| surface_sunken | `#313244` | Cursor line, popups           |
+| accent         | `#cba6f7` | Focus rings, active borders   |
+| cursor         | `#CBD6F7` | Terminal cursor               |
+| meter_bg       | `#282828` | btop meter background         |
+| find_highlight | `#3e5767` | bat search highlight          |
 
-Reference mapping for provenance.
+### ANSI 16-color palette (`[colors.ansi]`)
 
-| Generic Name   | Catppuccin Mocha |
-| -------------- | ---------------- |
-| coral          | rosewater        |
-| salmon         | flamingo         |
-| pink           | pink             |
-| purple         | mauve            |
-| red            | red              |
-| red-soft       | maroon           |
-| orange         | peach            |
-| yellow         | yellow           |
-| green          | green            |
-| teal           | teal             |
-| cyan           | sky              |
-| azure          | sapphire         |
-| blue           | blue             |
-| lilac          | lavender         |
-| fg             | text             |
-| fg-secondary   | subtext1         |
-| fg-muted       | subtext0         |
-| fg-faint       | overlay2         |
-| border         | overlay1         |
-| border-muted   | overlay0         |
-| surface-raised | surface2         |
-| surface        | surface1         |
-| surface-sunken | surface0         |
-| bg             | base             |
-| bg-secondary   | mantle           |
-| bg-deep        | crust            |
+Standard terminal ANSI colors (0-15). Used by ghostty and other terminal emulators.
 
-## 0xAARRGGBB Format
+| Key            | ANSI slot | Hex       |
+| -------------- | --------- | --------- |
+| black          | 0         | `#313244` |
+| red            | 1         | `#ee668c` |
+| green          | 2         | `#8ae28e` |
+| yellow         | 3         | `#f0d57c` |
+| blue           | 4         | `#7aacf9` |
+| magenta        | 5         | `#ee9dd4` |
+| cyan           | 6         | `#6addca` |
+| white          | 7         | `#cdd6f4` |
+| bright_black   | 8         | `#45475a` |
+| bright_red     | 9         | `#e84070` |
+| bright_green   | 10        | `#6de07a` |
+| bright_yellow  | 11        | `#e8c84a` |
+| bright_blue    | 12        | `#6aa4f8` |
+| bright_magenta | 13        | `#e878c0` |
+| bright_cyan    | 14        | `#40d8c0` |
+| bright_white   | 15        | `#bac2de` |
 
-For tools using alpha-prefixed format (sketchybar, jankyborders).
+### Syntax (`[colors.syntax]`)
 
-### Accent Colors
+Treesitter-aligned tokens for code highlighting. Used by nvim (via catppuccin compat), bat, and starship.
 
-| Name     | dimmed 0xAARRGGBB | normal 0xAARRGGBB | bright 0xAARRGGBB |
-| -------- | ----------------- | ----------------- | ----------------- |
-| coral    | `0xfff5e0dc`      | `0xfff3b8b0`      | `0xfff09898`      |
-| salmon   | `0xfff2cdcd`      | `0xfff0aaaa`      | `0xffee8888`      |
-| pink     | `0xfff5c2e7`      | `0xffee9dd4`      | `0xffe878c0`      |
-| purple   | `0xffcba6f7`      | `0xffc490f0`      | `0xffb080f0`      |
-| red      | `0xfff38ba8`      | `0xffee668c`      | `0xffe84070`      |
-| red-soft | `0xffeba0ac`      | `0xffe67c92`      | `0xffe05878`      |
-| orange   | `0xfffab387`      | `0xfff59a64`      | `0xfff08040`      |
-| yellow   | `0xfff9e2af`      | `0xfff0d57c`      | `0xffe8c84a`      |
-| green    | `0xffa6e3a1`      | `0xff8ae28e`      | `0xff6de07a`      |
-| teal     | `0xff94e2d5`      | `0xff6addca`      | `0xff40d8c0`      |
-| cyan     | `0xff89dceb`      | `0xff6cd2ea`      | `0xff50c8e8`      |
-| azure    | `0xff74c7ec`      | `0xff67c0ea`      | `0xff5ab8e8`      |
-| blue     | `0xff89b4fa`      | `0xff7aacf9`      | `0xff6aa4f8`      |
-| lilac    | `0xffb4befe`      | `0xffa29ffb`      | `0xff9080f8`      |
+| Key         | Hex       | Treesitter group                          |
+| ----------- | --------- | ----------------------------------------- |
+| keyword     | `#c490f0` | `@keyword`, `@conditional`, `@repeat`     |
+| type        | `#f0d57c` | `@type`, `@type.builtin`                  |
+| function    | `#7aacf9` | `@function`, `@function.call`, `@method`  |
+| property    | `#6addca` | `@property`, `@field`, `@variable.member` |
+| variable    | `#cdd6f4` | `@variable`, `@variable.parameter`        |
+| string      | `#8ae28e` | `@string`, `@string.regex`                |
+| number      | `#f59a64` | `@number`, `@boolean`                     |
+| tag         | `#7aacf9` | `@tag`, `@tag.delimiter`                  |
+| comment     | `#9399b2` | `@comment`                                |
+| operator    | `#6addca` | `@operator`                               |
+| punctuation | `#9399b2` | `@punctuation.*`                          |
+| constant    | `#f59a64` | `@constant`                               |
+| preproc     | `#f0d57c` | `@preproc`                                |
+| constructor | `#c490f0` | `@constructor`                            |
+| namespace   | `#f0d57c` | `@namespace`, `@module`                   |
 
-### Structural Colors
+### Markup (`[colors.markup]`)
 
-| Name           | Hex       | 0xAARRGGBB   |
-| -------------- | --------- | ------------ |
-| fg             | `#cdd6f4` | `0xffcdd6f4` |
-| fg-secondary   | `#bac2de` | `0xffbac2de` |
-| fg-muted       | `#a6adc8` | `0xffa6adc8` |
-| fg-faint       | `#9399b2` | `0xff9399b2` |
-| border         | `#7f849c` | `0xff7f849c` |
-| border-muted   | `#6c7086` | `0xff6c7086` |
-| surface-raised | `#585b70` | `0xff585b70` |
-| surface        | `#45475a` | `0xff45475a` |
-| surface-sunken | `#313244` | `0xff313244` |
+Markdown/prose highlighting. Used by bat and nvim render-markdown.
 
-### Background Colors
+| Key           | Hex       |
+| ------------- | --------- |
+| heading_1     | `#ee668c` |
+| heading_2     | `#f59a64` |
+| heading_3     | `#f0d57c` |
+| heading_4     | `#8ae28e` |
+| heading_5     | `#67c0ea` |
+| heading_6     | `#a29ffb` |
+| bold          | `#ee668c` |
+| italic        | `#ee668c` |
+| strikethrough | `#a6adc8` |
+| link          | `#7aacf9` |
+| raw           | `#8ae28e` |
+| quote         | `#ee9dd4` |
+| list_marker   | `#6addca` |
 
-| Name         | Override  | 0xAARRGGBB   |
-| ------------ | --------- | ------------ |
-| bg           | `#1E1E1E` | `0xff1e1e1e` |
-| bg-secondary | `#141414` | `0xff141414` |
-| bg-deep      | `#0A0A0A` | `0xff0a0a0a` |
+### Diagnostics (`[colors.diagnostic]`)
+
+| Key     | Hex       |
+| ------- | --------- |
+| error   | `#ee668c` |
+| warning | `#f0d57c` |
+| info    | `#7aacf9` |
+| hint    | `#8ae28e` |
+
+### Git (`[colors.git]`)
+
+Starship prompt indicators and lazygit branch colors.
+
+| Key          | Hex       |
+| ------------ | --------- |
+| branch       | `#f06040` |
+| state        | `#f5906a` |
+| modified     | `#e8c84a` |
+| untracked    | `#6aa4f8` |
+| staged       | `#6de07a` |
+| stashed      | `#b080f0` |
+| conflicted   | `#e84070` |
+| deleted      | `#e84070` |
+| ahead_behind | `#6de07a` |
+
+### Diff (`[colors.diff]`)
+
+Delta (git diff) and nvim diff/gitsigns colors.
+
+| Key                  | Hex       | Purpose                         |
+| -------------------- | --------- | ------------------------------- |
+| minus                | `#660000` | Delta deletion bg               |
+| minus_emph           | `#8b3030` | Delta deletion emphasis bg      |
+| plus                 | `#0e2e1e` | Delta addition bg               |
+| plus_emph            | `#1a4a2a` | Delta addition emphasis bg      |
+| file                 | `#7aacf9` | Delta file header               |
+| hunk                 | `#f0d57c` | Delta hunk header               |
+| hint                 | `#9399b2` | Delta inline hints              |
+| separator            | `#7f849c` | Delta blame separator           |
+| blame_1              | `#3d3d4d` | Blame gradient (lightest)       |
+| blame_2              | `#383846` |                                 |
+| blame_3              | `#34343f` |                                 |
+| blame_4              | `#303038` |                                 |
+| blame_5              | `#2c2c31` | Blame gradient (darkest)        |
+| nvim_add_bg          | `#1e3a1e` | nvim DiffAdd bg                 |
+| nvim_change_bg       | `#3a3a1e` | nvim DiffChange bg              |
+| nvim_delete_bg       | `#3a1e1e` | nvim DiffDelete bg              |
+| gitsigns_change_bg   | `#4a3d1a` | Gitsigns change inline bg       |
+| gitsigns_delete_bg   | `#5e1e2a` | Gitsigns delete inline bg       |
+| gitsigns_delete_virt | `#2d2429` | Gitsigns delete virtual line bg |
+| gitsigns_virt_lnum   | `#5c4555` | Gitsigns virtual line number fg |
+
+### Starship (`[colors.starship]`)
+
+Prompt-specific colors for starship.
+
+| Key       | Hex       |
+| --------- | --------- |
+| spacer    | `#45475a` |
+| timer     | `#e8c84a` |
+| directory | `#6aa4f8` |
+| clock     | `#5ab8e8` |
+| memory    | `#ee8888` |
+| nix_shell | `#b080f0` |
+
+### Opacity (`[colors.opacity]`)
+
+| Key        | Value  |
+| ---------- | ------ |
+| background | `1`    |
+| cursor     | `0.85` |
+
+## NVim / Catppuccin Compatibility
+
+The catppuccin nvim plugin is used as a highlight group engine — it maps ~3000 highlight groups across treesitter, LSP semantic tokens, diagnostics, and 15+ plugin integrations.
+
+The `palette.lua.tmpl` template exports a `catppuccin` table that maps all 27 catppuccin internal names to values from `colors.toml`:
+
+| Catppuccin name | Source              |
+| --------------- | ------------------- |
+| rosewater       | `palette.coral`     |
+| flamingo        | `palette.salmon`    |
+| pink            | `palette.pink`      |
+| mauve           | `palette.purple`    |
+| red             | `palette.red`       |
+| maroon          | `palette.red_soft`  |
+| peach           | `palette.orange`    |
+| yellow          | `palette.yellow`    |
+| green           | `palette.green`     |
+| teal            | `palette.teal`      |
+| sky             | `palette.cyan`      |
+| sapphire        | `palette.azure`     |
+| blue            | `palette.blue`      |
+| lavender        | `palette.lilac`     |
+| base            | `ui.bg`             |
+| mantle          | `ui.bg_alt`         |
+| crust           | `ui.bg_deep`        |
+| text            | `ui.fg`             |
+| subtext1        | `ui.fg_secondary`   |
+| subtext0        | `ui.fg_muted`       |
+| overlay2        | `ui.fg_faint`       |
+| overlay1        | `ui.border`         |
+| overlay0        | `ui.border_muted`   |
+| surface2        | `ui.surface_raised` |
+| surface1        | `ui.surface`        |
+| surface0        | `ui.surface_sunken` |
+
+All 27 colors are overridden per theme, so swapping `colors.toml` changes the entire nvim UI.
+
+## Tool Reference
+
+| Tool       | Template                                                              | Key sections used                                 |
+| ---------- | --------------------------------------------------------------------- | ------------------------------------------------- |
+| ghostty    | `ghostty/config.tmpl`, `ghostty/themes/colorscheme-normal.tmpl`       | `ui`, `ansi`, `opacity`                           |
+| starship   | `starship.toml.tmpl`                                                  | `starship`, `git`, `ui.surface`                   |
+| btop       | `btop/themes/catppuccin.theme.tmpl`                                   | `ui`, `syntax`, `palette`, `diagnostic`           |
+| git/delta  | `git/config.tmpl`                                                     | `diff`, `diagnostic`, `syntax`, `ui`              |
+| lazygit    | `lazygit/config.yml.tmpl`                                             | `syntax`, `ui`, `palette`                         |
+| nushell    | `nushell/confs/colors.nu.tmpl`                                        | `palette`, `ui`                                   |
+| nvim       | `nvim/lua/colorscheme/palette.lua.tmpl`, `nvim/lua/plugins/theme.lua` | `palette`, `ui`, `syntax`, `diagnostic`, `diff`   |
+| bat        | `bat/themes/colorscheme.tmTheme.tmpl`                                 | `ui`, `syntax`, `palette`, `markup`, `diagnostic` |
+| borders    | `borders/bordersrc.tmpl`                                              | `ui.accent`, `ui.surface`                         |
+| sketchybar | `sketchybar/config.nu.tmpl`                                           | `palette`, `ui`, `syntax`, `diagnostic`           |
