@@ -49,8 +49,9 @@ return {
             PmenuSel = { bg = colors.surface0, fg = colors.peach, style = { "bold" } },
             CursorLine = { bg = colors.surface0 },
             NormalFloat = { bg = "NONE" }, -- transparent floats
-            FloatBorder = { bg = "NONE" },
+            FloatBorder = { fg = colors.lavender, bg = "NONE" }, -- mauve borders for visual distinction
             FloatTitle = { bg = "NONE" },
+            WinSeparator = { fg = colors.lavender }, -- matching split edge color
 
             -- gitsigns inline preview overrides for transparent mode
             -- added: explicit fg for consistent readability
