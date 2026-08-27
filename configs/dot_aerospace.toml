@@ -21,7 +21,7 @@
 # ========================= GLOBAL SETTINGS =========================
 
 # ========== startup ==========
-start-at-login = true
+start-at-login = false
 
 # ========== Normalizations ==========
 enable-normalization-flatten-containers = true
