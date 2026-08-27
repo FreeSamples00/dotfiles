@@ -1,6 +1,7 @@
 # Brewfile for non-Nix machines (e.g., university Linux via Linuxbrew)
 # Minimal: only packages needed to run configs at default level (non-macOS)
 # Prefer Nix (`just pack deploy default`) when available.
+# System-provided packages (git, bash, curl, wget, less, openssh) are not listed.
 
 tap "homebrew/bundle"
 
@@ -12,32 +13,26 @@ brew "carapace"
 
 # Fonts
 brew "font-jetbrains-mono-nerd-font"
-brew "font-space-mono-nerd-font"
 
-# Core CLI
-brew "vim"
-brew "git"
-brew "bash"
-brew "coreutils"
-brew "curl"
-brew "wget"
-brew "tree"
-brew "less"
-brew "rsync"
-brew "openssh"
+# Editors
+brew "neovim"
+brew "lazygit"
+
+# Core CLI (not typically pre-installed)
 brew "chezmoi"
+brew "tree"
+brew "bat"
+brew "eza"
 
 # Development
 brew "python3"
 brew "nodejs"
 brew "gcc"
-brew "jq"
 brew "shfmt"
 brew "just"
 brew "ripgrep"
 brew "fd"
 brew "fzf"
-brew "bat"
 
 # TUI
 brew "btop"
@@ -45,9 +40,8 @@ brew "zellij"
 
 # Dev tools (LSP, formatters, linters — system-installed, not via Mason)
 brew "pre-commit"
-brew "delta"
+brew "git-delta"
 brew "lua-language-server"
 brew "stylua"
-brew "shellcheck"
 brew "prettier"
-brew "python-pygments"
+brew "groff"
