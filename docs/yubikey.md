@@ -35,29 +35,34 @@ Generate ssh key with:
 ssh-keygen -t ed25519-sk -O resident -C "SSH key"
 ```
 
-Move generated keys to `~/.ssh/keys/yubico_ssh` and `~/.ssh/keys/yubico_ssh.pub`
+Move generated keys to `~/.ssh/keys/yubikey_ssh` and `~/.ssh/keys/yubikey_ssh.pub`
 
 Copy the public key to a remote server:
 
 ```bash
-ssh-copy-id -i ~/.ssh/keys/yubico_ssh user@host
+ssh-copy-id -i ~/.ssh/keys/yubikey_ssh user@host
 ```
 
-OR manually place `ssh_yubico_ssh.pub` in `~/.ssh/authorized_hosts` on the remote server.
+OR manually place `yubikey_ssh.pub` in `~/.ssh/authorized_keys` on the remote server.
 
 ### SSH Config
 
-Use the following to set up automatic yubikey usage:
+The yubikey SSH key is configured as the default identity for all hosts in the chezmoi-managed `~/.ssh/config`:
 
-```bash
-echo -e "\nHost *\n\tIdentityFile ~/.ssh/keys/yubico_ssh\n\tIdentityAgent none" >> ~/.ssh/config
+```sshconfig
+Host *
+  SendEnv COLORTERM
+  IdentityFile ~/.ssh/keys/yubikey_ssh
+  IdentityAgent none
 ```
 
-|            Config Elements            | Description                                                  |
-| :-----------------------------------: | :----------------------------------------------------------- |
-|               `Host *`                | Apply these settings to all hosts unless otherwise specified |
-| `IdentityFile ~/.ssh/keys/yubico_ssh` | Sets yubico key reference as default auth method             |
-|         `IdentityAgent none`          | Disables ssh agent, which tends to mess with yubikeys        |
+This is deployed by chezmoi via `just dot apply`. Do not edit `~/.ssh/config` directly — changes will be overwritten. Per-machine host entries go in `~/.ssh/config.local` (see [ssh.md](./ssh.md)).
+
+|            Config Elements             | Description                                                  |
+| :------------------------------------: | :----------------------------------------------------------- |
+|                `Host *`                | Apply these settings to all hosts unless otherwise specified |
+| `IdentityFile ~/.ssh/keys/yubikey_ssh` | Sets yubikey as default auth method                          |
+|          `IdentityAgent none`          | Disables ssh agent, which tends to mess with yubikeys        |
 
 ### Portable Usage
 
