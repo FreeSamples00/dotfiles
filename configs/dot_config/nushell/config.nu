@@ -4,6 +4,7 @@
 
 # ----- Theme -----
 source theme.nu
+source history.nu
 
 $env.PROMPT_INDICATOR_VI_NORMAL = ""
 $env.PROMPT_INDICATOR_VI_INSERT = ""
@@ -23,7 +24,8 @@ $env.config = {
   cursor_shape: {emacs: "block", vi_insert: "line", vi_normal: "block"}
 
   # ----- History Settings -----
-  history: {max_size: 5_000_000, file_format: "sqlite", isolation: true}
+  # file_format set by history.nu (chezmoi-templated, sqlite vs plaintext)
+  history: {max_size: 5_000_000, isolation: true}
 
   # ----- Completions Settings -----
   completions: {
