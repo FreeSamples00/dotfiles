@@ -18,6 +18,10 @@
       "models": {
         "syn:large:text": {
           "name": "Max",
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"],
+          },
           "limit": {
             "context": 524288,
             "output": 65536,
@@ -40,23 +44,6 @@
             "output": 0.5,
           },
           "family": "GLM",
-          "reasoning": true,
-        },
-        "syn:large:vision": {
-          "name": "Vision",
-          "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"],
-          },
-          "limit": {
-            "context": 262144,
-            "output": 65536,
-          },
-          "cost": {
-            "input": 0.95,
-            "output": 4.0,
-          },
-          "family": "Kimi",
           "reasoning": true,
         },
       },
@@ -129,7 +116,6 @@
           "*": "deny",
           "explorer": "allow",
           "librarian": "allow",
-          "vision": "allow",
           "oracle": "ask",
         },
       },
@@ -259,29 +245,6 @@
         "*": "deny",
       },
     },
-    "vision": {
-      "mode": "subagent",
-      "model": "synthetic/syn:large:vision",
-      "steps": 5,
-      "temperature": 0.2,
-      "reasoningEffort": "low",
-      "hidden": false,
-      "permission": {
-        "bash": {
-          "*": "deny",
-          "ls *": "allow",
-          "file *": "allow",
-        },
-        "read": {
-          "*": "allow",
-        },
-        "glob": "allow",
-        "list": "allow",
-        "external_directory": {
-          "/tmp": "allow",
-        },
-      },
-    },
     "oracle": {
       "mode": "subagent",
       "model": "synthetic/syn:large:text",
@@ -303,7 +266,6 @@
           "*": "deny",
           "explorer": "allow",
           "librarian": "allow",
-          "vision": "allow",
         },
         "external_directory": {
           "*": "ask",

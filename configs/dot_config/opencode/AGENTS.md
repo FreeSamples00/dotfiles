@@ -39,11 +39,6 @@ Use the `webfetch` tool first, only fall back to `curl` when precision is needed
 
 ## Tool Call Discipline
 
-### Image Files
-
-- **Do NOT read images directly** — the Read tool claims image support but the main agent cannot interpret visual content
-- **ALWAYS delegate to the `@vision` subagent** for any image viewing, description, comparison, or verification task
-
 ### Task Tracking
 
 - **Create a todo list** when a task has multiple distinct steps — especially for investigative or multi-file operations, and when steps are dependant upon each other
