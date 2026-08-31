@@ -27,8 +27,8 @@
             "output": 65536,
           },
           "cost": {
-            "input": 1.4,
-            "output": 4.4,
+            "input": 0.15,
+            "output": 0.5,
           },
           "family": "GLM",
           "reasoning": true,
@@ -92,7 +92,7 @@
       "mode": "primary",
       "color": "primary",
       "model": "synthetic/syn:large:text",
-      "reasoningEffort": "low",
+      "reasoningEffort": "high",
       "permission": {
         "read": {
           "*": "allow",
@@ -124,7 +124,7 @@
       "mode": "primary",
       "color": "secondary",
       "model": "synthetic/syn:large:text",
-      "reasoningEffort": "low",
+      "reasoningEffort": "high",
       "permission": {
         "read": {
           "*": "allow",
