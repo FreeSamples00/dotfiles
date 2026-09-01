@@ -3,7 +3,7 @@ _default:
 
 # Dotfiles: deploy configs via chezmoi
 [group('dot')]
-mod dot 'dot.just'
+mod dot 'configs/dot.just'
 
 # Packages: Nix commands (deploy, build, rollback, etc.)
 [group('pack')]
