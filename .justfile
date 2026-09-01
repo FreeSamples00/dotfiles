@@ -11,12 +11,12 @@ mod pack 'nix/nix.just'
 
 # Brew: fallback package installation
 [group('pack')]
-mod brew 'brew.just'
+mod brew 'brew/brew.just'
 
 # Neovim configuration tasks
-[group: 'tools']
+[group('tools')]
 mod nvim 'configs/dot_config/nvim/.nvim.just'
 
 # Sketchybar configuration tasks
-[group: 'tools']
+[group('tools')]
 mod skbar 'configs/dot_config/sketchybar/.sketchybar.just'

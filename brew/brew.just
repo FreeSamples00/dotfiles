@@ -3,12 +3,12 @@ _default:
 
 # Install packages from Brewfile (fallback for non-Nix machines)
 install:
-    brew bundle install --file ~/dotfiles/data/Brewfile
+    brew bundle install --file ./Brewfile
 
 # Update brew packages
 update:
-    brew bundle update --file ~/dotfiles/data/Brewfile
+    brew bundle update --file ./Brewfile
 
 # List installed packages from Brewfile
 list:
-    brew bundle list --file ~/dotfiles/data/Brewfile
+    brew bundle list --file ./Brewfile
