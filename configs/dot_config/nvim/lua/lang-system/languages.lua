@@ -119,9 +119,8 @@ M.languages = {
     lsp = {
       name = "jdtls",
     },
-    formatter = {
-      name = "google_java_format",
-    },
+    -- No external formatter: jdtls's built-in Eclipse JDT formatter handles
+    -- formatting (respects project .settings/org.eclipse.jdt.core.prefs).
   },
 
   markdown = {
