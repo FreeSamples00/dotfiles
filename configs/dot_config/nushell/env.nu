@@ -12,10 +12,8 @@ $env.LESSKEYIN = $"($env.home)/.config/lesskey"
 
 if not (which bat | is-empty) {
   $env.PAGER = "bat"
-  # bat as man pager requires groff for man page formatting
-  if not (which groff | is-empty) {
-    $env.MANPAGER = "sh -c 'sed \"s/\\x1b\\[[0-9;]*m//g\" | bat -l man -p'"
-  }
+  # bat as man pager: strip SGR escapes from man's output so bat can re-highlight with `man` syntax
+  $env.MANPAGER = "sh -c 'sed \"s/\\x1b\\[[0-9;]*m//g\" | bat -l man -p'"
 }
 
 $env.XDG_CONFIG_HOME = $"($env.home)/.config"
