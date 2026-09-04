@@ -92,7 +92,7 @@
       "mode": "primary",
       "color": "primary",
       "model": "synthetic/hf:zai-org/GLM-5.3-Flash",
-      "reasoningEffort": "high",
+      "reasoningEffort": "medium",
       "permission": {
         "read": {
           "*": "allow",
@@ -124,7 +124,7 @@
       "mode": "primary",
       "color": "secondary",
       "model": "synthetic/hf:zai-org/GLM-5.3-Flash",
-      "reasoningEffort": "high",
+      "reasoningEffort": "medium",
       "permission": {
         "read": {
           "*": "allow",
@@ -250,7 +250,7 @@
       "model": "synthetic/hf:zai-org/GLM-5.3-Flash",
       "steps": 12,
       "temperature": 0.2,
-      "reasoningEffort": "high",
+      "reasoningEffort": "max",
       "hidden": false,
       "permission": {
         "bash": "deny",
