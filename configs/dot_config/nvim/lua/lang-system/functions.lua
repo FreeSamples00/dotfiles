@@ -21,8 +21,6 @@ function M.setup(opts)
   -- Merge mappings
   M.lsp_to_mason =
     vim.tbl_deep_extend("force", mappings.lsp_to_mason, opts.mappings and opts.mappings.lsp_to_mason or {})
-  M.tool_to_nullls =
-    vim.tbl_deep_extend("force", mappings.tool_to_nullls, opts.mappings and opts.mappings.tool_to_nullls or {})
 end
 
 --- Check if a Mason package is installed.
@@ -39,6 +37,37 @@ end
 
 local function is_mason_installed(pkg_name)
   return M.is_mason_installed(pkg_name)
+end
+
+--- Resolve the Mason package name for an lspconfig server name.
+--- Order: explicit override (mappings.lua) → underscore-to-dash →
+--- trailing "_ls"/"ls" → "-language-server" expansion. When multiple
+--- candidates exist, prefer the first one present in the Mason registry.
+--- @param server string lspconfig server name
+--- @return string
+function M.get_mason_name(server)
+  local override = M.lsp_to_mason[server]
+  if override then
+    return override
+  end
+
+  local candidates = { server:gsub("_", "-") }
+  if server:match("_?ls$") then
+    candidates[#candidates + 1] = server:gsub("_?ls$", "") .. "-language-server"
+  end
+  if #candidates == 1 then
+    return candidates[1]
+  end
+
+  local ok, registry = pcall(require, "mason-registry")
+  if ok then
+    for _, candidate in ipairs(candidates) do
+      if pcall(registry.get_package, candidate) then
+        return candidate
+      end
+    end
+  end
+  return candidates[1]
 end
 
 --- Apply default values to a tool definition.
@@ -148,7 +177,7 @@ function M.is_installed(lang_name)
     if lsp.mason == false then
       status.lsp = vim.fn.executable(lsp.name) == 1
     else
-      local mason_name = M.lsp_to_mason[lsp.name] or lsp.name
+      local mason_name = M.get_mason_name(lsp.name)
       status.lsp = is_mason_installed(mason_name)
     end
     if not status.lsp then
@@ -246,30 +275,6 @@ function M.get_ensure_installed_lsp_servers()
   return servers
 end
 
---- Get Mason package names for formatters, linters, and DAPs in ensure_installed.
---- @return string[]
-function M.get_ensure_installed_mason_packages()
-  local packages = {}
-  for _, lang_name in ipairs(expand_with_dependencies(M.ensure_installed)) do
-    local lang = M.languages[lang_name]
-    if lang then
-      local formatter = apply_tool_defaults(lang.formatter)
-      if formatter and formatter.install and formatter.mason ~= false then
-        table.insert(packages, formatter.name)
-      end
-      local linter = apply_tool_defaults(lang.linter)
-      if linter and linter.install and linter.mason ~= false then
-        table.insert(packages, linter.name)
-      end
-      local dap = apply_tool_defaults(lang.dap)
-      if dap and dap.install and dap.mason ~= false then
-        table.insert(packages, dap.name)
-      end
-    end
-  end
-  return packages
-end
-
 --- Get all enabled formatters from language definitions.
 --- @return table<string, table> Map of language name to formatter config
 function M.get_all_formatters()
@@ -358,7 +363,7 @@ function M.install_ensure_installed()
 
     local lsp = apply_tool_defaults(lang.lsp)
     if lsp and lsp.install and lsp.mason ~= false then
-      local mason_name = M.lsp_to_mason[lsp.name] or lsp.name
+      local mason_name = M.get_mason_name(lsp.name)
       mason_install(mason_name)
     end
 
@@ -379,10 +384,14 @@ function M.install_ensure_installed()
 
     if lang.treesitter then
       local parsers = type(lang.treesitter) == "table" and lang.treesitter or { lang.treesitter }
-      for _, parser in ipairs(parsers) do
-        if not is_treesitter_installed(parser) then
-          vim.cmd("TSInstall! " .. parser)
-        end
+      local to_install = vim
+        .iter(parsers)
+        :filter(function(parser)
+          return not is_treesitter_installed(parser)
+        end)
+        :totable()
+      if #to_install > 0 then
+        require("nvim-treesitter").install(to_install)
       end
     end
   end
@@ -414,7 +423,7 @@ function M.install_language(lang_name, opts)
   local lsp = apply_tool_defaults(lang.lsp)
   if lsp and lsp.install then
     if lsp.mason ~= false then
-      local mason_name = M.lsp_to_mason[lsp.name] or lsp.name
+      local mason_name = M.get_mason_name(lsp.name)
       if mason_install(mason_name) then
         table.insert(installed, lsp.name .. " (LSP)")
       end
@@ -460,7 +469,7 @@ function M.install_language(lang_name, opts)
     local parsers = type(lang.treesitter) == "table" and lang.treesitter or { lang.treesitter }
     for _, parser in ipairs(parsers) do
       if not is_treesitter_installed(parser) then
-        vim.cmd("TSInstall! " .. parser)
+        require("nvim-treesitter").install({ parser })
         table.insert(installed, "treesitter:" .. parser)
       end
     end
@@ -511,7 +520,7 @@ function M.uninstall_language(lang_name, opts)
 
   if lang.lsp then
     if lang.lsp.mason ~= false then
-      local mason_name = mappings.lsp_to_mason[lang.lsp.name] or lang.lsp.name
+      local mason_name = M.get_mason_name(lang.lsp.name)
       if mason_uninstall(mason_name) then
         table.insert(uninstalled, lang.lsp.name)
       end
@@ -554,7 +563,7 @@ function M.uninstall_language(lang_name, opts)
     local parsers = type(lang.treesitter) == "table" and lang.treesitter or { lang.treesitter }
     for _, parser in ipairs(parsers) do
       if is_treesitter_installed(parser) then
-        vim.cmd("TSUninstall " .. parser)
+        require("nvim-treesitter").uninstall({ parser })
         table.insert(uninstalled, "treesitter:" .. parser)
       end
     end

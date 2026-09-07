@@ -13,18 +13,9 @@ M.text_filetypes = {
 
 ---@type string[] Filetypes where lualine and features are hidden
 M.ignored_filetypes = {
-  "NvimTree",
-  "packer",
-  "atone",
-  "Outline",
   "lazy",
   "mason",
   "help",
-  "Trouble",
-  "toggleterm",
-  "oil",
-  "spectre_panel",
-  "undotree",
   "snacks_picker_list",
   "snacks_picker_input",
 }
@@ -57,6 +48,31 @@ M.lsp_icons = {
   warn = " ",
   info = " ",
   hint = " ",
+}
+
+---Fold operations disabled in normal mode (zz/zt/zb/zg/zw/zh/zl still work).
+---Used by core/keymaps.lua (Nop mappings) and plugins/ui/which-key.lua (hidden).
+---@type string[]
+M.disabled_fold_keys = {
+  "za",
+  "zc",
+  "zd",
+  "zD",
+  "zE",
+  "zf",
+  "zi",
+  "zm",
+  "zM",
+  "zn",
+  "zN",
+  "zo",
+  "zO",
+  "zr",
+  "zR",
+  "zx",
+  "zX",
+  "zA",
+  "zC",
 }
 
 return M

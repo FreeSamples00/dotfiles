@@ -83,7 +83,7 @@
     # Note: cargo, npm, and go installs are NOT managed by nix-darwin.
     # They remain in their respective package managers:
     # cargo: cargo-update, ghgrab, metapac, nu-lint, nufmt, rusty-hook, tdf-viewer
-    # npm: neovim, ocx, vercel
+    # npm: ocx, vercel
     # go: golang.org/dl/go1.27rc1
   };
 }

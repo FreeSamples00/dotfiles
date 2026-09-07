@@ -39,6 +39,7 @@ brew "btop"
 brew "zellij"
 
 # Dev tools (LSP, formatters, linters — system-installed, not via Mason)
+brew "tree-sitter"
 brew "pre-commit"
 brew "git-delta"
 brew "lua-language-server"

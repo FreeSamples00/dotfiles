@@ -4,8 +4,8 @@
 --- - lang-system (local plugin with keybinds and commands)
 --- - Mason (package manager for LSP/formatters/linters)
 --- - nvim-treesitter (syntax highlighting + textobjects)
---- - nvim-lspconfig (LSP client with mason-lspconfig bridge + neodev + cmp-nvim-lsp)
---- - none-ls (formatters and linters, loaded on LspAttach)
+--- - nvim-lspconfig (LSP client with mason-lspconfig bridge)
+--- - conform.nvim (formatters) + nvim-lint (linters)
 ---
 --- Default definitions: lua/lang-system/languages.lua and mappings.lua
 --- Override them via the opts table below.
@@ -44,13 +44,11 @@ return {
 
   {
     "nvim-treesitter/nvim-treesitter",
-    lazy = false,
-    build = function()
-      pcall(require("nvim-treesitter.install").update({ with_sync = true }))
-    end,
+    lazy = false, -- main branch does not support lazy-loading
+    build = ":TSUpdate",
     dependencies = {
       "lang-system",
-      "nvim-treesitter/nvim-treesitter-textobjects", -- textobject motions
+      { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" }, -- textobject motions
     },
     config = function()
       lang_system.setup_treesitter()
@@ -63,8 +61,6 @@ return {
     dependencies = {
       "lang-system",
       "williamboman/mason-lspconfig.nvim", -- Mason ↔ lspconfig bridge
-      "folke/neodev.nvim", -- Lua dev enhancements for neovim config
-      "hrsh7th/cmp-nvim-lsp", -- LSP completion source
     },
     config = function()
       lang_system.setup_lspconfig()
@@ -72,14 +68,20 @@ return {
   },
 
   {
-    "nvimtools/none-ls.nvim",
-    event = "LspAttach", -- lazy load with LSP
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvimtools/none-ls-extras.nvim", -- extra formatter/linter sources
-    },
+    "stevearc/conform.nvim",
+    lazy = false, -- guarantees :Format and format_on_save for scripted `nvim +w` too
+    dependencies = { "lang-system" },
     config = function()
-      lang_system.setup_null_ls()
+      lang_system.setup_conform()
+    end,
+  },
+
+  {
+    "mfussenegger/nvim-lint",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = { "lang-system" },
+    config = function()
+      lang_system.setup_nvimlint()
     end,
   },
 }

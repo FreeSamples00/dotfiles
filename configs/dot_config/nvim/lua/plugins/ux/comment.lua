@@ -1,20 +1,9 @@
---- Commenting: ts-comments for treesitter-aware comment detection,
---- Comment.nvim for full commenting keymaps including block mode (gb/gbc)
----
---- ts-comments overrides commentstrings based on treesitter context,
---- handling multiple comment styles and embedded languages correctly.
---- Comment.nvim provides the actual commenting operations (gcc/gbc, gc/gb)
---- and uses ts-comments' commentstrings under the hood.
+--- Commenting: built-in gc/gb operators (Neovim 0.10+) with
+--- ts-comments providing treesitter-aware commentstrings
+--- (handles multiple comment styles and embedded languages)
 
 return {
-  {
-    "folke/ts-comments.nvim",
-    event = "VeryLazy",
-    opts = {},
-  },
-  {
-    "numToStr/Comment.nvim",
-    event = "VeryLazy",
-    opts = {},
-  },
+  "folke/ts-comments.nvim",
+  event = "VeryLazy",
+  opts = {},
 }

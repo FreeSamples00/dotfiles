@@ -18,14 +18,6 @@ function M.lsp_map(lhs, rhs, bufnr, desc)
   vim.keymap.set("n", lhs, rhs, { silent = true, buffer = bufnr, desc = desc })
 end
 
----@param mode string|table Mode(s) for the mapping
----@param lhs string LHS key sequence
----@param rhs string|function RHS key sequence or callback
----@param desc string Description for which-key
-function M.dap_map(mode, lhs, rhs, desc)
-  M.map(mode, lhs, rhs, desc)
-end
-
 ---@param global_key string Leader key
 ---@param local_key string Local leader key
 function M.set_leaders(global_key, local_key)

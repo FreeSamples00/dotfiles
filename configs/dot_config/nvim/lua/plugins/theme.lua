@@ -75,7 +75,6 @@ return {
         end,
       },
       integrations = {
-        dropbar = { enabled = true, color_mode = true },
         blink_cmp = { enabled = true, style = "bordered" },
         gitsigns = true,
         mason = true,

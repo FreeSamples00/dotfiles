@@ -1,7 +1,8 @@
 --- Language System Module
 --- Entry point for language tooling configuration.
 ---
---- Provides setup functions for Mason, treesitter, LSP, and null-ls.
+--- Provides setup functions for Mason, treesitter, LSP, conform (formatters),
+--- and nvim-lint (linters).
 --- Language definitions are configured via setup(opts) from lazy.nvim.
 --- Default definitions are in languages.lua and mappings.lua.
 
@@ -18,7 +19,6 @@ M.uninstall_language = functions.uninstall_language
 M.status = functions.status
 M.get_ensure_installed_parsers = functions.get_ensure_installed_parsers
 M.get_ensure_installed_lsp_servers = functions.get_ensure_installed_lsp_servers
-M.get_ensure_installed_mason_packages = functions.get_ensure_installed_mason_packages
 M.get_all_formatters = functions.get_all_formatters
 M.get_all_linters = functions.get_all_linters
 M.get_all_lsp_configs = functions.get_all_lsp_configs
@@ -28,7 +28,6 @@ M.apply_tool_defaults = functions.apply_tool_defaults
 -- Merged data (populated after setup())
 M.languages = {}
 M.lsp_to_mason = {}
-M.tool_to_nullls = {}
 
 function M.setup(opts)
   functions.setup(opts)
@@ -36,7 +35,6 @@ function M.setup(opts)
   -- Update merged data references after setup
   M.languages = functions.languages
   M.lsp_to_mason = functions.lsp_to_mason
-  M.tool_to_nullls = functions.tool_to_nullls
 
   vim.api.nvim_create_user_command("AutoFormatToggle", function()
     vim.g.autoformat_enabled = not vim.g.autoformat_enabled
@@ -123,7 +121,7 @@ function M.setup(opts)
   end, { desc = "Show language installation status" })
 
   vim.api.nvim_create_user_command("LanguageInstallCurrent", function()
-    local ft = vim.api.nvim_buf_get_option(0, "filetype")
+    local ft = vim.bo[0].filetype
     if ft == "" or ft == nil then
       vim.notify("No filetype detected for current buffer", vim.log.levels.WARN)
       return
@@ -137,7 +135,7 @@ function M.setup(opts)
   end, { desc = "Install tools for current buffer's language" })
 
   vim.api.nvim_create_user_command("LanguageUninstallCurrent", function()
-    local ft = vim.api.nvim_buf_get_option(0, "filetype")
+    local ft = vim.bo[0].filetype
     if ft == "" or ft == nil then
       vim.notify("No filetype detected for current buffer", vim.log.levels.WARN)
       return
@@ -155,7 +153,7 @@ function M.setup(opts)
   vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
     group = vim.api.nvim_create_augroup("LanguageNotification", { clear = true }),
     callback = function()
-      local ft = vim.api.nvim_buf_get_option(0, "filetype")
+      local ft = vim.bo[0].filetype
       if ft == "" or ft == nil then
         return
       end
@@ -198,47 +196,45 @@ function M.setup_mason()
 end
 
 function M.setup_treesitter()
-  require("nvim-treesitter.config").setup({
-    ensure_installed = M.get_ensure_installed_parsers(),
-    highlight = { enable = true },
-    indent = { enable = true, disable = { "python" } },
-    incremental_selection = {
-      enable = true,
-      keymaps = {
-        init_selection = "<c-space>",
-        node_incremental = "<c-space>",
-        scope_incremental = "<c-s>",
-        node_decremental = "<c-backspace>",
-      },
+  -- textobjects configuration (nvim-treesitter-textobjects main branch API)
+  require("nvim-treesitter-textobjects").setup({
+    move = {
+      set_jumps = true, -- jump list entries for function motions
     },
-    textobjects = {
-      select = {
-        enable = false, -- replaced by mini.ai
-      },
-      move = {
-        enable = true,
-        set_jumps = true,
-        goto_next_start = {
-          ["]m"] = "@function.outer",
-        },
-        goto_next_end = {
-          ["]M"] = "@function.outer",
-        },
-        goto_previous_start = {
-          ["[m"] = "@function.outer",
-        },
-        goto_previous_end = {
-          ["[M"] = "@function.outer",
-        },
-      },
-    },
+  })
+
+  local ts_move = require("nvim-treesitter-textobjects.move")
+  local map = require("helpers.keys").map
+  map({ "n", "x", "o" }, "]m", function()
+    ts_move.goto_next_start("@function.outer", "textobjects")
+  end, "Next function start")
+  map({ "n", "x", "o" }, "]M", function()
+    ts_move.goto_next_end("@function.outer", "textobjects")
+  end, "Next function end")
+  map({ "n", "x", "o" }, "[m", function()
+    ts_move.goto_previous_start("@function.outer", "textobjects")
+  end, "Previous function start")
+  map({ "n", "x", "o" }, "[M", function()
+    ts_move.goto_previous_end("@function.outer", "textobjects")
+  end, "Previous function end")
+
+  -- Start treesitter highlighting + indentation per buffer (main branch API).
+  -- Highlighting and indentexpr are core/plugin features that must be
+  -- enabled per filetype; no parser/query installed -> pcall fails silently.
+  vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("TreesitterStart", { clear = true }),
+    callback = function(args)
+      pcall(vim.treesitter.start, args.buf)
+      -- treesitter indentation is experimental; python ships a better ftplugin
+      if args.match ~= "python" then
+        vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      end
+    end,
   })
 end
 
 function M.setup_lspconfig()
   local globals = require("helpers.globals")
-
-  require("neodev").setup()
 
   vim.diagnostic.config({
     virtual_text = false,
@@ -266,7 +262,7 @@ function M.setup_lspconfig()
   local on_attach = function(client, bufnr)
     local lsp_map = require("helpers.keys").lsp_map
 
-    local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
+    local ft = vim.bo[bufnr].filetype
     local lang_name, lang = M.get_language_for_filetype(ft)
     local formatter = M.apply_tool_defaults(lang and lang.formatter)
     if formatter and formatter.enable then
@@ -291,15 +287,11 @@ function M.setup_lspconfig()
     lsp_map("<leader>ls", Snacks.picker.lsp_symbols, bufnr, "Buffer Symbols")
     lsp_map("<leader>lS", Snacks.picker.lsp_workspace_symbols, bufnr, "All Symbols")
 
-    vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-      vim.lsp.buf.format()
-    end, { desc = "Format current buffer with LSP" })
-
     lsp_map("<leader>ff", "<cmd>Format<cr>", bufnr, "Format")
   end
 
   local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+  capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
 
   for lang_name, lsp in pairs(M.get_all_lsp_configs()) do
     local config = vim.tbl_deep_extend("force", {
@@ -316,158 +308,100 @@ function M.setup_lspconfig()
     end
   end
 
+  -- Exclude formatter/linter/dap tool names from automatic enabling:
+  -- some (e.g. stylua, which ships an --lsp mode) have Mason package specs
+  -- declaring an lspconfig name, and would otherwise attach as LSP servers
+  -- alongside conform.
+  local exclude = {}
+  for _, lang in pairs(M.languages) do
+    for _, tool_key in ipairs({ "formatter", "linter", "dap" }) do
+      local tool = M.apply_tool_defaults(lang[tool_key])
+      if tool and tool.name then
+        exclude[#exclude + 1] = tool.name
+      end
+    end
+  end
+
   require("mason-lspconfig").setup({
     ensure_installed = M.get_ensure_installed_lsp_servers(),
-    automatic_installation = true,
-    automatic_enable = true,
+    automatic_enable = { exclude = exclude },
   })
 end
 
-function M.setup_null_ls()
-  local null_ls = require("null-ls")
-  local sources = {}
-  local formatters_by_name = {}
+function M.setup_conform()
+  local conform = require("conform")
 
-  local mason_bin = vim.fn.stdpath("data") .. "/mason/bin/"
+  -- formatters_by_ft: filetype → formatter names, derived from language defs.
+  -- A formatter's config.filetypes overrides the language's filetypes
+  -- (e.g. prettier for typescript also covers json).
+  local formatters_by_ft = {}
+  local formatter_opts = {} -- per-tool conform formatter config (extra_args)
 
-  local function get_source(method, name)
-    local mapping = M.tool_to_nullls[method] and M.tool_to_nullls[method][name]
-
-    if mapping and mapping.provider == "extras" then
-      local ok, extra = pcall(require, "none-ls." .. method .. "." .. mapping.source)
-      if ok then
-        return extra, mapping
-      else
-        vim.notify(
-          string.format(
-            "[null-ls] failed to load extras source '%s.%s'; ensure none-ls-extras.nvim is installed",
-            method,
-            mapping.source
-          ),
-          vim.log.levels.WARN
-        )
-        return nil, nil
-      end
-    elseif mapping and mapping.provider == "local" then
-      local ok, local_source = pcall(require, "lang-system.sources." .. method .. "." .. mapping.source)
-      if ok then
-        return local_source, mapping
-      else
-        vim.notify(
-          string.format("[null-ls] failed to load local source '%s.%s'", method, mapping.source),
-          vim.log.levels.WARN
-        )
-        return nil, nil
-      end
-    elseif mapping and mapping.provider == "builtin" then
-      local builtin = null_ls.builtins[method][mapping.source]
-      if builtin then
-        return builtin, mapping
-      else
-        vim.notify(
-          string.format(
-            "[null-ls] builtin source '%s.%s' not found; this may indicate a null-ls version mismatch",
-            method,
-            mapping.source
-          ),
-          vim.log.levels.WARN
-        )
-        return nil, nil
-      end
-    else
-      local builtin = null_ls.builtins[method][name]
-      if builtin then
-        return builtin, nil
-      end
-      vim.notify(
-        string.format(
-          "[null-ls] no source found for %s '%s'; add to mappings.lua or install the tool via Mason",
-          method,
-          name
-        ),
-        vim.log.levels.WARN
-      )
-      return nil, nil
-    end
-  end
-
-  for lang_name, formatter in pairs(M.get_all_formatters()) do
-    local name = formatter.name
-    if not formatters_by_name[name] then
-      formatters_by_name[name] = {
-        config = formatter.config,
-        mason = formatter.mason,
-        extra_args = formatter.extra_args,
-      }
-    elseif formatter.config and formatter.config.filetypes then
-      local existing = formatters_by_name[name]
-      if existing.config and existing.config.filetypes then
-        for _, ft in ipairs(formatter.config.filetypes) do
-          if not vim.tbl_contains(existing.config.filetypes, ft) then
-            table.insert(existing.config.filetypes, ft)
-          end
+  for _, lang in pairs(M.languages) do
+    local formatter = M.apply_tool_defaults(lang.formatter)
+    if formatter and formatter.enable then
+      local fts = (formatter.config and formatter.config.filetypes) or lang.filetypes or {}
+      for _, ft in ipairs(fts) do
+        local list = formatters_by_ft[ft] or {}
+        if not vim.tbl_contains(list, formatter.name) then
+          table.insert(list, formatter.name)
         end
+        formatters_by_ft[ft] = list
+      end
+      if formatter.extra_args then
+        formatter_opts[formatter.name] = { append_args = formatter.extra_args }
       end
     end
   end
 
-  for name, formatter_data in pairs(formatters_by_name) do
-    local source, mapping = get_source("formatting", name)
-    if source then
-      local opts = {
-        condition = function()
-          if formatter_data.mason == false then
-            return vim.fn.executable(name) == 1
-          else
-            return M.is_mason_installed(name)
-          end
-        end,
-      }
-      if mapping and mapping.provider == "extras" and formatter_data.mason ~= false then
-        opts.command = mason_bin .. name
+  conform.setup({
+    formatters_by_ft = formatters_by_ft,
+    formatters = formatter_opts,
+    -- respects vim.g.autoformat_enabled (toggled via :AutoFormatToggle / <leader>uf)
+    format_on_save = function(bufnr)
+      if vim.g.autoformat_enabled == false then
+        return
       end
-      if formatter_data.config then
-        opts = vim.tbl_extend("force", opts, formatter_data.config)
+      return { timeout_ms = 1000, lsp_format = "fallback" }
+    end,
+  })
+
+  vim.api.nvim_create_user_command("Format", function()
+    conform.format({ lsp_format = "fallback", async = false })
+  end, { desc = "Format buffer (conform with LSP fallback)" })
+end
+
+function M.setup_nvimlint()
+  local lint = require("lint")
+
+  local linters_by_ft = {}
+  for _, lang in pairs(M.languages) do
+    local linter = M.apply_tool_defaults(lang.linter)
+    if linter and linter.enable then
+      local fts = lang.filetypes or {}
+      for _, ft in ipairs(fts) do
+        local list = linters_by_ft[ft] or {}
+        if not vim.tbl_contains(list, linter.name) then
+          table.insert(list, linter.name)
+        end
+        linters_by_ft[ft] = list
       end
-      if formatter_data.extra_args then
-        opts.extra_args = formatter_data.extra_args
+      if linter.extra_args and lint.linters[linter.name] then
+        local linter_def = lint.linters[linter.name]
+        linter_def.args = vim.list_extend(vim.deepcopy(linter_def.args or {}), linter.extra_args)
       end
-      if source.with then
-        source = source.with(opts)
-      end
-      table.insert(sources, source)
     end
   end
+  lint.linters_by_ft = linters_by_ft
 
-  for lang_name, linter in pairs(M.get_all_linters()) do
-    local source, mapping = get_source("diagnostics", linter.name)
-    if source then
-      local opts = {
-        condition = function()
-          if linter.mason == false then
-            return vim.fn.executable(linter.name) == 1
-          else
-            return M.is_mason_installed(linter.name)
-          end
-        end,
-      }
-      if mapping and mapping.provider == "extras" and linter.mason ~= false then
-        opts.command = mason_bin .. linter.name
-      end
-      if linter.config then
-        opts = vim.tbl_extend("force", opts, linter.config)
-      end
-      if linter.extra_args then
-        opts.extra_args = linter.extra_args
-      end
-      if source.with then
-        source = source.with(opts)
-      end
-      table.insert(sources, source)
-    end
-  end
+  lint.try_lint()
 
-  null_ls.setup({ sources = sources })
+  vim.api.nvim_create_autocmd({ "BufWritePost", "InsertLeave", "BufEnter" }, {
+    group = vim.api.nvim_create_augroup("nvim-lint", { clear = true }),
+    callback = function()
+      lint.try_lint()
+    end,
+  })
 end
 
 return M

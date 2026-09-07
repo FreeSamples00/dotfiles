@@ -54,13 +54,13 @@ Catppuccin-mocha (default) with transparent background. Also includes: gruvbox, 
 
 ## UX
 
-- **Comment.nvim**: Toggle comments
+- **Commenting**: built-in `gc`/`gb` operators with ts-comments (treesitter-aware commentstrings)
 - **mini.move**: Move text with Alt+hjkl
 - **vim-sleuth**: Auto-detect indentation
-- **vim-surround**: Surround text objects with brackets/quotes
+- **vim-surround**: Surround text objects with brackets/quotes (visual-mode `S` is Flash Treesitter; use `gS` for visual surround)
 - **minipairs**: Auto-pairing for brackets and quotes. Brackets pair only before space/EOL; quotes only open in whitespace contexts, close normally inside pairs
 - **which-key**: Keybind discovery popup with Helix preset. Press `<leader>?` to show all keymaps. Groups: `<leader>f` (File), `<leader>g` (Git), `<leader>h` (Harpoon), `<leader>s` (Search), `<leader>u` (UI), `<leader>l` (LSP), `<leader>d` (Dev Tools), `<leader>M` (Markdown)
-- **nvim-cmp**: Autocompletion with LSP, LuaSnip, buffer, path sources. Tab/S-Tab for navigation, CR to confirm
+- **blink.cmp**: Autocompletion with LSP, snippets, buffer, path sources. C-k/C-j navigate, Tab/S-Tab select or jump snippets, CR confirms (no auto-select)
 - **Harpoon (v2)**: Quick file marking for fast switching
 
 | Key                 | Action                   |
@@ -106,8 +106,8 @@ See [lua/lang-system/README.md](lua/lang-system/README.md) for the language syst
 
 This system handles declarative configuration of these language tools:
 
-- Treesitter
+- Treesitter (highlighting + indentation via `vim.treesitter.start`, main branch API)
 - LSP
-- Formatter
-- Linter
+- Formatter (conform.nvim, format-on-save via `:AutoFormatToggle`/`<leader>uf`)
+- Linter (nvim-lint, on save/insert-leave)
 - DAP

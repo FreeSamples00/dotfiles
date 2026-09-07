@@ -8,10 +8,10 @@ A declarative language configuration system that centralizes LSP, formatters, li
 
 ```
 lua/lang-system/
-├── init.lua       # Entry point; exports merged data and core functions
+├── init.lua       # Entry point; setup functions for Mason, treesitter, LSP, conform, nvim-lint
 ├── functions.lua  # Core helper functions and merge logic
 ├── languages.lua  # Default language definitions
-└── mappings.lua   # Default LSP/formatter/linter → Mason mappings
+└── mappings.lua   # Explicit LSP → Mason package name overrides
 
 lua/plugins/
 └── lang-system.lua  # Plugin spec + user overrides
@@ -47,7 +47,13 @@ opts = {
 
 ### Mapping Defaults
 
-`mappings.lua` contains default mappings for LSP servers and tools to Mason packages. Extend them via the `mappings` opt:
+`mappings.lua` holds explicit LSP server → Mason package overrides for names that can't be derived mechanically. Most servers resolve automatically via `get_mason_name()`:
+
+1. explicit override (`mappings.lua`)
+2. underscore → dash (`rust_analyzer` → `rust-analyzer`)
+3. trailing `_ls`/`ls` → `-language-server` (`bashls` → `bash-language-server`)
+
+When multiple candidates apply, the first one found in the Mason registry wins. Only add entries to `mappings.lsp_to_mason` when derivation fails:
 
 ```lua
 opts = {
@@ -55,14 +61,11 @@ opts = {
     lsp_to_mason = {
       my_custom_lsp = "my-custom-mason-package",
     },
-    tool_to_nullls = {
-      formatting = {
-        my_formatter = { source = "my_formatter", provider = "builtin" },
-      },
-    },
   },
 }
 ```
+
+Formatter/linter names need no mapping: conform.nvim and nvim-lint address tools by their executable names, matching `languages.lua` directly.
 
 ## Dependencies
 
@@ -71,9 +74,9 @@ opts = {
 | `williamboman/mason.nvim`           | Package manager for LSP/formatters/linters |
 | `williamboman/mason-lspconfig.nvim` | Mason ↔ lspconfig bridge                  |
 | `neovim/nvim-lspconfig`             | LSP client configuration                   |
-| `nvimtools/none-ls.nvim`            | Formatters, linters, code actions          |
-| `nvimtools/none-ls-extras.nvim`     | Extra sources for none-ls                  |
-| `nvim-treesitter/nvim-treesitter`   | Syntax highlighting                        |
+| `stevearc/conform.nvim`             | Formatters                                 |
+| `mfussenegger/nvim-lint`            | Linters                                    |
+| `nvim-treesitter/nvim-treesitter`   | Syntax highlighting (main branch)          |
 
 ## Language Declaration Schema
 
@@ -90,12 +93,14 @@ lua = {
     mason = false,                 -- set false for system-installed servers
   },
   formatter = {                    -- Optional: formatter configuration
-    name = "stylua",               -- none-ls source name
-    config = { ... },              -- passed to none-ls source.with()
+    name = "stylua",               -- conform formatter name (executable name)
+    extra_args = { ... },          -- appended to formatter args
+    config = { ... },              -- conform formatter overrides (filetypes etc.)
     mason = false,                 -- set false for system-installed tools
   },
   linter = {                       -- Optional: linter configuration
-    name = "shellcheck",
+    name = "shellcheck",           -- nvim-lint linter name (executable name)
+    extra_args = { ... },
     config = { ... },
     mason = false,
     enable = false,                -- set false to disable but keep definition
@@ -179,52 +184,21 @@ Dependency behavior:
    }
    ```
 
-4. If using a formatter/linter from `none-ls-extras`, it's loaded automatically.
-
 ## Adding a New Tool (Formatters/Linters)
 
-1. Check if tool exists in `null_ls.builtins.formatting[name]` or `none-ls-extras`
-2. Add to language definition with `name` matching the none-ls source
-3. Mason package name should match the source name
+1. Check the tool exists in [conform.nvim formatters](https://github.com/stevearc/conform.nvim/blob/master/doc/recipes.md) or [nvim-lint linters](https://github.com/mfussenegger/nvim-lint#available-linters) — names match the executable
+2. Add to the language definition with `name` matching the executable
+3. Mason package name usually matches the executable name
 
 ## Tool Name Mappings
 
-`mappings.lua` maps LSP/formatter/linter names to Mason package names. If auto-install fails, the mapping may be missing. Check Mason docs for the correct package name.
+`mappings.lua` maps lspconfig server names to Mason package names for names that fail mechanical derivation (see [Mapping Defaults](#mapping-defaults)). If LSP auto-install fails, the override may be missing.
 
-## none-ls Source Loading
+## Verification
 
-Sources are loaded with fallback logic:
-
-1. Check `tool_to_nullls` mapping for explicit source/provider config
-2. Try `null_ls.builtins[method][name]` (core builtins)
-3. For `provider = "extras"`, load from `none-ls.{method}.{source}`
-
-This allows using tools from `none-ls-extras.nvim` with explicit mapping.
-
-## Testing
-
-Run tests with [just](https://github.com/casey/just):
+There is no automated test suite yet. To smoke-test the language system headlessly:
 
 ```bash
-just test              # Run all tests
-just test-unit         # Run unit tests only
-just test-integration  # Run integration tests only
-just test-file unit/dependencies_spec.lua  # Run specific file
-```
-
-Requires [plenary.nvim](https://github.com/nvim-lua/plenary.nvim) installed.
-
-### Test Structure
-
-```
-tests/
-├── minimal_init.lua           # Mock data and test environment
-├── unit/
-│   ├── apply_tool_defaults_spec.lua
-│   ├── dependencies_spec.lua
-│   ├── ensure_installed_spec.lua
-│   └── filetype_lookup_spec.lua
-└── integration/
-    ├── setup_spec.lua
-    └── is_installed_spec.lua
+XDG_CONFIG_HOME=/tmp/scratch nvim --headless \
+  +"lua print(vim.inspect(require('lang-system').status()))" +qa
 ```

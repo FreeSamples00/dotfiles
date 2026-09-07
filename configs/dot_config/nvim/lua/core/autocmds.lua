@@ -6,7 +6,7 @@ local augroup = vim.api.nvim_create_augroup
 local general = augroup("General", { clear = true })
 local globals = require("helpers.globals")
 
--- cross-module global: toggled by <leader>uf in snacks/setup.lua
+-- cross-module global: toggled by :AutoFormatToggle / <leader>uf, read by conform.nvim
 vim.g.autoformat_enabled = true
 
 ----- Text-heavy filetype rules (see helpers.globals.text_filetypes) -----
@@ -279,13 +279,5 @@ autocmd("TextYankPost", {
   end,
 })
 
------ Auto-format on save (respects vim.g.autoformat_enabled) -----
-autocmd("BufWritePre", {
-  group = general,
-  desc = "Auto-format on save",
-  callback = function()
-    if vim.g.autoformat_enabled ~= false then
-      vim.lsp.buf.format({ timeout_ms = 1000 })
-    end
-  end,
-})
+-- Note: auto-format on save is handled by conform.nvim (lang-system/init.lua),
+-- reading vim.g.autoformat_enabled above.

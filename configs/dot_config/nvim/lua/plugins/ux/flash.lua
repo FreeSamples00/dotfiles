@@ -56,6 +56,15 @@ return {
     vim.api.nvim_create_autocmd("ColorScheme", {
       callback = set_flash_label,
     })
+
+    -- Flash S wins over vim-surround in visual mode (both are VeryLazy and
+    -- vim-surround loads later, clobbering flash's mapping). Re-apply after
+    -- the whole VeryLazy batch; visual-mode surround remains reachable via gS.
+    vim.defer_fn(function()
+      vim.keymap.set("x", "S", function()
+        require("flash").treesitter()
+      end, { desc = "Flash Treesitter" })
+    end, 0)
   end,
   keys = {
     {
