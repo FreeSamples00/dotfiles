@@ -1,11 +1,4 @@
 --- blink.cmp: completion with LSP, snippets, buffer, and path sources
---- Replaces nvim-cmp + cmp-nvim-lsp/buffer/path/lua + LuaSnip + cmp_luasnip
----
---- Keymap parity with the previous nvim-cmp config:
----   C-k/C-j   select prev/next item
----   C-d/C-f   scroll documentation
----   CR        confirm only explicitly selected item (no auto-select)
----   Tab/S-Tab select item, else jump snippet placeholder, else fallback
 
 -- prebuilt fuzzy binary from the pinned release; must load before LSP attaches
 -- so its capabilities are registered with every client
@@ -47,13 +40,19 @@ return {
   opts = {
     keymap = {
       preset = "none",
-      ["<C-k>"] = { "select_prev", "fallback" },
-      ["<C-j>"] = { "select_next", "fallback" },
-      ["<C-d>"] = { "scroll_documentation_up", "fallback" },
-      ["<C-f>"] = { "scroll_documentation_down", "fallback" },
+      -- menu navigation: arrows, vim-style, and the old C-k/C-j pair
+      ["<Down>"] = { "select_next", "fallback" },
+      ["<Up>"] = { "select_prev", "fallback" },
+      -- documentation scrolling (no-ops to native keys when the docs window is closed)
+      ["<S-Up>"] = { "scroll_documentation_up", "fallback" },
+      ["<S-Down>"] = { "scroll_documentation_down", "fallback" },
+      -- accept
       ["<CR>"] = { "accept", "fallback" },
+      -- snippet placeholder jumping
       ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
       ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+      -- trigger
+      ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
     },
     appearance = { kind_icons = kind_icons },
     completion = {
