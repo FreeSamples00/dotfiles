@@ -40,12 +40,14 @@ return {
   opts = {
     keymap = {
       preset = "none",
-      -- menu navigation: arrows, vim-style, and the old C-k/C-j pair
+      -- menu navigation
       ["<Down>"] = { "select_next", "fallback" },
       ["<Up>"] = { "select_prev", "fallback" },
-      -- documentation scrolling (no-ops to native keys when the docs window is closed)
-      ["<S-Up>"] = { "scroll_documentation_up", "fallback" },
-      ["<S-Down>"] = { "scroll_documentation_down", "fallback" },
+      ["<C-j>"] = { "scroll_documentation_down", "select_next", "fallback" },
+      ["<C-k>"] = { "scroll_documentation_up", "select_prev", "fallback" },
+      -- pure docs scrolling (no selection fallback)
+      ["<C-Down>"] = { "scroll_documentation_down", "fallback" },
+      ["<C-Up>"] = { "scroll_documentation_up", "fallback" },
       -- accept
       ["<CR>"] = { "accept", "fallback" },
       -- snippet placeholder jumping
