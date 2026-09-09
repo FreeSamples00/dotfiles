@@ -162,6 +162,7 @@ function M.setup_lspconfig()
       source = "always",
       header = "",
       prefix = "",
+      max_width = 80, -- keep diagnostic popups narrow; long lines wrap
     },
   })
 

@@ -19,6 +19,16 @@ return {
       inc_rename = false,
       lsp_doc_border = "rounded", -- bordered LSP hover/signature
     },
+    views = {
+      hover = {
+        -- Noice defaults size the hover popup to the longest unbreakable
+        -- line (up to 120 cols), making prose wrap across a full-width
+        -- window. Cap the width and add breakindent + showbreak so wrapped
+        -- lines read like the rest of the config (help, notifications).
+        size = { max_width = 80 },
+        win_options = require("helpers.utils").wrap_options,
+      },
+    },
     messages = {
       enabled = true,
       view = "notify",
