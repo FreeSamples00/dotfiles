@@ -1,187 +1,97 @@
---- Language System Module
---- Entry point for language tooling configuration.
+--- Language System Wiring
 ---
---- Provides setup functions for Mason, treesitter, LSP, conform (formatters),
---- and nvim-lint (linters).
---- Language definitions are configured via setup(opts) from lazy.nvim.
---- Default definitions are in languages.lua and mappings.lua.
+--- Consumes the per-language toolchain table defined in
+--- lua/plugins/lang-system.lua and wires Mason, treesitter, LSP, conform
+--- (formatters), and nvim-lint (linters). Also provides :LanguageInstall.
 
-local M = {}
-
-local functions = require("lang-system.functions")
-
--- Export core functions
-M.is_mason_installed = functions.is_mason_installed
-M.is_installed = functions.is_installed
-M.install_ensure_installed = functions.install_ensure_installed
-M.install_language = functions.install_language
-M.uninstall_language = functions.uninstall_language
-M.status = functions.status
-M.get_ensure_installed_parsers = functions.get_ensure_installed_parsers
-M.get_ensure_installed_lsp_servers = functions.get_ensure_installed_lsp_servers
-M.get_all_formatters = functions.get_all_formatters
-M.get_all_linters = functions.get_all_linters
-M.get_all_lsp_configs = functions.get_all_lsp_configs
-M.get_language_for_filetype = functions.get_language_for_filetype
-M.apply_tool_defaults = functions.apply_tool_defaults
-
--- Merged data (populated after setup())
-M.languages = {}
-M.lsp_to_mason = {}
+local M = {
+  languages = {},
+}
 
 function M.setup(opts)
-  functions.setup(opts)
-
-  -- Update merged data references after setup
-  M.languages = functions.languages
-  M.lsp_to_mason = functions.lsp_to_mason
-
-  vim.api.nvim_create_user_command("AutoFormatToggle", function()
-    vim.g.autoformat_enabled = not vim.g.autoformat_enabled
-    vim.notify(
-      string.format("Auto-formatting %s", vim.g.autoformat_enabled and "enabled" or "disabled"),
-      vim.log.levels.INFO
-    )
-  end, { desc = "Toggle auto-formatting on save" })
-
-  vim.api.nvim_create_user_command("LanguageInstall", function(opts)
-    local lang_name = opts.args
-    if lang_name == "" then
-      local lang_names = vim.tbl_keys(M.languages)
-      vim.ui.select(lang_names, {
-        prompt = "Select language to install:",
-      }, function(choice)
-        if choice then
-          M.install_language(choice)
-        end
-      end)
-    else
-      M.install_language(lang_name)
-    end
-  end, {
-    nargs = "?",
-    complete = function()
-      return vim.tbl_keys(M.languages)
-    end,
-    desc = "Install language tools",
-  })
-
-  vim.api.nvim_create_user_command("LanguageUninstall", function(opts)
-    local lang_name = opts.args
-    local force = opts.bang
-    if lang_name == "" then
-      local lang_names = vim.tbl_keys(M.languages)
-      vim.ui.select(lang_names, {
-        prompt = "Select language to uninstall:",
-      }, function(choice)
-        if choice then
-          M.uninstall_language(choice, { force = force })
-        end
-      end)
-    else
-      M.uninstall_language(lang_name, { force = force })
-    end
-  end, {
-    nargs = "?",
-    bang = true,
-    complete = function()
-      return vim.tbl_keys(M.languages)
-    end,
-    desc = "Uninstall language tools (use ! to force)",
-  })
-
-  vim.api.nvim_create_user_command("LanguageList", function()
-    local lang_names = vim.tbl_keys(M.languages)
-    table.sort(lang_names)
-    vim.notify("Defined languages:\n" .. table.concat(lang_names, "\n"), vim.log.levels.INFO)
-  end, { desc = "List all defined languages" })
-
-  vim.api.nvim_create_user_command("LanguageStatus", function()
-    local status = M.status()
-    local lines = { "Language Status:", "" }
-    local sorted = {}
-    for lang_name, lang_status in pairs(status) do
-      if lang_status then
-        table.insert(sorted, { name = lang_name, status = lang_status })
-      end
-    end
-    table.sort(sorted, function(a, b)
-      return a.name < b.name
-    end)
-    for _, item in ipairs(sorted) do
-      local status_str = item.status.complete and "✓" or "○"
-      local lang = M.languages[item.name]
-      local deps_str = ""
-      if lang and lang.dependencies and #lang.dependencies > 0 then
-        deps_str = " (depends: " .. table.concat(lang.dependencies, ", ") .. ")"
-      end
-      table.insert(lines, string.format("  %s %s%s", status_str, item.name, deps_str))
-    end
-    vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO)
-  end, { desc = "Show language installation status" })
-
-  vim.api.nvim_create_user_command("LanguageInstallCurrent", function()
-    local ft = vim.bo[0].filetype
-    if ft == "" or ft == nil then
-      vim.notify("No filetype detected for current buffer", vim.log.levels.WARN)
-      return
-    end
-    local lang_name, lang = M.get_language_for_filetype(ft)
-    if not lang_name then
-      vim.notify("No language defined for filetype: " .. ft, vim.log.levels.WARN)
-      return
-    end
-    M.install_language(lang_name)
-  end, { desc = "Install tools for current buffer's language" })
-
-  vim.api.nvim_create_user_command("LanguageUninstallCurrent", function()
-    local ft = vim.bo[0].filetype
-    if ft == "" or ft == nil then
-      vim.notify("No filetype detected for current buffer", vim.log.levels.WARN)
-      return
-    end
-    local lang_name, lang = M.get_language_for_filetype(ft)
-    if not lang_name then
-      vim.notify("No language defined for filetype: " .. ft, vim.log.levels.WARN)
-      return
-    end
-    M.uninstall_language(lang_name)
-  end, { desc = "Uninstall tools for current buffer's language" })
-
-  local notified_languages = {}
-
-  vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
-    group = vim.api.nvim_create_augroup("LanguageNotification", { clear = true }),
-    callback = function()
-      local ft = vim.bo[0].filetype
-      if ft == "" or ft == nil then
-        return
-      end
-
-      local lang_name, lang = M.get_language_for_filetype(ft)
-      if not lang_name then
-        return
-      end
-
-      if notified_languages[lang_name] then
-        return
-      end
-
-      local status = M.is_installed(lang_name)
-      if not status then
-        return
-      end
-
-      if not status.complete then
-        notified_languages[lang_name] = true
-        vim.notify(
-          string.format("Language '%s' config available. Run :LanguageInstall %s to install", lang_name, lang_name),
-          vim.log.levels.INFO
-        )
-      end
-    end,
-  })
+  M.languages = (opts and opts.languages) or {}
 end
+
+---- Install command -----------------------------------------------------------
+
+--- Mason package name for a tool: explicit override, false (not Mason-managed),
+--- or the tool name with underscores converted to dashes.
+--- @param kind string "lsp" | "formatter" | "linter"
+--- @param name string Tool name (lspconfig server or executable name)
+--- @param lang table Language definition
+--- @return string|boolean Mason package name, or false when not Mason-managed
+local function mason_name(kind, name, lang)
+  local override = lang.mason and lang.mason[kind]
+  if override ~= nil then
+    return override
+  end
+  return name:gsub("_", "-")
+end
+
+local function mason_install(pkg_name)
+  local registry = require("mason-registry")
+  local ok, pkg = pcall(registry.get_package, pkg_name)
+  if ok and not pkg:is_installed() and not pkg:is_installing() then
+    pkg:install()
+    return true
+  end
+  return false
+end
+
+local function is_treesitter_installed(parser_name)
+  local ok, _ = pcall(vim.treesitter.language.inspect, parser_name)
+  return ok
+end
+
+local function get_parsers(lang)
+  if not lang.treesitter then
+    return {}
+  end
+  if type(lang.treesitter) == "table" then
+    return lang.treesitter
+  end
+  return { lang.treesitter }
+end
+
+--- Mason-install a language's tools (skipping non-Mason and disabled ones)
+--- and treesitter-install its parsers.
+--- @param name string Language key in M.languages
+function M.install(name)
+  local lang = M.languages[name]
+  if not lang then
+    vim.notify("Unknown language: " .. name, vim.log.levels.ERROR)
+    return
+  end
+
+  local installed = {}
+
+  for _, kind in ipairs({ "lsp", "formatter", "linter" }) do
+    local tool = lang[kind]
+    if tool and lang[kind .. "_enable"] ~= false then
+      local pkg = mason_name(kind, tool, lang)
+      if pkg ~= false and mason_install(pkg) then
+        installed[#installed + 1] = pkg
+      end
+    end
+  end
+
+  for _, parser in ipairs(get_parsers(lang)) do
+    if not is_treesitter_installed(parser) then
+      require("nvim-treesitter").install({ parser })
+      installed[#installed + 1] = "treesitter:" .. parser
+    end
+  end
+
+  local message
+  if #installed > 0 then
+    message = string.format("Language '%s' installed: %s", name, table.concat(installed, ", "))
+  else
+    message = string.format("Language '%s' - all tools already installed", name)
+  end
+  vim.notify(message, vim.log.levels.INFO)
+end
+
+---- Setup functions (called from the plugin specs) -----------------------------
 
 function M.setup_mason()
   require("mason").setup({
@@ -189,10 +99,6 @@ function M.setup_mason()
       border = "rounded",
     },
   })
-
-  vim.defer_fn(function()
-    M.install_ensure_installed()
-  end, 100)
 end
 
 function M.setup_treesitter()
@@ -262,12 +168,18 @@ function M.setup_lspconfig()
   local on_attach = function(client, bufnr)
     local lsp_map = require("helpers.keys").lsp_map
 
+    -- conform owns formatting when the language defines a formatter
     local ft = vim.bo[bufnr].filetype
-    local lang_name, lang = M.get_language_for_filetype(ft)
-    local formatter = M.apply_tool_defaults(lang and lang.formatter)
-    if formatter and formatter.enable then
-      client.server_capabilities.documentFormattingProvider = false
-      client.server_capabilities.documentRangeFormattingProvider = false
+    for _, lang in pairs(M.languages) do
+      if
+        lang.filetypes
+        and vim.tbl_contains(lang.filetypes, ft)
+        and lang.formatter
+        and lang.formatter_enable ~= false
+      then
+        client.server_capabilities.documentFormattingProvider = false
+        client.server_capabilities.documentRangeFormattingProvider = false
+      end
     end
 
     lsp_map("J", vim.diagnostic.open_float, bufnr, "LSP Diagnostics")
@@ -293,63 +205,55 @@ function M.setup_lspconfig()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
 
-  for lang_name, lsp in pairs(M.get_all_lsp_configs()) do
-    local config = vim.tbl_deep_extend("force", {
-      on_attach = on_attach,
-      capabilities = capabilities,
-    }, lsp.config or {})
+  local tool_names = {} -- formatter/linter names to exclude from auto-enabling
 
-    vim.lsp.config(lsp.name, config)
-  end
-
-  for lang_name, lsp in pairs(M.get_all_lsp_configs()) do
-    if lsp.mason == false then
-      vim.lsp.enable(lsp.name)
-    end
-  end
-
-  -- Exclude formatter/linter/dap tool names from automatic enabling:
-  -- some (e.g. stylua, which ships an --lsp mode) have Mason package specs
-  -- declaring an lspconfig name, and would otherwise attach as LSP servers
-  -- alongside conform.
-  local exclude = {}
   for _, lang in pairs(M.languages) do
-    for _, tool_key in ipairs({ "formatter", "linter", "dap" }) do
-      local tool = M.apply_tool_defaults(lang[tool_key])
-      if tool and tool.name then
-        exclude[#exclude + 1] = tool.name
+    if lang.lsp and lang.lsp_enable ~= false then
+      local config = vim.tbl_deep_extend("force", {
+        on_attach = on_attach,
+        capabilities = capabilities,
+      }, lang.config or {})
+      vim.lsp.config(lang.lsp, config)
+      -- servers managed outside Mason are never seen by mason-lspconfig's
+      -- automatic_enable and must be enabled explicitly
+      if lang.mason and lang.mason.lsp == false then
+        vim.lsp.enable(lang.lsp)
+      end
+    end
+    for _, kind in ipairs({ "formatter", "linter" }) do
+      if lang[kind] then
+        tool_names[#tool_names + 1] = lang[kind]
       end
     end
   end
 
+  -- Exclude formatter/linter tool names from automatic enabling:
+  -- some (e.g. stylua, which ships an --lsp mode) have Mason package specs
+  -- declaring an lspconfig name, and would otherwise attach as LSP servers
+  -- alongside conform.
   require("mason-lspconfig").setup({
-    ensure_installed = M.get_ensure_installed_lsp_servers(),
-    automatic_enable = { exclude = exclude },
+    automatic_enable = { exclude = tool_names },
   })
 end
 
 function M.setup_conform()
   local conform = require("conform")
 
-  -- formatters_by_ft: filetype → formatter names, derived from language defs.
-  -- A formatter's config.filetypes overrides the language's filetypes
-  -- (e.g. prettier for typescript also covers json).
+  -- formatters_by_ft: filetype -> formatter names, derived from language defs.
   local formatters_by_ft = {}
-  local formatter_opts = {} -- per-tool conform formatter config (extra_args)
+  local formatter_opts = {} -- per-tool conform formatter config (extra args)
 
   for _, lang in pairs(M.languages) do
-    local formatter = M.apply_tool_defaults(lang.formatter)
-    if formatter and formatter.enable then
-      local fts = (formatter.config and formatter.config.filetypes) or lang.filetypes or {}
-      for _, ft in ipairs(fts) do
+    if lang.formatter and lang.formatter_enable ~= false then
+      for _, ft in ipairs(lang.filetypes or {}) do
         local list = formatters_by_ft[ft] or {}
-        if not vim.tbl_contains(list, formatter.name) then
-          table.insert(list, formatter.name)
+        if not vim.tbl_contains(list, lang.formatter) then
+          table.insert(list, lang.formatter)
         end
         formatters_by_ft[ft] = list
       end
-      if formatter.extra_args then
-        formatter_opts[formatter.name] = { append_args = formatter.extra_args }
+      if lang.formatter_args then
+        formatter_opts[lang.formatter] = { append_args = lang.formatter_args }
       end
     end
   end
@@ -376,19 +280,17 @@ function M.setup_nvimlint()
 
   local linters_by_ft = {}
   for _, lang in pairs(M.languages) do
-    local linter = M.apply_tool_defaults(lang.linter)
-    if linter and linter.enable then
-      local fts = lang.filetypes or {}
-      for _, ft in ipairs(fts) do
+    if lang.linter and lang.linter_enable ~= false then
+      for _, ft in ipairs(lang.filetypes or {}) do
         local list = linters_by_ft[ft] or {}
-        if not vim.tbl_contains(list, linter.name) then
-          table.insert(list, linter.name)
+        if not vim.tbl_contains(list, lang.linter) then
+          table.insert(list, lang.linter)
         end
         linters_by_ft[ft] = list
       end
-      if linter.extra_args and lint.linters[linter.name] then
-        local linter_def = lint.linters[linter.name]
-        linter_def.args = vim.list_extend(vim.deepcopy(linter_def.args or {}), linter.extra_args)
+      if lang.linter_args and lint.linters[lang.linter] then
+        local linter_def = lint.linters[lang.linter]
+        linter_def.args = vim.list_extend(vim.deepcopy(linter_def.args or {}), lang.linter_args)
       end
     end
   end
@@ -403,5 +305,40 @@ function M.setup_nvimlint()
     end,
   })
 end
+
+---- Commands -------------------------------------------------------------------
+
+vim.api.nvim_create_user_command("AutoFormatToggle", function()
+  vim.g.autoformat_enabled = not vim.g.autoformat_enabled
+  vim.notify(
+    string.format("Auto-formatting %s", vim.g.autoformat_enabled and "enabled" or "disabled"),
+    vim.log.levels.INFO
+  )
+end, { desc = "Toggle auto-formatting on save" })
+
+vim.api.nvim_create_user_command("LanguageInstall", function(opts)
+  local name = opts.args
+  if name == "" then
+    local names = vim.tbl_keys(M.languages)
+    table.sort(names)
+    vim.ui.select(names, {
+      prompt = "Install language:",
+    }, function(choice)
+      if choice then
+        M.install(choice)
+      end
+    end)
+  else
+    M.install(name)
+  end
+end, {
+  nargs = "?",
+  complete = function()
+    local names = vim.tbl_keys(M.languages)
+    table.sort(names)
+    return names
+  end,
+  desc = "Install a language's Mason packages and treesitter parsers",
+})
 
 return M

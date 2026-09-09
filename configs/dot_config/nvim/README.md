@@ -102,12 +102,13 @@ Integrated via Snacks (`<leader>gg`).
 
 ## Language Tooling
 
-See [lua/lang-system/README.md](lua/lang-system/README.md) for the language system documentation.
+The single source of truth for per-language tooling (LSP, formatter, linter,
+treesitter parsers) is the `languages` table in
+[lua/plugins/lang-system.lua](lua/plugins/lang-system.lua) — its header comment
+documents the schema. Wiring lives in `lua/lang-system/init.lua`.
 
-This system handles declarative configuration of these language tools:
-
-- Treesitter (highlighting + indentation via `vim.treesitter.start`, main branch API)
-- LSP
-- Formatter (conform.nvim, format-on-save via `:AutoFormatToggle`/`<leader>uf`)
-- Linter (nvim-lint, on save/insert-leave)
-- DAP
+- `:LanguageInstall [lang]` installs a language's Mason packages + parsers (bare call opens a picker)
+- Treesitter: highlighting + indentation via `vim.treesitter.start` (main branch API)
+- Formatting: conform.nvim, format-on-save via `:AutoFormatToggle`/`<leader>uf`, `:Format` for manual
+- Linting: nvim-lint, on save/insert-leave
+- Uninstall/status: `:Mason`, `:LspInfo`, `:checkhealth`

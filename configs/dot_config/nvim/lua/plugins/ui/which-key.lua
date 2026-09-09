@@ -41,7 +41,6 @@ return {
         { "<leader>u", group = "UI" },
         { "<leader>l", group = "LSP" },
         { "<leader>d", group = "Dev Tools" },
-        { "<leader>dl", group = "Languages" },
         { "<leader>M", group = "Markdown" },
         { "<leader>1", desc = "Harpoon Jump (1-9)" },
         { "<leader>2", hidden = true },

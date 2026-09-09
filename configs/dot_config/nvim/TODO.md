@@ -20,11 +20,12 @@
 
 - [ ] add description per language
 
-- [ ] move custom args and such to user conf instead of plugin?
+- languages live in `lua/plugins/lang-system.lua` (single source of truth);
+  wiring in `lua/lang-system/init.lua`
 
-### UI
+### UI (deferred)
 
-- use snacks picker
+- snacks picker over the languages table:
 
   - split pane:
     - left: language name
@@ -38,11 +39,9 @@
 - keybinds:
 
   - i: install language
-  - X: cleans tools (deletes everything that is not defined in ensure_installed)
-  - d: uninstall language
+  - d: uninstall language (via Mason)
   - u: update all tools
   - o: open language config location
-  - \*: some way to open configuration location
 
 - command to install language from current filetype (not in UI)
 
