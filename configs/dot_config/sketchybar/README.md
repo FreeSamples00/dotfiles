@@ -8,6 +8,7 @@ A modular, Nushell-based sketchybar configuration with automatic bracket wrappin
 - [Nushell](https://www.nushell.sh/)
 - [aerospace](https://github.com/nikitabobko/AeroSpace) (window manager) for workspace widgets
 - [getfocus](https://github.com/FreeSamples00/getfocus_stdout) (focus mode detection) — requires **Full Disk Access** to read `~/Library/DoNotDisturb/DB/Assertions.json`. Grant via System Settings > Privacy & Security > Full Disk Access > sketchybar. Without it, the focus notifier shows a warning triangle instead of hiding.
+- `softwareupdate` (built into macOS) for the update notifier — no extra dependency, but each check shells out to `softwareupdate -l`, which takes several seconds
 - Fonts:
   - SpaceMono Nerd Font Mono
   - JetBrainsMono Nerd Font Mono
@@ -228,14 +229,15 @@ if $feature {
 
 ### Widget-Specific Fields
 
-| Widget             | Special Fields                                                         |
-| ------------------ | ---------------------------------------------------------------------- |
-| `clock`            | `format` - strftime format string                                      |
-| `aerospace`        | `color_focused`, `color_full`, `color_empty`, `label_pad`, `outer_pad` |
-| `restart_notifier` | `threshold` - uptime threshold (e.g., "7day")                          |
-| `volume`           | `right_pad` - right padding value                                      |
-| `docker`           | `high_update_freq`, `low_update_freq` - dynamic update speeds          |
-| `weather`          | `location`, `temp_unit`, `stale_threshold`                             |
+| Widget              | Special Fields                                                         |
+| ------------------- | ---------------------------------------------------------------------- |
+| `clock`             | `format` - strftime format string                                      |
+| `aerospace`         | `color_focused`, `color_full`, `color_empty`, `label_pad`, `outer_pad` |
+| `restart_notifier`  | `threshold` - uptime threshold (e.g. "7day")                           |
+| `notifiers_updates` | `updates_update_freq` - seconds between `softwareupdate -l` checks     |
+| `volume`            | `right_pad` - right padding value                                      |
+| `docker`            | `high_update_freq`, `low_update_freq` - dynamic update speeds          |
+| `weather`           | `location`, `temp_unit`, `stale_threshold`                             |
 
 ### Side Ordering
 
@@ -515,6 +517,7 @@ The `notifiers.nu` item creates:
 
 - `notifiers_restart` (restart notification)
 - `notifiers_focus` (focus mode indicator)
+- `notifiers_updates` (software update indicator; click reruns the check)
 
 Both share the `notifiers_` prefix, so one bracket wraps both items.
 

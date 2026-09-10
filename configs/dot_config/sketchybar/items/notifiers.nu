@@ -5,6 +5,7 @@ def main [] {
 
   let restart_enable = $env.restart_enable | into bool
   let focus_enable = $env.focus_enable | into bool
+  let updates_enable = $env.updates_enable | into bool
 
   if $restart_enable {
     let restart_script = [
@@ -57,6 +58,35 @@ def main [] {
       update_freq=($env.focus_update_freq)
       --subscribe
       notifiers_focus
+      system_woke
+    ]
+  }
+
+  if $updates_enable {
+    let updates_script = [
+      ($env.CONFIG_DIR)/plugins/updates_notifier.nu
+      "notifiers_updates"
+      $env.animation_type
+      $env.animation_speed
+    ] | str join " "
+
+    sketchybar ...[
+      --add
+      item
+      notifiers_updates
+      $env.side
+      --set
+      notifiers_updates
+      label.padding_right=0
+      label.padding_left=0
+      icon=(icons widget software_update)
+      icon.color=($env.updates_color)
+      script=($updates_script)
+      click_script=($updates_script)
+      update_freq=($env.updates_update_freq)
+      drawing=false
+      --subscribe
+      notifiers_updates
       system_woke
     ]
   }

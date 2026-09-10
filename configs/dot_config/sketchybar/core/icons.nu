@@ -480,6 +480,7 @@ def widget_icon [
     focus_sleep => "󰿒"
     focus_reduce => "󱏬"
     warning => ""
+    software_update => "󰚰"
     _ => ""
   }
 }
