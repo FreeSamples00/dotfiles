@@ -30,3 +30,5 @@ vim.filetype.add({
     --["foo"] = "bar"
   },
 })
+
+vim.treesitter.language.register("asm", { "gas", "asm", "nasm" })

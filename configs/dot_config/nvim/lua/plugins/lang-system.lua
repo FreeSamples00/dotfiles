@@ -221,6 +221,13 @@ local languages = {
     mason = { lsp = "nil" },
     formatter = "alejandra",
   },
+
+  assembly = {
+    filetypes = { "gas", "asm", "nasm" },
+    treesitter = "asm",
+    lsp = "asm_lsp",
+    formatter = "asmfmt",
+  },
 }
 
 return {
