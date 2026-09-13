@@ -80,5 +80,26 @@ in {
         };
       };
     };
+
+    # dir-tidy — nightly trash of files older than 30 days in ~/Downloads
+    # Script lives in the dotfiles git checkout (~/dotfiles/scripts/dir-tidy.nu).
+    # Missed 3:00 AM runs fire on wake (launchd StartCalendarInterval catch-up).
+    dir-tidy = {
+      serviceConfig = {
+        Label = "local.dir-tidy";
+        ProgramArguments = [
+          "${pkgs.nushell}/bin/nu"
+          "--no-config-file"
+          "${homeDirectory}/dotfiles/scripts/dir-tidy.nu"
+        ];
+        StartCalendarInterval = [{Hour = 3; Minute = 0;}];
+        EnvironmentVariables = {
+          PATH = servicePath;
+          HOME = homeDirectory;
+        };
+        StandardOutPath = "${homeDirectory}/Library/Logs/dir-tidy.log";
+        StandardErrorPath = "${homeDirectory}/Library/Logs/dir-tidy.err";
+      };
+    };
   };
 }
