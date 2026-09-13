@@ -4,6 +4,7 @@
   "small_model": "synthetic/hf:zai-org/GLM-4.7-Flash",
   "default_agent": "plan",
   "share": "disabled",
+  "subagent_depth": 2,
   "plugin": [
     "@tarquinen/opencode-smart-title",
     "@mohak34/opencode-notifier@latest",
