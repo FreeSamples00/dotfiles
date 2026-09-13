@@ -2,8 +2,6 @@
 
 ## Tools
 
-- **Yubico Authenticator** - `yubico-authenticator`
-  - GUI yubikey manager and authenticator
 - **Yubico config CLI** - `ykman`
   - Manage yubikey from CLI
 - **Yubico PIV tool** - `yubico-piv-tool`
@@ -102,7 +100,3 @@ ssh-keygen -K
 y
 EOF
 ```
-
-## VMWare VM
-
-When connecting yubikey over USB with a VM running you should be prompted to optionally connect it to the VM. Now it should work in the VM.
