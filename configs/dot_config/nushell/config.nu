@@ -117,5 +117,46 @@ $env.config = {
   hooks: {display_output: "table --icons"}
 }
 
+# ----- fzf Keybindings (registered only when fzf exists) -----
+if not (which fzf | is-empty) {
+  $env.config.keybindings = ($env.config.keybindings? | default [] | append [
+    {
+      name: fzf_file
+      modifier: control
+      keycode: char_t
+      mode: [emacs, vi_insert, vi_normal]
+      event: {
+        send: executehostcommand
+        cmd: '
+          let selection = (fd --type file --hidden --exclude .git
+            | fzf --height=~12 --reverse --border rounded
+              --color $"bg:-1,bg+:($theme.surface1),fg+:($theme.text),hl+:($theme.yellow),hl:($theme.yellow),border:($theme.overlay0),prompt:($theme.lavender),pointer:($theme.rosewater),marker:($theme.teal),spinner:($theme.teal),info:($theme.overlay2),query:($theme.text)")
+          if ($selection | is-empty) { return }
+          commandline edit --insert $selection
+        '
+      }
+    }
+    {
+      name: fzf_history
+      modifier: control
+      keycode: char_r
+      mode: [emacs, vi_insert, vi_normal]
+      event: {
+        send: executehostcommand
+        cmd: '
+          let selection = (history
+            | get command
+            | uniq
+            | reverse
+            | fzf --height=~12 --reverse --border rounded
+              --color $"bg:-1,bg+:($theme.surface1),fg+:($theme.text),hl+:($theme.yellow),hl:($theme.yellow),border:($theme.overlay0),prompt:($theme.lavender),pointer:($theme.rosewater),marker:($theme.teal),spinner:($theme.teal),info:($theme.overlay2),query:($theme.text)")
+          if ($selection | is-empty) { return }
+          commandline edit --replace $selection
+        '
+      }
+    }
+  ])
+}
+
 # ----- Source Rest of Config -----
 source aggregator.nu
