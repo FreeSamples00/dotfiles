@@ -150,5 +150,5 @@ nix_shell = "b080f0"
 
 # ── Opacity ──
 [colors.opacity]
-background = 1
+background = 0.95
 cursor = 0.85
